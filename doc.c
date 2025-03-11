@@ -1,0 +1,396 @@
+					/* -Fonctions pipex: */
+
+// dup:
+
+#include <unistd.h>
+int dup(int oldfd);
+
+/* Explication :
+oldfd : descripteur de fichier existant que l'on souhaite dupliquer.
+Retourne un nouveau descripteur de fichier qui est la plus petite valeur disponible.
+En cas d'échec, retourne -1 et errno est défini pour indiquer l'erreur.
+
+Fonctionnement :
+Le nouveau descripteur de fichier et oldfd partagent la même table des descripteurs ouverts.
+Ils pointent vers le même fichier sous-jacent et partagent le même offset (position de lecture/écriture).
+La fermeture de l'un n'affecte pas l'autre tant qu'au moins un descripteur reste ouvert. */
+
+// dup2:
+
+#include <unistd.h>
+int dup2(int oldfd, int newfd);
+
+/* Explication des paramètres :
+oldfd : descripteur de fichier existant que l'on souhaite dupliquer.
+newfd : valeur du descripteur de fichier où l'on veut copier oldfd.
+Comportement de dup2 :
+Si newfd est déjà ouvert, il est fermé automatiquement avant d'être réassigné à oldfd (sauf si newfd == oldfd).
+newfd devient une copie exacte de oldfd, partageant la même table des fichiers ouverts et la même position de lecture/écriture.
+Retourne newfd en cas de succès ou -1 en cas d'erreur (errno est défini). */
+
+// execve:
+
+#include <unistd.h>
+int execve(const char *pathname, char *const argv[], char *const envp[]);
+
+/* Paramètres :
+pathname : chemin absolu ou relatif du fichier exécutable à exécuter.
+argv : tableau de pointeurs vers les arguments du programme (le premier argument est généralement le nom du programme).
+envp : tableau de pointeurs vers les variables d’environnement (peut être NULL pour hériter de celles du processus parent).
+Comportement de execve :
+Si execve réussit :
+Il remplace le processus appelant par le programme spécifié.
+Il ne retourne jamais (sauf en cas d'erreur).
+Si execve échoue :
+Il retourne -1 et définit errno pour indiquer l'erreur. */
+
+
+// fork :
+
+#include <unistd.h>
+#include <sys/types.h>
+pid_t fork(void);
+
+/* Retour de fork()
+Dans le processus parent : fork() retourne le PID du processus enfant (valeur > 0).
+Dans le processus enfant : fork() retourne 0.
+En cas d'échec : fork() retourne -1, et errno est défini pour indiquer l'erreur.
+Fonctionnement de fork()
+Le processus appelant (parent) exécute fork().
+Un nouveau processus enfant est créé :
+Espace mémoire : Le processus enfant hérite des variables du parent (variables globales, variables locales dans les fonctions appelées avant le fork(), etc.), mais dans un premier temps, la mémoire est copiée (ce qu'on appelle une copie sur demande ou copy-on-write). Cela signifie que, bien que le parent et l'enfant aient une copie de la mémoire, ils n'interfèrent pas l'un avec l'autre.
+Descripteurs de fichiers : Les descripteurs de fichiers ouverts avant le fork() (par exemple, pour des fichiers, des pipes ou des sockets) sont partagés entre le parent et l'enfant. Cela signifie que les deux processus peuvent lire ou écrire dans les mêmes fichiers ou tubes (pipes).
+Si un des deux processus ferme son descripteur de fichier (par exemple, avec close()), cela n'affecte pas l'autre processus, car ils ont des copies distinctes de ces descripteurs de fichiers (bien que le descripteur lui-même soit identique).
+Il a un PID unique et un PPID (Parent Process ID) qui correspond au PID du parent.
+fork() retourne différemment dans chaque processus :
+Le parent reçoit le PID de l’enfant.
+L’enfant reçoit 0.
+Le parent continue son exécution indépendamment de l’enfant.
+En cas d’échec, le parent reçoit -1 et aucun enfant n'est créé. */
+
+//avec fork le processus enfant obtient une copie du pointeur vers la struct associé a un fichier désigné par un fd (meme fd mais le close nimpacte pas lautre)
+//avec dup2 envoie newfd qui designe un int representant un pointeur vers la structure associé á oldfd
+
+// wait:
+
+/* La fonction wait() en C est utilisée pour synchroniser un processus parent avec son (ou ses) processus enfant. Elle permet au parent d’attendre que l’un de ses enfants se termine et de récupérer son code de retour. */
+
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
+pid_t wait(int *wstatus);
+
+/* Valeur de retour de wait()
+Si un enfant se termine, wait() retourne son PID.
+Si aucune erreur, mais pas d’enfant à attendre, wait() bloque l’exécution du parent jusqu’à la fin d’un enfant.
+Si une erreur survient, wait() retourne -1 et définit errno.
+Paramètre wstatus
+I:PORAMTANT >>>> https://medium.com/basecs/leveling-up-ones-parsing-game-with-asts-d7a6fc2400ff
+wstatus permet de récupérer l’état de terminaison du processus enfant.
+Si wstatus est NULL, le parent attend juste sans récupérer d’informations. */
+
+// waitpid
+
+/*La fonction waitpid() en C est une version améliorée de wait() qui permet d’attendre un processus spécifique ou n’importe quel enfant avec plus de contrôle. */
+
+#include <sys/types.h>
+#include <sys/wait.h>
+#include <unistd.h>
+pid_t waitpid(pid_t pid, int *wstatus, int options);
+
+/* Paramètres
+pid : Permet de préciser quel processus attendre :
+
+> 0 : Attend le processus avec ce PID précis.
+-1 : Se comporte comme wait() et attend n’importe quel enfant.
+0 : Attend n’importe quel enfant du même groupe.
+< -1 : Attend n’importe quel enfant d’un groupe spécifique (PID absolu comme GID négatif).
+wstatus : Adresse d’un entier où waitpid() stocke le statut de terminaison.
+
+Peut être NULL si on ne veut pas récupérer d’informations.
+options : Contrôle le comportement :
+
+0 : Bloque jusqu’à ce qu’un enfant se termine.
+WNOHANG : Ne bloque pas, retourne immédiatement si aucun enfant terminé.
+WUNTRACED : Retourne aussi si un enfant est stoppé (ex: SIGSTOP).
+WCONTINUED : Retourne si un enfant a été repris (SIGCONT).
+Valeur de retour
+Retourne le PID du processus terminé.
+Retourne 0 si WNOHANG est utilisé et qu’aucun enfant n’est encore terminé.
+Retourne -1 en cas d’erreur (ex: mauvais PID ou aucun enfant). */
+
+//pipe
+
+/* La fonction pipe() en C est utilisée pour créer un tube de communication inter-processus (IPC) permettant à un processus d’envoyer des données à un autre via un canal unidirectionnel.
+Si l'enfant tente de lire (read()) alors que le parent n'a pas encore écrit (write()), il sera bloqué jusqu'à ce qu'il y ait des données à lire. */
+
+#include <unistd.h>
+int pipe(int pipefd[2]);
+
+/* Paramètre
+pipefd[2] : Un tableau d’entiers où pipefd[0] est utilisé pour lire et pipefd[1] pour écrire.
+Valeur de retour
+0 : Succès.
+-1 : Erreur (ex: trop de tubes ouverts, mémoire insuffisante).
+
+pipe() avec dup2() pour rediriger stdout */
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+
+int main() {
+    int pipefd[2];
+    char buffer[100];
+
+    // Création du tube (pipe)
+    if (pipe(pipefd) == -1) {
+        perror("Erreur lors de la création du pipe");
+        exit(EXIT_FAILURE);
+    }
+
+    pid_t pid = fork();
+    if (pid < 0) {
+        perror("Erreur lors du fork");
+        exit(EXIT_FAILURE);
+    }
+
+    if (pid == 0) {  // Processus enfant
+        close(pipefd[0]);  // Fermer la lecture du pipe (inutile pour l'enfant)
+
+        // Rediriger stdout (sortie standard) vers le pipe
+        dup2(pipefd[1], STDOUT_FILENO);
+        close(pipefd[1]);  // Fermer l'ancien descripteur d'écriture du pipe
+
+        // Exécuter une commande dont la sortie sera redirigée vers le pipe
+        execlp("ls", "ls", "-l", NULL);
+
+        // Si execlp échoue :
+        perror("Erreur lors de l'exécution de ls");
+        exit(EXIT_FAILURE);
+    } else {  // Processus parent
+        close(pipefd[1]);  // Fermer l'écriture du pipe (inutile pour le parent)
+
+        // Lire la sortie du pipe et l'afficher
+        ssize_t count;
+        while ((count = read(pipefd[0], buffer, sizeof(buffer) - 1)) > 0) {
+            buffer[count] = '\0';  // Ajouter un caractère nul pour bien afficher
+            printf("Parent a lu :\n%s", buffer);
+        }
+
+        close(pipefd[0]);  // Fermer la lecture du pipe
+    }
+
+    return 0;
+}
+
+/* Redirige la sortie de ls -l vers le parent ! */
+
+//unlink
+
+/* La fonction unlink() est utilisée pour supprimer un fichier d'un système de fichiers sous Linux/Unix. Cependant, elle fonctionne différemment de rm en ligne de commande car elle agit sur les liens et les inodes des fichiers.
+unlink va supprimer un fichier une fois que tout les porcessus utilisant ce fichier le ferme */
+
+#include <unistd.h>
+int unlink(const char *pathname);
+
+/* pathname : Le chemin du fichier à supprimer.
+Retourne 0 en cas de succès, -1 en cas d’échec et remplit errno avec le code d'erreur.
+
+Comment fonctionne unlink() ?
+Lorsqu'un fichier est créé sur un système de fichiers Unix/Linux, il possède :
+
+Un inode (stocke les métadonnées du fichier).
+Un ou plusieurs liens (hard links) qui pointent vers cet inode.
+unlink() ne supprime pas immédiatement les données du fichier !
+Il supprime un lien pointant vers l’inode.
+Si aucun lien n’existe, l’inode et ses données sont effacés du disque.
+Si un autre processus utilise encore ce fichier (ex: un programme l’a ouvert avec open()), le fichier n’est supprimé qu’après la fermeture.
+
+Cas particuliers
+Suppression d'un fichier en cours d'utilisation
+Si un fichier est ouvert par un programme :
+
+unlink() supprime le lien, mais pas le fichier immédiatement.
+Le fichier reste accessible tant que le programme le garde ouvert.
+Lorsque tous les processus ont fermé le fichier, l’inode et les données sont réellement supprimés.*/
+
+// access
+
+/* La fonction access() permet de vérifier les permissions d'accès à un fichier ou un répertoire sans l'ouvrir ni le modifier. */
+
+#include <unistd.h>
+int access(const char *pathname, int mode);
+
+/* Paramètres :
+pathname → Nom du fichier ou répertoire à vérifier.
+mode → Type d'accès que l'on souhaite tester :
+F_OK → Vérifie si le fichier existe.
+R_OK → Vérifie si le fichier est lisible (Read).
+W_OK → Vérifie si le fichier est écrivable (Write).
+X_OK → Vérifie si le fichier est exécutable (Execute).
+Valeur de retour :
+0 → L'accès est autorisé.
+-1 → L'accès est refusé (et errno est défini avec la cause). */
+
+                /* Gestion de l'historique */
+
+// readline
+
+/* La fonction readline() fait partie de la GNU Readline Library. Son but est de lire une ligne de texte depuis l'entrée standard avec des fonctionnalités avancées (édition de ligne, historique, autocomplétion...). */
+
+#include <readline/readline.h>
+char *readline(const char *prompt);
+
+/* prompt → La chaîne affichée avant que l'utilisateur entre du texte (ex: "> ").
+Retourne une chaîne allouée dynamiquement contenant l'entrée utilisateur.
+Retourne NULL si un EOF (Ctrl+D) est détecté.
+
+Étapes internes de readline()
+1️⃣ Affichage du prompt
+Lorsqu'on appelle readline(">>> "), la fonction :
+
+- Affiche le prompt sans ajouter de \n.
+- Passe en mode lecture interactive, où elle attend que l'utilisateur tape quelque chose.
+2️⃣ Lecture interactive et édition en direct
+L'utilisateur tape son texte, qui est stocké dans un buffer interne.
+Pendant qu'il tape, Readline lui permet d'éditer sa ligne :
+Effacer avec Backspace
+Déplacer le curseur avec ← et →
+Autocomplétion avec Tab
+Historique avec ↑ et ↓
+À ce moment-là, la ligne n'est pas encore retournée au programme.
+-Flèche gauche/droite : Déplacement du curseur.
+-Flèche haut/bas : Parcourir l'historique.
+-Backspace / Delete : Suppression de caractères.
+-Ctrl+U : Effacer toute la ligne.
+-Ctrl+W : Supprimer le mot précédent.
+3 L'utilisateur appuie sur Entrée (\n)
+La ligne est finalisée et stockée dans un nouveau buffer en mémoire.
+Readline retourne un pointeur sur cette nouvelle chaîne.
+Le buffer interne est vidé et Readline est prêt à en recevoir une nouvelle.
+
+//add_history
+
+/* readline() ne stocke pas l'historique tout seul ! Il faut ajouter les lignes avec :
+
+add_history(input);
+🔹 Comment ça marche ?
+
+readline() ne retient pas les commandes précédentes par défaut.
+add_history(input) ajoute la ligne à la liste d’historique.
+Une fois ajoutée, flèche haut/bas permet de naviguer entre les anciennes commandes.*/
+
+#include <readline/readline.h>
+#include <readline/history.h>
+
+void add_history(const char *line);
+
+
+//rl_clear_history
+
+/* La fonction rl_clear_history() fait partie de la bibliothèque GNU Readline et permet de vider complètement l'historique des commandes stocké en mémoire. */
+
+
+#include <readline/readline.h>
+#include <readline/history.h>
+void rl_clear_history(void);
+
+/* Effet : Efface toutes les entrées stockées dans l'historique Readline. */
+
+//rl_on_new_line
+
+/* Avant l'appel de rl_on_new_line(), l'utilisateur tape une commande et voit son texte dans le terminal.
+
+Lors de l'appel de rl_on_new_line() :
+
+Le prompt est déplacé sur une nouvelle ligne.
+Le curseur (qui est l'endroit où l'utilisateur tape) est déplacé juste après le prompt, prêt à recevoir de nouvelles saisies.
+La ligne actuelle en cours d'édition (dans le buffer de Readline) est terminée et considérée comme "finie" pour toute nouvelle saisie.
+Ce que cela signifie visuellement :
+
+Un nouveau prompt ($>) s'affiche sur une nouvelle ligne.
+Le curseur est déplacé juste après ce prompt, prêt à recevoir une nouvelle entrée de l'utilisateur.
+Effet sur le buffer :
+
+Après l'appel de rl_on_new_line(), le buffer interne (qui contient le texte de l'ancienne ligne) est marqué comme étant "terminé" ou ignoré, mais ne disparaît pas. La ligne que l'utilisateur commence à taper écrasera le contenu du buffer. */
+
+#include <readline/readline.h>
+#include <readline/history.h>
+void rl_on_new_line(void);
+
+/* Fonctionnement détaillé de rl_on_new_line()
+
+But principal :
+
+La fonction rl_on_new_line() indique à la bibliothèque Readline que le curseur est sur une nouvelle ligne. Cela peut affecter la manière dont les entrées précédentes (l'historique des commandes) sont affichées ou rafraîchies.
+
+Contexte d'utilisation :
+
+Lorsqu'un utilisateur entre du texte dans un terminal interactif, Readline gère l'affichage de l'invite et du texte saisi. Si une ligne est longue et que l'utilisateur déplace le curseur à une nouvelle ligne, cela peut affecter l'affichage de la ligne courante.
+rl_on_new_line() est utilisée pour forcer le démarrage d'une nouvelle ligne, garantissant ainsi que l'affichage soit correct.
+
+Pourquoi utiliser rl_on_new_line() ?
+
+Elle peut être utile dans des cas où le comportement de l'affichage pourrait être ambigu, en particulier lorsque le texte est affiché sur plusieurs lignes et qu'il faut forcer un retour à la ligne sans affecter les lignes suivantes.
+En effet, la fonction nettoie la gestion de l'affichage du texte dans le terminal lorsque l'on passe à une nouvelle ligne.
+
+l'autocompletion est gere automatiquement par readine!!!!!!! */
+
+//rl_replace_line
+
+#include <readline/readline.h>
+#include <readline/history.h>
+void rl_replace_line(const char *text, int clear_undo);
+
+/* Paramètres :
+text : C'est le texte qui va remplacer la ligne actuelle dans le buffer de Readline. Ce texte remplace le contenu que l'utilisateur avait saisi jusqu'à ce point. Après l'appel à rl_replace_line(), ce texte sera affiché à la place de l'ancienne ligne lorsqu'on redessine l'écran (avec rl_redisplay() par exemple).
+
+clear_undo : C'est un entier qui détermine si l'historique des modifications de la ligne doit être effacé. Si la valeur est non nulle, l'historique des modifications de la ligne (undo) est effacé, ce qui signifie que l'utilisateur ne pourra pas annuler cette modification
+
+Comportement :
+Modification du buffer interne : Lorsque tu appelles rl_replace_line(), le texte que tu fournis en paramètre va remplacer le texte actuellement stocké dans le buffer interne de Readline. Ce buffer interne est utilisé pour gérer la ligne de texte que l'utilisateur édite dans le terminal.
+
+Pas d'affichage immédiat : L'appel à rl_replace_line() ne met pas immédiatement à jour l'affichage du terminal. Pour cela, tu dois utiliser rl_redisplay() après avoir remplacé la ligne pour qu'elle soit redessinée à l'écran. Si tu ne fais pas ça, le texte remplacé ne sera pas visible dans le terminal.
+
+ */
+
+// rl_redisplay
+
+/* Présentation générale de rl_redisplay() :
+rl_redisplay() est une fonction fournie par la bibliothèque Readline qui permet de rafraîchir et réafficher le contenu de la ligne en cours d'édition dans le terminal. Elle est souvent utilisée pour mettre à jour l'affichage de la ligne d'entrée lorsque le contenu du buffer interne change, ou après une opération de modification de la ligne (comme l'insertion ou l'effacement de caractères).
+
+Quand est-ce qu'on utilise rl_redisplay() ?
+Il est particulièrement utile dans les situations suivantes :
+
+Après une modification manuelle du buffer (par exemple, lorsque tu utilises rl_replace_line() pour remplacer la ligne).
+Après un événement qui modifie le contenu de la ligne, mais où tu veux que l'utilisateur voit immédiatement ces changements dans le terminal (par exemple, après avoir effectué un auto-complétion ou une correction).
+Comment rl_redisplay() fonctionne-t-il en pratique ?
+Lorsqu'on appelle rl_redisplay(), la fonction va effectuer plusieurs actions en coulisse :
+
+Elle va effacer la ligne actuelle à l'écran.
+Elle va réafficher le prompt.
+Ensuite, elle va réafficher le contenu du buffer (rl_line_buffer) dans le terminal, à partir de la position du curseur. */
+
+
+
+/* A faire attention */
+//echo caca>file.txt | cat
+// grep "oui oui baguette"
+
+
+//https://medium.com/basecs/leveling-up-ones-parsing-game-with-asts-d7a6fc2400ff
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
