@@ -1,4 +1,4 @@
-# 🌐 FDF - Wireframe
+# MINI SHELL
 
 ## 📋 Table of Contents
 
