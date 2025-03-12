@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/12 17:35:44 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/03/12 19:46:51 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,8 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-# ifndef DEBUG
-#  define DEBUG 1
-# endif
+# define DEBUG 1
+# define PROMPT "\001\033[35m\002$> \001\033[0m\002"
 
 typedef enum s_node_type
 {
