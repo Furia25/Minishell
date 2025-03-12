@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/11 15:10:06 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/03/12 23:41:25 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,10 @@ typedef enum s_node_type
 
 typedef enum s_control_operator
 {
+	VOID,
 	AND,
 	OR,
+	AND_or_OR,
 	PIPE,
 	LINE_CHANGE
 }	t_control_operator;
