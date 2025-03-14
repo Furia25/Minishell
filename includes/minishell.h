@@ -6,13 +6,14 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/12 19:46:51 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/03/14 16:41:24 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 # include "libft.h"
+# include "hashmap.h"
 # include <stdio.h>
 # include <stdlib.h>
 # include <readline/readline.h>
@@ -20,6 +21,12 @@
 
 # define DEBUG 1
 # define PROMPT "\001\033[35m\002$> \001\033[0m\002"
+
+# define MAX_GC_ALLOCS	2048
+typedef struct s_garbage_collector
+{
+	void	*allocations[MAX_GC_ALLOCS];
+}	t_garbage_collector;
 
 typedef enum s_node_type
 {
