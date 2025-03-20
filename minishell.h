@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/17 15:30:53 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/03/20 13:07:09 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef enum s_control_operator
 
 typedef struct s_leaf
 {
-	t_list tokens;
+	t_list *tokens;
 	char cmd_stdin;
 	char cmd_stdout;
 	int returned_value;
@@ -56,11 +56,19 @@ typedef struct s_AST_node
 		t_leaf *command;
 		struct
 		{
-			int control_operator;
+			t_control_operator control_operator;
 			struct s_AST_node *left_node;
 			struct s_AST_node *right_node;
 		} t_ope_node;
 	};
 }	t_AST_node;
+
+
+char	*create_tokens(t_list **tokens, char *input);
+t_leaf *create_cmd_tab(t_list *tokens);
+t_AST_node	*create_ast(t_leaf *command_tab);
+t_leaf	*evaluate_ast(t_AST_node *node);
+
+
 
 #endif
