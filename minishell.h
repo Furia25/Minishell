@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/20 13:07:09 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/03/20 14:23:21 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,16 @@ typedef enum s_node_type
 	NODE_OPERATOR_CONTROL
 }	t_node_type;
 
-typedef enum s_control_operator
+typedef enum s_operator
 {
-	VOID,
-	AND,
-	OR,
-	AND_or_OR,
-	PIPE,
-	LINE_CHANGE
-}	t_control_operator;
+	VOID = 1 << 0,
+	AND = 1 << 1,
+	OR = 1 << 2,
+	PIPE = 1 << 3,
+	RED_I = 1 << 4,
+	RED_O = 1 << 5,
+	LINE_CHANGE = 1 << 6
+}	t_operator;
 
 typedef struct s_leaf
 {
@@ -45,7 +46,7 @@ typedef struct s_leaf
 	char cmd_stdin;
 	char cmd_stdout;
 	int returned_value;
-	t_control_operator ope_after;
+	t_operator ope_after;
 }	t_leaf;
 
 typedef struct s_AST_node
@@ -56,7 +57,7 @@ typedef struct s_AST_node
 		t_leaf *command;
 		struct
 		{
-			t_control_operator control_operator;
+			t_operator control_operator;
 			struct s_AST_node *left_node;
 			struct s_AST_node *right_node;
 		} t_ope_node;
