@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 17:17:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/14 16:42:15 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/03/19 16:44:27 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	main(void)
 {
 	char	*input;
-	t_garbage_collector gc;
+	t_data	data;
 	
 	while (1)
 	{
