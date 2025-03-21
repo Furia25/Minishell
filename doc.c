@@ -157,7 +157,7 @@ int main() {
     if (pid == 0) {  // Processus enfant
         close(pipefd[0]);  // Fermer la lecture du pipe (inutile pour l'enfant)
 
-        // Rediriger stdout (sortie standard) vers le pipe
+        // Rediriger stdout (sortie stand0ard) vers le pipe
         dup2(pipefd[1], STDOUT_FILENO);
         close(pipefd[1]);  // Fermer l'ancien descripteur d'écriture du pipe
 

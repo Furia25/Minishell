@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/20 14:23:21 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/03/20 20:09:37 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # define MINISHELL_H
 # include "libft/incs/libft.h"
 # include <stdio.h>
+
 # include <stdlib.h>
 // # include <readline/readline.h>
 // # include <readline/history.h>
@@ -31,20 +32,20 @@ typedef enum s_node_type
 
 typedef enum s_operator
 {
-	VOID = 1 << 0,
-	AND = 1 << 1,
-	OR = 1 << 2,
-	PIPE = 1 << 3,
-	RED_I = 1 << 4,
-	RED_O = 1 << 5,
-	LINE_CHANGE = 1 << 6
+	VOID,
+	AND,
+	OR,
+	PIPE,
+	RED_I,
+	RED_O,
+	LINE_CHANGE
 }	t_operator;
 
 typedef struct s_leaf
 {
 	t_list *tokens;
-	char cmd_stdin;
-	char cmd_stdout;
+	int fd_input;
+	int fd_output;
 	int returned_value;
 	t_operator ope_after;
 }	t_leaf;

@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:22:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/18 12:52:14 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/03/20 20:27:42 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,26 @@ size_t op_control_token(t_list **tokens, char *str, char op)
 	return (i);
 }
 
+size_t op_redirection_token(t_list **tokens, char *str, char op)
+{
+	size_t	i;
+	t_list	*new_node;
+	char	*node_content;
+
+	i = 0;
+	while (str[i] == op)
+		i++;	
+	if (i > 2)
+	{
+		ft_putstr_fd("error", 2);
+		exit(1);
+	}
+	node_content = ft_substr(str, 0, i);//a secur
+	new_node = ft_lstnew(node_content);//a secur
+	ft_lstadd_back(tokens, new_node);
+	return (i);
+}
+
 char	*create_tokens(t_list **tokens, char *input)
 {
 	size_t	token_len;
@@ -97,6 +117,8 @@ char	*create_tokens(t_list **tokens, char *input)
 		token_len = double_quote_token(tokens, input);
 	if (*input == '|' || *input == '&')
 		token_len = op_control_token(tokens, input, *input);
+	if (*input == '<' || *input == '>')
+		token_len = op_redirection_token(tokens, input, *input);
 	create_tokens(tokens, input + token_len);
 }
 

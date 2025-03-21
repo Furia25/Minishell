@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 10:43:50 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/20 13:11:47 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/03/20 20:41:07 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,9 @@ int	command_number(t_list *tokens)
 	{
 		if (ft_strcmp((char *)tokens->content, "|") == 0 
 			|| ft_strcmp((char *)tokens->content, "||") == 0 
-			|| ft_strcmp((char *)tokens->content, "&&") == 0)
+			|| ft_strcmp((char *)tokens->content, "&&") == 0
+			|| ft_strcmp((char *)tokens->content, "<") == 0
+			|| ft_strcmp((char *)tokens->content, ">") == 0)
 			i++;
 		tokens = tokens->next;
 	}
@@ -41,6 +43,10 @@ void	fill_tab(t_list *tokens, t_leaf *command_tab)
 			command_tab->ope_after = OR;
 		else if (ft_strcmp((char *)temp->content, "&&") == 0)
 			command_tab->ope_after = AND;
+		else if (ft_strcmp((char *)temp->content, "<") == 0)
+			command_tab->ope_after = RED_I;
+		else if (ft_strcmp((char *)temp->content, ">") == 0)
+			command_tab->ope_after = RED_O;
 		else
 		{
 			temp = temp->next;
@@ -48,7 +54,7 @@ void	fill_tab(t_list *tokens, t_leaf *command_tab)
 		}
 		temp->content = NULL;
 		command_tab->tokens = tokens;
-		//fonctions pour command_tab->char cmd_stdin, cmd_stdout et returned_value;
+		//fonctions pour command_tab->char fd_input, fd_output et returned_value;
 		fill_tab(temp->next, command_tab + 1);
 		return ;
 	}
@@ -68,7 +74,7 @@ t_leaf *create_cmd_tab(t_list *tokens)
 
 // int	main(void)
 // {
-// 	char *input = "	echo	abcde	  fezze | echo	fgh	||	'ffezz'	";
+// 	char *input = "	echo	< abcde | echo	fgh	||	'ffezz'	";
 // 	t_list	*tokens;
 // 	t_leaf *command_tab;
 
