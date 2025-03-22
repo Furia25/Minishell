@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 10:43:50 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/20 20:41:07 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/03/21 23:34:24 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void	fill_tab(t_list *tokens, t_leaf *command_tab)
 		command_tab->tokens = tokens;
 		//fonctions pour command_tab->char fd_input, fd_output et returned_value;
 		fill_tab(temp->next, command_tab + 1);
-		return ;
 	}
 	command_tab->tokens = tokens;
 	command_tab->ope_after = LINE_CHANGE;

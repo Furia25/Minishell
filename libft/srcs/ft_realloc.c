@@ -1,36 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_realloc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/07 17:17:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/21 23:25:49 by alpayet          ###   ########.fr       */
+/*   Created: 2025/03/21 23:47:57 by alpayet           #+#    #+#             */
+/*   Updated: 2025/03/22 00:22:28 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(void)
+void *ft_realloc(void *ptr, size_t old_size, size_t new_size)
 {
-	char	*input;
+	void *new_ptr;
 
-	while (1)
+	if (new_size == 0)
 	{
-		input = readline("$> ");
-		if (!input)
-		{
-			free(input);
-			rl_clear_history();
-			if (DEBUG == 2 || DEBUG == 1)
-			{
-				ft_putstr_fd("\nEnd of program (EOF detected), history is cleaned\n", 2);
-				return (0);
-			}
-		}
-		if (*input)
-			add_history(input);
-		free(input);
+		free(ptr);
+		return (NULL);
 	}
+	if (ptr == NULL)
+		return (malloc(new_size));
+	new_ptr = malloc(new_size);
+	if (new_ptr == NULL)
+		return (NULL);
+	if (old_size <= new_size)
+		ft_memcpy(new_ptr, ptr, old_size);
+	else
+		ft_memcpy(new_ptr, ptr, new_size);
+	free(ptr);
+	return (new_ptr);
 }

@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:22:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/20 20:27:42 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/03/22 02:23:14 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,13 +100,13 @@ size_t op_redirection_token(t_list **tokens, char *str, char op)
 	return (i);
 }
 
-char	*create_tokens(t_list **tokens, char *input)
+void	create_tokens(t_list **tokens, char *input)
 {
 	size_t	token_len;
 
 	token_len = 0;
 	if (*input == '\0')
-		return (NULL);
+		return ;
 	while ((*input >= 9 && *input <= 13) || *input == ' ')
 		input++;
 	if (ft_isalnum(*input) != 0)
@@ -122,20 +122,20 @@ char	*create_tokens(t_list **tokens, char *input)
 	create_tokens(tokens, input + token_len);
 }
 
-// int	main(void)
-// {
-// 	t_list	*tokens;
-// 	t_list	*temp;
-// 	char *input = "		abcde	   	fgh	||	'ffezz'	&& |";
+int	main(void)
+{
+	t_list	*tokens;
+	t_list	*temp;
+	char *input = "		abcde	   	fgh	||	'ffezz'	&& |";
 
 
-// 	tokens = NULL;
-// 	create_tokens(&tokens, input);
-// 	temp = tokens;
-// 	while (temp)
-// 	{
-// 		printf("%s\n", (char*)temp->content);
-// 		temp = temp->next;
-// 	}
+	tokens = NULL;
+	create_tokens(&tokens, input);
+	temp = tokens;
+	while (temp)
+	{
+		printf("%s\n", (char*)temp->content);
+		temp = temp->next;
+	}
 	
-// }
+}

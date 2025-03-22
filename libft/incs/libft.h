@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 13:53:27 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/18 11:08:10 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/03/22 00:25:24 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void		*ft_memmove(void *dest, const void *src, size_t n);
 void		*ft_memset(void *dest, int value, size_t n);
 void		*ft_memchr(const void *s, int c, size_t n);
 void		*ft_calloc(size_t nmemb, size_t size);
+void 		*ft_realloc(void *ptr, size_t old_size, size_t new_size);
 char		*ft_strchr(const char *s, int c);
 char		*ft_strrchr(const char *s, int c);
 char		*ft_strnstr(const char *big, const char *little, size_t len);

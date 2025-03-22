@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 22:28:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/20 21:16:20 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/03/22 02:59:18 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,23 +108,51 @@ t_AST_node	*create_ast(t_leaf *command_tab)
 
 t_leaf	*evaluate_logical_op(t_operator op, t_leaf *left_value, t_leaf	*right_value)
 {
+	pid_t	pid;
+	
+	if (left_value != NULL)
+	{
+		pid = fork();
+		if (pid == 0)
+		{
+			dup2(left_value->fd_input, 0);
+			dup2(left_value->fd_output, 1);
+			//execve
+		}
+	}
 	if (op == AND)
 	{	
-		if (left_value->returned_value == 0)
+		if (left_value->returned_value == 0) // gerer avec $?
 			return (right_value);
-		return (left_value);
+		return (NULL);
 	}
 	if (op == OR)
 	{	
 		if (left_value->returned_value != 0)
 			return (right_value);
-		return (left_value);
+		return (NULL);
 	}
 }
 
 t_leaf	*evaluate_pipe_op(t_leaf *left_value, t_leaf *right_value)
 {
-	right_value->fd_input = left_value->fd_output;
+	int	pipefd[2];
+	pid_t	pid;
+
+	pipe(pipefd);
+	pid = fork();
+	if (pid == 0)
+	{
+		close(pipefd[0]);
+		dup2(pipefd[1], 1);
+		close(pipefd[1]);
+		dup2(left_value->fd_input, 0);
+		dup2(left_value->fd_output, 1);
+		//execve()
+	}
+	close(pipefd[1]);
+	dup2(pipefd[0], 0);
+	close(pipefd[0]);
 	return (right_value);
 }
 
@@ -162,6 +190,15 @@ t_leaf	*evaluate_ast(t_AST_node *node)
 		return (right_value);
 	}
 	return (NULL);
+}
+
+void	execute_last_cmd(t_leaf	*cmd)
+{
+	if (cmd == NULL)
+		return ;
+	dup2(cmd->fd_input, 0);
+	dup2(cmd->fd_output, 1);
+	//exec
 }
 
 // int	main(void)
