@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:22:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/23 03:32:26 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/03/23 05:00:34 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,20 +132,20 @@ void	create_tokens(t_list **tokens, char *input)
 	create_tokens(tokens, input + token_len);
 }
 
-int	main(void)
-{
-	t_list	*tokens;
-	t_list	*temp;
-	char *input = "		< caca cat > abc";
+// int	main(void)
+// {
+// 	t_list	*tokens;
+// 	t_list	*temp;
+// 	char *input = "		< caca cat > abc";
 
 
-	tokens = NULL;
-	create_tokens(&tokens, input);
-	temp = tokens;
-	while (temp)
-	{
-		printf("%s\n", (char*)temp->content);
-		temp = temp->next;
-	}
+// 	tokens = NULL;
+// 	create_tokens(&tokens, input);
+// 	temp = tokens;
+// 	while (temp)
+// 	{
+// 		printf("%s\n", (char*)temp->content);
+// 		temp = temp->next;
+// 	}
 
-}
+// }

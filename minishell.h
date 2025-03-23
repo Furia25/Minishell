@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/23 02:58:29 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/03/23 05:07:45 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ typedef enum s_operator
 	AND,
 	OR,
 	PIPE,
-	RED_I,
-	RED_O,
 	LINE_CHANGE
 }	t_operator;
 

@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 22:28:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/23 02:58:22 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/03/23 05:40:20 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,19 +61,6 @@ void	latest_pipe_op(t_leaf *cmds, t_leaf **buff)
 	}
 }
 
-void	latest_simple_red_op(t_leaf *cmds, t_leaf **buff)
-{
-	t_leaf	*temp;
-
-	temp = cmds;
-	while (temp->ope_after != LINE_CHANGE && temp->ope_after != VOID)
-	{
-		if (temp->ope_after == RED_I || temp->ope_after == RED_O)
-			*buff = temp;
-		temp++;
-	}
-}
-
 t_AST_node	*create_if_found(t_leaf *command_tab, t_leaf *buff)
 {
 	t_operator		op;
@@ -97,9 +84,6 @@ t_AST_node	*create_ast(t_leaf *command_tab)
 	if (buff != NULL)
 		return (create_if_found(command_tab, buff));
 	latest_pipe_op(command_tab, &buff);
-	if (buff != NULL)
-		return (create_if_found(command_tab, buff));
-	latest_simple_red_op(command_tab, &buff);
 	if (buff != NULL)
 		return (create_if_found(command_tab, buff));
 	return (NULL);
@@ -174,22 +158,6 @@ t_leaf	*evaluate_ast(t_AST_node *node)
 		return (evaluate_logical_op(OR, left_value, right_value));
 	if (node->t_ope_node.control_operator == PIPE)
 		return (evaluate_pipe_op(left_value, right_value));
-	if (node->t_ope_node.control_operator == RED_I)
-	{
-		//verifier que le fichier existe bien sinon erreur
-		fd_input = open((char*)right_value->tokens->content, O_RDONLY);//truncate + droit
-		printf("fichier: %s check fd :%d\n", (char*)right_value->tokens->content,fd_input);
-		left_value->fd_input = fd_input;
-		return (left_value);
-	}
-	if (node->t_ope_node.control_operator == RED_O)
-	{
-		//verifier que le fichier existe bien sinon le creer
-		fd_output = open((char*)right_value->tokens->content, O_WRONLY);
-		printf("fichier: %s check fd :%d\n", (char*)right_value->tokens->content,fd_output);
-		right_value->fd_output = fd_output;
-		return (right_value);
-	}
 	return (NULL);
 }
 
