@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:22:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/22 17:41:56 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/03/23 03:32:26 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ size_t word_token(t_list **tokens, char *str)
 	new_node = ft_lstnew(node_content);//a secur
 	ft_lstadd_back(tokens, new_node);
 	return (i);
-		
+
 }
 
 size_t single_quote_token(t_list **tokens, char *str)
@@ -41,7 +41,7 @@ size_t single_quote_token(t_list **tokens, char *str)
 	new_node = ft_lstnew(node_content);//a secur
 	ft_lstadd_back(tokens, new_node);
 	return (i + 1);
-		
+
 }
 
 size_t double_quote_token(t_list **tokens, char *str)
@@ -57,7 +57,7 @@ size_t double_quote_token(t_list **tokens, char *str)
 	new_node = ft_lstnew(node_content);//a secur
 	ft_lstadd_back(tokens, new_node);
 	return (i + 1);//secur sizet
-		
+
 }
 
 size_t op_control_token(t_list **tokens, char *str, char op)
@@ -68,7 +68,7 @@ size_t op_control_token(t_list **tokens, char *str, char op)
 
 	i = 0;
 	while (str[i] == op)
-		i++;	
+		i++;
 	if (i > 2 || (i == 1 && op == '&'))
 	{
 		ft_putstr_fd("error", 2);
@@ -88,7 +88,7 @@ size_t op_redirection_token(t_list **tokens, char *str, char op)
 
 	i = 0;
 	while (str[i] == op)
-		i++;	
+		i++;
 	if (i > 2)
 	{
 		ft_putstr_fd("error", 2);
@@ -132,20 +132,20 @@ void	create_tokens(t_list **tokens, char *input)
 	create_tokens(tokens, input + token_len);
 }
 
-// int	main(void)
-// {
-// 	t_list	*tokens;
-// 	t_list	*temp;
-// 	char *input = "		abcde	   	fgh	||	'ffezz'	&& |";
+int	main(void)
+{
+	t_list	*tokens;
+	t_list	*temp;
+	char *input = "		< caca cat > abc";
 
 
-// 	tokens = NULL;
-// 	create_tokens(&tokens, input);
-// 	temp = tokens;
-// 	while (temp)
-// 	{
-// 		printf("%s\n", (char*)temp->content);
-// 		temp = temp->next;
-// 	}
-	
-// }
+	tokens = NULL;
+	create_tokens(&tokens, input);
+	temp = tokens;
+	while (temp)
+	{
+		printf("%s\n", (char*)temp->content);
+		temp = temp->next;
+	}
+
+}

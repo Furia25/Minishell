@@ -6,13 +6,12 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 22:28:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/22 02:59:18 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/03/23 02:58:22 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 t_AST_node	*create_ast(t_leaf *command_tab);
-#include <fcntl.h>
 
 t_AST_node	*create_leaf_node(t_leaf *cmd)
 {
@@ -78,7 +77,7 @@ void	latest_simple_red_op(t_leaf *cmds, t_leaf **buff)
 t_AST_node	*create_if_found(t_leaf *command_tab, t_leaf *buff)
 {
 	t_operator		op;
-	
+
 	op = buff->ope_after;
 	buff->ope_after = VOID;
 	return (create_parent_node(op, create_ast(command_tab)
@@ -109,7 +108,7 @@ t_AST_node	*create_ast(t_leaf *command_tab)
 t_leaf	*evaluate_logical_op(t_operator op, t_leaf *left_value, t_leaf	*right_value)
 {
 	pid_t	pid;
-	
+
 	if (left_value != NULL)
 	{
 		pid = fork();
@@ -121,13 +120,13 @@ t_leaf	*evaluate_logical_op(t_operator op, t_leaf *left_value, t_leaf	*right_val
 		}
 	}
 	if (op == AND)
-	{	
+	{
 		if (left_value->returned_value == 0) // gerer avec $?
 			return (right_value);
 		return (NULL);
 	}
 	if (op == OR)
-	{	
+	{
 		if (left_value->returned_value != 0)
 			return (right_value);
 		return (NULL);
@@ -146,6 +145,8 @@ t_leaf	*evaluate_pipe_op(t_leaf *left_value, t_leaf *right_value)
 		close(pipefd[0]);
 		dup2(pipefd[1], 1);
 		close(pipefd[1]);
+		if (left_value->fd_input == -1 || left_value->fd_output == -1)
+			exit(1);//cas ou le open de < ou > echoue
 		dup2(left_value->fd_input, 0);
 		dup2(left_value->fd_output, 1);
 		//execve()
@@ -175,8 +176,8 @@ t_leaf	*evaluate_ast(t_AST_node *node)
 		return (evaluate_pipe_op(left_value, right_value));
 	if (node->t_ope_node.control_operator == RED_I)
 	{
-		//verifier que le fichier existe bien sinon erreur 
-		fd_input = open((char*)right_value->tokens->content, O_RDONLY);
+		//verifier que le fichier existe bien sinon erreur
+		fd_input = open((char*)right_value->tokens->content, O_RDONLY);//truncate + droit
 		printf("fichier: %s check fd :%d\n", (char*)right_value->tokens->content,fd_input);
 		left_value->fd_input = fd_input;
 		return (left_value);
@@ -184,7 +185,7 @@ t_leaf	*evaluate_ast(t_AST_node *node)
 	if (node->t_ope_node.control_operator == RED_O)
 	{
 		//verifier que le fichier existe bien sinon le creer
-		fd_output = open((char*)right_value->tokens->content, O_RDWR);
+		fd_output = open((char*)right_value->tokens->content, O_WRONLY);
 		printf("fichier: %s check fd :%d\n", (char*)right_value->tokens->content,fd_output);
 		right_value->fd_output = fd_output;
 		return (right_value);
@@ -196,6 +197,8 @@ void	execute_last_cmd(t_leaf	*cmd)
 {
 	if (cmd == NULL)
 		return ;
+	if (cmd->fd_input == -1 || cmd->fd_output == -1)
+		exit(1);//cas ou le open de < ou > echoue
 	dup2(cmd->fd_input, 0);
 	dup2(cmd->fd_output, 1);
 	//exec

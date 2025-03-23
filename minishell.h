@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/22 02:23:35 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/03/23 02:58:29 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # define MINISHELL_H
 # include "libft/incs/libft.h"
 # include <stdio.h>
+#include <fcntl.h>
 
 # include <stdlib.h>
 // # include <readline/readline.h>
