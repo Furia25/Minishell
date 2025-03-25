@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:22:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/23 05:00:34 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/03/25 03:59:47 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ void	create_tokens(t_list **tokens, char *input)
 // {
 // 	t_list	*tokens;
 // 	t_list	*temp;
-// 	char *input = "		< caca cat > abc";
+// 	char *input = "		< caca | cat > abc";
 
 
 // 	tokens = NULL;
