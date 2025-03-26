@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 13:53:27 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/22 00:25:24 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/03/26 06:47:08 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,6 @@ size_t		ft_strlcpy(char *dst, const char *src, size_t size);
 t_list		*ft_lstnew(void *content);
 t_list		*ft_lstlast(t_list *lst);
 t_list		*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
-t_list		*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+void	ft_lst_remove_if(t_list **lst, void *data_ref, int (*cmp)(), void (*del)(void*));
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:22:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/25 03:59:47 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/03/26 02:38:07 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ void	create_tokens(t_list **tokens, char *input)
 
 	token_len = 0;
 	if (*input == '\0')
-		return (op_change_line_token(tokens));
+		return ;
 	while ((*input >= 9 && *input <= 13) || *input == ' ')
 		input++;
 	if (ft_isalnum(*input) != 0)
@@ -136,7 +136,7 @@ void	create_tokens(t_list **tokens, char *input)
 // {
 // 	t_list	*tokens;
 // 	t_list	*temp;
-// 	char *input = "		< caca | cat > abc";
+// 	char *input = "< input cat | wc > output";
 
 
 // 	tokens = NULL;

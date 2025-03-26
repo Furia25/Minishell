@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 22:28:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/23 05:40:20 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/03/25 18:04:51 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,12 +109,9 @@ t_leaf	*evaluate_logical_op(t_operator op, t_leaf *left_value, t_leaf	*right_val
 			return (right_value);
 		return (NULL);
 	}
-	if (op == OR)
-	{
-		if (left_value->returned_value != 0)
-			return (right_value);
-		return (NULL);
-	}
+	if (left_value->returned_value != 0)
+		return (right_value);
+	return (NULL);
 }
 
 t_leaf	*evaluate_pipe_op(t_leaf *left_value, t_leaf *right_value)
