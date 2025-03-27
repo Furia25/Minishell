@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 23:39:47 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/26 09:29:45 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/03/27 04:04:49 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,41 +144,41 @@ void	handle_redirections(t_leaf *command_tab)
 	handle_red_and_del(command_tab, consider_redis);
 }
 
-int	main(void)
-{
-	char *input = "<lo <l cat <<e | caca >pipi";
-	t_list	*tokens;
-	t_leaf *command_tab;
+// int	main(void)
+// {
+// 	char *input = "< input cat >caca";
+// 	t_list	*tokens;
+// 	t_leaf *command_tab;
 
 
-	tokens = NULL;
-	create_tokens(&tokens, input);
-	command_tab = create_cmd_tab(tokens);
-	handle_redirections(command_tab);
-	while (command_tab->ope_after != LINE_CHANGE)
-	{
-		printf("new cmd : \n\n");
-		while (command_tab->tokens)
-		{
-			printf("token : %s\n", (char*)command_tab->tokens->content);
-			command_tab->tokens = command_tab->tokens->next;
-		}
-		printf("fd_in : %d\n", command_tab->fd_input);
-		printf("fd_out : %d\n", command_tab->fd_output);
-		printf("ope_after : %d\n\n", command_tab->ope_after);
-		command_tab++;
-	}
-	printf("new cmd : \n\n");
-	while (command_tab->tokens)
-	{
-		printf("token : %s\n", (char*)command_tab->tokens->content);
-		command_tab->tokens = command_tab->tokens->next;
-	}
-	printf("fd_in : %d\n", command_tab->fd_input);
-	printf("fd_out : %d\n", command_tab->fd_output);
-	printf("ope_after : %d\n\n", command_tab->ope_after);
+// 	tokens = NULL;
+// 	create_tokens(&tokens, input);
+// 	command_tab = create_cmd_tab(tokens);
+// 	handle_redirections(command_tab);
+// 	while (command_tab->ope_after != LINE_CHANGE)
+// 	{
+// 		printf("new cmd : \n\n");
+// 		while (command_tab->tokens)
+// 		{
+// 			printf("token : %s\n", (char*)command_tab->tokens->content);
+// 			command_tab->tokens = command_tab->tokens->next;
+// 		}
+// 		printf("fd_in : %d\n", command_tab->fd_input);
+// 		printf("fd_out : %d\n", command_tab->fd_output);
+// 		printf("ope_after : %d\n\n", command_tab->ope_after);
+// 		command_tab++;
+// 	}
+// 	printf("new cmd : \n\n");
+// 	while (command_tab->tokens)
+// 	{
+// 		printf("token : %s\n", (char*)command_tab->tokens->content);
+// 		command_tab->tokens = command_tab->tokens->next;
+// 	}
+// 	printf("fd_in : %d\n", command_tab->fd_input);
+// 	printf("fd_out : %d\n", command_tab->fd_output);
+// 	printf("ope_after : %d\n\n", command_tab->ope_after);
 
-}
+// }
 
 
 

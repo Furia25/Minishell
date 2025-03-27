@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 10:43:50 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/27 01:05:04 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/03/27 04:02:03 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ t_leaf *create_cmd_tab(t_list *tokens)
 
 // int	main(void)
 // {
-// 	char *input = "<lo cat";
+// 	char *input = "< input cat >caca";
 // 	t_list	*tokens;
 // 	t_leaf *command_tab;
 

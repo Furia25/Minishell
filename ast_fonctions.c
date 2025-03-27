@@ -6,11 +6,13 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 22:28:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/27 01:12:48 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/03/27 04:01:01 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "libft/incs/ft_printf.h"
+#include "libft/incs/get_next_line.h"
 t_AST_node	*create_ast(t_leaf *command_tab);
 
 t_AST_node	*create_leaf_node(t_leaf *cmd)
@@ -118,9 +120,9 @@ t_leaf	*evaluate_pipe_op(t_leaf *left_value, t_leaf *right_value)
 {
 	int	pipefd[2];
 	pid_t	pid;
+	//cas ou le open de < ou > echoue
 	if (left_value->fd_input != -1 && left_value->fd_output != -1)
 	{
-		//cas ou le open de < ou > echoue
 		pipe(pipefd);
 		pid = fork();
 		if (pid == 0)
@@ -130,7 +132,8 @@ t_leaf	*evaluate_pipe_op(t_leaf *left_value, t_leaf *right_value)
 			close(pipefd[1]);
 			dup2(left_value->fd_input, 0);
 			dup2(left_value->fd_output, 1);
-			//execve()
+			ft_printf("%s", get_next_line(0));
+			exit(0);
 		}
 		close(pipefd[1]);
 		dup2(pipefd[0], 0);
@@ -167,6 +170,8 @@ void	execute_last_cmd(t_leaf	*cmd)
 		exit(1);//cas ou le open de < ou > echoue
 	dup2(cmd->fd_input, 0);
 	dup2(cmd->fd_output, 1);
+	ft_printf("%s", get_next_line(0));
+	exit(0);
 	//exec
 }
 

@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:22:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/26 02:38:07 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/03/27 04:24:39 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ size_t word_token(t_list **tokens, char *str)
 	char	*node_content;
 
 	i = 0;
-	while (ft_isalnum(str[i]) != 0)
+	while (ft_isprint(str[i]) != 0 && ft_strchr("|&;()<> \'\"", str[i]) == NULL)
 		i++;
 	node_content = ft_substr(str, 0, i);//a secur
 	new_node = ft_lstnew(node_content);//a secur
@@ -119,8 +119,8 @@ void	create_tokens(t_list **tokens, char *input)
 		return ;
 	while ((*input >= 9 && *input <= 13) || *input == ' ')
 		input++;
-	if (ft_isalnum(*input) != 0)
-		token_len = word_token(tokens,  input);
+	if (ft_isprint(*input) != 0 && ft_strchr("|&;()<> \'\"", *input) == NULL)
+		token_len = word_token(tokens, input);
 	if (*input == '\'')
 		token_len = single_quote_token(tokens, input);
 	if (*input == '\"')
