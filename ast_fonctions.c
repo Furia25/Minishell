@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 22:28:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/25 18:04:51 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/03/27 01:12:48 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,23 +118,24 @@ t_leaf	*evaluate_pipe_op(t_leaf *left_value, t_leaf *right_value)
 {
 	int	pipefd[2];
 	pid_t	pid;
-
-	pipe(pipefd);
-	pid = fork();
-	if (pid == 0)
+	if (left_value->fd_input != -1 && left_value->fd_output != -1)
 	{
-		close(pipefd[0]);
-		dup2(pipefd[1], 1);
+		//cas ou le open de < ou > echoue
+		pipe(pipefd);
+		pid = fork();
+		if (pid == 0)
+		{
+			close(pipefd[0]);
+			dup2(pipefd[1], 1);
+			close(pipefd[1]);
+			dup2(left_value->fd_input, 0);
+			dup2(left_value->fd_output, 1);
+			//execve()
+		}
 		close(pipefd[1]);
-		if (left_value->fd_input == -1 || left_value->fd_output == -1)
-			exit(1);//cas ou le open de < ou > echoue
-		dup2(left_value->fd_input, 0);
-		dup2(left_value->fd_output, 1);
-		//execve()
+		dup2(pipefd[0], 0);
+		close(pipefd[0]);
 	}
-	close(pipefd[1]);
-	dup2(pipefd[0], 0);
-	close(pipefd[0]);
 	return (right_value);
 }
 
