@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 17:59:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/02/24 20:13:42 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/03/28 03:36:41 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ static char	*ft_strjoin_alt(char *s1, char *s2)
 	ft_strlcpy(s, s1, len_s1 + 1);
 	ft_strlcpy(s + len_s1, s2, len_s2 + 1);
 	free(s1);
+	write(1, "c", 1);
 	return (s);
 }
 

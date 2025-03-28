@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/27 04:04:33 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/03/28 02:45:17 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ typedef struct s_AST_node
 
 void	create_tokens(t_list **tokens, char *input);
 t_leaf *create_cmd_tab(t_list *tokens);
+char	*ft_strjoin_alt(char *s1, char *s2);
 void	handle_redirections(t_leaf *command_tab);
 t_AST_node	*create_ast(t_leaf *command_tab);
 t_leaf	*evaluate_ast(t_AST_node *node);

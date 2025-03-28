@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 22:28:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/27 04:01:01 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/03/28 03:19:15 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,10 @@ t_leaf	*evaluate_pipe_op(t_leaf *left_value, t_leaf *right_value)
 			close(pipefd[1]);
 			dup2(left_value->fd_input, 0);
 			dup2(left_value->fd_output, 1);
+			if (left_value->fd_input != 0)
+				close(left_value->fd_input);
+			if (left_value->fd_output != 1)
+				close(left_value->fd_output);
 			ft_printf("%s", get_next_line(0));
 			exit(0);
 		}
@@ -170,6 +174,10 @@ void	execute_last_cmd(t_leaf	*cmd)
 		exit(1);//cas ou le open de < ou > echoue
 	dup2(cmd->fd_input, 0);
 	dup2(cmd->fd_output, 1);
+	if (cmd->fd_input != 0)
+		close(cmd->fd_input);
+	if (cmd->fd_output != 1)
+		close(cmd->fd_output);
 	ft_printf("%s", get_next_line(0));
 	exit(0);
 	//exec
