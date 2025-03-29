@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 23:39:47 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/28 03:58:41 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/03/29 21:55:41 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,27 +49,20 @@ void	handle_red_output_append(t_leaf *command_tab, t_list *tokens)
 		perror((char*)tokens->next->content);
 }
 
-void	handle_here_doc(t_leaf *command_tab, t_list *tokens)
+int	open_new_here_doc_file(t_leaf *command_tab, char **here_doc_file)
 {
-	char	*input;
-	char	*here_doc_new_file;
-	int	i;
-	int	fd;
+	int		fd;
+	int		i;
 
-	if (command_tab->fd_input == -1)
-		return ;
-	if (command_tab->fd_input != 0)
-		close(command_tab->fd_input);
-	here_doc_new_file = NULL;
-	fd = open("/tmp/here_doc", O_WRONLY | O_CREAT | O_EXCL, 0644);
+	fd = open(*here_doc_file, O_WRONLY | O_CREAT | O_EXCL, 0644);
 	if (fd == -1 && errno == EEXIST)
 	{
 		i = 1;
 		while (errno == EEXIST)
 		{
-			free(here_doc_new_file);
-			here_doc_new_file = ft_strjoin_alt("/tmp/here_doc", ft_itoa(i));
-			fd = open(here_doc_new_file, O_WRONLY | O_CREAT | O_EXCL, 0644);
+			free(*here_doc_file);
+			*here_doc_file = ft_strjoin_alt("/tmp/here_doc", ft_itoa(i));
+			fd = open(*here_doc_file, O_WRONLY | O_CREAT | O_EXCL, 0644);
 			if (fd != -1)
 				break;
 			i++;
@@ -79,8 +72,15 @@ void	handle_here_doc(t_leaf *command_tab, t_list *tokens)
 	{
 		command_tab->fd_input = -1;
 		perror("here doc");
-		return ;
+		exit(1);//a secur
 	}
+	return (fd);
+}
+
+void	write_in_here_doc_file(t_list *tokens, int fd)
+{
+	char	*input;
+
 	while (1)
 	{
 		input = readline("> ");
@@ -93,20 +93,28 @@ void	handle_here_doc(t_leaf *command_tab, t_list *tokens)
 		write(fd, "\n", 1);
 		free(input);
 	}
+}
+
+void	handle_here_doc(t_leaf *command_tab, t_list *tokens)
+{
+	char	*input;
+	char	*here_doc_file;
+	int	i;
+	int	fd;
+
+	if (command_tab->fd_input == -1)
+		return ;
+	if (command_tab->fd_input != 0)
+		close(command_tab->fd_input);
+	here_doc_file = ft_strdup("/tmp/here_doc");
+	fd = open_new_here_doc_file(command_tab, &here_doc_file);
+	write_in_here_doc_file(tokens, fd);
 	close(fd);
-	if (here_doc_new_file == NULL)
-	{
-		here_doc_new_file = "/tmp/here_doc";
-		command_tab->fd_input = open("/tmp/here_doc", O_RDONLY);
-	}
-	else
-	{
-		command_tab->fd_input = open(here_doc_new_file, O_RDONLY);
-		free(here_doc_new_file);
-	}
+	command_tab->fd_input = open(here_doc_file, O_RDONLY);
 	if (command_tab->fd_input == -1)
 		perror((char*)tokens->next->content);
-	unlink(here_doc_new_file);
+	unlink(here_doc_file);
+	free(here_doc_file);
 }
 
 int	consider_here_doc(t_leaf *command_tab, t_list *tokens)
