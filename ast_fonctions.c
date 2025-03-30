@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 22:28:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/28 03:19:15 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/03/30 08:29:26 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,13 @@ t_AST_node	*create_parent_node(t_operator ope, t_AST_node *left, t_AST_node *rig
 	node->t_ope_node.left_node = left;
 	node->t_ope_node.right_node = right;
 	return (node);
+}
+t_AST_node	*create_para_node(t_leaf *command_tab)
+{
+	t_leaf *cmd_tab_in_par;
+
+	cmd_tab_in_par = create_cmd_tab(command_tab->tokens);
+	return (create_parent_node(PARENTHESIS, create_ast(cmd_tab_in_par), NULL));
 }
 
 void	latest_logical_op(t_leaf *cmds, t_leaf **buff)
@@ -77,11 +84,17 @@ t_AST_node	*create_ast(t_leaf *command_tab)
 {
 	t_operator		op;
 	t_leaf	*buff;
+	t_leaf *cmd_tab_in_par;
 
 	buff = NULL;
 	if (command_tab->ope_after == LINE_CHANGE
 		|| command_tab->ope_after == VOID)
-		return (create_leaf_node(command_tab));
+	{
+		if (command_tab->parenthesis == ON)
+			return (create_para_node(command_tab));
+		else
+			return (create_leaf_node(command_tab));
+	}
 	latest_logical_op(command_tab, &buff);
 	if (buff != NULL)
 		return (create_if_found(command_tab, buff));
@@ -121,7 +134,7 @@ t_leaf	*evaluate_pipe_op(t_leaf *left_value, t_leaf *right_value)
 	int	pipefd[2];
 	pid_t	pid;
 	//cas ou le open de < ou > echoue
-	if (left_value->fd_input != -1 && left_value->fd_output != -1)
+	if (left_value->fd_input != -1 || left_value->fd_output != -1)
 	{
 		pipe(pipefd);
 		pid = fork();
@@ -150,37 +163,71 @@ t_leaf	*evaluate_ast(t_AST_node *node)
 {
 	t_leaf	*left_value;
 	t_leaf	*right_value;
-	int	fd_input;
-	int	fd_output;
+	int	pipefd[2];
+	pid_t	pid;
 
+	if (node == NULL)
+		return (NULL);
 	if (node->type == NODE_COMMAND)
 		return (node->command);
-	left_value = evaluate_ast(node->t_ope_node.left_node);
-	right_value = evaluate_ast(node->t_ope_node.right_node);
+	// if (node->t_ope_node.control_operator == PARENTHESIS)
+	// {
+	// 	pid = fork();
+	// 	if (pid == 0)
+	// 	{
+	// 		evaluate_ast(node->t_ope_node.left_node);
+	// 		exit(0);
+	// 	}
+	// }
 	if (node->t_ope_node.control_operator == AND)
-		return (evaluate_logical_op(AND, left_value, right_value));
+	{
+		left_value = evaluate_ast(node->t_ope_node.left_node);
+		if (execute_cmd(left_value) == 0) // gerer avec $?
+		{
+			right_value = evaluate_ast(node->t_ope_node.right_node);
+			execute_cmd(right_value);
+		}
+		return (NULL);
+	}
 	if (node->t_ope_node.control_operator == OR)
-		return (evaluate_logical_op(OR, left_value, right_value));
+	{
+		left_value = evaluate_ast(node->t_ope_node.left_node);
+		if (execute_cmd(left_value) != 0) // gerer avec $?
+		{
+			right_value = evaluate_ast(node->t_ope_node.right_node);
+			execute_cmd(right_value);
+		}
+		return (NULL);
+	}
 	if (node->t_ope_node.control_operator == PIPE)
 		return (evaluate_pipe_op(left_value, right_value));
 	return (NULL);
 }
 
-void	execute_last_cmd(t_leaf	*cmd)
+int	execute_cmd(t_leaf	*cmd)
 {
+	pid_t	pid;
+
 	if (cmd == NULL)
 		return ;
-	if (cmd->fd_input == -1 || cmd->fd_output == -1)
-		exit(1);//cas ou le open de < ou > echoue
-	dup2(cmd->fd_input, 0);
-	dup2(cmd->fd_output, 1);
-	if (cmd->fd_input != 0)
-		close(cmd->fd_input);
-	if (cmd->fd_output != 1)
-		close(cmd->fd_output);
-	ft_printf("%s", get_next_line(0));
-	exit(0);
-	//exec
+	if (cmd->fd_input != -1 || cmd->fd_output != -1)
+	{
+		pid = fork();
+		if (pid == 0)
+		{
+			dup2(cmd->fd_input, 0);
+			dup2(cmd->fd_output, 1);
+			if (cmd->fd_input != 0)
+				close(cmd->fd_input);
+			if (cmd->fd_output != 1)
+				close(cmd->fd_output);
+			ft_printf("%s", get_next_line(0));
+			//exec
+			exit(0);
+		}
+		return (0);
+	}
+	return (1);
 }
 
 // int	main(void)

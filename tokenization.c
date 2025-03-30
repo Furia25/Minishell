@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:22:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/27 04:24:39 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/03/30 06:01:13 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,16 @@ size_t op_redirection_token(t_list **tokens, char *str, char op)
 	ft_lstadd_back(tokens, new_node);
 	return (i);
 }
+size_t op_parenthesis(t_list **tokens, char *str, char op)
+{
+	t_list	*new_node;
+	char	*node_content;
+
+	node_content = ft_substr(str, 0, 1);//a secur
+	new_node = ft_lstnew(node_content);//a secur
+	ft_lstadd_back(tokens, new_node);
+	return (1);
+}
 
 void op_change_line_token(t_list **tokens)
 {
@@ -125,6 +135,8 @@ void	create_tokens(t_list **tokens, char *input)
 		token_len = single_quote_token(tokens, input);
 	if (*input == '\"')
 		token_len = double_quote_token(tokens, input);
+	if (*input == '(' || *input == ')')
+		token_len = op_parenthesis(tokens, input, *input);
 	if (*input == '|' || *input == '&')
 		token_len = op_control_token(tokens, input, *input);
 	if (*input == '<' || *input == '>')
@@ -136,7 +148,7 @@ void	create_tokens(t_list **tokens, char *input)
 // {
 // 	t_list	*tokens;
 // 	t_list	*temp;
-// 	char *input = "< input cat | wc > output";
+// 	char *input = "((pi(caca)c))";
 
 
 // 	tokens = NULL;

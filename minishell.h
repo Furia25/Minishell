@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/28 02:45:17 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/03/30 05:42:49 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,15 @@ typedef enum s_operator
 	AND,
 	OR,
 	PIPE,
+	PARENTHESIS,
 	LINE_CHANGE
 }	t_operator;
+
+typedef enum s_switch
+{
+	OFF,
+	ON
+}	t_switch;
 
 typedef struct s_leaf
 {
@@ -46,6 +53,7 @@ typedef struct s_leaf
 	int fd_input;
 	int fd_output;
 	int returned_value;
+	t_switch parenthesis;
 	t_operator ope_after;
 }	t_leaf;
 
