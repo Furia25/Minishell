@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/30 05:42:49 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/03/30 11:43:04 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "libft/incs/libft.h"
 # include <stdio.h>
 #include <fcntl.h>
+#include <sys/wait.h>
 
 # include <stdlib.h>
 # include <readline/readline.h>
@@ -79,7 +80,7 @@ char	*ft_strjoin_alt(char *s1, char *s2);
 void	handle_redirections(t_leaf *command_tab);
 t_AST_node	*create_ast(t_leaf *command_tab);
 t_leaf	*evaluate_ast(t_AST_node *node);
-void	execute_last_cmd(t_leaf	*cmd);
+int	execute_cmd(t_leaf *cmd);
 
 
 

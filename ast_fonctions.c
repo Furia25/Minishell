@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 22:28:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/30 08:29:26 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/03/30 11:46:25 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ t_leaf	*evaluate_pipe_op(t_leaf *left_value, t_leaf *right_value)
 	int	pipefd[2];
 	pid_t	pid;
 	//cas ou le open de < ou > echoue
-	if (left_value->fd_input != -1 || left_value->fd_output != -1)
+	if (left_value->fd_input != -1 && left_value->fd_output != -1)
 	{
 		pipe(pipefd);
 		pid = fork();
@@ -152,6 +152,7 @@ t_leaf	*evaluate_pipe_op(t_leaf *left_value, t_leaf *right_value)
 			ft_printf("%s", get_next_line(0));
 			exit(0);
 		}
+		wait(NULL);
 		close(pipefd[1]);
 		dup2(pipefd[0], 0);
 		close(pipefd[0]);
@@ -159,58 +160,20 @@ t_leaf	*evaluate_pipe_op(t_leaf *left_value, t_leaf *right_value)
 	return (right_value);
 }
 
-t_leaf	*evaluate_ast(t_AST_node *node)
-{
-	t_leaf	*left_value;
-	t_leaf	*right_value;
-	int	pipefd[2];
-	pid_t	pid;
-
-	if (node == NULL)
-		return (NULL);
-	if (node->type == NODE_COMMAND)
-		return (node->command);
-	// if (node->t_ope_node.control_operator == PARENTHESIS)
-	// {
-	// 	pid = fork();
-	// 	if (pid == 0)
-	// 	{
-	// 		evaluate_ast(node->t_ope_node.left_node);
-	// 		exit(0);
-	// 	}
-	// }
-	if (node->t_ope_node.control_operator == AND)
-	{
-		left_value = evaluate_ast(node->t_ope_node.left_node);
-		if (execute_cmd(left_value) == 0) // gerer avec $?
-		{
-			right_value = evaluate_ast(node->t_ope_node.right_node);
-			execute_cmd(right_value);
-		}
-		return (NULL);
-	}
-	if (node->t_ope_node.control_operator == OR)
-	{
-		left_value = evaluate_ast(node->t_ope_node.left_node);
-		if (execute_cmd(left_value) != 0) // gerer avec $?
-		{
-			right_value = evaluate_ast(node->t_ope_node.right_node);
-			execute_cmd(right_value);
-		}
-		return (NULL);
-	}
-	if (node->t_ope_node.control_operator == PIPE)
-		return (evaluate_pipe_op(left_value, right_value));
-	return (NULL);
-}
-
-int	execute_cmd(t_leaf	*cmd)
+int	execute_cmd(t_leaf *cmd)
 {
 	pid_t	pid;
-
+	int returned_value;
+	
 	if (cmd == NULL)
-		return ;
-	if (cmd->fd_input != -1 || cmd->fd_output != -1)
+		return (1);
+	if (cmd->tokens == NULL)
+	{
+		returned_value = cmd->returned_value;
+		free(cmd);
+		return (returned_value);
+	}
+	if (cmd->fd_input != -1 && cmd->fd_output != -1)
 	{
 		pid = fork();
 		if (pid == 0)
@@ -225,9 +188,65 @@ int	execute_cmd(t_leaf	*cmd)
 			//exec
 			exit(0);
 		}
+		wait(NULL);
 		return (0);
 	}
 	return (1);
+}
+
+
+t_leaf	*evaluate_ast(t_AST_node *node)
+{
+	t_leaf	*left_value;
+	t_leaf	*right_value;
+	int	pipefd[2];
+	pid_t	pid;
+
+	if (node == NULL)
+		return (NULL);
+	if (node->type == NODE_COMMAND)
+		return (node->command);
+	if (node->t_ope_node.control_operator == PARENTHESIS)
+	{
+		pid = fork();
+		if (pid == 0)
+		{
+			execute_cmd(evaluate_ast(node->t_ope_node.left_node));
+			exit(0);
+		}
+		wait(NULL);
+		left_value = malloc(sizeof(t_leaf));
+		left_value->tokens = NULL;
+		left_value->returned_value = 0;
+		return(left_value);
+	}
+	if (node->t_ope_node.control_operator == AND)
+	{
+		left_value = evaluate_ast(node->t_ope_node.left_node);
+		if (execute_cmd(left_value) == 0) // gerer avec $?
+		{
+			right_value = evaluate_ast(node->t_ope_node.right_node);
+			return (right_value);
+		}
+		return (NULL);
+	}
+	if (node->t_ope_node.control_operator == OR)
+	{
+		left_value = evaluate_ast(node->t_ope_node.left_node);
+		if (execute_cmd(left_value) != 0) // gerer avec $?
+		{
+			right_value = evaluate_ast(node->t_ope_node.right_node);
+			return (right_value);
+		}
+		return (NULL);
+	}
+	if (node->t_ope_node.control_operator == PIPE)
+	{
+		left_value = evaluate_ast(node->t_ope_node.left_node);
+		right_value = evaluate_ast(node->t_ope_node.right_node);
+		return (evaluate_pipe_op(left_value, right_value));
+	}
+	return (NULL);
 }
 
 // int	main(void)
