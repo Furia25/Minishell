@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:22:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/30 06:01:13 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/03/30 22:59:03 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ void	create_tokens(t_list **tokens, char *input)
 // {
 // 	t_list	*tokens;
 // 	t_list	*temp;
-// 	char *input = "((pi(caca)c))";
+// 	char *input = "<<eof cat && (< Makefile cat >caca|| echo >prout)";
 
 
 // 	tokens = NULL;

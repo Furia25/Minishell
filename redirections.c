@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 23:39:47 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/30 11:36:01 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/03/31 01:21:39 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,19 +176,22 @@ void	handle_red_and_del(t_leaf *command_tab, int (*is_redi)())
 
 void	handle_redirections(t_leaf *command_tab)
 {
-	while (command_tab->ope_after != LINE_CHANGE)
+	while (command_tab->ope_after != LINE_CHANGE && command_tab->parenthesis != ON)
 	{
 		handle_red_and_del(command_tab, consider_here_doc);
 		handle_red_and_del(command_tab, consider_redis);
 		command_tab++;
 	}
-	handle_red_and_del(command_tab, consider_here_doc);
-	handle_red_and_del(command_tab, consider_redis);
+	if (command_tab->parenthesis != ON)
+	{
+		handle_red_and_del(command_tab, consider_here_doc);
+		handle_red_and_del(command_tab, consider_redis);
+	}
 }
 
 // int	main(void)
 // {
-// 	char *input = "<<eof cat && < Makefile cat >caca && echo >prout";
+// 	char *input = "<<eof cat && (< Makefile cat >caca || echo >prout)";
 // 	t_list	*tokens;
 // 	t_leaf *command_tab;
 

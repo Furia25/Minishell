@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 10:43:50 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/30 06:37:44 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/03/31 00:20:45 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,10 @@ void	fill_tab(t_leaf *command_tab, t_list *tokens)
 			temp = para_buff->next;
 			ft_lstdelone(para_buff, free);
 			if (temp == NULL)
+			{
+				prev->next = NULL;
 				continue ;
+			}
 		}
 		if (ft_strcmp((char *)temp->content, "|") == 0)
 			command_tab->ope_after = PIPE;
@@ -120,7 +123,7 @@ t_leaf *create_cmd_tab(t_list *tokens)
 
 // int	main(void)
 // {
-// 	char *input = "cmd0 &&((cmd1 <<eof  || cmd2) && cmd3 > caca) && cmd4";
+// 	char *input = "<<eof cat && (< Makefile cat >caca|| echo >prout)";
 // 	t_list	*tokens;
 // 	t_leaf *command_tab;
 

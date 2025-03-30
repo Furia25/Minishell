@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 22:28:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/30 11:46:25 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/03/31 01:23:27 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ t_AST_node	*create_para_node(t_leaf *command_tab)
 	t_leaf *cmd_tab_in_par;
 
 	cmd_tab_in_par = create_cmd_tab(command_tab->tokens);
+	handle_redirections(cmd_tab_in_par);
 	return (create_parent_node(PARENTHESIS, create_ast(cmd_tab_in_par), NULL));
 }
 
@@ -164,7 +165,7 @@ int	execute_cmd(t_leaf *cmd)
 {
 	pid_t	pid;
 	int returned_value;
-	
+
 	if (cmd == NULL)
 		return (1);
 	if (cmd->tokens == NULL)
