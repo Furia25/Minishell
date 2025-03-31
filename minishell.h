@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/30 11:43:04 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/03/31 08:39:35 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef enum s_switch
 typedef struct s_leaf
 {
 	t_list *tokens;
+	t_switch handle_here_doc;
 	int fd_input;
 	int fd_output;
 	int returned_value;
@@ -77,7 +78,7 @@ typedef struct s_AST_node
 void	create_tokens(t_list **tokens, char *input);
 t_leaf *create_cmd_tab(t_list *tokens);
 char	*ft_strjoin_alt(char *s1, char *s2);
-void	handle_redirections(t_leaf *command_tab);
+void	handle_all_here_doc(t_leaf *command_tab);
 t_AST_node	*create_ast(t_leaf *command_tab);
 t_leaf	*evaluate_ast(t_AST_node *node);
 int	execute_cmd(t_leaf *cmd);

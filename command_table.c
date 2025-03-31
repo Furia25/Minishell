@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 10:43:50 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/31 00:20:45 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/03/31 09:01:17 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ void	initialise_cmds_fd(t_leaf *command_tab, size_t	commands_number)
 		command_tab->fd_input = 0;
 		command_tab->fd_output = 1;
 		command_tab->parenthesis = OFF;
+		command_tab->handle_here_doc = ON;
 		command_tab++;
 		i++;
 	}

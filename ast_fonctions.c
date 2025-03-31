@@ -6,13 +6,15 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 22:28:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/31 01:23:27 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/03/31 06:59:57 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft/incs/ft_printf.h"
 #include "libft/incs/get_next_line.h"
+void	handle_red_and_del(t_leaf *command_tab, int (*is_redi)());
+int	consider_redis(t_leaf *command_tab, t_list *token);
 t_AST_node	*create_ast(t_leaf *command_tab);
 
 t_AST_node	*create_leaf_node(t_leaf *cmd)
@@ -41,7 +43,6 @@ t_AST_node	*create_para_node(t_leaf *command_tab)
 	t_leaf *cmd_tab_in_par;
 
 	cmd_tab_in_par = create_cmd_tab(command_tab->tokens);
-	handle_redirections(cmd_tab_in_par);
 	return (create_parent_node(PARENTHESIS, create_ast(cmd_tab_in_par), NULL));
 }
 
@@ -133,8 +134,11 @@ t_leaf	*evaluate_logical_op(t_operator op, t_leaf *left_value, t_leaf	*right_val
 t_leaf	*evaluate_pipe_op(t_leaf *left_value, t_leaf *right_value)
 {
 	int	pipefd[2];
+	int	fd_input;
+	int	fd_output;
 	pid_t	pid;
-	//cas ou le open de < ou > echoue
+
+	handle_red_and_del(left_value, consider_redis);
 	if (left_value->fd_input != -1 && left_value->fd_output != -1)
 	{
 		pipe(pipefd);
@@ -174,6 +178,7 @@ int	execute_cmd(t_leaf *cmd)
 		free(cmd);
 		return (returned_value);
 	}
+	handle_red_and_del(cmd, consider_redis);
 	if (cmd->fd_input != -1 && cmd->fd_output != -1)
 	{
 		pid = fork();
