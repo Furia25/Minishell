@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 12:50:30 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/31 12:01:21 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/03 15:32:00 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	main(void)
 {
-	char *input = "<ut <ghtr <herheer <gerger <<eof <Makefile cat >caca || <doc.c <<eof cat > prout && <<eof cat >> aa || echo gg";
+	char *input = "<<eof cat >caca || <<eof <Makefile cat >pipi";
 	t_list	*tokens;
 	t_leaf *command_tab;
 	t_leaf	*final;
@@ -25,6 +25,7 @@ int	main(void)
 	handle_all_here_doc(command_tab);
 	final = evaluate_ast(create_ast(command_tab));
 	execute_cmd(final);
+	rm_here_doc_files(command_tab);
 	//printf("token: %s\nstdin: %d\nstdout: %d\nvalue: %d\n\n", (char*)final->tokens->content, final->fd_input, final->fd_output, final->returned_value);
 
 }

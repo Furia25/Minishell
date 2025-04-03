@@ -6,63 +6,51 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 23:39:47 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/31 09:20:08 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/03 14:52:18 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <errno.h>
 
-void	handle_red_input(t_leaf *command_tab, t_list *token)
+void	handle_red_input(t_leaf *command_tab, char *file)
 {
 	int	fd_buff;
 
 	//verifier que le fichier existe bien sinon erreur
 	if (command_tab->fd_input == -1 || command_tab->fd_output == -1)
 		return ;
-	if (command_tab->handle_here_doc == ON)
-	{
-		fd_buff = open((char*)token->next->content, O_RDONLY);
-		if (fd_buff == -1)
-		{
-			perror((char*)token->next->content);
-			command_tab->fd_input = fd_buff;
-		}
-		else
-			close(fd_buff);
-	}
-	else
-	{
-		if (command_tab->fd_input != 0)
-			close(command_tab->fd_input);
-		command_tab->fd_input = open((char*)token->next->content, O_RDONLY);//truncate + droit
-		if (command_tab->fd_input == -1)
-			perror((char*)token->next->content);
-	}
+	if (command_tab->fd_input != 0)
+		close(command_tab->fd_input);
+	command_tab->fd_input = open(file, O_RDONLY);//truncate + droit
+	if (command_tab->fd_input == -1)
+		perror(file);
+	if (ft_strncmp("/tmp/here_doc", file, 13) == 0)
+		unlink(file);
 }
 
-void	handle_red_output(t_leaf *command_tab, t_list *token)
+void	handle_red_output(t_leaf *command_tab, char *file)
 {
 	//verifier que le fichier existe bien sinon le creer
 	if (command_tab->fd_input == -1 || command_tab->fd_output == -1)
 		return ;
 	if (command_tab->fd_output != 1)
 		close(command_tab->fd_output);
-	command_tab->fd_output = open((char*)token->next->content, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	command_tab->fd_output = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (command_tab->fd_output == -1)
-		perror((char*)token->next->content);
+		perror(file);
 }
 
-void	handle_red_output_append(t_leaf *command_tab, t_list *token)
+void	handle_red_output_append(t_leaf *command_tab, char *file)
 {
 	//verifier que le fichier existe bien sinon le creer
 	if (command_tab->fd_input == -1 || command_tab->fd_output == -1)
 		return ;
 	if (command_tab->fd_output != 1)
 		close(command_tab->fd_output);//secur close
-	command_tab->fd_output = open((char*)token->next->content, O_WRONLY | O_CREAT | O_APPEND, 0644);
+	command_tab->fd_output = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (command_tab->fd_output == -1)
-		perror((char*)token->next->content);
+		perror(file);
 }
 
 int	open_new_here_doc_file(t_leaf *command_tab, char **here_doc_file)
@@ -93,14 +81,14 @@ int	open_new_here_doc_file(t_leaf *command_tab, char **here_doc_file)
 	return (fd);
 }
 
-void	write_in_here_doc_file(t_list *token, int fd)
+void	write_in_here_doc_file(char *eof, int fd)
 {
 	char	*input;
 
 	while (1)
 	{
 		input = readline("> ");
-		if (ft_strcmp(input, (char*)token->next->content) == 0)
+		if (ft_strcmp(input, eof) == 0)
 		{
 			free(input);
 			break ;
@@ -111,7 +99,7 @@ void	write_in_here_doc_file(t_list *token, int fd)
 	}
 }
 
-void	handle_here_doc(t_leaf *command_tab, t_list *token)
+char	*handle_here_doc(t_leaf *command_tab, char *eof)
 {
 	char	*input;
 	char	*here_doc_file;
@@ -119,48 +107,32 @@ void	handle_here_doc(t_leaf *command_tab, t_list *token)
 	int	fd;
 
 	if (command_tab->fd_input == -1)
-		return ;
-	if (command_tab->fd_input != 0)
-		close(command_tab->fd_input);
+		return (NULL);
 	here_doc_file = ft_strdup("/tmp/here_doc");
 	fd = open_new_here_doc_file(command_tab, &here_doc_file);
-	write_in_here_doc_file(token, fd);
+	write_in_here_doc_file(eof, fd);
 	close(fd);
-	command_tab->fd_input = open(here_doc_file, O_RDONLY);
-	if (command_tab->fd_input == -1)
-		perror((char*)token->next->content);
-	unlink(here_doc_file);
-	free(here_doc_file);
+	return (here_doc_file);
 }
 
-int	consider_here_doc(t_leaf *command_tab, t_list *token)
-{
-	if (ft_strcmp((char *)token->content, "<<") == 0)
-	{
-		handle_here_doc(command_tab, token);
-		return (0);
-	}
-	return (1);
-}
-
-int	consider_redis(t_leaf *command_tab, t_list *token)
+int	is_redi(t_leaf *command_tab, t_list *token)
 {
 	if (ft_strcmp((char *)token->content, "<") == 0
 		|| ft_strcmp((char *)token->content, ">") == 0
 		|| ft_strcmp((char *)token->content, ">>") == 0)
 	{
 		if (ft_strcmp((char *)token->content, "<") == 0)
-			handle_red_input(command_tab, token);
+			handle_red_input(command_tab, (char*)token->next->content);
 		if (ft_strcmp((char *)token->content, ">") == 0)
-			handle_red_output(command_tab, token);
+			handle_red_output(command_tab, (char*)token->next->content);
 		if (ft_strcmp((char *)token->content, ">>") == 0)
-			handle_red_output_append(command_tab, token);
+			handle_red_output_append(command_tab, (char*)token->next->content);
 		return (0);
 	}
 	return (1);
 }
 
-void	handle_red_and_del(t_leaf *command_tab, int (*is_redi)())
+void	handle_reds_and_del(t_leaf *command_tab)
 {
 	t_list	*temp;
 	t_list	*prev;
@@ -190,44 +162,69 @@ void	handle_red_and_del(t_leaf *command_tab, int (*is_redi)())
 	}
 }
 
-void	keep_here_doc_or_not(t_leaf *command_tab)
+void	here_doc_to_red_input(t_leaf *command_tab)
 {
 	t_list	*temp;
-	t_list	*buff_here_doc;
+	char	*here_doc_file;
 
 	temp = command_tab->tokens;
 	while (temp)
 	{
 		if (ft_strcmp((char *)temp->content, "<<") == 0)
-			buff_here_doc = temp;
-		temp = temp->next;
-	}
-	temp = buff_here_doc;
-	while (temp)
-	{
-		if (ft_strcmp((char *)temp->content, "<") == 0)
 		{
-			command_tab->handle_here_doc = OFF;
-			return ;
+			here_doc_file = handle_here_doc(command_tab, (char*)temp->next->content);
+			free(temp->content);
+			free(temp->next->content);
+			temp->content = ft_substr("<", 0, 1);
+			temp->next->content = here_doc_file;
+			temp = temp->next->next;
 		}
-		temp = temp->next;
+		else
+			temp = temp->next;
 	}
+
 }
 
 void	handle_all_here_doc(t_leaf *command_tab)
 {
-	keep_here_doc_or_not(command_tab);
 	while (command_tab->ope_after != LINE_CHANGE)
 	{
-		handle_red_and_del(command_tab, consider_here_doc);
+		here_doc_to_red_input(command_tab);
 		command_tab++;
 	}
-	handle_red_and_del(command_tab, consider_here_doc);
+	here_doc_to_red_input(command_tab);
+}
+
+void	rm_here_doc_files(t_leaf *command_tab)
+{
+	t_list	*temp;
+
+	while (command_tab->ope_after != LINE_CHANGE)
+	{
+		temp = command_tab->tokens;
+		while (temp)
+		{
+			if (ft_strcmp((char *)temp->content, "<") == 0 &&
+				ft_strncmp("/tmp/here_doc", (char *)temp->next->content, 13) == 0)
+				unlink((char *)temp->next->content);
+			temp = temp->next;
+		}
+		command_tab++;
+	}
+	temp = command_tab->tokens;
+	while (temp)
+	{
+		if (ft_strcmp((char *)temp->content, "<") == 0 &&
+			ft_strncmp("/tmp/here_doc", (char *)temp->next->content, 13) == 0)
+			unlink((char *)temp->next->content);
+		temp = temp->next;
+	}
+	
 }
 
 // int	main(void)
 // {
-// 	char *input = "<<eof cat && (< Makefile cat >caca || echo >prout)";
+// 	char *input = "<<eof cat >caca || <<eof <ww cat >pipi";
 // 	t_list	*tokens;
 // 	t_leaf *command_tab;
 
@@ -235,7 +232,7 @@ void	handle_all_here_doc(t_leaf *command_tab)
 // 	tokens = NULL;
 // 	create_tokens(&tokens, input);
 // 	command_tab = create_cmd_tab(tokens);
-// 	handle_redirections(command_tab);
+// 	handle_all_here_doc(command_tab);
 // 	while (command_tab->ope_after != LINE_CHANGE)
 // 	{
 // 		printf("new cmd : \n\n");

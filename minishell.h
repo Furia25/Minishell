@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/31 08:39:35 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/03 15:06:56 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ typedef enum s_operator
 	AND,
 	OR,
 	PIPE,
-	PARENTHESIS,
 	LINE_CHANGE
 }	t_operator;
 
@@ -82,6 +81,7 @@ void	handle_all_here_doc(t_leaf *command_tab);
 t_AST_node	*create_ast(t_leaf *command_tab);
 t_leaf	*evaluate_ast(t_AST_node *node);
 int	execute_cmd(t_leaf *cmd);
+void	rm_here_doc_files(t_leaf *command_tab);
 
 
 

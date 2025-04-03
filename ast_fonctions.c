@@ -6,16 +6,14 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 22:28:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/31 06:59:57 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/03 15:31:14 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "libft/incs/ft_printf.h"
 #include "libft/incs/get_next_line.h"
-void	handle_red_and_del(t_leaf *command_tab, int (*is_redi)());
-int	consider_redis(t_leaf *command_tab, t_list *token);
-t_AST_node	*create_ast(t_leaf *command_tab);
+void	handle_reds_and_del(t_leaf *command_tab);
 
 t_AST_node	*create_leaf_node(t_leaf *cmd)
 {
@@ -37,13 +35,6 @@ t_AST_node	*create_parent_node(t_operator ope, t_AST_node *left, t_AST_node *rig
 	node->t_ope_node.left_node = left;
 	node->t_ope_node.right_node = right;
 	return (node);
-}
-t_AST_node	*create_para_node(t_leaf *command_tab)
-{
-	t_leaf *cmd_tab_in_par;
-
-	cmd_tab_in_par = create_cmd_tab(command_tab->tokens);
-	return (create_parent_node(PARENTHESIS, create_ast(cmd_tab_in_par), NULL));
 }
 
 void	latest_logical_op(t_leaf *cmds, t_leaf **buff)
@@ -91,12 +82,7 @@ t_AST_node	*create_ast(t_leaf *command_tab)
 	buff = NULL;
 	if (command_tab->ope_after == LINE_CHANGE
 		|| command_tab->ope_after == VOID)
-	{
-		if (command_tab->parenthesis == ON)
-			return (create_para_node(command_tab));
-		else
-			return (create_leaf_node(command_tab));
-	}
+		return (create_leaf_node(command_tab));
 	latest_logical_op(command_tab, &buff);
 	if (buff != NULL)
 		return (create_if_found(command_tab, buff));
@@ -106,39 +92,81 @@ t_AST_node	*create_ast(t_leaf *command_tab)
 	return (NULL);
 }
 
-t_leaf	*evaluate_logical_op(t_operator op, t_leaf *left_value, t_leaf	*right_value)
+int	execute_cmd(t_leaf *cmd)
 {
 	pid_t	pid;
+	int returned_value;
 
-	if (left_value != NULL)
+	if (cmd == NULL)
+		return (1);
+	if (cmd->tokens == NULL)
+	{
+		returned_value = cmd->returned_value;
+		free(cmd);
+		return (returned_value);
+	}
+	handle_reds_and_del(cmd);
+	if (cmd->fd_input != -1 && cmd->fd_output != -1)
 	{
 		pid = fork();
 		if (pid == 0)
 		{
-			dup2(left_value->fd_input, 0);
-			dup2(left_value->fd_output, 1);
-			//execve
+			dup2(cmd->fd_input, 0);
+			dup2(cmd->fd_output, 1);
+			if (cmd->fd_input != 0)
+				close(cmd->fd_input);
+			if (cmd->fd_output != 1)
+				close(cmd->fd_output);
+			ft_printf("%s", get_next_line(0));
+			//exec
+			exit(0);
 		}
+		wait(NULL);
+		if (cmd->fd_input != 0)
+			close(cmd->fd_input);
+		if (cmd->fd_output != 1)
+			close(cmd->fd_output);
+		return (0);
 	}
-	if (op == AND)
+	return (1);
+}
+
+t_leaf	*evaluate_logical_op(t_operator op, t_AST_node *node)
+{
+	t_leaf	*left_value;
+	t_leaf	*right_value;
+	
+	if (node->t_ope_node.control_operator == AND)
 	{
-		if (left_value->returned_value == 0) // gerer avec $?
+		left_value = evaluate_ast(node->t_ope_node.left_node);
+		if (execute_cmd(left_value) == 0) // gerer avec $?
+		{
+			right_value = evaluate_ast(node->t_ope_node.right_node);
 			return (right_value);
+		}
 		return (NULL);
 	}
-	if (left_value->returned_value != 0)
+	left_value = evaluate_ast(node->t_ope_node.left_node);
+	if (execute_cmd(left_value) != 0) // gerer avec $?
+	{
+		right_value = evaluate_ast(node->t_ope_node.right_node);
 		return (right_value);
+	}
 	return (NULL);
 }
 
-t_leaf	*evaluate_pipe_op(t_leaf *left_value, t_leaf *right_value)
+t_leaf	*evaluate_pipe_op(t_AST_node *node)
 {
-	int	pipefd[2];
-	int	fd_input;
-	int	fd_output;
-	pid_t	pid;
-
-	handle_red_and_del(left_value, consider_redis);
+	t_leaf	*left_value;
+	t_leaf	*right_value;
+	int		pipefd[2];
+	int		fd_input;
+	int		fd_output;
+	pid_t		pid;
+	
+	left_value = evaluate_ast(node->t_ope_node.left_node);
+	right_value = evaluate_ast(node->t_ope_node.right_node);
+	handle_reds_and_del(left_value);
 	if (left_value->fd_input != -1 && left_value->fd_output != -1)
 	{
 		pipe(pipefd);
@@ -161,97 +189,42 @@ t_leaf	*evaluate_pipe_op(t_leaf *left_value, t_leaf *right_value)
 		close(pipefd[1]);
 		dup2(pipefd[0], 0);
 		close(pipefd[0]);
+		if (left_value->fd_input != 0)
+			close(left_value->fd_input);
+		if (left_value->fd_output != 1)
+			close(left_value->fd_output);
 	}
 	return (right_value);
 }
 
-int	execute_cmd(t_leaf *cmd)
-{
-	pid_t	pid;
-	int returned_value;
-
-	if (cmd == NULL)
-		return (1);
-	if (cmd->tokens == NULL)
-	{
-		returned_value = cmd->returned_value;
-		free(cmd);
-		return (returned_value);
-	}
-	handle_red_and_del(cmd, consider_redis);
-	if (cmd->fd_input != -1 && cmd->fd_output != -1)
-	{
-		pid = fork();
-		if (pid == 0)
-		{
-			dup2(cmd->fd_input, 0);
-			dup2(cmd->fd_output, 1);
-			if (cmd->fd_input != 0)
-				close(cmd->fd_input);
-			if (cmd->fd_output != 1)
-				close(cmd->fd_output);
-			ft_printf("%s", get_next_line(0));
-			//exec
-			exit(0);
-		}
-		wait(NULL);
-		return (0);
-	}
-	return (1);
-}
-
-
 t_leaf	*evaluate_ast(t_AST_node *node)
 {
-	t_leaf	*left_value;
-	t_leaf	*right_value;
+	t_leaf	*value;
 	int	pipefd[2];
 	pid_t	pid;
 
-	if (node == NULL)
-		return (NULL);
 	if (node->type == NODE_COMMAND)
-		return (node->command);
-	if (node->t_ope_node.control_operator == PARENTHESIS)
 	{
-		pid = fork();
-		if (pid == 0)
+		if (node->command->parenthesis == ON)
 		{
-			execute_cmd(evaluate_ast(node->t_ope_node.left_node));
-			exit(0);
+			pid = fork();
+			if (pid == 0)
+			{}	//execve minishell
+			wait(NULL);
+			value = malloc(sizeof(t_leaf));
+			value->tokens = NULL;
+			value->returned_value = 0;
+			return (value);
 		}
-		wait(NULL);
-		left_value = malloc(sizeof(t_leaf));
-		left_value->tokens = NULL;
-		left_value->returned_value = 0;
-		return(left_value);
+		else
+			return (node->command);
 	}
 	if (node->t_ope_node.control_operator == AND)
-	{
-		left_value = evaluate_ast(node->t_ope_node.left_node);
-		if (execute_cmd(left_value) == 0) // gerer avec $?
-		{
-			right_value = evaluate_ast(node->t_ope_node.right_node);
-			return (right_value);
-		}
-		return (NULL);
-	}
+		return (evaluate_logical_op(AND, node));
 	if (node->t_ope_node.control_operator == OR)
-	{
-		left_value = evaluate_ast(node->t_ope_node.left_node);
-		if (execute_cmd(left_value) != 0) // gerer avec $?
-		{
-			right_value = evaluate_ast(node->t_ope_node.right_node);
-			return (right_value);
-		}
-		return (NULL);
-	}
+		return (evaluate_logical_op(OR, node));
 	if (node->t_ope_node.control_operator == PIPE)
-	{
-		left_value = evaluate_ast(node->t_ope_node.left_node);
-		right_value = evaluate_ast(node->t_ope_node.right_node);
-		return (evaluate_pipe_op(left_value, right_value));
-	}
+		return (evaluate_pipe_op(node));
 	return (NULL);
 }
 
