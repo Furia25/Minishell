@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 23:39:47 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/03 14:52:18 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/04 23:25:26 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ char	*handle_here_doc(t_leaf *command_tab, char *eof)
 	return (here_doc_file);
 }
 
-int	is_redi(t_leaf *command_tab, t_list *token)
+int	check_redi(t_leaf *command_tab, t_list *token)
 {
 	if (ft_strcmp((char *)token->content, "<") == 0
 		|| ft_strcmp((char *)token->content, ">") == 0
@@ -132,26 +132,31 @@ int	is_redi(t_leaf *command_tab, t_list *token)
 	return (1);
 }
 
+void	del_reds_tokens(t_list *token)
+{
+	ft_lstdelone(token->next, free);
+	ft_lstdelone(token, free);
+}
+
 void	handle_reds_and_del(t_leaf *command_tab)
 {
 	t_list	*temp;
 	t_list	*prev;
 
-	while (command_tab->tokens != NULL && is_redi(command_tab, command_tab->tokens) == 0)
+	while (command_tab->tokens != NULL 
+		&& check_redi(command_tab, command_tab->tokens) == 0)
 	{
 		temp = command_tab->tokens;
 		command_tab->tokens = command_tab->tokens->next->next;
-		ft_lstdelone(temp->next, free);
-		ft_lstdelone(temp, free);
+		del_reds_tokens(temp);
 	}
 	temp = command_tab->tokens;
 	while (temp)
 	{
-		if (is_redi(command_tab, temp) == 0)
+		if (check_redi(command_tab, temp) == 0)
 		{
 			prev->next = temp->next->next;
-			ft_lstdelone(temp->next, free);
-			ft_lstdelone(temp, free);
+			del_reds_tokens(temp);
 			temp = prev->next;
 		}
 		else

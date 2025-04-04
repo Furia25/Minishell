@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 10:43:50 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/31 09:01:17 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/04 23:16:30 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,51 @@ size_t	cmds_number(t_list *tokens)
 	return (i + 1);
 }
 
+t_list	*parenthesis_cmd(t_leaf *command_tab, t_list *tokens, t_list **prev)
+{
+	t_list	*parenth_buff;
+	
+	command_tab->parenthesis = ON;
+	while (tokens->next)
+	{
+		if (ft_strcmp((char *)tokens->next->content, ")") == 0)
+		{
+			parenth_buff = tokens->next;
+			*prev = tokens;
+		}
+		tokens = tokens->next;
+	}
+	tokens = parenth_buff->next;
+	ft_lstdelone(parenth_buff, free);
+	if (tokens == NULL)
+	{
+		(*prev)->next = NULL;
+		return (NULL);
+	}
+	return (tokens);
+}
+
+int 	check_op_after(t_leaf *command_tab, t_list **temp, t_list **prev)
+{
+	if (ft_strcmp((char *)(*temp)->content, "|") == 0)
+		command_tab->ope_after = PIPE;
+	else if (ft_strcmp((char *)(*temp)->content, "||") == 0)
+		command_tab->ope_after = OR;
+	else if (ft_strcmp((char *)(*temp)->content, "&&") == 0)
+		command_tab->ope_after = AND;
+	else
+	{
+		*prev = *temp;
+		*temp = (*temp)->next;
+		return (1);
+	}
+	return (0);
+}
+
 void	fill_tab(t_leaf *command_tab, t_list *tokens)
 {
 	t_list	*temp;
-	t_list	*para_buff;
+	t_list	*parenth_buff;
 	t_list	*prev;
 
 	temp = tokens;
@@ -51,39 +92,14 @@ void	fill_tab(t_leaf *command_tab, t_list *tokens)
 	{
 		if (ft_strcmp((char *)temp->content, "(") == 0)
 		{
-			command_tab->parenthesis = ON;
 			tokens = temp->next;
 			ft_lstdelone(temp, free);
-			temp = tokens;
-			while (temp->next)
-			{
-				if (ft_strcmp((char *)temp->next->content, ")") == 0)
-				{
-					para_buff = temp->next;
-					prev = temp;
-				}
-				temp = temp->next;
-			}
-			temp = para_buff->next;
-			ft_lstdelone(para_buff, free);
+			temp = parenthesis_cmd(command_tab, tokens, &prev);
 			if (temp == NULL)
-			{
-				prev->next = NULL;
 				continue ;
-			}
 		}
-		if (ft_strcmp((char *)temp->content, "|") == 0)
-			command_tab->ope_after = PIPE;
-		else if (ft_strcmp((char *)temp->content, "||") == 0)
-			command_tab->ope_after = OR;
-		else if (ft_strcmp((char *)temp->content, "&&") == 0)
-			command_tab->ope_after = AND;
-		else
-		{
-			prev = temp;
-			temp = temp->next;
+		if (check_op_after(command_tab, &temp, &prev) == 1)
 			continue ;
-		}
 		fill_tab(command_tab + 1, temp->next);
 		command_tab->tokens = tokens;
 		prev->next = NULL;
@@ -124,7 +140,7 @@ t_leaf *create_cmd_tab(t_list *tokens)
 
 // int	main(void)
 // {
-// 	char *input = "<<eof cat && (< Makefile cat >caca|| echo >prout)";
+// 	char *input = "cat && (< Makefile cat)";
 // 	t_list	*tokens;
 // 	t_leaf *command_tab;
 

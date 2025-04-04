@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 12:50:30 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/03 15:32:00 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/04 23:17:39 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	main(void)
 {
-	char *input = "<<eof cat >caca || <<eof <Makefile cat >pipi";
+	char *input = "<<eof cat >caca && <<eof <Makefile cat >pipi";
 	t_list	*tokens;
 	t_leaf *command_tab;
 	t_leaf	*final;
