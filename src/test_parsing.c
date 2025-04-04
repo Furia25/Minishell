@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 12:50:30 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/04 23:17:39 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/05 00:49:03 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,5 @@ int	main(void)
 	execute_cmd(final);
 	rm_here_doc_files(command_tab);
 	//printf("token: %s\nstdin: %d\nstdout: %d\nvalue: %d\n\n", (char*)final->tokens->content, final->fd_input, final->fd_output, final->returned_value);
-
+	//cc -I includes/ -I libft/incs/ src/lexical_analysis/*.c src/parsing/*.c src/test_parsing.c libft/libft.a -lreadline
 }

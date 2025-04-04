@@ -6,12 +6,12 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 10:43:50 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/04 23:16:30 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/05 00:47:34 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "libft/incs/get_next_line.h"
+#include "get_next_line.h"
 
 size_t	cmds_number(t_list *tokens)
 {
