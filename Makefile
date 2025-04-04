@@ -6,74 +6,111 @@
 #    By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/13 23:20:17 by val               #+#    #+#              #
-#    Updated: 2025/01/14 14:21:17 by vdurand          ###   ########.fr        #
+#    Updated: 2025/03/12 19:39:48 by vdurand          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
+#	ANSI TEXT COLORS
+BLACK = \033[30m
 RED = \033[31m
 GREEN = \033[32m
 YELLOW = \033[33m
 BLUE = \033[34m
-RESET = \033[0m
-BG_GREEN = \033[42m
+MAGENTA = \033[35m
+CYAN = \033[36m
+WHITE = \033[37m
 
-NAME = fdf
+#	ANSI BACKGROUND COLORS
+BG_BLACK = \033[40m
+BG_RED = \033[41m
+BG_GREEN = \033[42m
+BG_YELLOW = \033[43m
+BG_BLUE = \033[44m
+BG_MAGENTA = \033[45m
+BG_CYAN = \033[46m
+BG_WHITE = \033[47m
+
+#	STYLES
+BOLD = \033[1m
+DIM = \033[2m
+ITALIC = \033[3m
+UNDERLINE = \033[4m
+BLINK = \033[5m
+REVERSE = \033[7m
+HIDDEN = \033[8m
+
+RESET = \033[0m
+##################
+
+NAME = minishell
 
 SRC_DIR = src
+MAIN_DIR = src_main
 OBJ_DIR = obj
 INC_DIR = includes
 LIBFT_DIR = libs/libft
-MLX_DIR = libs/minilibx-linux
 
-SRC = $(shell find $(SRC_DIR) -type f -name "*.c")
+VERBOSE = 0
+
+ifeq ($(VERBOSE),1)
+    SILENT =
+else
+    SILENT = @
+endif
+
+ifeq ($(VERBOSE),1)
+    DUMP_OUT =
+else
+    DUMP_OUT = > /dev/null 2>&1
+endif
+
+SRC_FILES = \
+	ast_fonctions.c \
+	main.c \
+
+SRC = $(patsubst %.c, $(SRC_DIR)/%.c, $(SRC_FILES))
 OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
+DEP = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.d, $(SRC))
 
-CC = gcc
-OPTIFLAGS = -O3
-CFLAGS = $(OPTIFLAGS) -Werror -Wextra -Wall
-MLXFLAGS = -L$(MLX_DIR) -lmlx
-FTFLAGS = -L$(LIBFT_DIR) -lft
-LDFLAGS = -lXext -lm -lX11 $(MLXFLAGS) $(FTFLAGS)
-INCLUDES = -I$(MLX_DIR) -I$(INC_DIR) -I$(LIBFT_DIR)
+CC = cc
+CFLAGS = -Werror -Wextra #-Wall
+LDFLAGS = -L$(LIBFT_DIR) -lft -lreadline
+INCLUDES = -I$(INC_DIR) -I$(LIBFT_DIR)
 
-all: $(NAME)
+all: makelibft $(NAME)
 
-$(NAME): $(OBJ) $(LIBFT_DIR)/libft.a $(MLX_DIR)/libmlx.a
-	@$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+$(NAME): $(OBJ)
+	$(SILENT)$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 	@echo "$(BG_GREEN)>>> Program $(NAME) compiled!$(RESET)"
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c Makefile $(INC_DIR)/*.h | $(OBJ_DIR)
+makelibft:
+	@echo "$(BLUE)>>> Compiling Libft...$(RESET)"
+	$(SILENT)$(MAKE) -C $(LIBFT_DIR) $(DUMP_OUT)
+	$(SILENT)$(MAKE) bonus -C $(LIBFT_DIR) $(DUMP_OUT)
+	@echo "$(GREEN)>>> Compilation achieved!$(RESET)"
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c Makefile $(INC_DIR)/*.h $(LIBFT_DIR)/libft.a | $(OBJ_DIR) 
 	@echo "$(BLUE)>>> Compiling $<...$(RESET)"
-	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+	$(SILENT)$(CC) $(CFLAGS) $(INCLUDES) -MMD -MP -c $< -o $@
 
 $(OBJ_DIR):
 	@echo "$(YELLOW)>>> Directory '$(OBJ_DIR)' created!$(RESET)"
-	@mkdir -p $(OBJ_DIR)
-
-$(LIBFT_DIR)/libft.a:
-	@echo "$(BLUE)>>> Compiling Libft...$(RESET)"
-	@$(MAKE) -C $(LIBFT_DIR) > /dev/null 2>&1
-	@$(MAKE) bonus -C $(LIBFT_DIR) > /dev/null 2>&1
-	@echo "$(GREEN)>>> Compilation achieved!$(RESET)"
-
-$(MLX_DIR)/libmlx.a:
-	@echo "$(BLUE)>>> Configuration of MiniLibX...$(RESET)"
-	@cd $(MLX_DIR) && bash configure > /dev/null 2>&1
-	@echo "$(GREEN)>>> Configuration achieved!$(RESET)"
+	$(SILENT)mkdir -p $(OBJ_DIR)
 
 cleanlibs:
 	@echo "$(YELLOW)>>> Cleaning libs...$(RESET)"
-	@cd $(MLX_DIR)  && bash configure clean > /dev/null 2>&1
-	@$(MAKE) fclean -C $(LIBFT_DIR) > /dev/null 2>&1
+	$(SILENT)$(MAKE) fclean -C $(LIBFT_DIR) $(DUMP_OUT)
 
 clean:
 	@echo "$(YELLOW)>>> Cleaning objects$(RESET)"
-	@rm -rf $(OBJ_DIR) > /dev/null 2>&1
+	$(SILENT)rm -rf $(OBJ_DIR) $(DUMP_OUT)
 
 fclean: clean cleanlibs
 	@echo "$(YELLOW)>>> Cleaning executable...$(RESET)"
-	@rm -f $(NAME) > /dev/null 2>&1
+	$(SILENT)rm -f $(NAME) $(DUMP_OUT)
 
 re: fclean all
 
-.PHONY: all cleanlibs clean fclean re
+-include $(DEP)
+
+.PHONY: all cleanlibs clean fclean re makelibft
