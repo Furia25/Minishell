@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 10:43:50 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/07 22:40:42 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/07 23:41:12 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ t_leaf *create_cmd_tab(t_lst *tokens)
 
 // 	tokens = NULL;
 // 	create_tokens(&tokens, input);
+//	fusion_quote_token(tokens);
 // 	command_tab = create_cmd_tab(tokens);
 // 	while (command_tab->ope_after != LINE_CHANGE)
 // 	{

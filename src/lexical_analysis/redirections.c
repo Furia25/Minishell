@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 23:39:47 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/07 22:59:53 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/07 23:41:24 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,6 +232,7 @@ void	rm_here_doc_files(t_leaf *command_tab)
 
 // 	tokens = NULL;
 // 	create_tokens(&tokens, input);
+//	fusion_quote_token(tokens);
 // 	command_tab = create_cmd_tab(tokens);
 // 	handle_all_here_doc(command_tab);
 // 	while (command_tab->ope_after != LINE_CHANGE)

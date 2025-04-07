@@ -6,15 +6,13 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:22:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/07 23:18:56 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/07 23:42:41 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 size_t single_quote_token(t_lst **tokens, char *str);
 size_t double_quote_token(t_lst **tokens, char *str);
-void	fusion_quote_token(t_lst *tokens);
-
 
 size_t word_token(t_lst **tokens, char *str)
 {
@@ -127,22 +125,22 @@ void	create_tokens(t_lst **tokens, char *input)
 	create_tokens(tokens, input + token_len);
 }
 
-int	main(void)
-{
-	t_lst	*tokens;
-	t_lst	*temp;
-	char *input = "echo \"caca\" \"prout\" ";
+// int	main(void)
+// {
+// 	t_lst	*tokens;
+// 	t_lst	*temp;
+// 	char *input = "echo \"caca\" \"prout\" ";
 
 
-	tokens = NULL;
-	create_tokens(&tokens, input);
-	fusion_quote_token(tokens);
-	temp = tokens;
-	while (temp)
-	{
-		printf("\nNew node\n");
-		printf("%s\n", temp->lexeme);
-		printf("%d\n", temp->type);
-		temp = temp->next;
-	}
-}
+// 	tokens = NULL;
+// 	create_tokens(&tokens, input);
+// 	fusion_quote_token(tokens);
+// 	temp = tokens;
+// 	while (temp)
+// 	{
+// 		printf("\nNew node\n");
+// 		printf("%s\n", temp->lexeme);
+// 		printf("%d\n", temp->type);
+// 		temp = temp->next;
+// 	}
+// }
