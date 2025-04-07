@@ -6,65 +6,38 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:22:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/30 22:59:03 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/07 23:18:56 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+size_t single_quote_token(t_lst **tokens, char *str);
+size_t double_quote_token(t_lst **tokens, char *str);
+void	fusion_quote_token(t_lst *tokens);
 
-size_t word_token(t_list **tokens, char *str)
+
+size_t word_token(t_lst **tokens, char *str)
 {
 	size_t	i;
-	t_list	*new_node;
-	char	*node_content;
+	char *node_lexeme;
+	t_lst	*new_node;
 
 	i = 0;
 	while (ft_isprint(str[i]) != 0 && ft_strchr("|&;()<> \'\"", str[i]) == NULL)
 		i++;
-	node_content = ft_substr(str, 0, i);//a secur
-	new_node = ft_lstnew(node_content);//a secur
-	ft_lstadd_back(tokens, new_node);
+	node_lexeme = ft_substr(str, 0, i);//a secur
+	new_node = lstnew(node_lexeme);//a secur
+	new_node->type = WORD;
+	lstadd_back(tokens, new_node);
 	return (i);
 
 }
 
-size_t single_quote_token(t_list **tokens, char *str)
+size_t op_control_token(t_lst **tokens, char *str, char op)
 {
 	size_t	i;
-	t_list	*new_node;
-	char	*node_content;
-
-	i = 1;
-	while (ft_isprint(str[i]) != 0 && str[i] != '\'')
-		i++;
-	node_content = ft_substr(str, 0, i + 1);//a secur
-	new_node = ft_lstnew(node_content);//a secur
-	ft_lstadd_back(tokens, new_node);
-	return (i + 1);
-
-}
-
-size_t double_quote_token(t_list **tokens, char *str)
-{
-	size_t	i;
-	t_list	*new_node;
-	char	*node_content;
-
-	i = 1;
-	while (ft_isprint(str[i]) != 0 && str[i] != '\"')
-		i++;
-	node_content = ft_substr(str, 0, i + 1);//a secur
-	new_node = ft_lstnew(node_content);//a secur
-	ft_lstadd_back(tokens, new_node);
-	return (i + 1);//secur sizet
-
-}
-
-size_t op_control_token(t_list **tokens, char *str, char op)
-{
-	size_t	i;
-	t_list	*new_node;
-	char	*node_content;
+	char *node_lexeme;
+	t_lst	*new_node;
 
 	i = 0;
 	while (str[i] == op)
@@ -74,17 +47,23 @@ size_t op_control_token(t_list **tokens, char *str, char op)
 		ft_putstr_fd("error", 2);
 		exit(1);
 	}
-	node_content = ft_substr(str, 0, i);//a secur
-	new_node = ft_lstnew(node_content);//a secur
-	ft_lstadd_back(tokens, new_node);
+	node_lexeme = ft_substr(str, 0, i);//a secur
+	new_node = lstnew(node_lexeme);//a secur
+	if (i == 1 && op == '|')
+		new_node->type = PIPE;
+	else if (i == 2 && op == '|')
+		new_node->type = OR;
+	else
+		new_node->type = AND;
+	lstadd_back(tokens, new_node);
 	return (i);
 }
 
-size_t op_redirection_token(t_list **tokens, char *str, char op)
+size_t op_redirection_token(t_lst **tokens, char *str, char op)
 {
 	size_t	i;
-	t_list	*new_node;
-	char	*node_content;
+	char *node_lexeme;
+	t_lst	*new_node;
 
 	i = 0;
 	while (str[i] == op)
@@ -94,33 +73,37 @@ size_t op_redirection_token(t_list **tokens, char *str, char op)
 		ft_putstr_fd("error", 2);
 		exit(1);
 	}
-	node_content = ft_substr(str, 0, i);//a secur
-	new_node = ft_lstnew(node_content);//a secur
-	ft_lstadd_back(tokens, new_node);
+	node_lexeme = ft_substr(str, 0, i);//a secur
+	new_node = lstnew(node_lexeme);//a secur
+	if (i == 1 && op == '<')
+		new_node->type = RED_IN;
+	else if (i == 1 && op == '>')
+		new_node->type = RED_OUT;
+	else if (i == 2 && op == '<')
+		new_node->type = HERE_DOC;
+	else if (i == 2 && op == '>')
+		new_node->type = RED_OUT_A;
+	lstadd_back(tokens, new_node);
 	return (i);
 }
-size_t op_parenthesis(t_list **tokens, char *str, char op)
-{
-	t_list	*new_node;
-	char	*node_content;
 
-	node_content = ft_substr(str, 0, 1);//a secur
-	new_node = ft_lstnew(node_content);//a secur
-	ft_lstadd_back(tokens, new_node);
+size_t op_parenthesis(t_lst **tokens, char *str, char op)
+{
+	char *node_lexeme;
+	t_lst	*new_node;
+
+
+	node_lexeme = ft_substr(str, 0, 1);//a secur
+	new_node = lstnew(node_lexeme);//a secur
+	if (op == '(')
+		new_node->type = PAR_OPEN;
+	if (op == ')')
+		new_node->type = PAR_CLOSE;
+	lstadd_back(tokens, new_node);
 	return (1);
 }
-
-void op_change_line_token(t_list **tokens)
-{
-	t_list	*new_node;
-	char	*node_content;
-
-	node_content = ft_substr("\n", 0, 1);//a secur
-	new_node = ft_lstnew(node_content);//a secur
-	ft_lstadd_back(tokens, new_node);
-}
-
-void	create_tokens(t_list **tokens, char *input)
+ 
+void	create_tokens(t_lst **tokens, char *input)
 {
 	size_t	token_len;
 
@@ -144,20 +127,22 @@ void	create_tokens(t_list **tokens, char *input)
 	create_tokens(tokens, input + token_len);
 }
 
-// int	main(void)
-// {
-// 	t_list	*tokens;
-// 	t_list	*temp;
-// 	char *input = "<<eof cat && (< Makefile cat >caca|| echo >prout)";
+int	main(void)
+{
+	t_lst	*tokens;
+	t_lst	*temp;
+	char *input = "echo \"caca\" \"prout\" ";
 
 
-// 	tokens = NULL;
-// 	create_tokens(&tokens, input);
-// 	temp = tokens;
-// 	while (temp)
-// 	{
-// 		printf("%s\n", (char*)temp->content);
-// 		temp = temp->next;
-// 	}
-
-// }
+	tokens = NULL;
+	create_tokens(&tokens, input);
+	fusion_quote_token(tokens);
+	temp = tokens;
+	while (temp)
+	{
+		printf("\nNew node\n");
+		printf("%s\n", temp->lexeme);
+		printf("%d\n", temp->type);
+		temp = temp->next;
+	}
+}

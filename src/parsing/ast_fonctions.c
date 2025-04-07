@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 22:28:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/05 00:46:01 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/07 22:20:01 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_AST_node	*create_leaf_node(t_leaf *cmd)
 	return (node);
 }
 
-t_AST_node	*create_parent_node(t_operator ope, t_AST_node *left, t_AST_node *right)
+t_AST_node	*create_parent_node(t_lexeme_type ope, t_AST_node *left, t_AST_node *right)
 {
 	t_AST_node	*node;
 
@@ -65,7 +65,7 @@ void	latest_pipe_op(t_leaf *cmds, t_leaf **buff)
 
 t_AST_node	*create_if_found(t_leaf *command_tab, t_leaf *buff)
 {
-	t_operator		op;
+	t_lexeme_type	op;
 
 	op = buff->ope_after;
 	buff->ope_after = VOID;
@@ -75,7 +75,7 @@ t_AST_node	*create_if_found(t_leaf *command_tab, t_leaf *buff)
 
 t_AST_node	*create_ast(t_leaf *command_tab)
 {
-	t_operator		op;
+	t_lexeme_type		op;
 	t_leaf	*buff;
 	t_leaf *cmd_tab_in_par;
 
@@ -131,7 +131,7 @@ int	execute_cmd(t_leaf *cmd)
 	return (1);
 }
 
-t_leaf	*evaluate_logical_op(t_operator op, t_AST_node *node)
+t_leaf	*evaluate_logical_op(t_lexeme_type op, t_AST_node *node)
 {
 	t_leaf	*left_value;
 	t_leaf	*right_value;
@@ -205,7 +205,7 @@ t_leaf	*evaluate_ast(t_AST_node *node)
 
 	if (node->type == NODE_COMMAND)
 	{
-		if (node->command->parenthesis == ON)
+		if (node->command->parenthesis == YES)
 		{
 			pid = fork();
 			if (pid == 0)

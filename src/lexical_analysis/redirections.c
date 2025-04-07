@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 23:39:47 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/04 23:25:26 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/07 22:59:53 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	open_new_here_doc_file(t_leaf *command_tab, char **here_doc_file)
 		while (errno == EEXIST)
 		{
 			free(*here_doc_file);
-			*here_doc_file = ft_strjoin_alt("/tmp/here_doc", ft_itoa(i));
+			*here_doc_file = ft_strjoin_alt("/tmp/here_doc", ft_itoa(i), FREE_PARAM2);
 			fd = open(*here_doc_file, O_WRONLY | O_CREAT | O_EXCL, 0644);
 			if (fd != -1)
 				break;
@@ -115,33 +115,32 @@ char	*handle_here_doc(t_leaf *command_tab, char *eof)
 	return (here_doc_file);
 }
 
-int	check_redi(t_leaf *command_tab, t_list *token)
+int	check_redi(t_leaf *command_tab, t_lst *token)
 {
-	if (ft_strcmp((char *)token->content, "<") == 0
-		|| ft_strcmp((char *)token->content, ">") == 0
-		|| ft_strcmp((char *)token->content, ">>") == 0)
+	if (token->type == RED_IN
+		|| token->type == RED_OUT || token->type == RED_OUT_A)
 	{
-		if (ft_strcmp((char *)token->content, "<") == 0)
-			handle_red_input(command_tab, (char*)token->next->content);
-		if (ft_strcmp((char *)token->content, ">") == 0)
-			handle_red_output(command_tab, (char*)token->next->content);
-		if (ft_strcmp((char *)token->content, ">>") == 0)
-			handle_red_output_append(command_tab, (char*)token->next->content);
+		if (token->type == RED_IN)
+			handle_red_input(command_tab, token->next->lexeme);
+		if (token->type == RED_OUT)
+			handle_red_output(command_tab, token->next->lexeme);
+		if (token->type == RED_OUT_A)
+			handle_red_output_append(command_tab, token->next->lexeme);
 		return (0);
 	}
 	return (1);
 }
 
-void	del_reds_tokens(t_list *token)
+void	del_reds_tokens(t_lst *token)
 {
-	ft_lstdelone(token->next, free);
-	ft_lstdelone(token, free);
+	lstdelone(token->next, free);
+	lstdelone(token, free);
 }
 
 void	handle_reds_and_del(t_leaf *command_tab)
 {
-	t_list	*temp;
-	t_list	*prev;
+	t_lst	*temp;
+	t_lst	*prev;
 
 	while (command_tab->tokens != NULL 
 		&& check_redi(command_tab, command_tab->tokens) == 0)
@@ -169,25 +168,23 @@ void	handle_reds_and_del(t_leaf *command_tab)
 
 void	here_doc_to_red_input(t_leaf *command_tab)
 {
-	t_list	*temp;
+	t_lst	*temp;
 	char	*here_doc_file;
 
 	temp = command_tab->tokens;
 	while (temp)
 	{
-		if (ft_strcmp((char *)temp->content, "<<") == 0)
+		if (temp->type == HERE_DOC)
 		{
-			here_doc_file = handle_here_doc(command_tab, (char*)temp->next->content);
-			free(temp->content);
-			free(temp->next->content);
-			temp->content = ft_substr("<", 0, 1);
-			temp->next->content = here_doc_file;
+			here_doc_file = handle_here_doc(command_tab, temp->next->lexeme);
+			free(temp->next->lexeme);
+			temp->type = RED_IN;
+			temp->next->lexeme = here_doc_file;
 			temp = temp->next->next;
 		}
 		else
 			temp = temp->next;
 	}
-
 }
 
 void	handle_all_here_doc(t_leaf *command_tab)
@@ -202,16 +199,16 @@ void	handle_all_here_doc(t_leaf *command_tab)
 
 void	rm_here_doc_files(t_leaf *command_tab)
 {
-	t_list	*temp;
+	t_lst	*temp;
 
 	while (command_tab->ope_after != LINE_CHANGE)
 	{
 		temp = command_tab->tokens;
 		while (temp)
 		{
-			if (ft_strcmp((char *)temp->content, "<") == 0 &&
-				ft_strncmp("/tmp/here_doc", (char *)temp->next->content, 13) == 0)
-				unlink((char *)temp->next->content);
+			if (temp->type == RED_IN &&
+				ft_strncmp("/tmp/here_doc", temp->next->lexeme, 13) == 0)
+				unlink(temp->next->lexeme);
 			temp = temp->next;
 		}
 		command_tab++;
@@ -219,18 +216,17 @@ void	rm_here_doc_files(t_leaf *command_tab)
 	temp = command_tab->tokens;
 	while (temp)
 	{
-		if (ft_strcmp((char *)temp->content, "<") == 0 &&
-			ft_strncmp("/tmp/here_doc", (char *)temp->next->content, 13) == 0)
-			unlink((char *)temp->next->content);
+		if (temp->type == RED_IN &&
+			ft_strncmp("/tmp/here_doc", temp->next->lexeme, 13) == 0)
+			unlink(temp->next->lexeme);
 		temp = temp->next;
 	}
-	
 }
 
 // int	main(void)
 // {
-// 	char *input = "<<eof cat >caca || <<eof <ww cat >pipi";
-// 	t_list	*tokens;
+// 	char *input = "<<eof <<eof cat >pipi";
+// 	t_lst	*tokens;
 // 	t_leaf *command_tab;
 
 
@@ -243,7 +239,7 @@ void	rm_here_doc_files(t_leaf *command_tab)
 // 		printf("new cmd : \n\n");
 // 		while (command_tab->tokens)
 // 		{
-// 			printf("token : %s\n", (char*)command_tab->tokens->content);
+// 			printf("token : %s\n", command_tab->tokens->lexeme);
 // 			command_tab->tokens = command_tab->tokens->next;
 // 		}
 // 		printf("fd_in : %d\n", command_tab->fd_input);
@@ -255,7 +251,7 @@ void	rm_here_doc_files(t_leaf *command_tab)
 // 	printf("new cmd : \n\n");
 // 	while (command_tab->tokens)
 // 	{
-// 		printf("token : %s\n", (char*)command_tab->tokens->content);
+// 		printf("token : %s\n", command_tab->tokens->lexeme);
 // 		command_tab->tokens = command_tab->tokens->next;
 // 	}
 // 	printf("fd_in : %d\n", command_tab->fd_input);
