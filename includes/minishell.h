@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/21 14:41:56 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/02 18:15:44 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,12 @@
 # include "hashmap.h"
 # include <stdio.h>
 # include <stdlib.h>
+# include "garbage_collector.h"
 // # include <readline/readline.h>
 // # include <readline/history.h>
 
 # define DEBUG 1
 # define PROMPT "\001\033[35m\002$> \001\033[0m\002"
-
-# define MAX_GC_ALLOCS	2048
-typedef struct s_data
-{
-	void	*allocs[MAX_GC_ALLOCS];
-}	t_data;
 
 typedef enum s_node_type
 {
@@ -75,6 +70,6 @@ t_leaf *create_cmd_tab(t_list *tokens);
 t_AST_node	*create_ast(t_leaf *command_tab);
 t_leaf	*evaluate_ast(t_AST_node *node);
 
-
+void	*memset_fast(void *ptr, int value, size_t num);
 
 #endif

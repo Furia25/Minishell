@@ -6,11 +6,11 @@
 #    By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/15 21:41:19 by val               #+#    #+#              #
-#    Updated: 2025/03/12 17:55:56 by vdurand          ###   ########.fr        #
+#    Updated: 2025/04/02 17:19:44 by vdurand          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -fPIE
 CC = cc
 NAME = libft.a
 
