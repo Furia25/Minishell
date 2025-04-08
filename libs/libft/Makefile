@@ -6,7 +6,7 @@
 #    By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/15 21:41:19 by val               #+#    #+#              #
-#    Updated: 2025/04/02 17:19:44 by vdurand          ###   ########.fr        #
+#    Updated: 2025/04/08 20:24:06 by vdurand          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,9 +31,12 @@ BASE_SRC = checks/ft_isalpha.c \
 		strings/ft_strlen.c \
 		strings/ft_strlcpy.c \
 		strings/ft_strlcat.c \
+		strings/ft_strcpy.c \
+		strings/ft_strcat.c \
 		strings/ft_strchr.c \
 		strings/ft_strrchr.c \
 		strings/ft_strncmp.c \
+		strings/ft_strcmp.c \
 		strings/ft_strnstr.c \
 		strings/ft_strdup.c \
 		strings/ft_substr.c \

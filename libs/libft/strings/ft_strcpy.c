@@ -1,29 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wildcards.h                                        :+:      :+:    :+:   */
+/*   ft_strcpy.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/02 16:48:45 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/08 20:42:39 by vdurand          ###   ########.fr       */
+/*   Created: 2025/04/08 20:20:24 by vdurand           #+#    #+#             */
+/*   Updated: 2025/04/08 20:21:37 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WILDCARDS_H
-# include "libft.h"
-# include <stddef.h>
-# include <dirent.h>
-
-# define WILDCARD_SYMBOL	'*'
-# define PATH_SYMBOL	'/'
-
-typedef struct s_wildcard
+char	*ft_strcpy(char *dest, const char *src)
 {
-	char	**component;
-	t_list	*result;
-	size_t	count;
-	char	*token;
-}	t_wildcard;
-
-#endif
+	char *original_dest;
+	
+	original_dest = dest;
+	while (*src != '\0')
+	{
+		*dest = *src;
+		dest++;
+		src++;
+	}
+	*dest = '\0';
+	return (original_dest);
+}

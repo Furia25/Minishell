@@ -1,29 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wildcards.h                                        :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/02 16:48:45 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/08 20:42:39 by vdurand          ###   ########.fr       */
+/*   Created: 2025/04/08 19:50:54 by vdurand           #+#    #+#             */
+/*   Updated: 2025/04/08 19:51:18 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef WILDCARDS_H
-# include "libft.h"
-# include <stddef.h>
-# include <dirent.h>
-
-# define WILDCARD_SYMBOL	'*'
-# define PATH_SYMBOL	'/'
-
-typedef struct s_wildcard
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	char	**component;
-	t_list	*result;
-	size_t	count;
-	char	*token;
-}	t_wildcard;
-
-#endif
+	while (*s1 != '\0' && *s2 != '\0' && *s1 == *s2)
+	{
+		s1++;
+		s2++;
+	}
+	return *(unsigned char *)s1 - *(unsigned char *)s2;
+}

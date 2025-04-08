@@ -2,6 +2,7 @@
 	"files.associations": {
 		"sdl.h": "c",
 		"minishell.h": "c",
-		"compare": "c"
+		"compare": "c",
+		"wildcards.h": "c"
 	}
 }

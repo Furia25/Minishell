@@ -6,12 +6,53 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 18:14:20 by vdurand           #+#    #+#             */
-/*   Updated: 2025/01/07 15:44:59 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/08 16:59:47 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stdlib.h>
+
+char	**ft_split(char const *str, char c)
+{
+	char	**result;
+	size_t	iword;
+	size_t	word_len;
+
+	result = ft_calloc(count_words(str, c) + 1, sizeof(char *));
+	if (!result)
+		return (NULL);
+	iword = 0;
+	while (*str)
+	{
+		while (*str && *str == c)
+			str++;
+		if (*str == '\0')
+			break ;
+		word_len = 0;
+		while (str[word_len] && str[word_len] != c)
+			word_len++;
+		result[iword] = ft_substr(str, 0, word_len);
+		if (!result[iword])
+			return (free_chartab(result), NULL);
+		str += word_len;
+		iword++;
+	}
+	return (result);
+}
+
+void	free_chartab(char **tab)
+{
+	size_t	index;
+
+	index = 0;
+	while (tab[index])
+	{
+		free(tab[index]);
+		index++;
+	}
+	free(tab);
+}
 
 int	count_words(const char *str, char c)
 {
@@ -34,43 +75,6 @@ int	count_words(const char *str, char c)
 		i++;
 	}
 	return (words);
-}
-
-static void	*secure_free(char **tab, int index)
-{
-	while (index-- > 0)
-		free(tab[index]);
-	free(tab);
-	return (NULL);
-}
-
-char	**ft_split(char const *s, char c)
-{
-	char	**result;
-	int		last;
-	int		i;
-	int		wi;
-
-	result = (char **)malloc(sizeof(char *) * (count_words(s, c) + 1));
-	if (!result)
-		return (NULL);
-	wi = -1;
-	i = -1;
-	last = -1;
-	while (s[++i])
-	{
-		if (s[i] != c && s[i + 1])
-			continue ;
-		if (i - last > 1 || (!s[i + 1] && s[i] != c))
-		{
-			result[++wi] = ft_substr(s, last + 1, (i - (1 * s[i] == c)) - last);
-			if (!result[wi])
-				return (secure_free(result, (int) wi));
-		}
-		last = i;
-	}
-	result[++wi] = 0;
-	return (result);
 }
 
 /*    int	main(int argc, char *argv[])
