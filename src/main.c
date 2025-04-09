@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 17:17:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/09 02:08:18 by val              ###   ########.fr       */
+/*   Updated: 2025/04/09 02:10:21 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int	main(void)
 			if (wildcard_result.code == 0 && wildcard_result.result == NULL)
 				ft_printf("%s ", input);
 			ft_lstiter(wildcard_result.result, &test_lstprint);
+			ft_putchar_fd('\n', 1);
 			ft_lstclear(&wildcard_result.result, free);
 		}
 		free(input);
