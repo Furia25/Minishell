@@ -386,7 +386,51 @@ Ensuite, elle va réafficher le contenu du buffer (rl_line_buffer) dans le termi
 
 
 
+Cas limites à tester :
 
+    Chaîne vide :
+
+        wildcard_matches("", "") → true (OK)
+
+        wildcard_matches("", "*") → true (OK, car * peut correspondre à 0 caractère)
+
+        wildcard_matches("", "a") → false (OK)
+
+    Correspondance exacte :
+
+        wildcard_matches("abc", "abc") → true (OK)
+
+    Wildcard ? :
+
+        wildcard_matches("a", "?") → true (OK)
+
+        wildcard_matches("ab", "a?") → true (OK)
+
+        wildcard_matches("a", "??") → false (OK)
+
+    Wildcard * :
+
+        wildcard_matches("abc", "*") → true (OK)
+
+        wildcard_matches("abc", "a*") → true (OK)
+
+        wildcard_matches("abc", "*c") → true (OK)
+
+        wildcard_matches("abc", "a*c") → true (OK)
+
+        wildcard_matches("abc", "a*d") → false (OK)
+
+    Backtracking complexe :
+
+        wildcard_matches("mississippi", "m*iss*iss*") → true (OK)
+
+        wildcard_matches("axbxcxdxe", "a*b*c*d*e*") → true (OK)
+
+    Cas d'échec :
+
+        wildcard_matches("abc", "abcd") → false (OK)
+
+        wildcard_matches("abc", "a?c?") → false (OK)
 
 
 

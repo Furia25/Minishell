@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   garbage_managing.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 15:20:37 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/02 18:32:16 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/09 15:35:02 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	gc_clean(t_garbage_collector *garbage)
 {
 	t_allocation	*alloc;
 	size_t			iterations;
-	
+
 	if (!garbage)
 		return ;
 	iterations = 0;
@@ -45,25 +45,23 @@ void	gc_clean(t_garbage_collector *garbage)
 
 t_allocation	*gc_get(void *pointer, t_garbage_collector *garbage)
 {
-    t_allocation *alloc;
-    size_t iterations;
-    size_t index;
+	t_allocation	*alloc;
+	size_t			iterations;
+	size_t			index;
 
-    if (!garbage || garbage->num_allocations <= 0)
-        return (NULL);
-    index = garbage->next_index;
-    iterations = 0;
-    
-    while (iterations < MAX_GC_ALLOCS)
-    {
-        alloc = &garbage->allocations[index];
-        if (alloc->used == 1 && alloc->pointer == pointer)
-            return (alloc);
-        
-        iterations++;
-        index = (index + MAX_GC_ALLOCS - 1) % MAX_GC_ALLOCS;
-    }
-    return (NULL);
+	if (!garbage || garbage->num_allocations <= 0)
+		return (NULL);
+	index = garbage->next_index;
+	iterations = 0;
+	while (iterations < MAX_GC_ALLOCS)
+	{
+		alloc = &garbage->allocations[index];
+		if (alloc->used == 1 && alloc->pointer == pointer)
+			return (alloc);
+		iterations++;
+		index = (index + MAX_GC_ALLOCS - 1) % MAX_GC_ALLOCS;
+	}
+	return (NULL);
 }
 
 t_allocation	*gc_next_free(t_garbage_collector *garbage)
@@ -83,6 +81,6 @@ t_allocation	*gc_next_free(t_garbage_collector *garbage)
 		iterations++;
 	}
 	garbage->next_index = 0;
-    garbage->num_allocations = MAX_GC_ALLOCS;
-    return (NULL);
+	garbage->num_allocations = MAX_GC_ALLOCS;
+	return (NULL);
 }

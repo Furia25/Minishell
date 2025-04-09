@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 00:18:29 by val               #+#    #+#             */
-/*   Updated: 2025/04/09 01:55:08 by val              ###   ########.fr       */
+/*   Updated: 2025/04/09 16:26:30 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,97 +16,85 @@
 #include "stdlib.h"
 #include <stdint.h>
 
-static bool			switch_rec_results(t_list **results, t_wsearch search);
-static char			*get_file_name(char *dir_name, char *file_name);
+static bool			switch_depth_handler(char *new_path, t_wildcard *wd,
+						size_t depth, t_list **results);
+static bool			handle_recursive_case(char *new_path, t_wildcard *wd,
+						size_t depth, t_list **results);
 static t_wsearch	clean_return(t_list *results, DIR *dir, char *path);
-static int			read_directory(DIR *dir, struct dirent **entry);
-static bool			check_special_entry(char *name);
+static bool			should_skip_entry(char *name, t_wildcard *wd, size_t depth);
 
-t_wsearch	wildcard_explore(char *dir_name, t_wildcard *wildcard, size_t depth)
+t_wsearch	wildcard_explore(char *dir_name, t_wildcard *wd, size_t depth)
 {
 	DIR				*dir;
 	t_list			*results;
-	t_list			*new;
-	struct dirent	*entry;
+	struct dirent	*file;
 	char			*new_path;
-	
+
 	dir = opendir(dir_name);
 	if (!dir)
-		return ((t_wsearch) {0, NULL});
+		return ((t_wsearch){0, NULL});
 	results = NULL;
-	while (read_directory(dir, &entry))
+	while (read_directory(dir, &file))
 	{
-		if (check_special_entry(entry->d_name) || \
-			!wildcard_matches(entry->d_name, wildcard->component[depth]))
-			continue;
-		new_path = get_file_name(dir_name, entry->d_name);
+		if (should_skip_entry(file->d_name, wd, depth))
+			continue ;
+		new_path = get_dirfile_name(dir_name, file->d_name);
 		if (!new_path)
 			return (clean_return(results, dir, NULL));
-		if (depth + 1 < wildcard->count)
-		{
-			if (!switch_rec_results(&results, \
-				wildcard_explore(new_path, wildcard, depth + 1)))
-				return (clean_return(results, dir, new_path));
-			free(new_path);
-		}
-		else
-		{
-			new = ft_lstnew(new_path);
-			if (new)
-				ft_lstadd_back(&results, new);
-			else
-				return (clean_return(results, dir, new_path));
-		}
+		if (!switch_depth_handler(new_path, wd, depth, &results))
+			return (clean_return(results, dir, NULL));
 	}
 	closedir(dir);
-	return ((t_wsearch) {results != NULL, results});
+	return ((t_wsearch){results != NULL, results});
 }
 
-static bool	switch_rec_results(t_list **results, t_wsearch search_result)
+static bool	switch_depth_handler(char *new_path, t_wildcard *wd,
+	size_t depth, t_list **results)
 {
+	t_list	*new;
+
+	if (depth + 1 < wd->count)
+	{
+		return (handle_recursive_case(new_path, wd, depth, results));
+	}
+	else
+	{
+		new = ft_lstnew(new_path);
+		if (!new)
+			return (false);
+		ft_lstadd_back(results, new);
+		return (true);
+	}
+}
+
+static bool	handle_recursive_case(char *new_path, t_wildcard *wd,
+	size_t depth, t_list **results)
+{
+	t_wsearch	search_result;
+
+	search_result = wildcard_explore(new_path, wd, depth + 1);
 	if (search_result.code == 1)
 	{
 		if (!(*results))
 			*results = search_result.result;
 		else
 			ft_lstadd_back(results, search_result.result);
+		free(new_path);
 		return (true);
 	}
 	else if (search_result.code == 0)
+	{
+		free(new_path);
 		return (true);
+	}
+	free(new_path);
 	return (false);
 }
 
-static int	read_directory(DIR *dir, struct dirent **entry)
+static bool	should_skip_entry(char *name, t_wildcard *wd, size_t depth)
 {
-	*entry = readdir(dir);
-	if (*entry == NULL)
-		return (0);
-	return (1);
-}
-
-static bool	check_special_entry(char *name)
-{
-	return (ft_strcmp(name, ".") == 0 || ft_strcmp(name, "..") == 0);
-}
-
-static char	*get_file_name(char *dir_name, char *file_name)
-{
-	size_t	length_dir;
-	size_t	length_file;
-	char	*result;
-
-	if (ft_strcmp(dir_name, ".") == 0)
-		return (ft_strdup(file_name));
-	length_dir = ft_strlen(dir_name);
-	length_file = ft_strlen(file_name);
-	result = ft_calloc(length_dir + length_file + 2, sizeof(char));
-	if (!result)
-		return (NULL);
-	ft_strcpy(result, dir_name);
-	ft_strcat(result, "/");
-	ft_strcat(result, file_name);
-	return (result);
+	return (ft_strncmp(name, ".", 1) == 0
+		|| !wildcard_matches(name, wd->rules[depth]));
 }
 
 static t_wsearch	clean_return(t_list *results, DIR *dir, char *path)
@@ -117,5 +105,5 @@ static t_wsearch	clean_return(t_list *results, DIR *dir, char *path)
 		ft_lstclear(&results, free);
 	if (dir)
 		closedir(dir);
-	return ((t_wsearch) {-1, NULL});
+	return ((t_wsearch){-1, NULL});
 }
