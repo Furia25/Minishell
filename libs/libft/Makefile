@@ -3,14 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+         #
+#    By: val <val@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/15 21:41:19 by val               #+#    #+#              #
-#    Updated: 2025/04/08 20:24:06 by vdurand          ###   ########.fr        #
+#    Updated: 2025/04/09 01:04:36 by val              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CFLAGS = -Wall -Wextra -Werror -fPIE
+INCLUDE_DIR = ./
+CFLAGS = -Wall -Wextra -Werror -I$(INCLUDE_DIR)
 CC = cc
 NAME = libft.a
 
@@ -82,7 +83,7 @@ bonus: .bonus
 $(NAME): $(BASE_OBJS)
 	ar rcs $(NAME) $(BASE_OBJS)
 
-%.o: %.c $(INCLUDE_DIR) Makefile
+%.o: %.c Makefile
 	$(CC) $(CFLAGS) -o $@ -c $< 
 
 clean:

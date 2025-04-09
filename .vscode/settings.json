@@ -3,6 +3,7 @@
 		"sdl.h": "c",
 		"minishell.h": "c",
 		"compare": "c",
-		"wildcards.h": "c"
+		"wildcards.h": "c",
+		"stdbool.h": "c"
 	}
 }

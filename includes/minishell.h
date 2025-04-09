@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/02 18:15:44 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/09 01:12:48 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,10 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include "garbage_collector.h"
-// # include <readline/readline.h>
-// # include <readline/history.h>
+# include "wildcards.h"
+# include <readline/readline.h>
+# include <readline/history.h>
+
 
 # define DEBUG 1
 # define PROMPT "\001\033[35m\002$> \001\033[0m\002"
