@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 12:50:30 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/08 00:07:00 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/10 22:21:44 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	main(void)
 {
-	char *input = "echo > 'zaza'zff";
+	char *input = "echo caca > chmod | ls";
 	t_lst	*tokens;
 	t_leaf *command_tab;
 	t_leaf	*final;

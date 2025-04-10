@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 23:49:57 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/08 00:05:50 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/10 22:24:29 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ size_t single_quote_token(t_lst **tokens, char *str)
 	new_node = lstnew(node_lexeme);//a secur
 	new_node->type = SINGLE_Q;
 	if (ft_strchr("|&;()<> ", str[i + 1]) != NULL)
-		new_node->metacharacter_after = YES;
+		new_node->metacharacter_after = true;
 	else
-		new_node->metacharacter_after = NO;
+		new_node->metacharacter_after = false;
 	lstadd_back(tokens, new_node);
 	return (i + 1);
 
@@ -46,9 +46,9 @@ size_t double_quote_token(t_lst **tokens, char *str)
 	new_node = lstnew(node_lexeme);//a secur
 	new_node->type = DOUBLE_Q;
 	if (ft_strchr("|&;()<> ", str[i + 1]) != NULL)
-		new_node->metacharacter_after = YES;
+		new_node->metacharacter_after = true;
 	else
-		new_node->metacharacter_after = NO;
+		new_node->metacharacter_after = false;
 	lstadd_back(tokens, new_node);
 	return (i + 1);
 }
@@ -58,10 +58,10 @@ void	fusion_quote_token(t_lst *tokens)
 	t_lst *temp;
 
 	temp = tokens;
-	while (temp) 
+	while (temp)
 	{
 		if ((temp->type == SINGLE_Q || temp->type == DOUBLE_Q)
-			&& temp->metacharacter_after == NO)
+			&& temp->metacharacter_after == false)
 		{
 			temp->lexeme = ft_strjoin_alt(temp->lexeme, temp->next->lexeme,
 				FREE_PARAM1);

@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 22:28:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/07 22:20:01 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/10 22:14:01 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ t_leaf	*evaluate_logical_op(t_lexeme_type op, t_AST_node *node)
 {
 	t_leaf	*left_value;
 	t_leaf	*right_value;
-	
+
 	if (node->t_ope_node.control_operator == AND)
 	{
 		left_value = evaluate_ast(node->t_ope_node.left_node);
@@ -163,7 +163,7 @@ t_leaf	*evaluate_pipe_op(t_AST_node *node)
 	int		fd_input;
 	int		fd_output;
 	pid_t		pid;
-	
+
 	left_value = evaluate_ast(node->t_ope_node.left_node);
 	right_value = evaluate_ast(node->t_ope_node.right_node);
 	handle_reds_and_del(left_value);
@@ -205,7 +205,7 @@ t_leaf	*evaluate_ast(t_AST_node *node)
 
 	if (node->type == NODE_COMMAND)
 	{
-		if (node->command->parenthesis == YES)
+		if (node->command->parenthesis == true)
 		{
 			pid = fork();
 			if (pid == 0)

@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/07 23:58:53 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/10 22:24:58 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # include "libft.h"
 # include "hashmap.h"
 # include <stdio.h>
+# include <stdbool.h>
 #include <fcntl.h>
 #include <sys/wait.h>
 
@@ -39,12 +40,6 @@ typedef enum s_strjoin
 	FREE_PARAM2 = 1<<2,
 }	t_strjoin;
 
-typedef enum s_bool
-{
-	NO,
-	YES
-}	t_bool;
-
 typedef enum s_lexeme_type
 {
 	VOID,
@@ -67,7 +62,7 @@ typedef struct s_lst
 {
 	char *lexeme;
 	t_lexeme_type type;
-	t_bool metacharacter_after;
+	bool metacharacter_after;
 	struct s_lst *next;
 }	t_lst;
 
@@ -77,7 +72,7 @@ typedef struct s_leaf
 	int fd_input;
 	int fd_output;
 	int returned_value;
-	t_bool parenthesis;
+	bool parenthesis;
 	t_lexeme_type ope_after;
 }	t_leaf;
 

@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 10:43:50 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/07 23:41:12 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/10 22:12:58 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ size_t	cmds_number(t_lst *tokens)
 			}
 			tokens = para_buff;
 		}
-		if (tokens->type == PIPE 
+		if (tokens->type == PIPE
 			|| tokens->type == OR || tokens->type == AND)
 			i++;
 		tokens = tokens->next;
@@ -42,8 +42,8 @@ size_t	cmds_number(t_lst *tokens)
 t_lst	*parenthesis_cmd(t_leaf *command_tab, t_lst *tokens, t_lst **prev)
 {
 	t_lst	*parenth_buff;
-	
-	command_tab->parenthesis = YES;
+
+	command_tab->parenthesis = true;
 	while (tokens->next)
 	{
 		if (tokens->next->type == PAR_CLOSE)
@@ -118,7 +118,7 @@ void	initialise_cmds_fd(t_leaf *command_tab, size_t	commands_number)
 	{
 		command_tab->fd_input = 0;
 		command_tab->fd_output = 1;
-		command_tab->parenthesis = NO;
+		command_tab->parenthesis = false;
 		command_tab++;
 		i++;
 	}
