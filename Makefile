@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: val <val@student.42.fr>                    +#+  +:+       +#+         #
+#    By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/13 23:20:17 by val               #+#    #+#              #
-#    Updated: 2025/04/09 02:07:53 by val              ###   ########.fr        #
+#    Updated: 2025/04/11 20:03:36 by vdurand          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,7 +67,12 @@ endif
 SRC_FILES = \
 	main.c \
 	wildcards_search.c \
-	wildcards.c
+	wildcards.c \
+	hashmaps/hashmap_managing.c \
+	hashmaps/hashmap_methods.c \
+	hashmaps/hashmap_utils.c \
+	environment/env_managing.c \
+	builtins/env_builtin.c
 
 SRC = $(patsubst %.c, $(SRC_DIR)/%.c, $(SRC_FILES))
 OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
@@ -93,6 +98,7 @@ makelibft:
 	@echo "$(GREEN)>>> Compilation achieved!$(RESET)"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c Makefile $(INC_DIR)/*.h $(LIBFT_DIR)/libft.a | $(OBJ_DIR) 
+	$(SILENT) mkdir -p $(dir $@)
 	@echo "$(BLUE)>>> Compiling $<...$(RESET)"
 	$(SILENT)$(CC) $(FLAGS) $(INCLUDES) -c $< -o $@
 
@@ -115,7 +121,7 @@ fclean: clean cleanlibs
 re: fclean all
 
 debug: all
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --suppressions=ignore_readline.supp -s ./$(NAME)
+	valgrind --leak-check=full --show-leak-kinds=all --trace-children=yes --track-fds=all --track-origins=yes --suppressions=ignore_readline.supp -s ./$(NAME)
 
 -include $(DEP)
 

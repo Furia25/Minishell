@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/09 01:12:48 by val              ###   ########.fr       */
+/*   Updated: 2025/04/11 20:02:57 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # include <stdlib.h>
 # include "garbage_collector.h"
 # include "wildcards.h"
+# include "environment.h"
+# include "ft_printf.h"
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -66,12 +68,19 @@ typedef struct s_AST_node
 	};
 }	t_AST_node;
 
+typedef struct s_minishell
+{
+	t_garbage_collector	gc;
+	t_hashmap			environment;
+}	t_minishell;
 
-char	*create_tokens(t_list **tokens, char *input);
-t_leaf *create_cmd_tab(t_list *tokens);
+char		*create_tokens(t_list **tokens, char *input);
+t_leaf		*create_cmd_tab(t_list *tokens);
 t_AST_node	*create_ast(t_leaf *command_tab);
-t_leaf	*evaluate_ast(t_AST_node *node);
+t_leaf		*evaluate_ast(t_AST_node *node);
 
-void	*memset_fast(void *ptr, int value, size_t num);
+void		*memset_fast(void *ptr, int value, size_t num);
+
+void		env_builtin(t_minishell *data);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 22:28:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/03/21 14:42:44 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/11 19:10:00 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,7 +193,7 @@ t_leaf	*evaluate_ast(t_AST_node *node)
 	// printf("ope_after: %d\n", cmd[1].ope_after);
 	// printf("ope_after: %d\n", cmd[2].ope_after);
 
-}
+}*/
 
 
 

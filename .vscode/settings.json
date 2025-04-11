@@ -4,6 +4,7 @@
 		"minishell.h": "c",
 		"compare": "c",
 		"wildcards.h": "c",
-		"stdbool.h": "c"
+		"stdbool.h": "c",
+		"type_traits": "c"
 	}
 }

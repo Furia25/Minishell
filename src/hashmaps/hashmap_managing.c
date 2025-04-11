@@ -6,17 +6,28 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 19:12:44 by vdurand           #+#    #+#             */
-/*   Updated: 2025/03/14 15:51:16 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/11 19:53:48 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+bool		hashmap_init_basics(t_hashmap *map)
+{
+	map->size = 1 << HASHMAP_POWER;
+	map->table = ft_calloc(map->size + 1, sizeof(t_hash_entry));
+	if (!map->table)
+		return (false);
+	map->count = 0;
+	map->charge_factor = HASHMAP_POWER;
+	return (true);
+}
+
 t_hashmap	*hashmap_new(int power, double chargefactor)
 {
 	t_hashmap	*result;
 
-	result = malloc(sizeof(t_hashmap));
+	result = ft_calloc(1, sizeof(t_hashmap));
 	if (!result)
 		return (NULL);
 	result->size = 1 << power;
@@ -33,6 +44,12 @@ t_hashmap	*hashmap_new(int power, double chargefactor)
 
 void	hashmap_free(t_hashmap *map, void (*del)(void *))
 {
+	hashmap_free_content(map, del);
+	free(map);
+}
+
+void	hashmap_free_content(t_hashmap *map, void (*del)(void *))
+{
 	size_t	index;
 
 	if (del)
@@ -47,25 +64,4 @@ void	hashmap_free(t_hashmap *map, void (*del)(void *))
 	}
 	if (map->table)
 		free(map->table);
-	free(map);
-}
-
-/*Murmur3hash*/
-unsigned long	hash(char *str)
-{
-	unsigned long	hash;
-	unsigned long	c;
-	int				i;
-
-	hash = 0x811c9dc5;
-	i = 0;
-	while (str[i] != '\0')
-	{
-		c = (unsigned long)str[i];
-		hash ^= c;
-		hash *= 0x5bd1e995;
-		hash ^= hash >> 15;
-		i++;
-	}
-	return (hash);
 }
