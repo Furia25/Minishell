@@ -6,11 +6,19 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 23:49:57 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/10 22:24:29 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/13 23:53:24 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	not_interpet_unclosed_quotes(char chara)
+{
+	ft_putstr_fd("minishell: we are not supposed to manage this ", 2);
+	ft_putstr_fd(&chara, 2);
+	ft_putendl_fd("\' (unclosed quotes)", 2);
+	exit(2);
+}
 
 size_t single_quote_token(t_lst **tokens, char *str)
 {

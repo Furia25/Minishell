@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/10 22:24:58 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/14 00:02:17 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ void	lstdelone(t_lst *lst, void (*del)(void*));
 void	lstclear(t_lst **lst, void (*del)(void*));
 void	create_tokens(t_lst **tokens, char *input);
 void	fusion_quote_token(t_lst *tokens);
+void	check_syntax_errors(t_lst *tokens);
 t_leaf *create_cmd_tab(t_lst *tokens);
 char	*ft_strjoin_alt(char *s1, char *s2, t_strjoin free_what);
 void	handle_all_here_doc(t_leaf *command_tab);

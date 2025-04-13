@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:22:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/07 23:42:41 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/14 00:12:29 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,8 @@ size_t op_control_token(t_lst **tokens, char *str, char op)
 	t_lst	*new_node;
 
 	i = 0;
-	while (str[i] == op)
+	while (str[i] == op && i != 2)
 		i++;
-	if (i > 2 || (i == 1 && op == '&'))
-	{
-		ft_putstr_fd("error", 2);
-		exit(1);
-	}
 	node_lexeme = ft_substr(str, 0, i);//a secur
 	new_node = lstnew(node_lexeme);//a secur
 	if (i == 1 && op == '|')
@@ -64,13 +59,8 @@ size_t op_redirection_token(t_lst **tokens, char *str, char op)
 	t_lst	*new_node;
 
 	i = 0;
-	while (str[i] == op)
+	while (str[i] == op && i != 2)
 		i++;
-	if (i > 2)
-	{
-		ft_putstr_fd("error", 2);
-		exit(1);
-	}
 	node_lexeme = ft_substr(str, 0, i);//a secur
 	new_node = lstnew(node_lexeme);//a secur
 	if (i == 1 && op == '<')
@@ -100,7 +90,15 @@ size_t op_parenthesis(t_lst **tokens, char *str, char op)
 	lstadd_back(tokens, new_node);
 	return (1);
 }
- 
+
+static void	not_interpet_special_chara(char chara)
+{
+	ft_putstr_fd("minishell: we are not supposed to manage this `", 2);
+	ft_putchar_fd(chara, 2);
+	ft_putendl_fd("\'", 2);
+	exit(2);
+}
+
 void	create_tokens(t_lst **tokens, char *input)
 {
 	size_t	token_len;
@@ -110,6 +108,8 @@ void	create_tokens(t_lst **tokens, char *input)
 		return ;
 	while ((*input >= 9 && *input <= 13) || *input == ' ')
 		input++;
+	if ((*input == '&' && *(input + 1) != '&') || *input == ';' || *input == '\\')
+		not_interpet_special_chara(*input);
 	if (ft_isprint(*input) != 0 && ft_strchr("|&;()<> \'\"", *input) == NULL)
 		token_len = word_token(tokens, input);
 	if (*input == '\'')
@@ -129,7 +129,7 @@ void	create_tokens(t_lst **tokens, char *input)
 // {
 // 	t_lst	*tokens;
 // 	t_lst	*temp;
-// 	char *input = "echo \"caca\" \"prout\" ";
+// 	char *input = "echo ||&||";
 
 
 // 	tokens = NULL;
