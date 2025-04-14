@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/20 12:50:30 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/14 00:17:53 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/14 18:15:34 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,14 @@
 
 int	main(void)
 {
-	char *input = "echo caca > chmod | ls";
+	char *input = "<>>  caca";
 	t_lst	*tokens;
 	t_leaf *command_tab;
 	t_leaf	*final;
 
 	tokens = NULL;
 	create_tokens(&tokens, input);
+	check_syntax_errors(tokens);
 	fusion_quote_token(tokens);
 	command_tab = create_cmd_tab(tokens);
 	handle_all_here_doc(command_tab);

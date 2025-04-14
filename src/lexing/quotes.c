@@ -6,19 +6,12 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 23:49:57 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/13 23:53:24 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/14 16:32:15 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static void	not_interpet_unclosed_quotes(char chara)
-{
-	ft_putstr_fd("minishell: we are not supposed to manage this ", 2);
-	ft_putstr_fd(&chara, 2);
-	ft_putendl_fd("\' (unclosed quotes)", 2);
-	exit(2);
-}
+void	not_interpret_chara(char chara, char *str);
 
 size_t single_quote_token(t_lst **tokens, char *str)
 {
@@ -27,8 +20,10 @@ size_t single_quote_token(t_lst **tokens, char *str)
 	t_lst	*new_node;
 
 	i = 1;
-	while (ft_isprint(str[i]) != 0 && str[i] != '\'')
+	while (str[i] != '\0' && str[i] != '\'')
 		i++;
+	if (str[i] == '\0')
+		not_interpret_chara('\'', "\' (unclosed single quote)");
 	node_lexeme = ft_substr(str, 1, i - 1);//a secur
 	new_node = lstnew(node_lexeme);//a secur
 	new_node->type = SINGLE_Q;
@@ -38,7 +33,6 @@ size_t single_quote_token(t_lst **tokens, char *str)
 		new_node->metacharacter_after = false;
 	lstadd_back(tokens, new_node);
 	return (i + 1);
-
 }
 
 size_t double_quote_token(t_lst **tokens, char *str)
@@ -48,8 +42,10 @@ size_t double_quote_token(t_lst **tokens, char *str)
 	t_lst	*new_node;
 
 	i = 1;
-	while (ft_isprint(str[i]) != 0 && str[i] != '\"')
+	while (str[i] != '\0' && str[i] != '\"')
 		i++;
+	if (str[i] == '\0')
+		not_interpret_chara('\"', "\' (unclosed double quote)");
 	node_lexeme = ft_substr(str, 1, i - 1);//a secur
 	new_node = lstnew(node_lexeme);//a secur
 	new_node->type = DOUBLE_Q;

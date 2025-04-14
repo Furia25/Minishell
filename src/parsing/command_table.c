@@ -6,19 +6,21 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 10:43:50 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/14 00:21:43 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/14 18:09:24 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "get_next_line.h"
+void	not_interpret_chara(char chara, char *str);
 
 size_t	cmds_number(t_lst *tokens)
 {
 	size_t	i;
-	t_lst	*para_buff;
+	t_lst	*parenth_buff;
 
 	i = 0;
+	parenth_buff = NULL;
 	while (tokens)
 	{
 		if (tokens->type == PAR_OPEN)
@@ -26,10 +28,12 @@ size_t	cmds_number(t_lst *tokens)
 			while (tokens)
 			{
 				if (tokens->type == PAR_CLOSE)
-					para_buff = tokens;
+					parenth_buff = tokens;
 				tokens = tokens->next;
 			}
-			tokens = para_buff;
+			if (parenth_buff == NULL)
+				not_interpret_chara('(', "\' (unclosed parenthesis)");
+			tokens = parenth_buff;
 		}
 		if (tokens->type == PIPE
 			|| tokens->type == OR || tokens->type == AND)
@@ -136,41 +140,39 @@ t_leaf *create_cmd_tab(t_lst *tokens)
 	return (command_tab);
 }
 
-int	main(void)
-{
-	char *input = "><<";
-	t_lst	*tokens;
-	t_leaf *command_tab;
+// int	main(void)
+// {
+// 	char *input = "((test";
+// 	t_lst	*tokens;
+// 	t_leaf *command_tab;
 
-
-	tokens = NULL;
-	create_tokens(&tokens, input);
-	fusion_quote_token(tokens);
-	check_syntax_errors(tokens);
-	command_tab = create_cmd_tab(tokens);
-	while (command_tab->ope_after != LINE_CHANGE)
-	{
-		printf("new cmd : \n\n");
-		while (command_tab->tokens)
-		{
-			printf("token : %s\n", command_tab->tokens->lexeme);
-			command_tab->tokens = command_tab->tokens->next;
-		}
-		printf("fd_in : %d\n", command_tab->fd_input);
-		printf("fd_out : %d\n", command_tab->fd_output);
-		printf("parenthesis : %d\n", command_tab->parenthesis);
-		printf("ope_after : %d\n\n", command_tab->ope_after);
-		command_tab++;
-	}
-	printf("new cmd : \n\n");
-	while (command_tab->tokens)
-	{
-		printf("token : %s\n", command_tab->tokens->lexeme);
-		command_tab->tokens = command_tab->tokens->next;
-	}
-	printf("fd_in : %d\n", command_tab->fd_input);
-	printf("fd_out : %d\n", command_tab->fd_output);
-	printf("parenthesis : %d\n", command_tab->parenthesis);
-	printf("ope_after : %d\n\n", command_tab->ope_after);
-
-}
+// 	tokens = NULL;
+// 	create_tokens(&tokens, input);
+// 	check_syntax_errors(tokens);
+// 	fusion_quote_token(tokens);
+// 	command_tab = create_cmd_tab(tokens);
+// 	while (command_tab->ope_after != LINE_CHANGE)
+// 	{
+// 		printf("new cmd : \n\n");
+// 		while (command_tab->tokens)
+// 		{
+// 			printf("token : %s\n", command_tab->tokens->lexeme);
+// 			command_tab->tokens = command_tab->tokens->next;
+// 		}
+// 		printf("fd_in : %d\n", command_tab->fd_input);
+// 		printf("fd_out : %d\n", command_tab->fd_output);
+// 		printf("parenthesis : %d\n", command_tab->parenthesis);
+// 		printf("ope_after : %d\n\n", command_tab->ope_after);
+// 		command_tab++;
+// 	}
+// 	printf("new cmd : \n\n");
+// 	while (command_tab->tokens)
+// 	{
+// 		printf("token : %s\n", command_tab->tokens->lexeme);
+// 		command_tab->tokens = command_tab->tokens->next;
+// 	}
+// 	printf("fd_in : %d\n", command_tab->fd_input);
+// 	printf("fd_out : %d\n", command_tab->fd_output);
+// 	printf("parenthesis : %d\n", command_tab->parenthesis);
+// 	printf("ope_after : %d\n\n", command_tab->ope_after);
+// }

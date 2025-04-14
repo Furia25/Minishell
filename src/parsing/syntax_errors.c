@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 22:19:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/14 00:01:13 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/14 18:07:36 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,9 @@ void	check_syntax_errors(t_lst *tokens)
 				|| tokens->next->type == OR)
 				print_error(tokens->next->lexeme);
 		}
-		if (tokens->type == RED_IN || tokens->type == RED_OUT 
-			|| tokens->type == RED_OUT_A || tokens->type == HERE_DOC)
+		if (tokens->type == RED_IN || tokens->type == RED_OUT
+			|| tokens->type == RED_OUT_A || tokens->type == RED_IN_OUT
+			|| tokens->type == HERE_DOC)
 		{
 			if (tokens->next == NULL)
 				print_error("newline");

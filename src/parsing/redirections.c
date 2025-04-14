@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 23:39:47 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/07 23:41:24 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/14 18:06:10 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,18 @@ void	handle_red_output_append(t_leaf *command_tab, char *file)
 		close(command_tab->fd_output);//secur close
 	command_tab->fd_output = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (command_tab->fd_output == -1)
+		perror(file);
+}
+
+void	handle_red_input_output(t_leaf *command_tab, char *file)
+{
+	//verifier que le fichier existe bien sinon le creer
+	if (command_tab->fd_input == -1 || command_tab->fd_output == -1)
+		return ;
+	if (command_tab->fd_input != 1)
+		close(command_tab->fd_input);//secur close
+	command_tab->fd_input = open(file, O_RDWR | O_CREAT | O_APPEND, 0644);
+	if (command_tab->fd_input == -1)
 		perror(file);
 }
 
@@ -117,8 +129,8 @@ char	*handle_here_doc(t_leaf *command_tab, char *eof)
 
 int	check_redi(t_leaf *command_tab, t_lst *token)
 {
-	if (token->type == RED_IN
-		|| token->type == RED_OUT || token->type == RED_OUT_A)
+	if (token->type == RED_IN || token->type == RED_OUT
+		|| token->type == RED_OUT_A || token->type == RED_IN_OUT)
 	{
 		if (token->type == RED_IN)
 			handle_red_input(command_tab, token->next->lexeme);
@@ -126,6 +138,8 @@ int	check_redi(t_leaf *command_tab, t_lst *token)
 			handle_red_output(command_tab, token->next->lexeme);
 		if (token->type == RED_OUT_A)
 			handle_red_output_append(command_tab, token->next->lexeme);
+		if (token->type == RED_IN_OUT)
+			handle_red_input_output(command_tab, token->next->lexeme);
 		return (0);
 	}
 	return (1);
@@ -142,7 +156,7 @@ void	handle_reds_and_del(t_leaf *command_tab)
 	t_lst	*temp;
 	t_lst	*prev;
 
-	while (command_tab->tokens != NULL 
+	while (command_tab->tokens != NULL
 		&& check_redi(command_tab, command_tab->tokens) == 0)
 	{
 		temp = command_tab->tokens;

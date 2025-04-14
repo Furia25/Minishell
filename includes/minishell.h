@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/14 00:02:17 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/14 17:57:41 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ typedef enum s_lexeme_type
 	DOUBLE_Q,
 	RED_IN,
 	RED_OUT,
+	RED_IN_OUT,
 	RED_OUT_A,
 	HERE_DOC,
 	PAR_OPEN,
