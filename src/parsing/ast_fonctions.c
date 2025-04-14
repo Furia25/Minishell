@@ -6,13 +6,12 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 22:28:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/14 22:31:30 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/14 23:42:04 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "ft_printf.h"
-#include "get_next_line.h"
 void	handle_reds_and_del(t_leaf *command_tab);
 
 t_AST_node	*create_leaf_node(t_leaf *cmd)

@@ -6,12 +6,11 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 10:43:50 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/14 18:09:24 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/14 23:42:32 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "get_next_line.h"
 void	not_interpret_chara(char chara, char *str);
 
 size_t	cmds_number(t_lst *tokens)
