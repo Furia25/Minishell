@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 22:28:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/10 22:14:01 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/14 22:31:30 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,8 +187,7 @@ t_leaf	*evaluate_pipe_op(t_AST_node *node)
 		}
 		wait(NULL);
 		close(pipefd[1]);
-		dup2(pipefd[0], 0);
-		close(pipefd[0]);
+		right_value->fd_input = pipefd[0];
 		if (left_value->fd_input != 0)
 			close(left_value->fd_input);
 		if (left_value->fd_output != 1)
