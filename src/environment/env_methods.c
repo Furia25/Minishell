@@ -1,26 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   environment.h                                      :+:      :+:    :+:   */
+/*   env_methods.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/11 19:06:05 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/14 15:10:23 by vdurand          ###   ########.fr       */
+/*   Created: 2025/04/14 14:20:04 by vdurand           #+#    #+#             */
+/*   Updated: 2025/04/14 14:35:45 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef ENVIRONMENT_H
-# define ENVIRONMENT_H
+#include "minishell.h"
 
-typedef struct s_envvar
+static void	env_print_el(unsigned long key, void *entry)
 {
-	char *value;
-	char *name;
-}	t_envvar;
+	t_envvar	*var;
+	
+	(void) key;
+	var = (t_envvar *) entry;
+	ft_printf("%s=%s\n", var->name, var->value);
+}
 
-t_envvar	*new_envvar(char *key, char *value);
-bool		env_populate(char **envp, t_hashmap *environment);
-void		env_print(t_hashmap *environment);
-void		envvar_free(void *el);
-#endif
+void	env_print(t_hashmap *environment)
+{
+	hashmap_iterate(environment, env_print_el);
+}

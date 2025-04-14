@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 15:20:54 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/11 19:36:19 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/14 17:55:00 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,15 @@ typedef struct s_hashmap
 	size_t			size;
 	int				count;
 	double			charge_factor;
+	void 			(*del)(void *);
 }			t_hashmap;
 
 // hashmap_managing.c
 
-t_hashmap		*hashmap_new(int power, double chargefactor);
-bool			hashmap_init_basics(t_hashmap *map);
-void			hashmap_free(t_hashmap *map, void (*del)(void *));
-void			hashmap_free_content(t_hashmap *map, void (*del)(void *));
+t_hashmap		*hashmap_new(int power, double charge, void (*del)(void *));
+bool			hashmap_init_basics(t_hashmap *map, void (*del)(void *));
+void			hashmap_free(t_hashmap *map);
+void			hashmap_free_content(t_hashmap *map);
 
 // hashmap_methods.c
 int				hashmap_resize(size_t new_size, t_hashmap *map);

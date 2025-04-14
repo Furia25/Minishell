@@ -6,7 +6,7 @@
 #    By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/13 23:20:17 by val               #+#    #+#              #
-#    Updated: 2025/04/11 20:03:36 by vdurand          ###   ########.fr        #
+#    Updated: 2025/04/14 18:26:38 by vdurand          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,13 +66,15 @@ endif
 
 SRC_FILES = \
 	main.c \
-	wildcards_search.c \
-	wildcards.c \
+	wildcards/wildcards_search.c \
+	wildcards/wildcards.c \
 	hashmaps/hashmap_managing.c \
 	hashmaps/hashmap_methods.c \
 	hashmaps/hashmap_utils.c \
 	environment/env_managing.c \
-	builtins/env_builtin.c
+	environment/env_methods.c \
+	builtins/env_builtin.c \
+	builtins/export_builtin.c
 
 SRC = $(patsubst %.c, $(SRC_DIR)/%.c, $(SRC_FILES))
 OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))

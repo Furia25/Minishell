@@ -6,16 +6,34 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 19:05:32 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/11 20:00:50 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/14 15:45:56 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+t_envvar	*new_envvar(char *key, char *value)
+{
+	t_envvar		*var;
+
+	if (!key)
+		return (NULL);
+	if (!value)
+		return (NULL);
+	var = ft_calloc(1, sizeof(t_envvar));
+	if (!var)
+		return (NULL);
+	var->name = key;
+	var->value = value;
+	return (var);
+}
+
 void	envvar_free(void *el)
 {
 	t_envvar	*var;
 
+	if (!el)
+		return ;
 	var = (t_envvar *) el;
 	if (var->name)
 		free(var->name);
@@ -24,11 +42,12 @@ void	envvar_free(void *el)
 	free(var);
 }
 
+static bool	add_envvar(size_t j, char *str, t_hashmap *env);
+
 bool	env_populate(char **envp, t_hashmap *environment)
 {
 	size_t			i;
 	size_t			j;
-	t_envvar		*var;
 
 	i = 0;
 	while (envp[i])
@@ -38,15 +57,8 @@ bool	env_populate(char **envp, t_hashmap *environment)
 		{
 			if (envp[i][j] != '=')
 				continue ;
-			var = ft_calloc(1, sizeof(t_envvar));
-			if (!var)
+			if (!add_envvar(j, envp[i], environment))
 				return (false);
-			var->name = ft_substr(envp[i], 0, j);
-			if (!var->name)
-				return (envvar_free(var), false);
-			var->value = ft_substr(envp[i], j + 1, ft_strlen(envp[i]));
-			if (!hashmap_insert(hash(var->name), var, environment))
-				return (envvar_free(var), false);
 			break;
 		}
 		i++;
@@ -54,16 +66,26 @@ bool	env_populate(char **envp, t_hashmap *environment)
 	return (true);
 }
 
-static void	env_print_el(unsigned long key, void *entry)
+static bool	add_envvar(size_t j, char *str, t_hashmap *env)
 {
 	t_envvar	*var;
-	
-	(void) key;
-	var = (t_envvar *) entry;
-	ft_printf("%s=%s\n", var->name, var->value);
-}
+	char		*key;
+	char		*value;
 
-void	env_print(t_hashmap *environment)
-{
-	hashmap_iterate(environment, env_print_el);
+	key = ft_substr(str, 0, j);
+	if (!key)
+		return (false);
+	value = ft_substr(str, j + 1, ft_strlen(str));
+	if (!value)
+	{
+		free(key);
+		return (false);
+	}
+	var = new_envvar(key, value);
+	if (!hashmap_insert(hash(var->name), var, env))
+	{
+		envvar_free(var);
+		return (false);
+	}
+	return (true);
 }

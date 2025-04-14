@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/05 15:39:59 by vdurand           #+#    #+#             */
-/*   Updated: 2025/01/06 18:10:37 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/14 15:43:06 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,26 @@ char	*ft_strchr(const char *s, int c)
 	if (chr == '\0')
 		return ((char *) s);
 	return (NULL);
+}
+
+long	ft_strchri(char *s, int c)
+{
+	char	chr;
+	long	index;
+
+	if (!s)
+		return (-1);
+	chr = (char) c;
+	index = 0;
+	while (s[index])
+	{
+		if (s[index] == chr)
+			return (index);
+		index++;
+	}
+	if (chr == '\0')
+		return (index);
+	return (-1);
 }
 
 /* 

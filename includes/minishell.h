@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/11 20:02:57 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/14 16:41:18 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-
 # define DEBUG 1
 # define PROMPT "\001\033[35m\002$> \001\033[0m\002"
+# define BUILTIN_FATAL_ERROR	277
 
 typedef enum s_node_type
 {
@@ -81,6 +81,7 @@ t_leaf		*evaluate_ast(t_AST_node *node);
 
 void		*memset_fast(void *ptr, int value, size_t num);
 
-void		env_builtin(t_minishell *data);
+int			env_builtin(t_minishell *data);
+int			export_builtin(int argc, char **argv, t_minishell *data);
 
 #endif
