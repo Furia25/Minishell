@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 17:18:50 by vdurand           #+#    #+#             */
-/*   Updated: 2025/03/14 15:53:28 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/14 17:59:17 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static void	prcs(unsigned long key, size_t i, t_hash_entry last, t_hashmap *map)
 			else if (map->table[i].key == key)
 			{
 				old_value = map->table[i].value;
-				free(old_value);
+				map->del(old_value);
 			}
 			map->table[i] = last;
 			return ;
@@ -102,6 +102,8 @@ int	hashmap_insert(unsigned long key, void *value, t_hashmap *map)
 	t_hash_entry	last;
 
 	if (!map)
+		return (0);
+	if (!value)
 		return (0);
 	if ((double)(map->count + 1) / map->size >= map->charge_factor)
 		if (!hashmap_resize(map->size << 1, map))

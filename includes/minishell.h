@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/14 17:57:41 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/14 23:28:55 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,22 @@
 #include <sys/wait.h>
 
 # include <stdlib.h>
+# include "garbage_collector.h"
+# include "wildcards.h"
+# include "environment.h"
+# include "ft_printf.h"
 # include <readline/readline.h>
 # include <readline/history.h>
 
 # define DEBUG 1
 # define PROMPT "\001\033[35m\002$> \001\033[0m\002"
+# define BUILTIN_FATAL_ERROR	277
 
-# define MAX_GC_ALLOCS	2048
-typedef struct s_data
+typedef struct s_minishell
 {
-	void	*allocs[MAX_GC_ALLOCS];
-}	t_data;
-
+	t_garbage_collector	gc;
+	t_hashmap			environment;
+}	t_minishell;
 
 typedef enum s_strjoin
 {
@@ -112,7 +116,8 @@ t_AST_node	*create_ast(t_leaf *command_tab);
 t_leaf	*evaluate_ast(t_AST_node *node);
 int	execute_cmd(t_leaf *cmd);
 void	rm_here_doc_files(t_leaf *command_tab);
-
-
+void		*memset_fast(void *ptr, int value, size_t num);
+int			env_builtin(t_minishell *data);
+int			export_builtin(int argc, char **argv, t_minishell *data);
 
 #endif

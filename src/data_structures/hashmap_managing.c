@@ -6,19 +6,32 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 19:12:44 by vdurand           #+#    #+#             */
-/*   Updated: 2025/03/14 15:51:16 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/14 17:54:41 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_hashmap	*hashmap_new(int power, double chargefactor)
+bool		hashmap_init_basics(t_hashmap *map, void (*del)(void *))
+{
+	map->del = del;
+	map->size = 1 << HASHMAP_POWER;
+	map->table = ft_calloc(map->size + 1, sizeof(t_hash_entry));
+	if (!map->table)
+		return (false);
+	map->count = 0;
+	map->charge_factor = HASHMAP_POWER;
+	return (true);
+}
+
+t_hashmap	*hashmap_new(int power, double chargefactor, void (*del)(void *))
 {
 	t_hashmap	*result;
 
-	result = malloc(sizeof(t_hashmap));
+	result = ft_calloc(1, sizeof(t_hashmap));
 	if (!result)
 		return (NULL);
+	result->del = del;
 	result->size = 1 << power;
 	result->table = ft_calloc(result->size + 1, sizeof(t_hash_entry));
 	if (!result->table)
@@ -31,41 +44,23 @@ t_hashmap	*hashmap_new(int power, double chargefactor)
 	return (result);
 }
 
-void	hashmap_free(t_hashmap *map, void (*del)(void *))
+void	hashmap_free(t_hashmap *map)
 {
-	size_t	index;
-
-	if (del)
-	{
-		index = 0;
-		while (index < map->size)
-		{
-			if (map->table[index].status == OCCUPIED)
-				del(map->table[index].value);
-			index++;
-		}
-	}
-	if (map->table)
-		free(map->table);
+	hashmap_free_content(map);
 	free(map);
 }
 
-/*Murmur3hash*/
-unsigned long	hash(char *str)
+void	hashmap_free_content(t_hashmap *map)
 {
-	unsigned long	hash;
-	unsigned long	c;
-	int				i;
+	size_t	index;
 
-	hash = 0x811c9dc5;
-	i = 0;
-	while (str[i] != '\0')
+	index = 0;
+	while (index < map->size)
 	{
-		c = (unsigned long)str[i];
-		hash ^= c;
-		hash *= 0x5bd1e995;
-		hash ^= hash >> 15;
-		i++;
+		if (map->table[index].status == OCCUPIED)
+			map->del(map->table[index].value);
+		index++;
 	}
-	return (hash);
+	if (map->table)
+		free(map->table);
 }

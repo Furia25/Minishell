@@ -1,39 +1,98 @@
-.PHONY : all clean fclean re
-LIBFT_DIR = libft
-SRC_DIR = srcs
-OBJ_DIR = objs
-DEPS_DIR = deps
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: val <val@student.42.fr>                    +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2025/01/15 21:41:19 by val               #+#    #+#              #
+#    Updated: 2025/04/09 01:04:36 by val              ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-SRC = ft_strcmp.c ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c ft_isascii.c ft_isdigit.c ft_isprint.c ft_itoa.c ft_memchr.c ft_memcmp.c ft_memcpy.c ft_memmove.c ft_putchar_fd.c ft_memset.c ft_putendl_fd.c ft_putnbr_fd.c ft_split.c ft_putstr_fd.c ft_strchr.c ft_strdup.c ft_striteri.c ft_strjoin.c ft_strlcat.c ft_strlcpy.c ft_strlen.c ft_strmapi.c ft_strncmp.c ft_strnstr.c ft_strrchr.c ft_strtrim.c ft_substr.c ft_tolower.c ft_toupper.c ft_lstadd_back_bonus.c ft_lstadd_front_bonus.c ft_lstclear_bonus.c ft_lstdelone_bonus.c ft_lstiter_bonus.c ft_lstlast_bonus.c ft_lstmap_bonus.c ft_lstnew_bonus.c ft_lstsize_bonus.c get_next_line.c ft_conversions.c printf.c
-
-INC = incs
-
-OBJ = $(addprefix $(OBJ_DIR)/, $(SRC:.c=.o))
-DEPS = $(addprefix $(DEPS_DIR)/, $(SRC:.c=.d) $(SRC_BONUS:.c=.d))
-
+INCLUDE_DIR = ./
+CFLAGS = -Wall -Wextra -Werror -I$(INCLUDE_DIR)
+CC = cc
 NAME = libft.a
 
-CC = cc
-CFLAGS = -Wall -Wextra -Werror -I$(INC)
-MAKE = @make --no-print-directory -j
+BASE_SRC = checks/ft_isalpha.c \
+		checks/ft_isdigit.c \
+		checks/ft_isalnum.c \
+		checks/ft_isascii.c \
+		checks/ft_isprint.c \
+		checks/ft_toupper.c \
+		checks/ft_tolower.c \
+		memory/ft_memset.c \
+		memory/ft_bzero.c \
+		memory/ft_memcpy.c \
+		memory/ft_memmove.c \
+		memory/ft_memchr.c \
+		memory/ft_memcmp.c \
+		memory/ft_calloc.c \
+		strings/ft_strlen.c \
+		strings/ft_strlcpy.c \
+		strings/ft_strlcat.c \
+		strings/ft_strcpy.c \
+		strings/ft_strcat.c \
+		strings/ft_strchr.c \
+		strings/ft_strrchr.c \
+		strings/ft_strncmp.c \
+		strings/ft_strcmp.c \
+		strings/ft_strnstr.c \
+		strings/ft_strdup.c \
+		strings/ft_substr.c \
+		strings/ft_strjoin.c \
+		strings/ft_strtrim.c \
+		strings/ft_split.c \
+		strings/ft_strmapi.c \
+		strings/ft_striteri.c \
+		strings/ft_strend.c \
+		conversions/ft_atoi.c \
+		conversions/ft_itoa.c \
+		files_managing/ft_putchar_fd.c \
+		files_managing/ft_putstr_fd.c \
+		files_managing/ft_putendl_fd.c \
+		files_managing/ft_putnbr_fd.c \
+		files_managing/ft_putptr_fd.c \
+		files_managing/ft_putnbr_base_fd.c \
+		files_managing/get_next_line.c \
+		ft_printf.c \
 
-all : $(NAME)
+BONUS_SRC = chained_lists/ft_lstadd_back_bonus.c \
+			chained_lists/ft_lstadd_front_bonus.c \
+			chained_lists/ft_lstclear_bonus.c \
+			chained_lists/ft_lstdelone_bonus.c \
+			chained_lists/ft_lstiter_bonus.c \
+			chained_lists/ft_lstlast_bonus.c \
+			chained_lists/ft_lstmap_bonus.c \
+			chained_lists/ft_lstnew_bonus.c \
+			chained_lists/ft_lstsize_bonus.c
 
-$(NAME) : $(OBJ)
-	ar rcs $@ $^
+BASE_OBJS = $(BASE_SRC:.c=.o)
+BONUS_OBJS = $(BONUS_SRC:.c=.o)
+ALL_OBJS = $(BASE_OBJS) $(BONUS_OBJS)
 
-$(OBJ_DIR)/%.o : $(SRC_DIR)/%.c Makefile | $(OBJ_DIR) $(DEPS_DIR)
-	$(CC) $(CFLAGS) -MMD -MP -MF $(DEPS_DIR)/$*.d -o $@ -c $<
+all: $(NAME) 
 
-$(OBJ_DIR) $(DEPS_DIR):
-	@mkdir -p $@
+bonus: .bonus
 
--include $(DEPS)
+.bonus : $(ALL_OBJS)
+	ar rcs $(NAME) $(ALL_OBJS)
+	@touch .bonus
 
-clean :
-	rm -rf $(OBJ_DIR) $(DEPS_DIR)
+$(NAME): $(BASE_OBJS)
+	ar rcs $(NAME) $(BASE_OBJS)
 
-fclean : clean
-	rm -f $(NAME) $(NAME_BONUS)
+%.o: %.c Makefile
+	$(CC) $(CFLAGS) -o $@ -c $< 
+
+clean:
+	rm -rf $(BONUS_OBJS) $(BASE_OBJS)
+	@rm -rf .bonus
+
+fclean: clean
+	rm -rf $(NAME)
 
 re : fclean all
+
+.PHONY: all clean fclean re bonus

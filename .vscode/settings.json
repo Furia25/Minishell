@@ -1,5 +1,10 @@
 {
 	"files.associations": {
-		"sdl.h": "c"
+		"sdl.h": "c",
+		"minishell.h": "c",
+		"compare": "c",
+		"wildcards.h": "c",
+		"stdbool.h": "c",
+		"type_traits": "c"
 	}
 }

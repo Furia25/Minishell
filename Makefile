@@ -6,7 +6,7 @@
 #    By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/13 23:20:17 by val               #+#    #+#              #
-#    Updated: 2025/03/12 19:39:48 by vdurand          ###   ########.fr        #
+#    Updated: 2025/04/14 18:26:38 by vdurand          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,22 +65,32 @@ else
 endif
 
 SRC_FILES = \
-	ast_fonctions.c \
 	main.c \
+	wildcards/wildcards_search.c \
+	wildcards/wildcards.c \
+	hashmaps/hashmap_managing.c \
+	hashmaps/hashmap_methods.c \
+	hashmaps/hashmap_utils.c \
+	environment/env_managing.c \
+	environment/env_methods.c \
+	builtins/env_builtin.c \
+	builtins/export_builtin.c
 
 SRC = $(patsubst %.c, $(SRC_DIR)/%.c, $(SRC_FILES))
 OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 DEP = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.d, $(SRC))
 
 CC = cc
-CFLAGS = -Werror -Wextra #-Wall
-LDFLAGS = -L$(LIBFT_DIR) -lft -lreadline
-INCLUDES = -I$(INC_DIR) -I$(LIBFT_DIR)
+CFLAGS = -Wall -Wextra -Werror -g3
+READLINE_INC = -I/usr/local/include
+INCLUDES = -I$(INC_DIR) -I$(LIBFT_DIR) $(READLINE_INC)
+LDFLAGS = -L$(LIBFT_DIR) -lft -L/usr/local/lib -lreadline
+FLAGS = $(CFLAGS) -MMD -MP
 
 all: makelibft $(NAME)
 
 $(NAME): $(OBJ)
-	$(SILENT)$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
+	$(SILENT)$(CC) $(FLAGS) $(OBJ) $(LDFLAGS) -o $@
 	@echo "$(BG_GREEN)>>> Program $(NAME) compiled!$(RESET)"
 
 makelibft:
@@ -90,8 +100,9 @@ makelibft:
 	@echo "$(GREEN)>>> Compilation achieved!$(RESET)"
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c Makefile $(INC_DIR)/*.h $(LIBFT_DIR)/libft.a | $(OBJ_DIR) 
+	$(SILENT) mkdir -p $(dir $@)
 	@echo "$(BLUE)>>> Compiling $<...$(RESET)"
-	$(SILENT)$(CC) $(CFLAGS) $(INCLUDES) -MMD -MP -c $< -o $@
+	$(SILENT)$(CC) $(FLAGS) $(INCLUDES) -c $< -o $@
 
 $(OBJ_DIR):
 	@echo "$(YELLOW)>>> Directory '$(OBJ_DIR)' created!$(RESET)"
@@ -111,6 +122,9 @@ fclean: clean cleanlibs
 
 re: fclean all
 
+debug: all
+	valgrind --leak-check=full --show-leak-kinds=all --trace-children=yes --track-fds=all --track-origins=yes --suppressions=ignore_readline.supp -s ./$(NAME)
+
 -include $(DEP)
 
-.PHONY: all cleanlibs clean fclean re makelibft
+.PHONY: all cleanlibs clean fclean re makelibft debug
