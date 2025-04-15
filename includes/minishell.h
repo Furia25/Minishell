@@ -6,20 +6,20 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/14 23:46:44 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/15 16:05:42 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 # include "libft.h"
-# include "hashmap.h"
 # include <unistd.h>
 # include <stdio.h>
 # include <stdbool.h>
 # include <fcntl.h>
 # include <sys/wait.h>
 # include <stdlib.h>
+# include "hashmap.h"
 # include "garbage_collector.h"
 # include "wildcards.h"
 # include "environment.h"
