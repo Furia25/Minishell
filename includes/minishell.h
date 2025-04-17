@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/17 20:34:42 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/18 01:14:37 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@
 # define DEBUG 1
 # define PROMPT "\001\033[35m\002$> \001\033[0m\002"
 # define BUILTIN_FATAL_ERROR	277
-# define BUILTIN_ECHO_FLAG	"-n"
+# define BUILTIN_FLAG_ECHO_NONL	'n'
+# define BUILTIN_FLAG_SEPARATOR	'-'
 
 typedef struct s_minishell
 {
