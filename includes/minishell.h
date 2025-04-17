@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/17 19:24:09 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/17 20:34:42 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # define DEBUG 1
 # define PROMPT "\001\033[35m\002$> \001\033[0m\002"
 # define BUILTIN_FATAL_ERROR	277
+# define BUILTIN_ECHO_FLAG	"-n"
 
 typedef struct s_minishell
 {
@@ -122,5 +123,6 @@ int			env_builtin(t_minishell *data);
 int			pwd_builtin();
 int			export_builtin(int argc, char **argv, t_minishell *data);
 int			unset_builtin(int argc, char **argv, t_minishell *data);
+int			echo_builtin(int argc, char **argv);
 
 #endif

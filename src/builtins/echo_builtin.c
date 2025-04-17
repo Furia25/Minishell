@@ -1,33 +1,44 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset_builtin.c                                    :+:      :+:    :+:   */
+/*   echo_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/17 16:48:05 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/17 19:52:42 by vdurand          ###   ########.fr       */
+/*   Created: 2025/04/17 20:15:50 by vdurand           #+#    #+#             */
+/*   Updated: 2025/04/17 20:41:34 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	unset_builtin(int argc, char **argv, t_minishell *data)
+int	echo_builtin(int argc, char **argv)
 {
-	int				exit_code;
-	t_hash_entry	*entry;
+	bool	do_nl;
+	char	*str;
 
-	if (argc == 1)
-		return (EXIT_FAILURE);
-	exit_code = EXIT_SUCCESS;
+	do_nl = true;
 	while (argc > 1)
 	{
-		entry = hashmap_search(hash(argv[argc]), &data->environment);
-		if (entry != NULL)
-			entry->status = TOMBSTONE;
+		str = argv[argc];
+		if (argc == 2 && ft_strcmp(str, BUILTIN_ECHO_FLAG) == 0)
+		{
+			do_nl = false;
+			ft_printf("fdgfdgfdgfd");
+		}
 		else
-			exit_code = EXIT_FAILURE;
+		{
+			while (str && *str)
+			{
+				if (write(1, str, 1) == -1)
+					return (EXIT_FAILURE);
+				str++;
+			}
+		}
 		argc--;
 	}
-	return (exit_code);
+	if (do_nl)
+		if (write(1, "\n", 1) == -1)
+			return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }

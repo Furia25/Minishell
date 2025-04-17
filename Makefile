@@ -6,7 +6,7 @@
 #    By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/13 23:20:17 by val               #+#    #+#              #
-#    Updated: 2025/04/17 19:23:01 by vdurand          ###   ########.fr        #
+#    Updated: 2025/04/17 20:34:20 by vdurand          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -79,7 +79,8 @@ SRC_FILES = \
 	builtins/env_builtin.c \
 	builtins/export_builtin.c \
 	builtins/unset_builtin.c \
-	builtins/pwd_builtin.c
+	builtins/pwd_builtin.c \
+	builtins/echo_builtin.c
 
 SRC = $(patsubst %.c, $(SRC_DIR)/%.c, $(SRC_FILES))
 OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))

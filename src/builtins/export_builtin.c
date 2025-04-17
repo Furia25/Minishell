@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:40:07 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/17 19:44:06 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/17 20:12:27 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,16 +27,17 @@ int	export_builtin(int argc, char **argv, t_minishell *data)
 	code = EXIT_SUCCESS;
 	while (argv[++index])
 	{
-		if (!ft_isalpha(argv[index][0]) && argv[index][0] != '_')
+		separator = ft_strchri(argv[index], '=');
+		if (argv[index][0] == '=' || \
+			separator <= 0 || \
+			(unsigned long) separator == ft_strlen(argv[index]) - 1 || \
+			(!ft_isalpha(argv[index][0]) && argv[index][0] != '_'))
 		{
 			if (!print_export_error(argv[index]) && code != EXIT_FAILURE)
 				return (BUILTIN_FATAL_ERROR);
 			code = EXIT_FAILURE;
 			continue ;
 		}
-		separator = ft_strchri(argv[index], '=');
-		if (separator == -1 || (unsigned long) separator == ft_strlen(argv[index]) - 1)
-			continue ;
 		if (!make_var_separator(argv[index], separator, data))
 			return (BUILTIN_FATAL_ERROR); //EXIT MINISHELL IF THAT HAPPEN
 	}
@@ -49,9 +50,10 @@ static bool	print_export_error(char *str)
 	long	separator;
 
 	separator = ft_strchri(str, '=');
-	if (separator == -1)
-		return (true);
-	temp = ft_substr(str, 0, separator);
+	if (separator == -1 || separator == 0)
+		temp = ft_substr(str, 0, ft_strlen(str));
+	else
+		temp = ft_substr(str, 0, separator);
 	if (!temp)
 		return (false);
 	ft_putstr_fd("Export : Not a valid identifier : ", 2);
@@ -73,6 +75,8 @@ static bool	make_var_separator(char *str, long separator, t_minishell *data)
 	{
 		if (key)
 			free(key);
+		if (value)
+			free(value);
 		return (false);
 	}
 	var = new_envvar(key, value);

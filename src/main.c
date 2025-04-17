@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 17:17:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/17 19:44:38 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/17 20:40:33 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	main(int argc, char **argv, char **envp)
 			}else
 			if (ft_strncmp(input, "export", 6) == 0)
 			{
-				export_builtin(2, (char *[]){"export", "TEST=1", NULL}, &data);
+				export_builtin(2, (char *[]){"export", "=5", NULL}, &data);
 			}else 
 			if (ft_strncmp(input, "unset", 5) == 0)
 			{
@@ -67,6 +67,10 @@ int	main(int argc, char **argv, char **envp)
 			if (ft_strcmp(input, "pwd") == 0)
 			{
 				pwd_builtin();
+			}else
+			if (ft_strncmp(input, "echo", 4) == 0)
+			{
+				echo_builtin(3, (char *[]){"echo", "-n", "bonjour", NULL});
 			}else
 			{
 				add_history(input);
