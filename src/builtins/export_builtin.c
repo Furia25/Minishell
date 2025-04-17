@@ -6,14 +6,14 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:40:07 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/14 18:25:49 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/17 16:38:03 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static bool	make_var_separator(char *str, long separator, t_minishell *data);
-static bool print_export_error(char *str);
+static bool	print_export_error(char *str);
 
 int	export_builtin(int argc, char **argv, t_minishell *data)
 {
@@ -38,12 +38,12 @@ int	export_builtin(int argc, char **argv, t_minishell *data)
 		if (separator == -1)
 			continue ;
 		if (!make_var_separator(argv[index], separator, data))
-			return (BUILTIN_FATAL_ERROR); //WE HAVE TO EXIT MINISHELL IF THAT HAPPEN (ERROR)
+			return (BUILTIN_FATAL_ERROR); //EXIT MINISHELL IF THAT HAPPEN
 	}
 	return (code);
 }
 
-static bool print_export_error(char *str)
+static bool	print_export_error(char *str)
 {
 	char	*temp;
 	long	separator;

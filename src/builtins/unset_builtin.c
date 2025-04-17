@@ -1,19 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_builtin.c                                      :+:      :+:    :+:   */
+/*   unset_builtin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/11 19:59:32 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/17 16:35:04 by vdurand          ###   ########.fr       */
+/*   Created: 2025/04/17 16:48:05 by vdurand           #+#    #+#             */
+/*   Updated: 2025/04/17 17:06:34 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	env_builtin(t_minishell *data)
+int	unset_builtin(int argc, char **argv, t_minishell *data)
 {
-	env_print(&data->environment);
-	return (EXIT_SUCCESS);
+	int				exit_code;
+	t_hash_entry	*entry;
+
+	if (argc == 1)
+		return (EXIT_FAILURE);
+	exit_code = EXIT_SUCCESS;
+	while (argc > 1)
+	{
+		entry = hashmap_search(hash(argv[argc]), &data->environment);
+		if (entry != NULL)
+			entry->status == TOMBSTONE;
+		else
+			exit_code = EXIT_FAILURE;
+		argc--;
+	}
+	return (exit_code);
 }

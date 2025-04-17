@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 17:18:50 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/14 17:59:17 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/17 17:05:41 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,8 @@ static void	prcs(unsigned long key, size_t i, t_hash_entry last, t_hashmap *map)
 
 	while (1)
 	{
-		if (map->table[i].status == EMPTY || map->table[i].key == key)
+		if (map->table[i].status == EMPTY || 
+			(map->table[i].key == key && map->table[i].status == OCCUPIED))
 		{
 			if (map->table[i].status == EMPTY)
 				map->count++;
@@ -126,7 +127,7 @@ int	hashmap_insert(unsigned long key, void *value, t_hashmap *map)
  * @param map A pointer to the hashmap structure.
  * @return The associated value, or NULL if not found.
  */
-void	*hashmap_search(unsigned long key, t_hashmap *map)
+t_hash_entry	*hashmap_search(unsigned long key, t_hashmap *map)
 {
 	size_t	pos;
 	size_t	dist;
@@ -135,8 +136,9 @@ void	*hashmap_search(unsigned long key, t_hashmap *map)
 	pos = key & (map->size - 1);
 	while (map->table[pos].status != EMPTY)
 	{
-		if (map->table[pos].key == key)
-			return (map->table[pos].value);
+		if (map->table[pos].status != TOMBSTONE)
+			if (map->table[pos].key == key)
+				return (&map->table[pos]);
 		if (dist > map->table[pos].probe_distance)
 			return (NULL);
 		pos = (pos + 1) & (map->size - 1);

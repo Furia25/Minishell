@@ -6,13 +6,13 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 19:12:44 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/14 17:54:41 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/17 16:37:06 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool		hashmap_init_basics(t_hashmap *map, void (*del)(void *))
+bool	hashmap_init_basics(t_hashmap *map, void (*del)(void *))
 {
 	map->del = del;
 	map->size = 1 << HASHMAP_POWER;

@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 19:05:32 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/14 15:45:56 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/17 16:36:45 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ bool	env_populate(char **envp, t_hashmap *environment)
 				continue ;
 			if (!add_envvar(j, envp[i], environment))
 				return (false);
-			break;
+			break ;
 		}
 		i++;
 	}

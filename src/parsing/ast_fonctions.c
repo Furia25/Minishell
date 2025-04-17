@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_fonctions.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 22:28:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/14 23:42:04 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/17 16:42:18 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,7 +184,6 @@ t_leaf	*evaluate_pipe_op(t_AST_node *node)
 			ft_printf("%s", get_next_line(0));
 			exit(0);
 		}
-		wait(NULL);
 		close(pipefd[1]);
 		right_value->fd_input = pipefd[0];
 		if (left_value->fd_input != 0)
@@ -226,7 +225,7 @@ t_leaf	*evaluate_ast(t_AST_node *node)
 	return (NULL);
 }
 
-// int	main(void)
+/*  int	main(void)
 // {
 // 	t_leaf	cmd[5];
 // 	t_AST_node	*cmd1_node;
@@ -286,8 +285,4 @@ t_leaf	*evaluate_ast(t_AST_node *node)
 // 	// printf("ope_after: %d\n", cmd[2].ope_after);
 
 // }
-
-
-
-
-
+ */
