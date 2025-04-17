@@ -6,7 +6,7 @@
 #    By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/13 23:20:17 by val               #+#    #+#              #
-#    Updated: 2025/04/14 18:26:38 by vdurand          ###   ########.fr        #
+#    Updated: 2025/04/17 16:03:21 by vdurand          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,7 @@ SRC_DIR = src
 MAIN_DIR = src_main
 OBJ_DIR = obj
 INC_DIR = includes
-LIBFT_DIR = libs/libft
+LIBFT_DIR = libft
 
 VERBOSE = 0
 
@@ -68,9 +68,9 @@ SRC_FILES = \
 	main.c \
 	wildcards/wildcards_search.c \
 	wildcards/wildcards.c \
-	hashmaps/hashmap_managing.c \
-	hashmaps/hashmap_methods.c \
-	hashmaps/hashmap_utils.c \
+	data_structures/hashmap_managing.c \
+	data_structures/hashmap_methods.c \
+	data_structures/hashmap_utils.c \
 	environment/env_managing.c \
 	environment/env_methods.c \
 	builtins/env_builtin.c \
