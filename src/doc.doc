@@ -380,7 +380,7 @@ Ensuite, elle va réafficher le contenu du buffer (rl_line_buffer) dans le termi
 
 //https://medium.com/basecs/leveling-up-ones-parsing-game-with-asts-d7a6fc2400ff
 
-
+pour subshell utiliser isatty, check si ca ajoute a lhistorique
 
 
 

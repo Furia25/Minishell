@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: val <val@student.42.fr>                    +#+  +:+       +#+         #
+#    By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/15 21:41:19 by val               #+#    #+#              #
-#    Updated: 2025/04/09 01:04:36 by val              ###   ########.fr        #
+#    Updated: 2025/04/18 01:18:05 by alpayet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,7 +72,7 @@ BASE_OBJS = $(BASE_SRC:.c=.o)
 BONUS_OBJS = $(BONUS_SRC:.c=.o)
 ALL_OBJS = $(BASE_OBJS) $(BONUS_OBJS)
 
-all: $(NAME) 
+all: $(NAME)
 
 bonus: .bonus
 
@@ -84,7 +84,7 @@ $(NAME): $(BASE_OBJS)
 	ar rcs $(NAME) $(BASE_OBJS)
 
 %.o: %.c Makefile
-	$(CC) $(CFLAGS) -o $@ -c $< 
+	$(CC) $(CFLAGS) -o $@ -c $<
 
 clean:
 	rm -rf $(BONUS_OBJS) $(BASE_OBJS)

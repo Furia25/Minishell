@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ast_fonctions.c                                    :+:      :+:    :+:   */
+/*   ast_functions.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 22:28:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/14 23:42:04 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/18 01:57:00 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,6 @@ int	execute_cmd(t_leaf *cmd)
 			if (cmd->fd_output != 1)
 				close(cmd->fd_output);
 			ft_printf("%s", get_next_line(0));
-			//exec
 			exit(0);
 		}
 		wait(NULL);

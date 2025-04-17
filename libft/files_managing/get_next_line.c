@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 13:42:49 by vdurand           #+#    #+#             */
-/*   Updated: 2025/02/20 17:30:45 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/18 01:22:12 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,12 +100,12 @@ char	*get_next_line(int fd)
  {
  	int fd = open("1char.txt", O_RDONLY);
  	char *test;
- 	test = get_next_line(fd); 
+ 	test = get_next_line(fd);
  	printf("line = '%s'\n", test);
  	free(test);
  	while (test != NULL)
  	{
- 		test = get_next_line(fd); 
+ 		test = get_next_line(fd);
  		printf("line = '%s'\n", test);
  		free(test);
  	}
