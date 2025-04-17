@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 17:17:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/14 23:30:08 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/17 19:44:38 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,17 @@ int	main(int argc, char **argv, char **envp)
 			}else
 			if (ft_strncmp(input, "export", 6) == 0)
 			{
-				export_builtin(2, (char *[]){"export", "TEST=GROSCACACACACACACACACACACACACACACACACACACACACACACACACACACACA", NULL}, &data);
-			}else {
+				export_builtin(2, (char *[]){"export", "TEST=1", NULL}, &data);
+			}else 
+			if (ft_strncmp(input, "unset", 5) == 0)
+			{
+				unset_builtin(2, (char *[]){"unset", "PATH", "TEST", NULL}, &data);
+			}else
+			if (ft_strcmp(input, "pwd") == 0)
+			{
+				pwd_builtin();
+			}else
+			{
 				add_history(input);
 				wildcard_result = wildcard_lst_from_token(input);
 				if (wildcard_result.code == -1)

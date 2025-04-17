@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 15:20:54 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/14 17:55:00 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/17 17:10:44 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void			hashmap_free_content(t_hashmap *map);
 
 // hashmap_methods.c
 int				hashmap_resize(size_t new_size, t_hashmap *map);
-void			*hashmap_search(unsigned long key, t_hashmap *map);
+t_hash_entry	*hashmap_search(unsigned long key, t_hashmap *map);
 int				hashmap_insert(unsigned long key, void *value, t_hashmap *map);
 
 // hashmap_utils.c

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/15 16:05:42 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/17 19:24:09 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,22 +102,25 @@ typedef struct s_AST_node
 	};
 }	t_AST_node;
 
-t_lst	*lstnew(char *lexeme);
-void	lstadd_back(t_lst **lst, t_lst *new);
-void	lstdelone(t_lst *lst, void (*del)(void*));
-void	lstclear(t_lst **lst, void (*del)(void*));
-void	create_tokens(t_lst **tokens, char *input);
-void	fusion_quote_token(t_lst *tokens);
-void	check_syntax_errors(t_lst *tokens);
-t_leaf *create_cmd_tab(t_lst *tokens);
-char	*ft_strjoin_alt(char *s1, char *s2, t_strjoin free_what);
-void	handle_all_here_doc(t_leaf *command_tab);
+t_lst		*lstnew(char *lexeme);
+void		lstadd_back(t_lst **lst, t_lst *new);
+void		lstdelone(t_lst *lst, void (*del)(void*));
+void		lstclear(t_lst **lst, void (*del)(void*));
+void		create_tokens(t_lst **tokens, char *input);
+void		fusion_quote_token(t_lst *tokens);
+void		check_syntax_errors(t_lst *tokens);
+t_leaf		*create_cmd_tab(t_lst *tokens);
+char		*ft_strjoin_alt(char *s1, char *s2, t_strjoin free_what);
+void		handle_all_here_doc(t_leaf *command_tab);
 t_AST_node	*create_ast(t_leaf *command_tab);
-t_leaf	*evaluate_ast(t_AST_node *node);
-int	execute_cmd(t_leaf *cmd);
-void	rm_here_doc_files(t_leaf *command_tab);
+t_leaf		*evaluate_ast(t_AST_node *node);
+int			execute_cmd(t_leaf *cmd);
+void		rm_here_doc_files(t_leaf *command_tab);
 void		*memset_fast(void *ptr, int value, size_t num);
+
 int			env_builtin(t_minishell *data);
+int			pwd_builtin();
 int			export_builtin(int argc, char **argv, t_minishell *data);
+int			unset_builtin(int argc, char **argv, t_minishell *data);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 19:05:32 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/17 16:36:45 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/17 18:03:10 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,52 +40,4 @@ void	envvar_free(void *el)
 	if (var->value)
 		free(var->value);
 	free(var);
-}
-
-static bool	add_envvar(size_t j, char *str, t_hashmap *env);
-
-bool	env_populate(char **envp, t_hashmap *environment)
-{
-	size_t			i;
-	size_t			j;
-
-	i = 0;
-	while (envp[i])
-	{
-		j = 0;
-		while (envp[i][j++])
-		{
-			if (envp[i][j] != '=')
-				continue ;
-			if (!add_envvar(j, envp[i], environment))
-				return (false);
-			break ;
-		}
-		i++;
-	}
-	return (true);
-}
-
-static bool	add_envvar(size_t j, char *str, t_hashmap *env)
-{
-	t_envvar	*var;
-	char		*key;
-	char		*value;
-
-	key = ft_substr(str, 0, j);
-	if (!key)
-		return (false);
-	value = ft_substr(str, j + 1, ft_strlen(str));
-	if (!value)
-	{
-		free(key);
-		return (false);
-	}
-	var = new_envvar(key, value);
-	if (!hashmap_insert(hash(var->name), var, env))
-	{
-		envvar_free(var);
-		return (false);
-	}
-	return (true);
 }

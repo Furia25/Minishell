@@ -1,33 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset_builtin.c                                    :+:      :+:    :+:   */
+/*   pwd_builtin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/17 16:48:05 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/17 17:10:50 by vdurand          ###   ########.fr       */
+/*   Created: 2025/04/17 19:20:41 by vdurand           #+#    #+#             */
+/*   Updated: 2025/04/17 19:23:26 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	unset_builtin(int argc, char **argv, t_minishell *data)
+int	pwd_builtin()
 {
-	int				exit_code;
-	t_hash_entry	*entry;
+	char	*temp;
 
-	if (argc == 1)
-		return (EXIT_FAILURE);
-	exit_code = EXIT_SUCCESS;
-	while (argc > 1)
-	{
-		entry = hashmap_search(hash(argv[argc]), &data->environment);
-		if (entry != NULL)
-			entry->status = TOMBSTONE;
-		else
-			exit_code = EXIT_FAILURE;
-		argc--;
-	}
-	return (exit_code);
+	temp = getcwd(NULL, 0);
+	if (!temp)
+		return (BUILTIN_FATAL_ERROR);
+	ft_printf("%s", temp);
+	return (EXIT_SUCCESS);
 }

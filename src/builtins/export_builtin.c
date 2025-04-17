@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:40:07 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/17 16:38:03 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/17 19:44:06 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	export_builtin(int argc, char **argv, t_minishell *data)
 			continue ;
 		}
 		separator = ft_strchri(argv[index], '=');
-		if (separator == -1)
+		if (separator == -1 || (unsigned long) separator == ft_strlen(argv[index]) - 1)
 			continue ;
 		if (!make_var_separator(argv[index], separator, data))
 			return (BUILTIN_FATAL_ERROR); //EXIT MINISHELL IF THAT HAPPEN
