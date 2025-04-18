@@ -6,7 +6,7 @@
 #    By: val <val@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/13 23:20:17 by val               #+#    #+#              #
-#    Updated: 2025/04/18 02:34:48 by val              ###   ########.fr        #
+#    Updated: 2025/04/19 01:33:43 by val              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -82,7 +82,8 @@ SRC_FILES = \
 	builtins/unset_builtin.c \
 	builtins/pwd_builtin.c \
 	builtins/echo_builtin.c \
-	builtins/cd_builtin.c
+	builtins/cd_builtin.c \
+	builtins/cd_builtin_utils.c
 
 SRC = $(patsubst %.c, $(SRC_DIR)/%.c, $(SRC_FILES))
 OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
@@ -138,4 +139,4 @@ env_debug: all
 
 -include $(DEP)
 
-.PHONY: all cleanlibs clean fclean re makelibft debug
+.PHONY: all cleanlibs clean fclean re makelibft debug env_debug

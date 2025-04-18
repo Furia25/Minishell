@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 17:17:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/18 17:28:21 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/19 01:34:13 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ int	main(int argc, char **argv, char **envp)
 				export_builtin(2, (char *[]){"export", "HOME=./test_home", NULL}, &data);
 				export_builtin(2, (char *[]){"export", "TEST", NULL}, &data);
 				export_builtin(2, (char *[]){"export", "TEST2=", NULL}, &data);
-				export_builtin(2, (char *[]){"export", "HOME=", NULL}, &data);
 				export_builtin(1, (char *[]){"export", NULL}, &data);
 			}else 
 			if (ft_strncmp(input, "unset", 5) == 0)
@@ -78,7 +77,7 @@ int	main(int argc, char **argv, char **envp)
 			}else
 			if (ft_strcmp(input, "cd") == 0)
 			{
-				cd_builtin(1, (char *[]){"cd", NULL}, &data);
+				cd_builtin(2, (char *[]){"cd", "-", NULL}, &data);
 			}else
 			{
 				add_history(input);
