@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:02:46 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/17 18:42:22 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/18 17:45:41 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,9 @@ static bool env_add_mandatories(t_hashmap *environment)
 	else
 		if (!add_envvar_stack(ENV_SHLVL, "1", environment))
 			return (false);
-	if (!hashmap_search(hash(ENV_PATH), environment))
+	if (!hashmap_search(hash(ENV_PWD), environment))
 	{
-		if (!add_envvar(ft_strdup(ENV_PATH), getcwd(NULL, 0), environment))
+		if (!add_envvar(ft_strdup(ENV_PWD), getcwd(NULL, 0), environment))
 			return (false);
 	}
 	return (true);

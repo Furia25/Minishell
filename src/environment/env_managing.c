@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 19:05:32 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/17 18:03:10 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/18 17:25:56 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ t_envvar	*new_envvar(char *key, char *value)
 		return (NULL);
 	var->name = key;
 	var->value = value;
+	var->exported = true;
 	return (var);
 }
 

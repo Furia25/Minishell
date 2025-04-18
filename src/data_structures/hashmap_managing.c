@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 19:12:44 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/17 17:12:28 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/18 17:23:21 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ bool	hashmap_init_basics(t_hashmap *map, void (*del)(void *))
 	if (!map->table)
 		return (false);
 	map->count = 0;
-	map->charge_factor = HASHMAP_POWER;
+	map->charge_factor = HASHMAP_CHARGEFACTOR;
 	return (true);
 }
 

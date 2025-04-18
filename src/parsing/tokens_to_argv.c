@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_to_argv.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 16:18:39 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/15 16:37:29 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/18 18:04:58 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	**tokens_to_argv(t_lst *tokens)
 
 	tokens_size = lst_size(tokens);
 	argv = malloc((tokens_size + 1) * sizeof(char*));
-	argv[tokens_size] = NULL;
+
 	i = 0;
 	while (i < tokens_size)
 	{
@@ -42,10 +42,11 @@ char	**tokens_to_argv(t_lst *tokens)
 		tokens = tokens->next;
 		i++;
 	}
+	argv[tokens_size] = NULL;
 	return (argv);
 }
 
-int	main(void)
+/* int	main(void)
 {
 	t_lst	*tokens;
 	t_lst	*temp;
@@ -62,4 +63,4 @@ int	main(void)
 		ft_printf("str: %s\n", *argv);
 		argv++;
 	}
-}
+} */

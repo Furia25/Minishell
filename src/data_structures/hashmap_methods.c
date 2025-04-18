@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 17:18:50 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/17 17:23:52 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/18 17:24:22 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int	hashmap_resize(size_t new_size, t_hashmap *map)
 	old_size = map->size;
 	map->table = new_table;
 	map->size = new_size;
+	map->count = 0;
 	index = 0;
 	while (index < old_size)
 	{

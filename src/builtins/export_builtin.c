@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:40:07 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/18 02:32:46 by val              ###   ########.fr       */
+/*   Updated: 2025/04/18 19:35:38 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 static bool	make_var_separator(char *str, long separator, t_minishell *data);
 static int	print_export_error(char *str);
+static bool	is_arg_valid(char *str);
 
 int	export_builtin(int argc, char **argv, t_minishell *data)
 {
@@ -22,16 +23,16 @@ int	export_builtin(int argc, char **argv, t_minishell *data)
 	size_t		index;
 
 	if (argc <= 1)
-		return (env_builtin(data));
+	{
+		env_print(&data->environment, true);
+		return (EXIT_SUCCESS);
+	}
 	index = 0;
 	code = EXIT_SUCCESS;
 	while (argv[++index])
 	{
 		separator = ft_strchri(argv[index], '=');
-		if (argv[index][0] == '=' || \
-			separator <= 0 || \
-			(unsigned long) separator == ft_strlen(argv[index]) - 1 || \
-			(!ft_isalpha(argv[index][0]) && argv[index][0] != '_'))
+		if (is_arg_valid(argv[index]))
 		{
 			if (print_export_error(argv[index]) == -1 && code != EXIT_FAILURE)
 				return (BUILTIN_FATAL_ERROR);
@@ -42,6 +43,11 @@ int	export_builtin(int argc, char **argv, t_minishell *data)
 			return (BUILTIN_FATAL_ERROR); //EXIT MINISHELL IF THAT HAPPEN
 	}
 	return (code);
+}
+
+static bool	is_arg_valid(char *str)
+{
+	return (str[0] == '=' || (!ft_isalpha(str[0]) && str[0] != '_'));
 }
 
 static int	print_export_error(char *str)
@@ -72,19 +78,26 @@ static bool	make_var_separator(char *str, long separator, t_minishell *data)
 	char		*key;
 	char		*value;
 	t_envvar	*var;
+	size_t		size;
 
+	size = ft_strlen(str);
+	if (separator == -1)
+		separator = size;
 	key = ft_substr(str, 0, separator);
-	value = ft_substr(str, separator + 1, ft_strlen(str));
+	value = ft_substr(str, separator + 1, size);
 	if (!value || !key)
 	{
-		if (key)
-			free(key);
-		if (value)
-			free(value);
+		free(key);
+		free(value);
 		return (false);
 	}
 	var = new_envvar(key, value);
-	if (hashmap_insert(hash(key), var, &data->environment) == 0)
+	if (separator == (long) size)
+		var->exported = false;
+	if (!hashmap_insert(hash(key), var, &data->environment))
+	{
+		envvar_free(var);
 		return (false);
+	}
 	return (true);
 }

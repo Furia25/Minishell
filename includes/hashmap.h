@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 15:20:54 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/17 17:10:44 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/18 17:24:26 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define HASHMAP_H
 # include <stddef.h>
 # define HASHMAP_POWER	10
-# define HASHMAP_CHARGEFACTOR	0.7
+# define HASHMAP_CHARGEFACTOR	0.8
 
 typedef enum e_hash_status
 {
