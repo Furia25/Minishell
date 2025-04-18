@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+         #
+#    By: val <val@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/13 23:20:17 by val               #+#    #+#              #
-#    Updated: 2025/04/17 20:34:20 by vdurand          ###   ########.fr        #
+#    Updated: 2025/04/18 02:34:48 by val              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,6 +68,7 @@ endif
 
 SRC_FILES = \
 	main.c \
+	utils/write_utils.c \
 	wildcards/wildcards_search.c \
 	wildcards/wildcards.c \
 	data_structures/hashmap_managing.c \
@@ -80,7 +81,8 @@ SRC_FILES = \
 	builtins/export_builtin.c \
 	builtins/unset_builtin.c \
 	builtins/pwd_builtin.c \
-	builtins/echo_builtin.c
+	builtins/echo_builtin.c \
+	builtins/cd_builtin.c
 
 SRC = $(patsubst %.c, $(SRC_DIR)/%.c, $(SRC_FILES))
 OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))

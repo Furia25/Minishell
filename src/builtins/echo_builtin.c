@@ -6,13 +6,12 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 20:15:50 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/18 01:17:39 by val              ###   ########.fr       */
+/*   Updated: 2025/04/18 02:04:01 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static bool	write_str_secure(char *str);
 static bool	is_valid_flags(char *str);
 
 int	echo_builtin(int argc, char **argv)
@@ -28,7 +27,7 @@ int	echo_builtin(int argc, char **argv)
 			do_nl = false;
 		else
 		{
-			if (!write_str_secure(argv[index]))
+			if (!write_str_secure(argv[index], 1))
 				return (EXIT_FAILURE);
 			if (index < argc - 1 && write(1, " ", 1) == -1)
 				return (EXIT_FAILURE);
@@ -51,17 +50,6 @@ static bool	is_valid_flags(char *str)
 	while (str && *str)
 	{
 		if (*str != BUILTIN_FLAG_ECHO_NONL)
-			return (false);
-		str++;
-	}
-	return (true);
-}
-
-static bool	write_str_secure(char *str)
-{
-	while (str && *str)
-	{
-		if (write(1, str, 1) == -1)
 			return (false);
 		str++;
 	}

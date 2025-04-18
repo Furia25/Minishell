@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environment.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 19:06:05 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/17 18:32:04 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/18 01:53:43 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # define ENV_SHLVL	"SHLVL"
 # define ENV_PATH	"PATH"
+# define ENV_HOME	"HOME"
 typedef struct s_envvar
 {
 	char *value;

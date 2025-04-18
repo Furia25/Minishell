@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   export_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:40:07 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/17 20:12:27 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/18 02:32:46 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static bool	make_var_separator(char *str, long separator, t_minishell *data);
-static bool	print_export_error(char *str);
+static int	print_export_error(char *str);
 
 int	export_builtin(int argc, char **argv, t_minishell *data)
 {
@@ -33,7 +33,7 @@ int	export_builtin(int argc, char **argv, t_minishell *data)
 			(unsigned long) separator == ft_strlen(argv[index]) - 1 || \
 			(!ft_isalpha(argv[index][0]) && argv[index][0] != '_'))
 		{
-			if (!print_export_error(argv[index]) && code != EXIT_FAILURE)
+			if (print_export_error(argv[index]) == -1 && code != EXIT_FAILURE)
 				return (BUILTIN_FATAL_ERROR);
 			code = EXIT_FAILURE;
 			continue ;
@@ -44,7 +44,7 @@ int	export_builtin(int argc, char **argv, t_minishell *data)
 	return (code);
 }
 
-static bool	print_export_error(char *str)
+static int	print_export_error(char *str)
 {
 	char	*temp;
 	long	separator;
@@ -55,12 +55,16 @@ static bool	print_export_error(char *str)
 	else
 		temp = ft_substr(str, 0, separator);
 	if (!temp)
-		return (false);
-	ft_putstr_fd("Export : Not a valid identifier : ", 2);
-	ft_putstr_fd(temp, 2);
-	ft_putchar_fd('\n', 2);
+		return (-1);
+	if (!write_str_secure(BUILTIN_ERROR_EXPORT, 2) || !write_str_secure(temp, 2))
+	{
+		free(temp);
+		return (0);
+	}
 	free(temp);
-	return (true);
+	if (write(2, "\n", 1) == -1)
+		return (0);
+	return (1);
 }
 
 static bool	make_var_separator(char *str, long separator, t_minishell *data)

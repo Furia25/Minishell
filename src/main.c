@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 17:17:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/17 20:40:33 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/18 02:36:15 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	main(int argc, char **argv, char **envp)
 			}else
 			if (ft_strncmp(input, "export", 6) == 0)
 			{
-				export_builtin(2, (char *[]){"export", "=5", NULL}, &data);
+				export_builtin(2, (char *[]){"export", "HOME=./test_home", NULL}, &data);
 			}else 
 			if (ft_strncmp(input, "unset", 5) == 0)
 			{
@@ -71,6 +71,10 @@ int	main(int argc, char **argv, char **envp)
 			if (ft_strncmp(input, "echo", 4) == 0)
 			{
 				echo_builtin(3, (char *[]){"echo", "-n", "bonjour", NULL});
+			}else
+			if (ft_strcmp(input, "cd") == 0)
+			{
+				cd_builtin(1, (char *[]){"cd", NULL}, &data);
 			}else
 			{
 				add_history(input);

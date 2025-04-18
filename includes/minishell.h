@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/18 01:14:37 by val              ###   ########.fr       */
+/*   Updated: 2025/04/18 02:39:34 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,9 @@
 # define BUILTIN_FATAL_ERROR	277
 # define BUILTIN_FLAG_ECHO_NONL	'n'
 # define BUILTIN_FLAG_SEPARATOR	'-'
+# define BUILTIN_ERROR_EXPORT	"export : Not a valid identifier : "
+# define BUILTIN_ERROR_CD	"cd "
+# define BUILTIN_ERROR_CD_HOME "cd : HOME not set\n"
 
 typedef struct s_minishell
 {
@@ -125,5 +128,9 @@ int			pwd_builtin();
 int			export_builtin(int argc, char **argv, t_minishell *data);
 int			unset_builtin(int argc, char **argv, t_minishell *data);
 int			echo_builtin(int argc, char **argv);
+int			cd_builtin(int argc, char **argv, t_minishell *data);
+
+// UTILS
+bool	write_str_secure(char *str, int fd);
 
 #endif
