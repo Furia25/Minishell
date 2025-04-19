@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:22:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/14 18:12:05 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/19 23:09:53 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,18 @@ size_t word_token(t_lst **tokens, char *str)
 	t_lst	*new_node;
 
 	i = 0;
-	while (ft_isprint(str[i]) != 0 && ft_strchr("|&;()<> \'\"", str[i]) == NULL)
+	while (ft_strchr("|&;<>() \t\'\"", str[i]) == NULL)
+	{
+		if (str[i] == '$')
+		{
+			i++;
+			while (str[i] != '\0' && str[i] != ')')
+				i++;
+			if (str[i] == '\0')
+				not_interpret_chara('(', "\' (unclosed parenthesis)");
+		}
 		i++;
+	}
 	node_lexeme = ft_substr(str, 0, i);//a secur
 	new_node = lstnew(node_lexeme);//a secur
 	new_node->type = WORD;
@@ -101,11 +111,11 @@ void	create_tokens(t_lst **tokens, char *input)
 	token_len = 0;
 	if (*input == '\0')
 		return ;
-	while ((*input >= 9 && *input <= 13) || *input == ' ')
+	while (*input == ' ' || *input == '\t')
 		input++;
 	if ((*input == '&' && *(input + 1) != '&') || *input == ';' || *input == '\\')
 		not_interpret_chara(*input, "\'");
-	if (ft_isprint(*input) != 0 && ft_strchr("|&;()<> \'\"", *input) == NULL)
+	if (ft_strchr("|&;()<> \t\'\"", *input) == NULL)
 		token_len = word_token(tokens, input);
 	if (*input == '\'')
 		token_len = single_quote_token(tokens, input);
@@ -124,9 +134,7 @@ void	create_tokens(t_lst **tokens, char *input)
 // {
 // 	t_lst	*tokens;
 // 	t_lst	*temp;
-// 	char *input = "<>aaaaa";
-
-
+// 	char *input = "echo  ss$(ls)sss";
 // 	tokens = NULL;
 // 	create_tokens(&tokens, input);
 // 	fusion_quote_token(tokens);

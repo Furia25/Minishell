@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/15 16:05:42 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/19 19:49:29 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef enum s_lexeme_type
 	AND,
 	OR,
 	PIPE,
+	SUBSHELL,
 	LINE_CHANGE
 }	t_lexeme_type;
 
@@ -103,6 +104,7 @@ typedef struct s_AST_node
 }	t_AST_node;
 
 t_lst	*lstnew(char *lexeme);
+t_lst	*lstlast(t_lst *lst);
 void	lstadd_back(t_lst **lst, t_lst *new);
 void	lstdelone(t_lst *lst, void (*del)(void*));
 void	lstclear(t_lst **lst, void (*del)(void*));

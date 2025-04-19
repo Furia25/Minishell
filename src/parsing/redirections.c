@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 23:39:47 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/14 18:06:10 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/18 21:59:07 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -273,7 +273,6 @@ void	rm_here_doc_files(t_leaf *command_tab)
 // 	printf("fd_out : %d\n", command_tab->fd_output);
 // 	printf("parenthesis : %d\n", command_tab->parenthesis);
 // 	printf("ope_after : %d\n\n", command_tab->ope_after);
-
 // }
 
 
