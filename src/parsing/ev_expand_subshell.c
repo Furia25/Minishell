@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:47:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/20 17:54:34 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/20 22:38:29 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,6 @@ t_lst	*create_subshell_lst(char *str)
 void	handle_subshell_in_cmd(t_leaf *command_tab)
 {
 	t_lst	*temp;
-	t_lst	*next_buff;
 	t_lst	*subshell_lst;
 	char	*new_lexeme;
 

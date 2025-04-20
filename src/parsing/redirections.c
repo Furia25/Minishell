@@ -6,18 +6,16 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 23:39:47 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/20 18:17:11 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/20 22:49:06 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "debug.h"
 #include <errno.h>
 char	*handle_dollars_in_lexeme(char *str);
 
 void	handle_red_input(t_leaf *command_tab, char *file)
 {
-	int	fd_buff;
-
 	//verifier que le fichier existe bien sinon erreur
 	if (command_tab->fd_input == -1 || command_tab->fd_output == -1)
 		return ;
@@ -113,6 +111,8 @@ void	write_in_here_doc_file(t_lst *token_eof, int fd)
 			free(input);
 			input = buff;
 		}
+		if (DEBUG == 4 || DEBUG == 1)
+			ft_printf("input: %s\n", input);
 		write(fd, input, ft_strlen(input));
 		write(fd, "\n", 1);
 		free(input);
@@ -121,9 +121,7 @@ void	write_in_here_doc_file(t_lst *token_eof, int fd)
 
 char	*handle_here_doc(t_leaf *command_tab, t_lst	*token_eof)
 {
-	char	*input;
 	char	*here_doc_file;
-	int	i;
 	int	fd;
 
 	if (command_tab->fd_input == -1)

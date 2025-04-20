@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 23:49:57 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/18 20:40:28 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/20 18:47:54 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,3 @@ void	fusion_quote_token(t_lst *tokens)
 		temp = temp->next;
 	}
 }
-
-
-

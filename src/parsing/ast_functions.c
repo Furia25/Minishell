@@ -6,11 +6,11 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 22:28:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/20 17:53:11 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/21 00:06:32 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "debug.h"
 #include "ft_printf.h"
 void	handle_reds_and_del(t_leaf *command_tab);
 
@@ -74,9 +74,7 @@ t_AST_node	*create_if_found(t_leaf *command_tab, t_leaf *buff)
 
 t_AST_node	*create_ast(t_leaf *command_tab)
 {
-	t_lexeme_type		op;
 	t_leaf	*buff;
-	t_leaf *cmd_tab_in_par;
 
 	buff = NULL;
 	if (command_tab->ope_after == LINE_CHANGE
@@ -105,8 +103,14 @@ int	execute_cmd(t_leaf *cmd)
 		return (returned_value);
 	}
 	handle_reds_and_del(cmd);
+	print_debug_all_cmd(cmd, ONLY_LEXEME, 6,
+		"\ndisplay command after handle redi\n");
 	handle_subshell_in_cmd(cmd);
+	print_debug_lst(cmd->tokens, ONLY_LEXEME, 7,
+		"\ndisplay command->tokens after handle ev_expension and subshell\n");
 	fusion_quote_token(cmd->tokens);
+	print_debug_lst(cmd->tokens, ONLY_LEXEME, 8,
+		"\ndisplay command->tokens after handle fusion quotes\n");
 	if (cmd->fd_input != -1 && cmd->fd_output != -1)
 	{
 		pid = fork();
@@ -131,7 +135,7 @@ int	execute_cmd(t_leaf *cmd)
 	return (1);
 }
 
-t_leaf	*evaluate_logical_op(t_lexeme_type op, t_AST_node *node)
+t_leaf	*evaluate_logical_op(t_AST_node *node)
 {
 	t_leaf	*left_value;
 	t_leaf	*right_value;
@@ -160,15 +164,19 @@ t_leaf	*evaluate_pipe_op(t_AST_node *node)
 	t_leaf	*left_value;
 	t_leaf	*right_value;
 	int		pipefd[2];
-	int		fd_input;
-	int		fd_output;
 	pid_t		pid;
 
 	left_value = evaluate_ast(node->t_ope_node.left_node);
 	right_value = evaluate_ast(node->t_ope_node.right_node);
 	handle_reds_and_del(left_value);
+	print_debug_all_cmd(left_value, ONLY_LEXEME, 6,
+		"\ndisplay command after handle redi\n");
 	handle_subshell_in_cmd(left_value);
+	print_debug_lst(left_value->tokens, ONLY_LEXEME, 7,
+		"\ndisplay command->tokens after handle ev_expension and subshell\n");
 	fusion_quote_token(left_value->tokens);
+	print_debug_lst(left_value->tokens, ONLY_LEXEME, 8,
+		"\ndisplay command->tokens after handle fusion quotes\n");
 	if (left_value->fd_input != -1 && left_value->fd_output != -1)
 	{
 		pipe(pipefd);
@@ -201,7 +209,6 @@ t_leaf	*evaluate_pipe_op(t_AST_node *node)
 t_leaf	*evaluate_ast(t_AST_node *node)
 {
 	t_leaf	*value;
-	int	pipefd[2];
 	pid_t	pid;
 
 	if (node->type == NODE_COMMAND)
@@ -221,9 +228,9 @@ t_leaf	*evaluate_ast(t_AST_node *node)
 			return (node->command);
 	}
 	if (node->t_ope_node.control_operator == AND)
-		return (evaluate_logical_op(AND, node));
+		return (evaluate_logical_op(node));
 	if (node->t_ope_node.control_operator == OR)
-		return (evaluate_logical_op(OR, node));
+		return (evaluate_logical_op(node));
 	if (node->t_ope_node.control_operator == PIPE)
 		return (evaluate_pipe_op(node));
 	return (NULL);

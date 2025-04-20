@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+         #
+#    By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/13 23:20:17 by val               #+#    #+#              #
-#    Updated: 2025/04/14 18:26:38 by vdurand          ###   ########.fr        #
+#    Updated: 2025/04/20 22:16:53 by alpayet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,7 +48,7 @@ SRC_DIR = src
 MAIN_DIR = src_main
 OBJ_DIR = obj
 INC_DIR = includes
-LIBFT_DIR = libs/libft
+LIBFT_DIR = libft
 
 VERBOSE = 0
 
@@ -65,23 +65,37 @@ else
 endif
 
 SRC_FILES = \
-	main.c \
+	test_parsing.c \
 	wildcards/wildcards_search.c \
 	wildcards/wildcards.c \
-	hashmaps/hashmap_managing.c \
-	hashmaps/hashmap_methods.c \
-	hashmaps/hashmap_utils.c \
+	data_structures/hashmap_managing.c \
+	data_structures/hashmap_methods.c \
+	data_structures/hashmap_utils.c \
+	data_structures/lst_functions.c \
 	environment/env_managing.c \
 	environment/env_methods.c \
 	builtins/env_builtin.c \
-	builtins/export_builtin.c
+	builtins/export_builtin.c \
+	lexing/not_interpret.c \
+	lexing/quotes.c \
+	lexing/tokenization.c \
+	parsing/ast_functions.c \
+	parsing/command_table.c \
+	parsing/ev_expand_subshell.c \
+	parsing/redirections.c \
+	parsing/syntax_errors.c \
+	parsing/tokens_to_argv.c \
+	utils/strjoin_alt.c \
+	debug/print_argv.c \
+	debug/print_cmd.c \
+	debug/print_lst.c
 
 SRC = $(patsubst %.c, $(SRC_DIR)/%.c, $(SRC_FILES))
 OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 DEP = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.d, $(SRC))
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g3
+CFLAGS = -Wall -Wextra -Werror
 READLINE_INC = -I/usr/local/include
 INCLUDES = -I$(INC_DIR) -I$(LIBFT_DIR) $(READLINE_INC)
 LDFLAGS = -L$(LIBFT_DIR) -lft -L/usr/local/lib -lreadline
@@ -99,7 +113,7 @@ makelibft:
 	$(SILENT)$(MAKE) bonus -C $(LIBFT_DIR) $(DUMP_OUT)
 	@echo "$(GREEN)>>> Compilation achieved!$(RESET)"
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c Makefile $(INC_DIR)/*.h $(LIBFT_DIR)/libft.a | $(OBJ_DIR) 
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c Makefile $(INC_DIR)/*.h $(LIBFT_DIR)/libft.a | $(OBJ_DIR)
 	$(SILENT) mkdir -p $(dir $@)
 	@echo "$(BLUE)>>> Compiling $<...$(RESET)"
 	$(SILENT)$(CC) $(FLAGS) $(INCLUDES) -c $< -o $@

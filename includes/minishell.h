@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/20 17:31:27 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/20 22:33:47 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-# define DEBUG 1
 # define PROMPT "\001\033[35m\002$> \001\033[0m\002"
 # define BUILTIN_FATAL_ERROR	277
 

@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 10:43:50 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/14 23:42:32 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/20 22:38:56 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,6 @@ int 	check_op_after(t_leaf *command_tab, t_lst **temp, t_lst **prev)
 void	fill_tab(t_leaf *command_tab, t_lst *tokens)
 {
 	t_lst	*temp;
-	t_lst	*parenth_buff;
 	t_lst	*prev;
 
 	temp = tokens;
