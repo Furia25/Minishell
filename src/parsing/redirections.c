@@ -6,12 +6,13 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 23:39:47 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/18 21:59:07 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/20 18:17:11 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <errno.h>
+char	*handle_dollars_in_lexeme(char *str);
 
 void	handle_red_input(t_leaf *command_tab, char *file)
 {
@@ -93,17 +94,24 @@ int	open_new_here_doc_file(t_leaf *command_tab, char **here_doc_file)
 	return (fd);
 }
 
-void	write_in_here_doc_file(char *eof, int fd)
+void	write_in_here_doc_file(t_lst *token_eof, int fd)
 {
 	char	*input;
+	char	*buff;
 
 	while (1)
 	{
 		input = readline("> ");
-		if (ft_strcmp(input, eof) == 0)
+		if (ft_strcmp(input, token_eof->lexeme) == 0)
 		{
 			free(input);
 			break ;
+		}
+		if (token_eof->type != SINGLE_Q)
+		{
+			buff = handle_dollars_in_lexeme(input);
+			free(input);
+			input = buff;
 		}
 		write(fd, input, ft_strlen(input));
 		write(fd, "\n", 1);
@@ -111,7 +119,7 @@ void	write_in_here_doc_file(char *eof, int fd)
 	}
 }
 
-char	*handle_here_doc(t_leaf *command_tab, char *eof)
+char	*handle_here_doc(t_leaf *command_tab, t_lst	*token_eof)
 {
 	char	*input;
 	char	*here_doc_file;
@@ -122,7 +130,7 @@ char	*handle_here_doc(t_leaf *command_tab, char *eof)
 		return (NULL);
 	here_doc_file = ft_strdup("/tmp/here_doc");
 	fd = open_new_here_doc_file(command_tab, &here_doc_file);
-	write_in_here_doc_file(eof, fd);
+	write_in_here_doc_file(token_eof, fd);
 	close(fd);
 	return (here_doc_file);
 }
@@ -190,7 +198,7 @@ void	here_doc_to_red_input(t_leaf *command_tab)
 	{
 		if (temp->type == HERE_DOC)
 		{
-			here_doc_file = handle_here_doc(command_tab, temp->next->lexeme);
+			here_doc_file = handle_here_doc(command_tab, temp->next);
 			free(temp->next->lexeme);
 			temp->type = RED_IN;
 			temp->next->lexeme = here_doc_file;

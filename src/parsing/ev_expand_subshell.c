@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:47:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/19 23:12:56 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/20 17:54:34 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	*handle_subshell_in_lexeme(char *str, size_t *i_ptr)
 	}
 	close(pipefd[0]);
 	close(pipefd2[1]);
-	write(pipefd[1], "a b", 3);
+	write(pipefd[1], "test1\ntest2", 11);
 	close(pipefd[1]);
 	wait(NULL);
 	str = stock_file_in_str(pipefd2[0]);
@@ -163,24 +163,24 @@ void	handle_subshell_in_cmd(t_leaf *command_tab)
 	}
 }
 
-int	main(void)
-{
-	char *input = "echo  $(ls)a";
-	t_lst	*tokens;
-	t_leaf *command_tab;
-	t_lst	*temp;
+// int	main(void)
+// {
+// 	char *input = "echo  df$(ls)a$(ls)dfd";
+// 	t_lst	*tokens;
+// 	t_leaf *command_tab;
+// 	t_lst	*temp;
 
-	tokens = NULL;
-	create_tokens(&tokens, input);
-	check_syntax_errors(tokens);
-	command_tab = create_cmd_tab(tokens);
-	handle_subshell_in_cmd(command_tab);
-	fusion_quote_token(command_tab->tokens);
-	temp = command_tab->tokens;
-	while (temp)
-	{
-		printf("\nNew node\n");
-		printf("%s\n", temp->lexeme);
-		temp = temp->next;
-	}
-}
+// 	tokens = NULL;
+// 	create_tokens(&tokens, input);
+// 	check_syntax_errors(tokens);
+// 	command_tab = create_cmd_tab(tokens);
+// 	handle_subshell_in_cmd(command_tab);
+// 	fusion_quote_token(command_tab->tokens);
+// 	temp = command_tab->tokens;
+// 	while (temp)
+// 	{
+// 		printf("\nNew node\n");
+// 		printf("%s\n", temp->lexeme);
+// 		temp = temp->next;
+// 	}
+// }

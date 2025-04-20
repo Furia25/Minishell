@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:37:34 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/17 13:42:56 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/20 18:04:24 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	main(void)
 {
-	char *input = "<<eof cat | cat > /root/ && cat > caca";
+	char *input = "<<$(ls) cat";
 	t_lst	*tokens;
 	t_leaf *command_tab;
 	t_leaf	*final;
@@ -22,7 +22,6 @@ int	main(void)
 	tokens = NULL;
 	create_tokens(&tokens, input);
 	check_syntax_errors(tokens);
-	fusion_quote_token(tokens);
 	command_tab = create_cmd_tab(tokens);
 	handle_all_here_doc(command_tab);
 	final = evaluate_ast(create_ast(command_tab));

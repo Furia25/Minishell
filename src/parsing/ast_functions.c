@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 22:28:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/18 01:57:00 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/20 17:53:11 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,8 @@ int	execute_cmd(t_leaf *cmd)
 		return (returned_value);
 	}
 	handle_reds_and_del(cmd);
+	handle_subshell_in_cmd(cmd);
+	fusion_quote_token(cmd->tokens);
 	if (cmd->fd_input != -1 && cmd->fd_output != -1)
 	{
 		pid = fork();
@@ -165,6 +167,8 @@ t_leaf	*evaluate_pipe_op(t_AST_node *node)
 	left_value = evaluate_ast(node->t_ope_node.left_node);
 	right_value = evaluate_ast(node->t_ope_node.right_node);
 	handle_reds_and_del(left_value);
+	handle_subshell_in_cmd(left_value);
+	fusion_quote_token(left_value->tokens);
 	if (left_value->fd_input != -1 && left_value->fd_output != -1)
 	{
 		pipe(pipefd);

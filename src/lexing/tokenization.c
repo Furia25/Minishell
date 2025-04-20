@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:22:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/19 23:09:53 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/20 18:08:26 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ void	create_tokens(t_lst **tokens, char *input)
 // {
 // 	t_lst	*tokens;
 // 	t_lst	*temp;
-// 	char *input = "echo  ss$(ls)sss";
+// 	char *input = "<<$(ls) cat";
 // 	tokens = NULL;
 // 	create_tokens(&tokens, input);
 // 	fusion_quote_token(tokens);
