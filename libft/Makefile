@@ -6,12 +6,12 @@
 #    By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/15 21:41:19 by val               #+#    #+#              #
-#    Updated: 2025/04/18 01:18:05 by alpayet          ###   ########.fr        #
+#    Updated: 2025/04/21 14:04:19 by alpayet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 INCLUDE_DIR = ./
-CFLAGS = -Wall -Wextra -Werror -I$(INCLUDE_DIR)
+CFLAGS = -Wall -Wextra -Werror -fPIC -I$(INCLUDE_DIR)
 CC = cc
 NAME = libft.a
 

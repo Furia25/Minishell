@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 23:49:57 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/21 02:17:14 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/21 14:17:08 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,8 +69,7 @@ void	fusion_quote_token(t_lst *tokens)
 			|| tokens->type == SINGLE_Q || tokens->type == DOUBLE_Q)
 			&& tokens->metacharacter_after == false)
 		{
-			if (tokens->next->type == WORD || tokens->next->type == SINGLE_Q
-					|| tokens->next->type == DOUBLE_Q)
+			if (tokens->next->type != SUBSHELL)
 			{
 				tokens->lexeme = ft_strjoin_alt(tokens->lexeme, tokens->next->lexeme,
 					FREE_PARAM1);

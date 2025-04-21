@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:47:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/21 02:42:00 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/21 16:48:46 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	*handle_subshell_in_lexeme(char *str, size_t *i_ptr)
 	}
 	close(pipefd[0]);
 	close(pipefd2[1]);
-	write(pipefd[1], "test1   test2", 13);
+	write(pipefd[1], "  test1   test2  ", 17);
 	close(pipefd[1]);
 	wait(NULL);
 	str = stock_file_in_str(pipefd2[0]);
@@ -99,10 +99,18 @@ t_lst	*create_subshell_lst(t_lst *token)
 
 	subshell_lst = NULL;
 	i = 0;
+	while (ft_strchr("\n\t ", (token->lexeme)[i]) != NULL)
+	{
+		if ((token->lexeme)[i] == '\0')
+		{
+			free(token->lexeme);
+			token->lexeme = ft_calloc(1, sizeof(char));
+			return (NULL);
+		}
+		i++;
+	}
 	while ((token->lexeme)[i] != '\0')
 	{
-		while (ft_strchr("\n\t ", (token->lexeme)[i]) != NULL)
-			i++;
 		j = 0;
 		while (ft_strchr("\n\t ", (token->lexeme)[i + j]) == NULL)
 			j++;
@@ -110,13 +118,19 @@ t_lst	*create_subshell_lst(t_lst *token)
 			return (NULL);
 		node_lexeme = ft_substr(token->lexeme, i, j);
 		new_node = lstnew(node_lexeme);
-		new_node->type = SUBSHELL;
+		if (i == 0)
+			new_node->type = WORD;
+		else
+			new_node->type = SUBSHELL;
 		new_node->metacharacter_after = token->metacharacter_after;
 		lstadd_back(&subshell_lst, new_node);
-		if ((token->lexeme)[i + j] != '\0')
-			i = i + j + 1;
-		else
-			break ;
+		while (ft_strchr("\n\t ", (token->lexeme)[i + j]) != NULL)
+		{
+			if ((token->lexeme)[i + j] == '\0')
+				return (subshell_lst);
+			j++;
+		}
+		i = i + j;
 	}
 	return (subshell_lst);
 }
@@ -134,8 +148,10 @@ void	handle_subshell_in_cmd(t_leaf *command_tab)
 		{
 			new_lexeme = handle_dollars_in_lexeme(temp->lexeme);
 			free(temp->lexeme);
-			temp->lexeme = ft_strtrim(new_lexeme, "\n\t ");
-			free(new_lexeme);
+			if (ft_strchr("\n\t ",
+				 new_lexeme[ft_strlen(new_lexeme) - 1]) != NULL)
+				temp->metacharacter_after = true;
+			temp->lexeme = new_lexeme;
 		}
 		temp = temp->next;
 	}
