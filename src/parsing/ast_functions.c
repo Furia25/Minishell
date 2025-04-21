@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 22:28:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/21 00:06:32 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/21 02:59:19 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,15 +102,15 @@ int	execute_cmd(t_leaf *cmd)
 		free(cmd);
 		return (returned_value);
 	}
-	handle_reds_and_del(cmd);
-	print_debug_all_cmd(cmd, ONLY_LEXEME, 6,
-		"\ndisplay command after handle redi\n");
 	handle_subshell_in_cmd(cmd);
-	print_debug_lst(cmd->tokens, ONLY_LEXEME, 7,
+	print_debug_lst(cmd->tokens, LEXEME_AND_TYPE, 6,
 		"\ndisplay command->tokens after handle ev_expension and subshell\n");
 	fusion_quote_token(cmd->tokens);
-	print_debug_lst(cmd->tokens, ONLY_LEXEME, 8,
+	print_debug_lst(cmd->tokens, ONLY_LEXEME, 7,
 		"\ndisplay command->tokens after handle fusion quotes\n");
+	handle_reds_and_del(cmd);
+	print_debug_all_cmd(cmd, ONLY_LEXEME, 8,
+		"\ndisplay command after handle redi\n");
 	if (cmd->fd_input != -1 && cmd->fd_output != -1)
 	{
 		pid = fork();
@@ -168,15 +168,15 @@ t_leaf	*evaluate_pipe_op(t_AST_node *node)
 
 	left_value = evaluate_ast(node->t_ope_node.left_node);
 	right_value = evaluate_ast(node->t_ope_node.right_node);
-	handle_reds_and_del(left_value);
-	print_debug_all_cmd(left_value, ONLY_LEXEME, 6,
-		"\ndisplay command after handle redi\n");
 	handle_subshell_in_cmd(left_value);
-	print_debug_lst(left_value->tokens, ONLY_LEXEME, 7,
+	print_debug_lst(left_value->tokens, LEXEME_AND_TYPE, 6,
 		"\ndisplay command->tokens after handle ev_expension and subshell\n");
 	fusion_quote_token(left_value->tokens);
-	print_debug_lst(left_value->tokens, ONLY_LEXEME, 8,
+	print_debug_lst(left_value->tokens, ONLY_LEXEME, 7,
 		"\ndisplay command->tokens after handle fusion quotes\n");
+	handle_reds_and_del(left_value);
+	print_debug_all_cmd(left_value, ONLY_LEXEME, 8,
+		"\ndisplay command after handle redi\n");
 	if (left_value->fd_input != -1 && left_value->fd_output != -1)
 	{
 		pipe(pipefd);

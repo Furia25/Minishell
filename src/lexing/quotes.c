@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 23:49:57 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/20 18:47:54 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/21 02:17:14 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ size_t single_quote_token(t_lst **tokens, char *str)
 	node_lexeme = ft_substr(str, 1, i - 1);//a secur
 	new_node = lstnew(node_lexeme);//a secur
 	new_node->type = SINGLE_Q;
-	if (ft_strchr("|&;()<> ", str[i + 1]) != NULL)
+	if (ft_strchr("|&;()<> \t", str[i + 1]) != NULL)
 		new_node->metacharacter_after = true;
 	else
 		new_node->metacharacter_after = false;
@@ -59,19 +59,27 @@ size_t double_quote_token(t_lst **tokens, char *str)
 
 void	fusion_quote_token(t_lst *tokens)
 {
-	t_lst *temp;
+	t_lst *buff;
 
-	temp = tokens;
-	while (temp)
+	while (tokens)
 	{
-		if ((temp->type == SINGLE_Q || temp->type == DOUBLE_Q)
-			&& temp->metacharacter_after == false)
+		if (tokens->next == NULL)
+			return ;
+		if ((tokens->type == WORD || tokens->type == SUBSHELL
+			|| tokens->type == SINGLE_Q || tokens->type == DOUBLE_Q)
+			&& tokens->metacharacter_after == false)
 		{
-			temp->lexeme = ft_strjoin_alt(temp->lexeme, temp->next->lexeme,
-				FREE_PARAM1);
-			lstdelone(temp->next, free);
-			temp->next = temp->next->next;
+			if (tokens->next->type == WORD || tokens->next->type == SINGLE_Q
+					|| tokens->next->type == DOUBLE_Q)
+			{
+				tokens->lexeme = ft_strjoin_alt(tokens->lexeme, tokens->next->lexeme,
+					FREE_PARAM1);
+				buff = tokens->next->next;
+				lstdelone(tokens->next, free);
+				tokens->next = buff;
+				continue ;
+			}
 		}
-		temp = temp->next;
+		tokens = tokens->next;
 	}
 }

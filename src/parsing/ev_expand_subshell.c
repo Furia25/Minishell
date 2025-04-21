@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:47:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/20 22:38:29 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/21 02:42:00 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	*handle_subshell_in_lexeme(char *str, size_t *i_ptr)
 	}
 	close(pipefd[0]);
 	close(pipefd2[1]);
-	write(pipefd[1], "test1\ntest2", 11);
+	write(pipefd[1], "test1   test2", 13);
 	close(pipefd[1]);
 	wait(NULL);
 	str = stock_file_in_str(pipefd2[0]);
@@ -89,7 +89,7 @@ char	*handle_dollars_in_lexeme(char *str)
 	return (ft_substr(str, 0, ft_strlen(str)));
 }
 
-t_lst	*create_subshell_lst(char *str)
+t_lst	*create_subshell_lst(t_lst *token)
 {
 	t_lst	*subshell_lst;
 	size_t	i;
@@ -99,17 +99,21 @@ t_lst	*create_subshell_lst(char *str)
 
 	subshell_lst = NULL;
 	i = 0;
-	while (str[i] != '\0')
+	while ((token->lexeme)[i] != '\0')
 	{
+		while (ft_strchr("\n\t ", (token->lexeme)[i]) != NULL)
+			i++;
 		j = 0;
-		while (ft_strchr("\n\t ", str[i + j]) == NULL)
+		while (ft_strchr("\n\t ", (token->lexeme)[i + j]) == NULL)
 			j++;
-		if (j == ft_strlen(str))
+		if (j == ft_strlen(token->lexeme))
 			return (NULL);
-		node_lexeme = ft_substr(str, i, j);
+		node_lexeme = ft_substr(token->lexeme, i, j);
 		new_node = lstnew(node_lexeme);
+		new_node->type = SUBSHELL;
+		new_node->metacharacter_after = token->metacharacter_after;
 		lstadd_back(&subshell_lst, new_node);
-		if (str[i + j] != '\0')
+		if ((token->lexeme)[i + j] != '\0')
 			i = i + j + 1;
 		else
 			break ;
@@ -138,7 +142,7 @@ void	handle_subshell_in_cmd(t_leaf *command_tab)
 	temp = command_tab->tokens;
 	if (temp->type == WORD)
 	{
-		subshell_lst = create_subshell_lst(temp->lexeme);
+		subshell_lst = create_subshell_lst(temp);
 		if (subshell_lst != NULL)
 		{
 			command_tab->tokens = subshell_lst;
@@ -150,7 +154,7 @@ void	handle_subshell_in_cmd(t_leaf *command_tab)
 	{
 		if (temp->next->type == WORD)
 		{
-			subshell_lst = create_subshell_lst(temp->next->lexeme);
+			subshell_lst = create_subshell_lst(temp->next);
 			if (subshell_lst != NULL)
 			{
 				lstdelone(temp->next, free);

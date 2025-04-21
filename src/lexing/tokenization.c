@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:22:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/20 18:08:26 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/21 00:27:11 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,10 @@ size_t word_token(t_lst **tokens, char *str)
 	node_lexeme = ft_substr(str, 0, i);//a secur
 	new_node = lstnew(node_lexeme);//a secur
 	new_node->type = WORD;
+	if (ft_strchr("|&;()<> \t", str[i]) != NULL)
+		new_node->metacharacter_after = true;
+	else
+		new_node->metacharacter_after = false;
 	lstadd_back(tokens, new_node);
 	return (i);
 }

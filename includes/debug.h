@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 19:01:44 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/21 00:12:54 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/21 02:54:42 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,16 @@
 3: display command_tab just after creating it
 4: display input in here doc after handle ev_expension and subshell
 5: display command_tab after handle here doc (change node type )
-6: display command after handle redi (rm some nodes of command->tokens and change fd values)
-7: display command->tokens after handle ev_expension and subshell
-8: display command->tokens after handle fusion quotes*/
+6: display command->tokens after handle ev_expension and subshell
+7: display command->tokens after handle fusion quotes
+8: display command after handle redi (rm some nodes of command->tokens and change fd values)*/
 
 #ifndef DEBUG_H
 # define DEBUG_H
 # include "minishell.h"
 
 #ifndef DEBUG
-# define DEBUG 6
+# define DEBUG 4
 #endif
 
 typedef enum s_lst_members
