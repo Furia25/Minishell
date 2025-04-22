@@ -380,7 +380,7 @@ Ensuite, elle va réafficher le contenu du buffer (rl_line_buffer) dans le termi
 
 //https://medium.com/basecs/leveling-up-ones-parsing-game-with-asts-d7a6fc2400ff
 
-
+pour subshell utiliser isatty, check si ca ajoute a lhistorique
 
 
 
@@ -433,8 +433,16 @@ Cas limites à tester :
         wildcard_matches("abc", "a?c?") → false (OK)
 
 
+- exit
+- ENV _ < 
+- signaux
+- exec
+- expansion et $?
+- Wildcard .
 
 
-
-
-
+t_hash_entry *test = hashmap_search(hash(expand), &data.environment);
+	if (!test)
+		return ()
+t_envvar *test2 = (t_envvar *)test->value;
+test2->name;

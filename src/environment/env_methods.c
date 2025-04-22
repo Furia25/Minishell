@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:20:04 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/18 17:32:35 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/22 19:23:25 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,51 @@ void	env_print(t_hashmap *environment, bool print_local)
 		}
 		index++;
 	}
+}
+
+char	**make_env(t_hashmap *env)
+{
+	char			**result;
+	size_t			index;
+	int				actual_count;
+
+	result = ft_calloc(env->count + 1, sizeof(char *));
+	if (!result)
+		return (NULL);
+	index = 0;
+	actual_count = 0;
+	while (index < env->size && actual_count < env->count)
+	{
+		if (env->table[index].status == OCCUPIED)
+		{
+			result[actual_count] = envvar_str(env->table[index].value);
+			if (!result[actual_count])
+			{
+				free_chartab(result);
+				return (NULL);
+			}
+			actual_count++;
+		}
+		index++;
+	}
+	return (result);
+}
+
+char	*envvar_str(t_envvar *var)
+{
+	char	*result;
+	char	*temp;
+
+	if (!var || !var->name || var->value)
+		return (NULL);
+	temp = ft_strjoin(var->name, "=");
+	if (!temp)
+		return (NULL);
+	result = ft_strjoin_alt(temp, var->value, FREE_PARAM1);
+	if (!result)
+	{
+		free(temp);
+		return (NULL);
+	}
+	return (result);
 }

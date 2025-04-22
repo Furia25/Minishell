@@ -6,7 +6,7 @@
 #    By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/13 23:20:17 by val               #+#    #+#              #
-#    Updated: 2025/04/22 16:20:19 by vdurand          ###   ########.fr        #
+#    Updated: 2025/04/22 19:41:14 by vdurand          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -83,7 +83,8 @@ SRC_FILES = \
 	builtins/pwd_builtin.c \
 	builtins/echo_builtin.c \
 	builtins/cd_builtin.c \
-	builtins/cd_builtin_utils.c
+	builtins/cd_builtin_utils.c \
+	utils/strjoin_alt.c
 
 SRC = $(patsubst %.c, $(SRC_DIR)/%.c, $(SRC_FILES))
 OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
