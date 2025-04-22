@@ -434,7 +434,16 @@ Cas limites à tester :
 
 
 
+- Hahsmap -> env
+- exit
+- ENV _ < 
+- signaux
+- exec
+- expansion et $?
 
 
-
-
+t_hash_entry *test = hashmap_search(hash(expand), &data.environment);
+	if (!test)
+		return ()
+t_envvar *test2 = (t_envvar *)test->value;
+test2->name;

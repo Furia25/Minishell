@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ev_expand_subshell.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:47:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/21 16:48:46 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/22 17:18:38 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	*handle_subshell_in_lexeme(char *str, size_t *i_ptr)
 	}
 	close(pipefd[0]);
 	close(pipefd2[1]);
-	write(pipefd[1], "  test1   test2  ", 17);
+	write(pipefd[1], "test1   test2", 13);
 	close(pipefd[1]);
 	wait(NULL);
 	str = stock_file_in_str(pipefd2[0]);
