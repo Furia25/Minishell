@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: val <val@student.42.fr>                    +#+  +:+       +#+         #
+#    By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/13 23:20:17 by val               #+#    #+#              #
-#    Updated: 2025/04/19 01:33:43 by val              ###   ########.fr        #
+#    Updated: 2025/04/22 16:20:19 by vdurand          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -135,7 +135,7 @@ debug: all
 	$(DEBUG_VALGRIND) ./$(NAME)
 
 env_debug: all
-	$(DEBUG_VALGRIND) env -i ./$(NAME)
+	env -i $(DEBUG_VALGRIND) ./$(NAME)
 
 -include $(DEP)
 

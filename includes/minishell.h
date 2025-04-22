@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/19 01:36:21 by val              ###   ########.fr       */
+/*   Updated: 2025/04/22 16:17:51 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 
 # define DEBUG 1
 # define PROMPT "\001\033[35m\002$> \001\033[0m\002"
-# define BUILTIN_FATAL_ERROR	277
+# define BUILTIN_FATAL_ERROR	177
 # define BUILTIN_FLAG_ECHO_NONL	'n'
 # define BUILTIN_FLAG_SEPARATOR	'-'
 # define BUILTIN_ERROR_EXPORT	"export : Not a valid identifier : "
@@ -40,8 +40,9 @@
 
 typedef struct s_minishell
 {
-	t_garbage_collector	gc;
-	t_hashmap			environment;
+	t_garbage_collector			gc;
+	t_hashmap					environment;
+	unsigned char				exit_code;
 }	t_minishell;
 
 typedef enum s_strjoin
@@ -72,20 +73,20 @@ typedef enum s_lexeme_type
 
 typedef struct s_lst
 {
-	char *lexeme;
-	t_lexeme_type type;
-	bool metacharacter_after;
-	struct s_lst *next;
+	char			*lexeme;
+	t_lexeme_type	type;
+	bool			metacharacter_after;
+	struct s_lst	*next;
 }	t_lst;
 
 typedef struct s_leaf
 {
-	t_lst *tokens;
-	int fd_input;
-	int fd_output;
-	int returned_value;
-	bool parenthesis;
-	t_lexeme_type ope_after;
+	t_lst			*tokens;
+	int				fd_input;
+	int				fd_output;
+	int				returned_value;
+	bool			parenthesis;
+	t_lexeme_type	ope_after;
 }	t_leaf;
 
 typedef enum s_node_type
