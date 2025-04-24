@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 00:18:29 by val               #+#    #+#             */
-/*   Updated: 2025/04/22 20:20:04 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/24 17:55:32 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,7 @@ t_wsearch	wildcard_explore(char *dir_name, t_wildcard *wd, size_t depth)
 	{
 		if (should_skip_entry(file->d_name, wd, depth))
 			continue ;
-		if (ft_strcmp(file->d_name, ".") == 0 || ft_strcmp(file->d_name, "..") == 0)
-			new_path = ft_strdup(file->d_name);
-		else
-			new_path = get_dirfile_name(dir_name, file->d_name);
+		new_path = get_dirfile_name(dir_name, file->d_name);
 		if (!new_path)
 			return (clean_return(results, dir, NULL));
 		if (!switch_depth_handler(new_path, wd, depth, &results))
@@ -101,12 +98,8 @@ static bool	should_skip_entry(char *name, t_wildcard *wd, size_t depth)
 
 	p = wd->rules[depth];
     show_hidden = (p[0] == '.' || ft_strnstr(p, "/.", ft_strlen(p)));
-	if (name[0] == '.')
-	{
-		if (!ft_strcmp(name, ".") || !ft_strcmp(name, ".."))
-			return (!show_hidden);
-		return (!show_hidden);
-	}
+	if (name[0] == '.' && !show_hidden)
+		return (true);
 	return (!wildcard_matches(name, p));
 }
 
