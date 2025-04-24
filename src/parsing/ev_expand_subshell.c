@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ev_expand_subshell.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:47:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/22 17:18:38 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/24 19:49:06 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ void	handle_subshell_in_cmd(t_leaf *command_tab)
 			new_lexeme = handle_dollars_in_lexeme(temp->lexeme);
 			free(temp->lexeme);
 			if (ft_strchr("\n\t ",
-				 new_lexeme[ft_strlen(new_lexeme) - 1]) != NULL)
+				new_lexeme[ft_strlen(new_lexeme) - 1]) != NULL)
 				temp->metacharacter_after = true;
 			temp->lexeme = new_lexeme;
 		}

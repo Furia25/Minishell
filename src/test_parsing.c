@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:37:34 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/21 14:51:52 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/22 21:21:31 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	main(void)
 {
-	char *input = "echo 'qqqqq'$(ls)'qqqqq'";
+	char *input = "echo <ssdsdsa | cat >ddasasdadsdasdas | cat";
 	t_lst	*tokens;
 	t_leaf *command_tab;
 	t_leaf	*final;

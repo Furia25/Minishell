@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/21 01:08:55 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/24 19:58:58 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct s_minishell
 {
 	t_garbage_collector	gc;
 	t_hashmap			environment;
+	unsigned	char				exit_code;
 }	t_minishell;
 
 typedef enum s_strjoin

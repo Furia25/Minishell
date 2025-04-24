@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 22:28:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/21 02:59:19 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/24 21:12:54 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,11 +111,16 @@ int	execute_cmd(t_leaf *cmd)
 	handle_reds_and_del(cmd);
 	print_debug_all_cmd(cmd, ONLY_LEXEME, 8,
 		"\ndisplay command after handle redi\n");
-	if (cmd->fd_input != -1 && cmd->fd_output != -1)
+	pid = fork();
+	if (pid == 0)
 	{
-		pid = fork();
-		if (pid == 0)
+		if (cmd->parenthesis == false)
 		{
+			handle_reds_and_del(cmd);
+			if (cmd->fd_input == -1 || cmd->fd_output == -1)
+				exit(1);
+			print_debug_all_cmd(cmd, ONLY_LEXEME, 8,
+				"\ndisplay command after handle redi\n");
 			dup2(cmd->fd_input, 0);
 			dup2(cmd->fd_output, 1);
 			if (cmd->fd_input != 0)
@@ -125,13 +130,10 @@ int	execute_cmd(t_leaf *cmd)
 			ft_printf("%s", get_next_line(0));
 			exit(0);
 		}
-		wait(NULL);
-		if (cmd->fd_input != 0)
-			close(cmd->fd_input);
-		if (cmd->fd_output != 1)
-			close(cmd->fd_output);
-		return (0);
+		else
+		{}	//execve minishell
 	}
+	wait(NULL);
 	return (1);
 }
 
@@ -174,18 +176,20 @@ t_leaf	*evaluate_pipe_op(t_AST_node *node)
 	fusion_quote_token(left_value->tokens);
 	print_debug_lst(left_value->tokens, ONLY_LEXEME, 7,
 		"\ndisplay command->tokens after handle fusion quotes\n");
-	handle_reds_and_del(left_value);
-	print_debug_all_cmd(left_value, ONLY_LEXEME, 8,
-		"\ndisplay command after handle redi\n");
-	if (left_value->fd_input != -1 && left_value->fd_output != -1)
+	pipe(pipefd);
+	pid = fork();
+	if (pid == 0)
 	{
-		pipe(pipefd);
-		pid = fork();
-		if (pid == 0)
+		close(pipefd[0]);
+		dup2(pipefd[1], 1);
+		close(pipefd[1]);
+		if (left_value->parenthesis == false)
 		{
-			close(pipefd[0]);
-			dup2(pipefd[1], 1);
-			close(pipefd[1]);
+			handle_reds_and_del(left_value);
+			if (left_value->fd_input == -1 || left_value->fd_output == -1)
+				exit(1);
+			print_debug_all_cmd(left_value, ONLY_LEXEME, 8,
+				"\ndisplay command after handle redi\n");
 			dup2(left_value->fd_input, 0);
 			dup2(left_value->fd_output, 1);
 			if (left_value->fd_input != 0)
@@ -195,14 +199,11 @@ t_leaf	*evaluate_pipe_op(t_AST_node *node)
 			ft_printf("%s", get_next_line(0));
 			exit(0);
 		}
-		wait(NULL);
-		close(pipefd[1]);
-		right_value->fd_input = pipefd[0];
-		if (left_value->fd_input != 0)
-			close(left_value->fd_input);
-		if (left_value->fd_output != 1)
-			close(left_value->fd_output);
+		else
+		{}	//execve minishell
 	}
+	close(pipefd[1]);
+	right_value->fd_input = pipefd[0];
 	return (right_value);
 }
 
@@ -212,21 +213,7 @@ t_leaf	*evaluate_ast(t_AST_node *node)
 	pid_t	pid;
 
 	if (node->type == NODE_COMMAND)
-	{
-		if (node->command->parenthesis == true)
-		{
-			pid = fork();
-			if (pid == 0)
-			{}	//execve minishell
-			wait(NULL);
-			value = malloc(sizeof(t_leaf));
-			value->tokens = NULL;
-			value->returned_value = 0;
-			return (value);
-		}
-		else
-			return (node->command);
-	}
+		return (node->command);
 	if (node->t_ope_node.control_operator == AND)
 		return (evaluate_logical_op(node));
 	if (node->t_ope_node.control_operator == OR)
