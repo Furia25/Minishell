@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/25 17:51:42 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/25 18:14:46 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@
 
 # define PROMPT "\001\033[35m\002$> \001\033[0m\002"
 # define BUILTIN_FATAL_ERROR	177
-# define MALLOC_ERROR	42
 # define BUILTIN_FLAG_ECHO_NONL	'n'
 # define BUILTIN_FLAG_SEPARATOR	'-'
 # define BUILTIN_ERROR_EXPORT	"export : Not a valid identifier : "
@@ -53,6 +52,11 @@ typedef enum s_strjoin
 	FREE_PARAM1 = 1<<1,
 	FREE_PARAM2 = 1<<2,
 }	t_strjoin;
+
+typedef enum	e_exit_type
+{	
+	EXIT_NORMAL,
+}	t_exit;
 
 void		not_interpret_chara(char chara, char *str, t_minishell	*data);
 int			execute_cmd(t_leaf *cmd, t_minishell *data);
