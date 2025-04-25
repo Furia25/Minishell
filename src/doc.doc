@@ -440,7 +440,8 @@ Cas limites à tester :
 - signaux
 - exec
 - expansion et $?
-
+- a regler gnl
+- refacto gc
 
 t_hash_entry *test = hashmap_search(hash(expand), &data.environment);
 	if (!test)
