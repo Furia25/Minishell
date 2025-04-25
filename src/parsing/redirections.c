@@ -6,15 +6,15 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 23:39:47 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/20 22:49:06 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/25 02:06:24 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "debug.h"
+#include "minishell.h"
 #include <errno.h>
-char	*handle_dollars_in_lexeme(char *str);
+char	*handle_dollars_in_lexeme(char *str, t_minishell *data);
 
-void	handle_red_input(t_leaf *command_tab, char *file)
+void	handle_red_input(t_leaf *command_tab, char *file, t_minishell *data)
 {
 	//verifier que le fichier existe bien sinon erreur
 	if (command_tab->fd_input == -1 || command_tab->fd_output == -1)
@@ -28,7 +28,7 @@ void	handle_red_input(t_leaf *command_tab, char *file)
 		unlink(file);
 }
 
-void	handle_red_output(t_leaf *command_tab, char *file)
+void	handle_red_output(t_leaf *command_tab, char *file, t_minishell *data)
 {
 	//verifier que le fichier existe bien sinon le creer
 	if (command_tab->fd_input == -1 || command_tab->fd_output == -1)
@@ -40,7 +40,7 @@ void	handle_red_output(t_leaf *command_tab, char *file)
 		perror(file);
 }
 
-void	handle_red_output_append(t_leaf *command_tab, char *file)
+void	handle_red_output_append(t_leaf *command_tab, char *file, t_minishell *data)
 {
 	//verifier que le fichier existe bien sinon le creer
 	if (command_tab->fd_input == -1 || command_tab->fd_output == -1)
@@ -52,7 +52,7 @@ void	handle_red_output_append(t_leaf *command_tab, char *file)
 		perror(file);
 }
 
-void	handle_red_input_output(t_leaf *command_tab, char *file)
+void	handle_red_input_output(t_leaf *command_tab, char *file, t_minishell *data)
 {
 	//verifier que le fichier existe bien sinon le creer
 	if (command_tab->fd_input == -1 || command_tab->fd_output == -1)
@@ -64,7 +64,7 @@ void	handle_red_input_output(t_leaf *command_tab, char *file)
 		perror(file);
 }
 
-int	open_new_here_doc_file(t_leaf *command_tab, char **here_doc_file)
+int	open_new_here_doc_file(t_leaf *command_tab, char **here_doc_file, t_minishell *data)
 {
 	int		fd;
 	int		i;
@@ -77,6 +77,7 @@ int	open_new_here_doc_file(t_leaf *command_tab, char **here_doc_file)
 		{
 			free(*here_doc_file);
 			*here_doc_file = ft_strjoin_alt("/tmp/here_doc", ft_itoa(i), FREE_PARAM2);
+			check_malloc(*here_doc_file, data);
 			fd = open(*here_doc_file, O_WRONLY | O_CREAT | O_EXCL, 0644);
 			if (fd != -1)
 				break;
@@ -92,7 +93,7 @@ int	open_new_here_doc_file(t_leaf *command_tab, char **here_doc_file)
 	return (fd);
 }
 
-void	write_in_here_doc_file(t_lst *token_eof, int fd)
+void	write_in_here_doc_file(t_lst *token_eof, int fd, t_minishell *data)
 {
 	char	*input;
 	char	*buff;
@@ -100,6 +101,7 @@ void	write_in_here_doc_file(t_lst *token_eof, int fd)
 	while (1)
 	{
 		input = readline("> ");
+		check_malloc(input, data);
 		if (ft_strcmp(input, token_eof->lexeme) == 0)
 		{
 			free(input);
@@ -107,7 +109,8 @@ void	write_in_here_doc_file(t_lst *token_eof, int fd)
 		}
 		if (token_eof->type != SINGLE_Q)
 		{
-			buff = handle_dollars_in_lexeme(input);
+			buff = handle_dollars_in_lexeme(input, data);
+			check_malloc(buff, data);
 			free(input);
 			input = buff;
 		}
@@ -119,7 +122,7 @@ void	write_in_here_doc_file(t_lst *token_eof, int fd)
 	}
 }
 
-char	*handle_here_doc(t_leaf *command_tab, t_lst	*token_eof)
+char	*handle_here_doc(t_leaf *command_tab, t_lst	*token_eof, t_minishell *data)
 {
 	char	*here_doc_file;
 	int	fd;
@@ -127,25 +130,26 @@ char	*handle_here_doc(t_leaf *command_tab, t_lst	*token_eof)
 	if (command_tab->fd_input == -1)
 		return (NULL);
 	here_doc_file = ft_strdup("/tmp/here_doc");
-	fd = open_new_here_doc_file(command_tab, &here_doc_file);
-	write_in_here_doc_file(token_eof, fd);
+	check_malloc(here_doc_file, data);
+	fd = open_new_here_doc_file(command_tab, &here_doc_file, data);
+	write_in_here_doc_file(token_eof, fd, data);
 	close(fd);
 	return (here_doc_file);
 }
 
-int	check_redi(t_leaf *command_tab, t_lst *token)
+int	check_redi(t_leaf *command_tab, t_lst *token, t_minishell *data)
 {
 	if (token->type == RED_IN || token->type == RED_OUT
 		|| token->type == RED_OUT_A || token->type == RED_IN_OUT)
 	{
 		if (token->type == RED_IN)
-			handle_red_input(command_tab, token->next->lexeme);
+			handle_red_input(command_tab, token->next->lexeme, data);
 		if (token->type == RED_OUT)
-			handle_red_output(command_tab, token->next->lexeme);
+			handle_red_output(command_tab, token->next->lexeme, data);
 		if (token->type == RED_OUT_A)
-			handle_red_output_append(command_tab, token->next->lexeme);
+			handle_red_output_append(command_tab, token->next->lexeme, data);
 		if (token->type == RED_IN_OUT)
-			handle_red_input_output(command_tab, token->next->lexeme);
+			handle_red_input_output(command_tab, token->next->lexeme, data);
 		return (0);
 	}
 	return (1);
@@ -157,13 +161,13 @@ void	del_reds_tokens(t_lst *token)
 	lstdelone(token, free);
 }
 
-void	handle_reds_and_del(t_leaf *command_tab)
+void	handle_reds_and_del(t_leaf *command_tab, t_minishell *data)
 {
 	t_lst	*temp;
 	t_lst	*prev;
 
 	while (command_tab->tokens != NULL
-		&& check_redi(command_tab, command_tab->tokens) == 0)
+		&& check_redi(command_tab, command_tab->tokens, data) == 0)
 	{
 		temp = command_tab->tokens;
 		command_tab->tokens = command_tab->tokens->next->next;
@@ -172,7 +176,7 @@ void	handle_reds_and_del(t_leaf *command_tab)
 	temp = command_tab->tokens;
 	while (temp)
 	{
-		if (check_redi(command_tab, temp) == 0)
+		if (check_redi(command_tab, temp, data) == 0)
 		{
 			prev->next = temp->next->next;
 			del_reds_tokens(temp);
@@ -186,7 +190,7 @@ void	handle_reds_and_del(t_leaf *command_tab)
 	}
 }
 
-void	here_doc_to_red_input(t_leaf *command_tab)
+void	here_doc_to_red_input(t_leaf *command_tab, t_minishell *data)
 {
 	t_lst	*temp;
 	char	*here_doc_file;
@@ -196,7 +200,7 @@ void	here_doc_to_red_input(t_leaf *command_tab)
 	{
 		if (temp->type == HERE_DOC)
 		{
-			here_doc_file = handle_here_doc(command_tab, temp->next);
+			here_doc_file = handle_here_doc(command_tab, temp->next, data);
 			free(temp->next->lexeme);
 			temp->type = RED_IN;
 			temp->next->lexeme = here_doc_file;
@@ -207,14 +211,14 @@ void	here_doc_to_red_input(t_leaf *command_tab)
 	}
 }
 
-void	handle_all_here_doc(t_leaf *command_tab)
+void	handle_all_here_doc(t_leaf *command_tab, t_minishell *data)
 {
 	while (command_tab->ope_after != LINE_CHANGE)
 	{
-		here_doc_to_red_input(command_tab);
+		here_doc_to_red_input(command_tab, data);
 		command_tab++;
 	}
-	here_doc_to_red_input(command_tab);
+	here_doc_to_red_input(command_tab, data);
 }
 
 void	rm_here_doc_files(t_leaf *command_tab)

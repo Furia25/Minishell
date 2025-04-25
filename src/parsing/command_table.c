@@ -6,14 +6,13 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 10:43:50 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/20 22:38:56 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/25 03:29:42 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-void	not_interpret_chara(char chara, char *str);
 
-size_t	cmds_number(t_lst *tokens)
+size_t	cmds_number(t_lst *tokens, t_minishell *data)
 {
 	size_t	i;
 	t_lst	*parenth_buff;
@@ -31,7 +30,7 @@ size_t	cmds_number(t_lst *tokens)
 				tokens = tokens->next;
 			}
 			if (parenth_buff == NULL)
-				not_interpret_chara('(', "\' (unclosed parenthesis)");
+				not_interpret_chara('(', "\' (unclosed parenthesis)", data);
 			tokens = parenth_buff;
 		}
 		if (tokens->type == PIPE
@@ -66,7 +65,7 @@ t_lst	*parenthesis_cmd(t_leaf *command_tab, t_lst *tokens, t_lst **prev)
 	return (tokens);
 }
 
-int 	check_op_after(t_leaf *command_tab, t_lst **temp, t_lst **prev)
+int	check_op_after(t_leaf *command_tab, t_lst **temp, t_lst **prev)
 {
 	if ((*temp)->type == PIPE)
 		command_tab->ope_after = PIPE;
@@ -126,13 +125,14 @@ void	initialise_cmds_fd(t_leaf *command_tab, size_t	commands_number)
 	}
 }
 
-t_leaf *create_cmd_tab(t_lst *tokens)
+t_leaf	*create_cmd_tab(t_lst *tokens, t_minishell *data)
 {
 	t_leaf *command_tab;
 	size_t	commands_number;
 
-	commands_number = cmds_number(tokens);
+	commands_number = cmds_number(tokens, data);
 	command_tab = malloc(sizeof(t_leaf) * commands_number);
+	check_malloc(command_tab, data);
 	initialise_cmds_fd(command_tab, commands_number);
 	fill_tab(command_tab, tokens);
 	return (command_tab);

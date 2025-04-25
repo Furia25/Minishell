@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 19:01:44 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/22 21:20:23 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/24 22:54:38 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # include "minishell.h"
 
 #ifndef DEBUG
-# define DEBUG 0
+# define DEBUG 2
 #endif
 
 typedef enum s_lst_members

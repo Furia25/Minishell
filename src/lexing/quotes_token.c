@@ -1,19 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   quotes.c                                           :+:      :+:    :+:   */
+/*   quotes_token.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 23:49:57 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/21 14:17:08 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/25 03:29:31 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-void	not_interpret_chara(char chara, char *str);
 
-size_t single_quote_token(t_lst **tokens, char *str)
+size_t single_quote_token(t_lst **tokens, char *str, t_minishell *data)
 {
 	size_t	i;
 	char *node_lexeme;
@@ -23,9 +22,11 @@ size_t single_quote_token(t_lst **tokens, char *str)
 	while (str[i] != '\0' && str[i] != '\'')
 		i++;
 	if (str[i] == '\0')
-		not_interpret_chara('\'', "\' (unclosed single quote)");
-	node_lexeme = ft_substr(str, 1, i - 1);//a secur
-	new_node = lstnew(node_lexeme);//a secur
+		not_interpret_chara('\'', "\' (unclosed single quote)", data);
+	node_lexeme = ft_substr(str, 1, i - 1);
+	check_malloc(node_lexeme, data);
+	new_node = lstnew(node_lexeme);
+	check_malloc(new_node, data);
 	new_node->type = SINGLE_Q;
 	if (ft_strchr("|&;()<> \t", str[i + 1]) != NULL)
 		new_node->metacharacter_after = true;
@@ -35,7 +36,7 @@ size_t single_quote_token(t_lst **tokens, char *str)
 	return (i + 1);
 }
 
-size_t double_quote_token(t_lst **tokens, char *str)
+size_t double_quote_token(t_lst **tokens, char *str, t_minishell *data)
 {
 	size_t	i;
 	char *node_lexeme;
@@ -45,9 +46,11 @@ size_t double_quote_token(t_lst **tokens, char *str)
 	while (str[i] != '\0' && str[i] != '\"')
 		i++;
 	if (str[i] == '\0')
-		not_interpret_chara('\"', "\' (unclosed double quote)");
-	node_lexeme = ft_substr(str, 1, i - 1);//a secur
-	new_node = lstnew(node_lexeme);//a secur
+		not_interpret_chara('\"', "\' (unclosed double quote)", data);
+	node_lexeme = ft_substr(str, 1, i - 1);
+	check_malloc(node_lexeme, data);
+	new_node = lstnew(node_lexeme);
+	check_malloc(new_node, data);
 	new_node->type = DOUBLE_Q;
 	if (ft_strchr("|&;()<> ", str[i + 1]) != NULL)
 		new_node->metacharacter_after = true;
@@ -57,7 +60,7 @@ size_t double_quote_token(t_lst **tokens, char *str)
 	return (i + 1);
 }
 
-void	fusion_quote_token(t_lst *tokens)
+void	fusion_quote_token(t_lst *tokens, t_minishell *data)
 {
 	t_lst *buff;
 
@@ -73,6 +76,7 @@ void	fusion_quote_token(t_lst *tokens)
 			{
 				tokens->lexeme = ft_strjoin_alt(tokens->lexeme, tokens->next->lexeme,
 					FREE_PARAM1);
+				check_malloc(tokens->lexeme, data);
 				buff = tokens->next->next;
 				lstdelone(tokens->next, free);
 				tokens->next = buff;

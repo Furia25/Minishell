@@ -6,13 +6,13 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 16:18:39 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/20 22:43:22 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/25 00:37:20 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-size_t lst_size(t_lst *lst)
+static size_t lst_size(t_lst *lst)
 {
 	size_t	i;
 
@@ -25,7 +25,7 @@ size_t lst_size(t_lst *lst)
 	return (i);
 }
 
-char	**tokens_to_argv(t_lst *tokens)
+char	**tokens_to_argv(t_lst *tokens, t_minishell *data)
 {
 	char	**argv;
 	size_t	tokens_size;
@@ -33,6 +33,7 @@ char	**tokens_to_argv(t_lst *tokens)
 
 	tokens_size = lst_size(tokens);
 	argv = malloc((tokens_size + 1) * sizeof(char*));
+	check_malloc(argv, data);
 	argv[tokens_size] = NULL;
 	i = 0;
 	while (i < tokens_size)

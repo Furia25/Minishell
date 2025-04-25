@@ -6,29 +6,33 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 22:28:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/24 21:12:54 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/25 03:16:13 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "debug.h"
+#include "minishell.h"
 #include "ft_printf.h"
-void	handle_reds_and_del(t_leaf *command_tab);
+void	handle_subshell_in_cmd(t_leaf *command_tab, t_minishell *data);
+void	fusion_quote_token(t_lst *tokens, t_minishell *data);
+void	handle_reds_and_del(t_leaf *command_tab, t_minishell *data);
 
-t_AST_node	*create_leaf_node(t_leaf *cmd)
+t_AST_node	*create_leaf_node(t_leaf *cmd, t_minishell *data)
 {
 	t_AST_node	*node;
 
 	node = malloc(sizeof(t_AST_node));
+	check_malloc(node, data);
 	node->type = NODE_COMMAND;
 	node->command = cmd;
 	return (node);
 }
 
-t_AST_node	*create_parent_node(t_lexeme_type ope, t_AST_node *left, t_AST_node *right)
+t_AST_node	*create_parent_node(t_lexeme_type ope, t_AST_node *left, t_AST_node *right, t_minishell *data)
 {
 	t_AST_node	*node;
 
 	node = malloc(sizeof(t_AST_node));
+	check_malloc(node, data);
 	node->type = NODE_OPERATOR_CONTROL;
 	node->t_ope_node.control_operator = ope;
 	node->t_ope_node.left_node = left;
@@ -62,34 +66,34 @@ void	latest_pipe_op(t_leaf *cmds, t_leaf **buff)
 	}
 }
 
-t_AST_node	*create_if_found(t_leaf *command_tab, t_leaf *buff)
+t_AST_node	*create_if_found(t_leaf *command_tab, t_leaf *buff, t_minishell *data)
 {
 	t_lexeme_type	op;
 
 	op = buff->ope_after;
 	buff->ope_after = VOID;
-	return (create_parent_node(op, create_ast(command_tab)
-			, create_ast(buff + 1)));
+	return (create_parent_node(op, create_ast(command_tab, data)
+			, create_ast(buff + 1, data), data));
 }
 
-t_AST_node	*create_ast(t_leaf *command_tab)
+t_AST_node	*create_ast(t_leaf *command_tab, t_minishell *data)
 {
 	t_leaf	*buff;
 
 	buff = NULL;
 	if (command_tab->ope_after == LINE_CHANGE
 		|| command_tab->ope_after == VOID)
-		return (create_leaf_node(command_tab));
+		return (create_leaf_node(command_tab, data));
 	latest_logical_op(command_tab, &buff);
 	if (buff != NULL)
-		return (create_if_found(command_tab, buff));
+		return (create_if_found(command_tab, buff, data));
 	latest_pipe_op(command_tab, &buff);
 	if (buff != NULL)
-		return (create_if_found(command_tab, buff));
+		return (create_if_found(command_tab, buff, data));
 	return (NULL);
 }
 
-int	execute_cmd(t_leaf *cmd)
+int	execute_cmd(t_leaf *cmd, t_minishell *data)
 {
 	pid_t	pid;
 	int returned_value;
@@ -102,21 +106,18 @@ int	execute_cmd(t_leaf *cmd)
 		free(cmd);
 		return (returned_value);
 	}
-	handle_subshell_in_cmd(cmd);
+	handle_subshell_in_cmd(cmd, data);
 	print_debug_lst(cmd->tokens, LEXEME_AND_TYPE, 6,
 		"\ndisplay command->tokens after handle ev_expension and subshell\n");
-	fusion_quote_token(cmd->tokens);
+	fusion_quote_token(cmd->tokens, data);
 	print_debug_lst(cmd->tokens, ONLY_LEXEME, 7,
 		"\ndisplay command->tokens after handle fusion quotes\n");
-	handle_reds_and_del(cmd);
-	print_debug_all_cmd(cmd, ONLY_LEXEME, 8,
-		"\ndisplay command after handle redi\n");
 	pid = fork();
 	if (pid == 0)
 	{
 		if (cmd->parenthesis == false)
 		{
-			handle_reds_and_del(cmd);
+			handle_reds_and_del(cmd, data);
 			if (cmd->fd_input == -1 || cmd->fd_output == -1)
 				exit(1);
 			print_debug_all_cmd(cmd, ONLY_LEXEME, 8,
@@ -137,7 +138,7 @@ int	execute_cmd(t_leaf *cmd)
 	return (1);
 }
 
-t_leaf	*evaluate_logical_op(t_AST_node *node)
+t_leaf	*evaluate_logical_op(t_AST_node *node, t_minishell *data)
 {
 	t_leaf	*left_value;
 	t_leaf	*right_value;
@@ -145,35 +146,35 @@ t_leaf	*evaluate_logical_op(t_AST_node *node)
 	if (node->t_ope_node.control_operator == AND)
 	{
 		left_value = evaluate_ast(node->t_ope_node.left_node);
-		if (execute_cmd(left_value) == 0) // gerer avec $?
+		if (execute_cmd(left_value, data) == 0) // gerer avec $?
 		{
-			right_value = evaluate_ast(node->t_ope_node.right_node);
+			right_value = evaluate_ast(node->t_ope_node.right_node, data);
 			return (right_value);
 		}
 		return (NULL);
 	}
-	left_value = evaluate_ast(node->t_ope_node.left_node);
-	if (execute_cmd(left_value) != 0) // gerer avec $?
+	left_value = evaluate_ast(node->t_ope_node.left_node, data);
+	if (execute_cmd(left_value, data) != 0) // gerer avec $?
 	{
-		right_value = evaluate_ast(node->t_ope_node.right_node);
+		right_value = evaluate_ast(node->t_ope_node.right_node, data);
 		return (right_value);
 	}
 	return (NULL);
 }
 
-t_leaf	*evaluate_pipe_op(t_AST_node *node)
+t_leaf	*evaluate_pipe_op(t_AST_node *node, t_minishell *data)
 {
 	t_leaf	*left_value;
 	t_leaf	*right_value;
 	int		pipefd[2];
 	pid_t		pid;
 
-	left_value = evaluate_ast(node->t_ope_node.left_node);
-	right_value = evaluate_ast(node->t_ope_node.right_node);
-	handle_subshell_in_cmd(left_value);
+	left_value = evaluate_ast(node->t_ope_node.left_node, data);
+	right_value = evaluate_ast(node->t_ope_node.right_node, data);
+	handle_subshell_in_cmd(left_value, data);
 	print_debug_lst(left_value->tokens, LEXEME_AND_TYPE, 6,
 		"\ndisplay command->tokens after handle ev_expension and subshell\n");
-	fusion_quote_token(left_value->tokens);
+	fusion_quote_token(left_value->tokens, data);
 	print_debug_lst(left_value->tokens, ONLY_LEXEME, 7,
 		"\ndisplay command->tokens after handle fusion quotes\n");
 	pipe(pipefd);
@@ -185,7 +186,7 @@ t_leaf	*evaluate_pipe_op(t_AST_node *node)
 		close(pipefd[1]);
 		if (left_value->parenthesis == false)
 		{
-			handle_reds_and_del(left_value);
+			handle_reds_and_del(left_value, data);
 			if (left_value->fd_input == -1 || left_value->fd_output == -1)
 				exit(1);
 			print_debug_all_cmd(left_value, ONLY_LEXEME, 8,
@@ -207,19 +208,16 @@ t_leaf	*evaluate_pipe_op(t_AST_node *node)
 	return (right_value);
 }
 
-t_leaf	*evaluate_ast(t_AST_node *node)
+t_leaf	*evaluate_ast(t_AST_node *node, t_minishell *data)
 {
-	t_leaf	*value;
-	pid_t	pid;
-
 	if (node->type == NODE_COMMAND)
 		return (node->command);
 	if (node->t_ope_node.control_operator == AND)
-		return (evaluate_logical_op(node));
+		return (evaluate_logical_op(node, data));
 	if (node->t_ope_node.control_operator == OR)
-		return (evaluate_logical_op(node));
+		return (evaluate_logical_op(node, data));
 	if (node->t_ope_node.control_operator == PIPE)
-		return (evaluate_pipe_op(node));
+		return (evaluate_pipe_op(node, data));
 	return (NULL);
 }
 

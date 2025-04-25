@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 17:17:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/22 17:21:12 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/25 03:34:21 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "debug.h"
+#include "minishell.h"
 #include "ft_printf.h"
 #include "environment.h"
 #include <stdio.h>
@@ -58,8 +58,28 @@ int	main(int argc, char **argv, char **envp)
 			}else
 			if (ft_strncmp(input, "export", 6) == 0)
 			{
-				export_builtin(2, (char *[]){"export", "TEST=GROSCACACACACACACACACACACACACACACACACACACACACACACACACACACACA", NULL}, &data);
-			}else {
+				export_builtin(2, (char *[]){"export", "HOME=./test_home", NULL}, &data);
+				export_builtin(2, (char *[]){"export", "TEST", NULL}, &data);
+				export_builtin(2, (char *[]){"export", "TEST2=", NULL}, &data);
+				export_builtin(1, (char *[]){"export", NULL}, &data);
+			}else
+			if (ft_strncmp(input, "unset", 5) == 0)
+			{
+				unset_builtin(2, (char *[]){"unset", "PATH", "TEST", NULL}, &data);
+			}else
+			if (ft_strcmp(input, "pwd") == 0)
+			{
+				pwd_builtin();
+			}else
+			if (ft_strncmp(input, "echo", 4) == 0)
+			{
+				echo_builtin(3, (char *[]){"echo", "-n", "bonjour", NULL});
+			}else
+			if (ft_strcmp(input, "cd") == 0)
+			{
+				cd_builtin(2, (char *[]){"cd", "-", NULL}, &data);
+			}else
+			{
 				add_history(input);
 				wildcard_result = wildcard_lst_from_token(input);
 				if (wildcard_result.code == -1)
