@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ast_functions.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 22:28:35 by alpayet           #+#    #+#             */
+<<<<<<< HEAD:src/parsing/ast_functions.c
 /*   Updated: 2025/04/25 03:16:13 by alpayet          ###   ########.fr       */
+=======
+/*   Updated: 2025/04/17 16:42:18 by vdurand          ###   ########.fr       */
+>>>>>>> BuiltinandExec:src/parsing/ast_fonctions.c
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,8 +204,17 @@ t_leaf	*evaluate_pipe_op(t_AST_node *node, t_minishell *data)
 			ft_printf("%s", get_next_line(0));
 			exit(0);
 		}
+<<<<<<< HEAD:src/parsing/ast_functions.c
 		else
 		{}	//execve minishell
+=======
+		close(pipefd[1]);
+		right_value->fd_input = pipefd[0];
+		if (left_value->fd_input != 0)
+			close(left_value->fd_input);
+		if (left_value->fd_output != 1)
+			close(left_value->fd_output);
+>>>>>>> BuiltinandExec:src/parsing/ast_fonctions.c
 	}
 	close(pipefd[1]);
 	right_value->fd_input = pipefd[0];
@@ -221,7 +234,7 @@ t_leaf	*evaluate_ast(t_AST_node *node, t_minishell *data)
 	return (NULL);
 }
 
-// int	main(void)
+/*  int	main(void)
 // {
 // 	t_leaf	cmd[5];
 // 	t_AST_node	*cmd1_node;
@@ -281,8 +294,4 @@ t_leaf	*evaluate_ast(t_AST_node *node, t_minishell *data)
 // 	// printf("ope_after: %d\n", cmd[2].ope_after);
 
 // }
-
-
-
-
-
+ */

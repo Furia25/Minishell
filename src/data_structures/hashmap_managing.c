@@ -6,13 +6,13 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 19:12:44 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/14 17:54:41 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/18 17:23:21 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool		hashmap_init_basics(t_hashmap *map, void (*del)(void *))
+bool	hashmap_init_basics(t_hashmap *map, void (*del)(void *))
 {
 	map->del = del;
 	map->size = 1 << HASHMAP_POWER;
@@ -20,7 +20,7 @@ bool		hashmap_init_basics(t_hashmap *map, void (*del)(void *))
 	if (!map->table)
 		return (false);
 	map->count = 0;
-	map->charge_factor = HASHMAP_POWER;
+	map->charge_factor = HASHMAP_CHARGEFACTOR;
 	return (true);
 }
 
@@ -57,7 +57,7 @@ void	hashmap_free_content(t_hashmap *map)
 	index = 0;
 	while (index < map->size)
 	{
-		if (map->table[index].status == OCCUPIED)
+		if (map->table[index].status == OCCUPIED || map->table[index].status == TOMBSTONE)
 			map->del(map->table[index].value);
 		index++;
 	}

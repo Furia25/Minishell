@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+         #
+#    By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/13 23:20:17 by val               #+#    #+#              #
-#    Updated: 2025/04/20 22:16:53 by alpayet          ###   ########.fr        #
+#    Updated: 2025/04/25 17:54:26 by vdurand          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,8 @@ HIDDEN = \033[8m
 RESET = \033[0m
 ##################
 
+DEBUG_VALGRIND = valgrind --leak-check=full --show-leak-kinds=all --trace-children=yes --track-fds=all --track-origins=yes --suppressions=ignore_readline.supp -s
+
 NAME = minishell
 
 SRC_DIR = src
@@ -66,15 +68,23 @@ endif
 
 SRC_FILES = \
 	test_parsing.c \
+	utils/write_utils.c \
 	wildcards/wildcards_search.c \
 	wildcards/wildcards.c \
 	data_structures/hashmap_managing.c \
 	data_structures/hashmap_methods.c \
 	data_structures/hashmap_utils.c \
-	data_structures/lst_functions.c \
 	environment/env_managing.c \
 	environment/env_methods.c \
+	environment/env_populate.c \
 	builtins/env_builtin.c \
+	builtins/export_builtin.c \
+	builtins/unset_builtin.c \
+	builtins/pwd_builtin.c \
+	builtins/echo_builtin.c \
+	builtins/cd_builtin.c \
+	builtins/cd_builtin_utils.c \
+	utils/strjoin_alt.c
 	builtins/export_builtin.c \
 	lexing/not_interpret.c \
 	lexing/quotes.c \
@@ -137,8 +147,11 @@ fclean: clean cleanlibs
 re: fclean all
 
 debug: all
-	valgrind --leak-check=full --show-leak-kinds=all --trace-children=yes --track-fds=all --track-origins=yes --suppressions=ignore_readline.supp -s ./$(NAME)
+	$(DEBUG_VALGRIND) ./$(NAME)
+
+env_debug: all
+	env -i $(DEBUG_VALGRIND) ./$(NAME)
 
 -include $(DEP)
 
-.PHONY: all cleanlibs clean fclean re makelibft debug
+.PHONY: all cleanlibs clean fclean re makelibft debug env_debug

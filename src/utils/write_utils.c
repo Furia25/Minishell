@@ -1,19 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   write_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/11/07 18:24:04 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/18 01:58:20 by val              ###   ########.fr       */
+/*   Created: 2025/04/18 02:01:40 by val               #+#    #+#             */
+/*   Updated: 2025/04/18 02:03:23 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include <unistd.h>
+#include "minishell.h"
 
-void	ft_putstr_fd(char *s, int fd)
+bool	write_str_secure(char *str, int fd)
 {
-	write(fd, s, ft_strlen(s));
+	if (fd == -1)
+		return (false);
+	if (!str)
+		return (true);
+	if (write(fd, str, ft_strlen(str)) == -1)
+		return (false);
+	return (true);
 }

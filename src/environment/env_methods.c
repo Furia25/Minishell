@@ -6,22 +6,95 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:20:04 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/14 14:35:45 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/22 19:23:25 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	env_print_el(unsigned long key, void *entry)
+static void	env_print_el(unsigned long key, void *entry, bool print_local)
 {
 	t_envvar	*var;
-	
+
 	(void) key;
 	var = (t_envvar *) entry;
-	ft_printf("%s=%s\n", var->name, var->value);
+	if (!print_local)
+	{
+		if (var->exported)
+			ft_printf("%s=%s\n", var->name, var->value);
+	}
+	else
+	{
+		if (var->exported)
+			ft_printf("declare -x %s=\"%s\"\n", var->name, var->value);
+		else
+			ft_printf("declare -x %s\n", var->name);
+	}
 }
 
-void	env_print(t_hashmap *environment)
+void	env_print(t_hashmap *environment, bool print_local)
 {
-	hashmap_iterate(environment, env_print_el);
+	size_t			index;
+	int				actual_count;
+	t_hash_entry	entry;
+
+	index = 0;
+	actual_count = 0;
+	while (index < environment->size && actual_count < environment->count)
+	{
+		entry = environment->table[index];
+		if (entry.status == OCCUPIED)
+		{
+			env_print_el(entry.key, entry.value, print_local);
+			actual_count++;
+		}
+		index++;
+	}
+}
+
+char	**make_env(t_hashmap *env)
+{
+	char			**result;
+	size_t			index;
+	int				actual_count;
+
+	result = ft_calloc(env->count + 1, sizeof(char *));
+	if (!result)
+		return (NULL);
+	index = 0;
+	actual_count = 0;
+	while (index < env->size && actual_count < env->count)
+	{
+		if (env->table[index].status == OCCUPIED)
+		{
+			result[actual_count] = envvar_str(env->table[index].value);
+			if (!result[actual_count])
+			{
+				free_chartab(result);
+				return (NULL);
+			}
+			actual_count++;
+		}
+		index++;
+	}
+	return (result);
+}
+
+char	*envvar_str(t_envvar *var)
+{
+	char	*result;
+	char	*temp;
+
+	if (!var || !var->name || var->value)
+		return (NULL);
+	temp = ft_strjoin(var->name, "=");
+	if (!temp)
+		return (NULL);
+	result = ft_strjoin_alt(temp, var->value, FREE_PARAM1);
+	if (!result)
+	{
+		free(temp);
+		return (NULL);
+	}
+	return (result);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 17:17:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/25 03:34:21 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/25 17:55:06 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,28 @@ int	main(int argc, char **argv, char **envp)
 				env_builtin(&data);
 			}else
 			if (ft_strncmp(input, "export", 6) == 0)
+			{
+				export_builtin(2, (char *[]){"export", "HOME=./test_home", NULL}, &data);
+				export_builtin(2, (char *[]){"export", "TEST", NULL}, &data);
+				export_builtin(2, (char *[]){"export", "TEST2=", NULL}, &data);
+				export_builtin(1, (char *[]){"export", NULL}, &data);
+			}else 
+			if (ft_strncmp(input, "unset", 5) == 0)
+			{
+				unset_builtin(2, (char *[]){"unset", "PATH", "TEST", NULL}, &data);
+			}else
+			if (ft_strcmp(input, "pwd") == 0)
+			{
+				pwd_builtin();
+			}else
+			if (ft_strncmp(input, "echo", 4) == 0)
+			{
+				echo_builtin(3, (char *[]){"echo", "-n", "bonjour", NULL});
+			}else
+			if (ft_strcmp(input, "cd") == 0)
+			{
+				cd_builtin(2, (char *[]){"cd", "-", NULL}, &data);
+			}else
 			{
 				export_builtin(2, (char *[]){"export", "HOME=./test_home", NULL}, &data);
 				export_builtin(2, (char *[]){"export", "TEST", NULL}, &data);

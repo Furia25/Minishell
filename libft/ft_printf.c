@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 18:14:00 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/14 17:09:23 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/18 01:59:47 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@
 static int	handle_str(char *str)
 {
 	if (!str)
-		return (ft_putstr_fd("(null)", 1), 6);
+	{
+		ft_putstr_fd("(null)", 1);
+		return (6);
+	}
 	ft_putstr_fd(str, 1);
 	return (ft_strlen(str));
 }
@@ -31,7 +34,10 @@ static int	handle_pointer(void *p)
 	pointer = (size_t)p;
 	lenght = 0;
 	if (!pointer)
-		return (ft_putstr_fd("(nil)", 1), 5);
+	{
+		ft_putstr_fd("(nil)", 1);
+		return (5);
+	}
 	ft_putstr_fd("0x", 1);
 	lenght += 2;
 	return (lenght + ft_putptr_fd(pointer, 1));

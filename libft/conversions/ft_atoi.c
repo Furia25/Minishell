@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 15:27:07 by vdurand           #+#    #+#             */
-/*   Updated: 2024/11/25 21:00:26 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/17 17:35:37 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ int	ft_atoi(const char *nptr)
 	int					sign;
 	unsigned long long	result;
 
+	if (!nptr)
+		return (0);
 	index = 0;
 	result = 0;
 	sign = 1;

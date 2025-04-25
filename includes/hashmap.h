@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 15:20:54 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/14 17:55:00 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/18 17:24:26 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define HASHMAP_H
 # include <stddef.h>
 # define HASHMAP_POWER	10
-# define HASHMAP_CHARGEFACTOR	0.7
+# define HASHMAP_CHARGEFACTOR	0.8
 
 typedef enum e_hash_status
 {
@@ -49,7 +49,7 @@ void			hashmap_free_content(t_hashmap *map);
 
 // hashmap_methods.c
 int				hashmap_resize(size_t new_size, t_hashmap *map);
-void			*hashmap_search(unsigned long key, t_hashmap *map);
+t_hash_entry	*hashmap_search(unsigned long key, t_hashmap *map);
 int				hashmap_insert(unsigned long key, void *value, t_hashmap *map);
 
 // hashmap_utils.c

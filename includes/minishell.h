@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/25 03:29:21 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/25 17:51:42 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,21 @@
 # include <readline/history.h>
 
 # define PROMPT "\001\033[35m\002$> \001\033[0m\002"
-# define BUILTIN_FATAL_ERROR	277
+# define BUILTIN_FATAL_ERROR	177
 # define MALLOC_ERROR	42
+# define BUILTIN_FLAG_ECHO_NONL	'n'
+# define BUILTIN_FLAG_SEPARATOR	'-'
+# define BUILTIN_ERROR_EXPORT	"export : Not a valid identifier : "
+# define BUILTIN_ERROR_CD	"cd "
+# define BUILTIN_ERROR_CD_ARGS	"cd : too many arguments"
+# define BUILTIN_ERROR_CD_COLON "cd : "
+# define BUILTIN_ERROR_CD_NOTSET " not set\n"
 
 typedef struct s_minishell
 {
-	t_garbage_collector	gc;
-	t_hashmap			environment;
-	unsigned	char				exit_code;
+	t_garbage_collector			gc;
+	t_hashmap					environment;
+	unsigned char				exit_code;
 }	t_minishell;
 
 typedef enum s_strjoin
@@ -47,16 +54,24 @@ typedef enum s_strjoin
 	FREE_PARAM2 = 1<<2,
 }	t_strjoin;
 
-void	not_interpret_chara(char chara, char *str, t_minishell	*data);
-
-int	execute_cmd(t_leaf *cmd, t_minishell *data);
+void		not_interpret_chara(char chara, char *str, t_minishell	*data);
+int			execute_cmd(t_leaf *cmd, t_minishell *data);
 
 void		*memset_fast(void *ptr, int value, size_t num);
+
+void		check_malloc(void *content, t_minishell *data);
+
+char		*ft_strjoin_alt(char *s1, char *s2, t_strjoin free_what);
+
 int			env_builtin(t_minishell *data);
+int			pwd_builtin();
 int			export_builtin(int argc, char **argv, t_minishell *data);
+int			unset_builtin(int argc, char **argv, t_minishell *data);
+int			echo_builtin(int argc, char **argv);
+int			cd_builtin(int argc, char **argv, t_minishell *data);
 
-void	check_malloc(void *content, t_minishell *data);
-
-char	*ft_strjoin_alt(char *s1, char *s2, t_strjoin free_what);
+// UTILS
+bool		write_str_secure(char *str, int fd);
+t_envvar	*get_pwd(char *pwd_type, char *default_value, t_minishell *data);
 
 #endif
