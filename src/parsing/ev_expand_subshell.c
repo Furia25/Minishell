@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:47:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/26 22:31:03 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/26 23:32:27 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ size_t	env_var_len(char *str)
 
 char	*ev_str(char *str, size_t ev_len, t_minishell *data)
 {
-	return (ft_substr("   ", 0, 3));
+	return (ft_substr("  d  ", 0, 5));
 }
 
 char	*handle_ev_in_lexeme(char *str, t_lexeme_type next_type, t_minishell *data)
@@ -163,12 +163,6 @@ t_lst	*create_subshell_lst(t_lst *token, t_minishell *data)
 
 	subshell_lst = NULL;
 	i = 0;
-	while (ft_strchr("\n\t ", (token->lexeme)[i]) != NULL)
-	{
-		if ((token->lexeme)[i] == '\0')
-			return (NULL);
-		i++;
-	}
 	while ((token->lexeme)[i] != '\0')
 	{
 		j = 0;
@@ -181,7 +175,7 @@ t_lst	*create_subshell_lst(t_lst *token, t_minishell *data)
 		new_node = lstnew(node_lexeme);
 		check_malloc(new_node, data);
 		if (i == 0)
-			new_node->type = WORD;
+			new_node->type = token->type;
 		else
 			new_node->type = SUBSHELL;
 		new_node->metacharacter_after = token->metacharacter_after;
@@ -201,31 +195,36 @@ void	handle_subshell_in_cmd(t_leaf *command_tab, t_minishell *data)
 {
 	t_lst	*temp;
 	t_lst	*subshell_lst;
-	char	*new_lexeme;
+	char	*old_lexeme;
 
 	temp = command_tab->tokens;
 	while (temp)
 	{
 		if (temp->type == WORD || temp->type == DOUBLE_Q)
 		{
+			old_lexeme = temp->lexeme;
 			if (temp->next == NULL)
-				new_lexeme = handle_ev_in_lexeme(temp->lexeme, LINE_CHANGE, data);
+				temp->lexeme = handle_ev_in_lexeme(temp->lexeme, LINE_CHANGE, data);
 			else
-				new_lexeme = handle_ev_in_lexeme(temp->lexeme, temp->next->type, data);
-			new_lexeme = handle_subshell_in_lexeme(new_lexeme, data);
-			free(temp->lexeme);
-			temp->lexeme = new_lexeme;
-			if (*new_lexeme == '\0')
+				temp->lexeme = handle_ev_in_lexeme(temp->lexeme, temp->next->type, data);
+			temp->lexeme = handle_subshell_in_lexeme(temp->lexeme, data);
+			free(old_lexeme);
+			if (*(temp->lexeme) == '\0')
 				return ;
-			if (ft_strchr("\n\t ",
-				new_lexeme[ft_strlen(new_lexeme) - 1]) != NULL)
-				temp->metacharacter_after = true;
 		}
 		temp = temp->next;
 	}
 	temp = command_tab->tokens;
 	if (temp->type == WORD)
 	{
+		old_lexeme = temp->lexeme;
+		if (ft_strchr("\n\t ", old_lexeme[0]) != NULL)
+			temp->type = SUBSHELL;
+		if (ft_strchr("\n\t ",
+			old_lexeme[ft_strlen(old_lexeme) - 1]) != NULL)
+			temp->metacharacter_after = true;
+		temp->lexeme = ft_strtrim(old_lexeme, "\n\t ");
+		free(old_lexeme);
 		subshell_lst = create_subshell_lst(temp, data);
 		if (subshell_lst != NULL)
 		{
@@ -238,6 +237,14 @@ void	handle_subshell_in_cmd(t_leaf *command_tab, t_minishell *data)
 	{
 		if (temp->next->type == WORD)
 		{
+			old_lexeme = temp->next->lexeme;
+			if (ft_strchr("\n\t ", old_lexeme[0]) != NULL)
+				temp->next->type = SUBSHELL;
+			if (ft_strchr("\n\t ",
+				old_lexeme[ft_strlen(old_lexeme) - 1]) != NULL)
+				temp->next->metacharacter_after = true;
+			temp->next->lexeme = ft_strtrim(old_lexeme, "\n\t ");
+			free(old_lexeme);
 			subshell_lst = create_subshell_lst(temp->next, data);
 			if (subshell_lst != NULL)
 			{

@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 23:49:57 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/26 19:19:54 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/26 23:51:30 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ size_t single_quote_token(t_lst **tokens, char *str, t_minishell *data)
 	new_node = lstnew(node_lexeme);
 	check_malloc(new_node, data);
 	new_node->type = SINGLE_Q;
-	if (ft_strchr("|&;()<> \t", str[i + 1]) != NULL)
-		new_node->metacharacter_after = true;
-	else
+	if (ft_strchr("|&;()<> \t", str[i + 1]) == NULL)
 		new_node->metacharacter_after = false;
+	else
+		new_node->metacharacter_after = true;
 	lstadd_back(tokens, new_node);
 	return (i + 1);
 }
@@ -50,7 +50,7 @@ static t_lst	*create_set_new_node(char *str, size_t len, t_minishell *data)
 	new_node = lstnew(node_lexeme);
 	check_malloc(new_node, data);
 	new_node->type = DOUBLE_Q;
-	if (ft_strchr("|&;()<> \t", str[len + 1]) != NULL)
+	if (ft_strchr("|&;()<> \t", str[len + 1]) == NULL)
 		new_node->metacharacter_after = false;
 	else
 		new_node->metacharacter_after = true;
