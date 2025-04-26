@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:47:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/25 03:29:49 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/26 05:05:29 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,28 +34,73 @@ char	*stock_file_in_str(int fd, t_minishell *data)
 size_t	in_parenthesis_len(char *str, t_minishell *data)
 {
 	size_t	i;
-	size_t	index_closed_par;
+	size_t	index_last_closed_par;
 
 	i = 0;
-	index_closed_par = 0;
+	index_last_closed_par = 0;
 	while (str[i])
 	{
 		if (str[i] == ')')
-			index_closed_par = i;
+		index_last_closed_par = i;
 		i++;
 	}
-	if (index_closed_par == 0)
-		not_interpret_chara('(', "\' (unclosed parenthesis)", data);
-	return (index_closed_par - 1);
+	return (index_last_closed_par - 1);
 }
 
-char	*handle_subshell_in_lexeme(char *str, size_t len_in_par, t_minishell *data)
+size_t	env_var_len(char *str)
+{
+	size_t	i;
+
+	i = 0;
+	while (str[i] != '\0' && str[i] != '$' && str[i] != ')')
+		i++;
+	return (i);
+}
+
+char	*ev_str(char *str, size_t ev_len, t_minishell *data)
+{
+	return (ft_substr("aaa", 0, 3));
+}
+
+char	*handle_ev_in_lexeme(char *str, t_lexeme_type next_type, t_minishell *data)
+{
+	size_t	i;
+	size_t	ev_len;
+	char	*buff;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '$' && str[i + 1] != '(')
+		{
+			if ((str[i + 1] != '\0'
+				|| (next_type == DOUBLE_Q || next_type == SINGLE_Q)))
+			{
+				str[i] = '\0';
+				i++;
+				ev_len = env_var_len(str + i);
+				if (ev_len == 0)
+					return (ft_calloc(1, sizeof(char)));
+				buff = ft_strjoin_alt(str, ev_str(str + i, ev_len, data), FREE_PARAM2);
+				check_malloc(buff, data);
+				return (check_malloc(ft_strjoin_alt(buff,
+					handle_ev_in_lexeme(str + i + ev_len, next_type, data),
+					FREE_PARAM1 | FREE_PARAM2), data));
+			}
+		}
+		i++;
+	}
+	return ((char *)check_malloc(ft_substr(str, 0, ft_strlen(str)), data));
+}
+//b$x$
+
+char	*subshell_str(char *str, size_t in_par_len, t_minishell *data)
 {
 	int		pipefd[2];
 	int		pipefd2[2];
 	pid_t		pid;
 
-	(void)len_in_par;
+	(void)in_par_len;
 	pipe(pipefd);
 	pipe(pipefd2);
 	pid = fork();
@@ -80,7 +125,7 @@ char	*handle_subshell_in_lexeme(char *str, size_t len_in_par, t_minishell *data)
 	return (str);
 }
 
-char	*handle_dollars_in_lexeme(char *str, t_minishell *data)
+char	*handle_subshell_in_lexeme(char *str, t_minishell *data)
 {
 	size_t	i;
 	size_t	in_par_len;
@@ -96,17 +141,17 @@ char	*handle_dollars_in_lexeme(char *str, t_minishell *data)
 			if (str[i] == '(')
 			{
 				in_par_len = in_parenthesis_len(str + i, data);
-				buff = ft_strjoin_alt(str, handle_subshell_in_lexeme(str + i,
-					in_par_len, data),FREE_PARAM2);
+				buff = ft_strjoin_alt(str, subshell_str(str + i,
+					in_par_len, data), FREE_PARAM2);
 				check_malloc(buff, data);
-				return (ft_strjoin_alt(buff,
-					handle_dollars_in_lexeme(str + i + in_par_len + 2, data),
-					FREE_PARAM1 | FREE_PARAM2));
+				return ((char *)check_malloc(ft_strjoin_alt(buff,
+					handle_subshell_in_lexeme(str + i + in_par_len + 2, data),
+					FREE_PARAM1 | FREE_PARAM2), data));
 			}
 		}
 		i++;
 	}
-	return (ft_substr(str, 0, ft_strlen(str)));
+	return ((char *)check_malloc(ft_substr(str, 0, ft_strlen(str)), data));// juste return str si free a enlever dans strjoin
 }
 
 t_lst	*create_subshell_lst(t_lst *token, t_minishell *data)
@@ -169,8 +214,13 @@ void	handle_subshell_in_cmd(t_leaf *command_tab, t_minishell *data)
 	{
 		if (temp->type == WORD || temp->type == DOUBLE_Q)
 		{
-			new_lexeme = handle_dollars_in_lexeme(temp->lexeme, data);
-			check_malloc(new_lexeme, data);
+			if (temp->next == NULL)
+				new_lexeme = handle_ev_in_lexeme(temp->lexeme, LINE_CHANGE, data);
+			else
+				new_lexeme = handle_ev_in_lexeme(temp->lexeme, temp->next->type, data);
+			if (*new_lexeme == '\0')
+				return ;
+			new_lexeme = handle_subshell_in_lexeme(new_lexeme, data);
 			free(temp->lexeme);
 			if (ft_strchr("\n\t ",
 				new_lexeme[ft_strlen(new_lexeme) - 1]) != NULL)

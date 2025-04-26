@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_to_argv.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 16:18:39 by alpayet           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/04/25 00:37:20 by alpayet          ###   ########.fr       */
-=======
-/*   Updated: 2025/04/18 18:04:58 by vdurand          ###   ########.fr       */
->>>>>>> BuiltinandExec
+/*   Updated: 2025/04/25 19:08:36 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +33,8 @@ char	**tokens_to_argv(t_lst *tokens, t_minishell *data)
 
 	tokens_size = lst_size(tokens);
 	argv = malloc((tokens_size + 1) * sizeof(char*));
-<<<<<<< HEAD
 	check_malloc(argv, data);
 	argv[tokens_size] = NULL;
-=======
-
->>>>>>> BuiltinandExec
 	i = 0;
 	while (i < tokens_size)
 	{
@@ -54,26 +46,6 @@ char	**tokens_to_argv(t_lst *tokens, t_minishell *data)
 	return (argv);
 }
 
-<<<<<<< HEAD
-// int	main(void)
-// {
-// 	t_lst	*tokens;
-// 	t_lst	*temp;
-// 	char *input = "aaaaa bbbb xccs <> |";
-// 	char	**argv;
-
-
-// 	tokens = NULL;
-// 	create_tokens(&tokens, input);
-// 	fusion_quote_token(tokens);
-// 	argv = tokens_to_argv(tokens);
-// 	while (*argv)
-// 	{
-// 		ft_printf("str: %s\n", *argv);
-// 		argv++;
-// 	}
-// }
-=======
 /* int	main(void)
 {
 	t_lst	*tokens;
@@ -92,4 +64,3 @@ char	**tokens_to_argv(t_lst *tokens, t_minishell *data)
 		argv++;
 	}
 } */
->>>>>>> BuiltinandExec

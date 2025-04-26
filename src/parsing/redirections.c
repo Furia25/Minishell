@@ -6,13 +6,13 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/25 23:39:47 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/25 02:06:24 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/26 02:27:06 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <errno.h>
-char	*handle_dollars_in_lexeme(char *str, t_minishell *data);
+char	*handle_subshell_in_lexeme(char *str, t_minishell *data);
 
 void	handle_red_input(t_leaf *command_tab, char *file, t_minishell *data)
 {
@@ -109,8 +109,7 @@ void	write_in_here_doc_file(t_lst *token_eof, int fd, t_minishell *data)
 		}
 		if (token_eof->type != SINGLE_Q)
 		{
-			buff = handle_dollars_in_lexeme(input, data);
-			check_malloc(buff, data);
+			buff = handle_subshell_in_lexeme(input, data);
 			free(input);
 			input = buff;
 		}

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+         #
+#    By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/13 23:20:17 by val               #+#    #+#              #
-#    Updated: 2025/04/25 17:54:26 by vdurand          ###   ########.fr        #
+#    Updated: 2025/04/26 02:26:01 by alpayet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -69,11 +69,13 @@ endif
 SRC_FILES = \
 	test_parsing.c \
 	utils/write_utils.c \
+	utils/strjoin_alt.c \
 	wildcards/wildcards_search.c \
 	wildcards/wildcards.c \
 	data_structures/hashmap_managing.c \
 	data_structures/hashmap_methods.c \
 	data_structures/hashmap_utils.c \
+	data_structures/lst_functions.c \
 	environment/env_managing.c \
 	environment/env_methods.c \
 	environment/env_populate.c \
@@ -84,28 +86,27 @@ SRC_FILES = \
 	builtins/echo_builtin.c \
 	builtins/cd_builtin.c \
 	builtins/cd_builtin_utils.c \
-	utils/strjoin_alt.c
-	builtins/export_builtin.c \
-	lexing/not_interpret.c \
-	lexing/quotes.c \
+	lexing/quotes_token.c \
 	lexing/tokenization.c \
+	lexing/word_token.c \
 	parsing/ast_functions.c \
 	parsing/command_table.c \
 	parsing/ev_expand_subshell.c \
 	parsing/redirections.c \
-	parsing/syntax_errors.c \
 	parsing/tokens_to_argv.c \
-	utils/strjoin_alt.c \
-	debug/print_argv.c \
-	debug/print_cmd.c \
-	debug/print_lst.c
+	errors_and_debug/malloc_error.c \
+	errors_and_debug/not_interpret_error.c \
+	errors_and_debug/print_argv.c \
+	errors_and_debug/print_cmd.c \
+	errors_and_debug/print_lst.c \
+	errors_and_debug/syntax_error.c
 
 SRC = $(patsubst %.c, $(SRC_DIR)/%.c, $(SRC_FILES))
 OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 DEP = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.d, $(SRC))
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS =
 READLINE_INC = -I/usr/local/include
 INCLUDES = -I$(INC_DIR) -I$(LIBFT_DIR) $(READLINE_INC)
 LDFLAGS = -L$(LIBFT_DIR) -lft -L/usr/local/lib -lreadline

@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 23:49:57 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/25 03:29:31 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/26 05:25:28 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ size_t single_quote_token(t_lst **tokens, char *str, t_minishell *data)
 	while (str[i] != '\0' && str[i] != '\'')
 		i++;
 	if (str[i] == '\0')
+	{
 		not_interpret_chara('\'', "\' (unclosed single quote)", data);
+		return (0);
+	}
 	node_lexeme = ft_substr(str, 1, i - 1);
 	check_malloc(node_lexeme, data);
 	new_node = lstnew(node_lexeme);
@@ -46,13 +49,16 @@ size_t double_quote_token(t_lst **tokens, char *str, t_minishell *data)
 	while (str[i] != '\0' && str[i] != '\"')
 		i++;
 	if (str[i] == '\0')
+	{
 		not_interpret_chara('\"', "\' (unclosed double quote)", data);
+		return (0);
+	}
 	node_lexeme = ft_substr(str, 1, i - 1);
 	check_malloc(node_lexeme, data);
 	new_node = lstnew(node_lexeme);
 	check_malloc(new_node, data);
 	new_node->type = DOUBLE_Q;
-	if (ft_strchr("|&;()<> ", str[i + 1]) != NULL)
+	if (ft_strchr("|&;()<> \t", str[i + 1]) != NULL)
 		new_node->metacharacter_after = true;
 	else
 		new_node->metacharacter_after = false;
@@ -76,6 +82,8 @@ void	fusion_quote_token(t_lst *tokens, t_minishell *data)
 			{
 				tokens->lexeme = ft_strjoin_alt(tokens->lexeme, tokens->next->lexeme,
 					FREE_PARAM1);
+				tokens->type = tokens->next->type;
+				tokens->metacharacter_after = tokens->next->metacharacter_after;
 				check_malloc(tokens->lexeme, data);
 				buff = tokens->next->next;
 				lstdelone(tokens->next, free);

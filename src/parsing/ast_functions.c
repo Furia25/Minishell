@@ -3,14 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ast_functions.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/10 22:28:35 by alpayet           #+#    #+#             */
-<<<<<<< HEAD:src/parsing/ast_functions.c
-/*   Updated: 2025/04/25 03:16:13 by alpayet          ###   ########.fr       */
-=======
-/*   Updated: 2025/04/17 16:42:18 by vdurand          ###   ########.fr       */
->>>>>>> BuiltinandExec:src/parsing/ast_fonctions.c
+/*   Created: 2025/04/25 19:07:28 by alpayet           #+#    #+#             */
+/*   Updated: 2025/04/26 02:05:14 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +145,7 @@ t_leaf	*evaluate_logical_op(t_AST_node *node, t_minishell *data)
 
 	if (node->t_ope_node.control_operator == AND)
 	{
-		left_value = evaluate_ast(node->t_ope_node.left_node);
+		left_value = evaluate_ast(node->t_ope_node.left_node, data);
 		if (execute_cmd(left_value, data) == 0) // gerer avec $?
 		{
 			right_value = evaluate_ast(node->t_ope_node.right_node, data);
@@ -204,17 +200,14 @@ t_leaf	*evaluate_pipe_op(t_AST_node *node, t_minishell *data)
 			ft_printf("%s", get_next_line(0));
 			exit(0);
 		}
-<<<<<<< HEAD:src/parsing/ast_functions.c
 		else
 		{}	//execve minishell
-=======
 		close(pipefd[1]);
 		right_value->fd_input = pipefd[0];
 		if (left_value->fd_input != 0)
 			close(left_value->fd_input);
 		if (left_value->fd_output != 1)
 			close(left_value->fd_output);
->>>>>>> BuiltinandExec:src/parsing/ast_fonctions.c
 	}
 	close(pipefd[1]);
 	right_value->fd_input = pipefd[0];

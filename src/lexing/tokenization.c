@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:22:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/25 03:29:27 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/26 04:24:12 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,17 +84,17 @@ size_t op_parenthesis(t_lst **tokens, char *str, char op, t_minishell *data)
 	return (1);
 }
 
-void	create_tokens(t_lst **tokens, char *input, t_minishell *data)
+int	create_tokens(t_lst **tokens, char *input, t_minishell *data)
 {
 	size_t	token_len;
 
 	token_len = 0;
 	if (*input == '\0')
-		return ;
+		return (EXIT_SUCCESS);
 	while (*input == ' ' || *input == '\t')
 		input++;
 	if ((*input == '&' && *(input + 1) != '&') || *input == ';' || *input == '\\')
-		not_interpret_chara(*input, "\'", data);
+		return (not_interpret_chara(*input, "\'", data));
 	if (ft_strchr("|&;()<> \t\'\"", *input) == NULL)
 		token_len = word_token(tokens, input, data);
 	if (*input == '\'')
@@ -107,5 +107,7 @@ void	create_tokens(t_lst **tokens, char *input, t_minishell *data)
 		token_len = op_control_token(tokens, input, *input, data);
 	if (*input == '<' || *input == '>')
 		token_len = op_redirection_token(tokens, input, *input, data);
-	create_tokens(tokens, input + token_len, data);
+	if (token_len == 0)
+		return (EXIT_FAILURE);
+	return (create_tokens(tokens, input + token_len, data));
 }

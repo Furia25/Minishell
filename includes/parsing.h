@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 03:23:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/25 03:27:15 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/26 02:00:38 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,5 @@ t_lst	*lstlast(t_lst *lst);
 void	lstadd_back(t_lst **lst, t_lst *new);
 void	lstdelone(t_lst *lst, void (*del)(void*));
 void	lstclear(t_lst **lst, void (*del)(void*));
-
-t_AST_node	*create_ast(t_leaf *command_tab, t_minishell *data);
-t_leaf	*evaluate_ast(t_AST_node *node, t_minishell *data);
 
 #endif

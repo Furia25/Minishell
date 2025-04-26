@@ -8,10 +8,10 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": false,
-      "cwd": "/home/alpayet/projects/minishell/libft",
-      "program": "/home/alpayet/projects/minishell/libft/build/Debug/outDebug",
+      "cwd": "/home/alpayet/projects/Minishell/src/parsing",
+      "program": "/home/alpayet/projects/Minishell/src/parsing/build/Debug/outDebug",
       "MIMode": "gdb",
-      "miDebuggerPath": "gdb",
+      "miDebuggerPath": "/usr/bin/gdb",
       "setupCommands": [
         {
           "description": "Enable pretty-printing for gdb",

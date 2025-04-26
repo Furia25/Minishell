@@ -6,20 +6,20 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:37:34 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/25 03:39:53 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/26 05:26:52 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-void	create_tokens(t_lst **tokens, char *input, t_minishell *data);
-void	check_syntax_errors(t_lst *tokens, t_minishell *data);
+int	create_tokens(t_lst **tokens, char *input, t_minishell *data);
+int	check_syntax_errors(t_lst *tokens, t_minishell *data);
 t_leaf	*create_cmd_tab(t_lst *tokens, t_minishell *data);
 void	handle_all_here_doc(t_leaf *command_tab, t_minishell *data);
 void	rm_here_doc_files(t_leaf *command_tab);
 
 int	main(int argc, char **argv, char **envp)
 {
-	char *input = "sdsdasdas";
+	char *input = "$'caca'";
 	t_minishell	data;
 	t_lst	*tokens;
 	t_leaf *command_tab;
@@ -34,10 +34,11 @@ int	main(int argc, char **argv, char **envp)
 		return (EXIT_FAILURE);
 	}
 	tokens = NULL;
-	create_tokens(&tokens, input, &data);
+	if (create_tokens(&tokens, input, &data) == EXIT_FAILURE
+		|| check_syntax_errors(tokens, &data) == EXIT_FAILURE)
+		exit(2);
 	print_debug_lst(tokens, LEXEME_AND_TYPE, 2,
 		 "\ndisplay tokens just after creating it\n");
-	check_syntax_errors(tokens, &data);
 	command_tab = create_cmd_tab(tokens, &data);
 	print_debug_all_cmd(command_tab, LEXEME_AND_TYPE, 3,
 		 "\ndisplay command_tab just after creating it\n");

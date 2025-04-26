@@ -6,13 +6,13 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 10:43:50 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/25 03:29:42 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/26 04:10:53 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-size_t	cmds_number(t_lst *tokens, t_minishell *data)
+size_t	cmds_number(t_lst *tokens)
 {
 	size_t	i;
 	t_lst	*parenth_buff;
@@ -29,8 +29,6 @@ size_t	cmds_number(t_lst *tokens, t_minishell *data)
 					parenth_buff = tokens;
 				tokens = tokens->next;
 			}
-			if (parenth_buff == NULL)
-				not_interpret_chara('(', "\' (unclosed parenthesis)", data);
 			tokens = parenth_buff;
 		}
 		if (tokens->type == PIPE
@@ -130,7 +128,7 @@ t_leaf	*create_cmd_tab(t_lst *tokens, t_minishell *data)
 	t_leaf *command_tab;
 	size_t	commands_number;
 
-	commands_number = cmds_number(tokens, data);
+	commands_number = cmds_number(tokens);
 	command_tab = malloc(sizeof(t_leaf) * commands_number);
 	check_malloc(command_tab, data);
 	initialise_cmds_fd(command_tab, commands_number);
