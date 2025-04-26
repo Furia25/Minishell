@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 16:18:39 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/25 19:08:36 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/26 22:20:14 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,31 @@
 static size_t lst_size(t_lst *lst)
 {
 	size_t	i;
+	char	*lexeme;
 
 	i = 0;
 	while (lst)
 	{
-		i++;
+		lexeme = lst->lexeme;
+		if (lst->type != DOUBLE_Q && lst->type != SINGLE_Q)
+		{
+			if (ft_strchr("\n\t ", *lexeme) == NULL)
+				i++;
+		}
+		else
+		{
+			if (*lexeme != '\0')
+				i++;
+		}
 		lst = lst->next;
 	}
 	return (i);
+}
+
+int	set_str(char **str, char *new_str)
+{
+	*str = new_str;
+	return (1);
 }
 
 char	**tokens_to_argv(t_lst *tokens, t_minishell *data)
@@ -38,29 +55,36 @@ char	**tokens_to_argv(t_lst *tokens, t_minishell *data)
 	i = 0;
 	while (i < tokens_size)
 	{
-		argv[i] = tokens->lexeme;
+		if (tokens->type != DOUBLE_Q && tokens->type != SINGLE_Q)
+		{
+			if (ft_strchr("\n\t ", *(tokens->lexeme)) == NULL)
+				i = i + set_str(&(argv[i]), tokens->lexeme);
+		}
+		else
+		{
+			if (*(tokens->lexeme) != '\0')
+				i = i + set_str(&(argv[i]), tokens->lexeme);
+		}
 		tokens = tokens->next;
-		i++;
 	}
-	argv[tokens_size] = NULL;
 	return (argv);
 }
 
-/* int	main(void)
-{
-	t_lst	*tokens;
-	t_lst	*temp;
-	char *input = "aaaaa bbbb xccs <> |";
-	char	**argv;
+// int	main(void)
+// {
+// 	t_lst	*tokens;
+// 	t_lst	*temp;
+// 	char *input = "dada ";
+// 	char	**argv;
 
 
-	tokens = NULL;
-	create_tokens(&tokens, input);
-	fusion_quote_token(tokens);
-	argv = tokens_to_argv(tokens);
-	while (*argv)
-	{
-		ft_printf("str: %s\n", *argv);
-		argv++;
-	}
-} */
+// 	tokens = NULL;
+// 	create_tokens(&tokens, input);
+// 	fusion_quote_token(tokens);
+// 	argv = tokens_to_argv(tokens);
+// 	while (*argv)
+// 	{
+// 		ft_printf("str: %s\n", *argv);
+// 		argv++;
+// 	}
+// }

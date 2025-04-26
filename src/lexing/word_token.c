@@ -6,13 +6,13 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 23:34:55 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/26 04:03:59 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/26 19:19:33 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static size_t	index_last_closed_par(char *str, t_minishell *data)
+size_t	index_last_closed_par(char *str, t_minishell *data)
 {
 	size_t	i;
 	size_t	index_last_closed_par;
@@ -22,7 +22,7 @@ static size_t	index_last_closed_par(char *str, t_minishell *data)
 	while (str[i] != '\0')
 	{
 		if (str[i] == ')')
-		index_last_closed_par = i;
+			index_last_closed_par = i;
 		i++;
 	}
 	if (index_last_closed_par == 0)
@@ -33,12 +33,21 @@ static size_t	index_last_closed_par(char *str, t_minishell *data)
 	return (index_last_closed_par);
 }
 
-static void	check_metachara_after(char c, t_lst *token)
+static t_lst	*create_set_new_node(char *str, size_t len, t_minishell *data)
 {
-	if (c == '\'' || c == '\"')
-		token->metacharacter_after = false;
+	char *node_lexeme;
+	t_lst	*new_node;
+
+	node_lexeme = ft_substr(str, 0, len);
+	check_malloc(node_lexeme, data);
+	new_node = lstnew(node_lexeme);
+	check_malloc(new_node, data);
+	new_node->type = WORD;
+	if (str[len] == '\'' || str[len] == '\"')
+		new_node->metacharacter_after = false;
 	else
-		token->metacharacter_after = true;
+		new_node->metacharacter_after = true;
+	return (new_node);
 }
 
 size_t word_token(t_lst **tokens, char *str, t_minishell *data)
@@ -53,6 +62,7 @@ size_t word_token(t_lst **tokens, char *str, t_minishell *data)
 	{
 		if (str[i] == '$' && str[i + 1] == '(')
 		{
+			i++;
 			i_last_closed_par = index_last_closed_par(str + i, data);
 			if (i_last_closed_par == 0)
 				return (0);
@@ -60,12 +70,7 @@ size_t word_token(t_lst **tokens, char *str, t_minishell *data)
 		}
 		i++;
 	}
-	node_lexeme = ft_substr(str, 0, i);
-	check_malloc(node_lexeme, data);
-	new_node = lstnew(node_lexeme);
-	check_malloc(new_node, data);
-	new_node->type = WORD;
-	check_metachara_after(str[i], new_node);
-	lstadd_back(tokens, new_node);
+	lstadd_back(tokens, create_set_new_node(str, i, data));
 	return (i);
 }
+//$(ls)f

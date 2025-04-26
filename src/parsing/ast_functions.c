@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 19:07:28 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/26 02:05:14 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/26 22:24:28 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	handle_subshell_in_cmd(t_leaf *command_tab, t_minishell *data);
 void	fusion_quote_token(t_lst *tokens, t_minishell *data);
 void	handle_reds_and_del(t_leaf *command_tab, t_minishell *data);
+char	**tokens_to_argv(t_lst *tokens, t_minishell *data);
 
 t_AST_node	*create_leaf_node(t_leaf *cmd, t_minishell *data)
 {
@@ -122,6 +123,7 @@ int	execute_cmd(t_leaf *cmd, t_minishell *data)
 				exit(1);
 			print_debug_all_cmd(cmd, ONLY_LEXEME, 8,
 				"\ndisplay command after handle redi\n");
+			print_debug_argv(tokens_to_argv(cmd->tokens, data), 9, "\ntab\n");
 			dup2(cmd->fd_input, 0);
 			dup2(cmd->fd_output, 1);
 			if (cmd->fd_input != 0)
@@ -191,6 +193,7 @@ t_leaf	*evaluate_pipe_op(t_AST_node *node, t_minishell *data)
 				exit(1);
 			print_debug_all_cmd(left_value, ONLY_LEXEME, 8,
 				"\ndisplay command after handle redi\n");
+			print_debug_argv(tokens_to_argv(left_value->tokens, data), 9, "\ntab\n");
 			dup2(left_value->fd_input, 0);
 			dup2(left_value->fd_output, 1);
 			if (left_value->fd_input != 0)

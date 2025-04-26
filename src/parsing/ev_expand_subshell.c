@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:47:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/26 05:05:29 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/26 22:31:03 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ char	*stock_file_in_str(int fd, t_minishell *data)
 	str = ft_calloc(1, sizeof(char));
 	check_malloc(str, data);
 	buff = get_next_line(fd);
-	check_malloc(buff, data);
+	//check_malloc(buff, data);
 	while (buff)
 	{
 		str = ft_strjoin_alt(str, buff, FREE_PARAM1 | FREE_PARAM2);
 		check_malloc(str, data);
 		buff = get_next_line(fd);
-		check_malloc(buff, data);
+		//check_malloc(buff, data);
 	}
 	return (str);
 }
@@ -59,7 +59,7 @@ size_t	env_var_len(char *str)
 
 char	*ev_str(char *str, size_t ev_len, t_minishell *data)
 {
-	return (ft_substr("aaa", 0, 3));
+	return (ft_substr("   ", 0, 3));
 }
 
 char	*handle_ev_in_lexeme(char *str, t_lexeme_type next_type, t_minishell *data)
@@ -92,7 +92,6 @@ char	*handle_ev_in_lexeme(char *str, t_lexeme_type next_type, t_minishell *data)
 	}
 	return ((char *)check_malloc(ft_substr(str, 0, ft_strlen(str)), data));
 }
-//b$x$
 
 char	*subshell_str(char *str, size_t in_par_len, t_minishell *data)
 {
@@ -117,7 +116,7 @@ char	*subshell_str(char *str, size_t in_par_len, t_minishell *data)
 	}
 	close(pipefd[0]);
 	close(pipefd2[1]);
-	write(pipefd[1], "test1   test2", 13);
+	write(pipefd[1], "  ", 2);
 	close(pipefd[1]);
 	wait(NULL);
 	str = stock_file_in_str(pipefd2[0], data);
@@ -167,12 +166,7 @@ t_lst	*create_subshell_lst(t_lst *token, t_minishell *data)
 	while (ft_strchr("\n\t ", (token->lexeme)[i]) != NULL)
 	{
 		if ((token->lexeme)[i] == '\0')
-		{
-			free(token->lexeme);
-			token->lexeme = ft_calloc(1, sizeof(char));
-			check_malloc(token->lexeme, data);
 			return (NULL);
-		}
 		i++;
 	}
 	while ((token->lexeme)[i] != '\0')
@@ -218,14 +212,14 @@ void	handle_subshell_in_cmd(t_leaf *command_tab, t_minishell *data)
 				new_lexeme = handle_ev_in_lexeme(temp->lexeme, LINE_CHANGE, data);
 			else
 				new_lexeme = handle_ev_in_lexeme(temp->lexeme, temp->next->type, data);
-			if (*new_lexeme == '\0')
-				return ;
 			new_lexeme = handle_subshell_in_lexeme(new_lexeme, data);
 			free(temp->lexeme);
+			temp->lexeme = new_lexeme;
+			if (*new_lexeme == '\0')
+				return ;
 			if (ft_strchr("\n\t ",
 				new_lexeme[ft_strlen(new_lexeme) - 1]) != NULL)
 				temp->metacharacter_after = true;
-			temp->lexeme = new_lexeme;
 		}
 		temp = temp->next;
 	}
