@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 22:19:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/26 04:20:05 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/28 00:28:31 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ int	check_syntax_errors(t_lst *tokens, t_minishell *data)
 		return (print_error(tokens->lexeme, data));
 	while (tokens)
 	{
+		if (tokens->type == PAR_CLOSE)
+			return (not_interpret_chara(')', "\' (unclosed parenthesis)", data));
 		if (tokens->type == PAR_OPEN)
 		{
 			while (tokens)

@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 03:23:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/26 02:00:38 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/27 21:45:07 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef enum s_lexeme_type
 	AND,
 	OR,
 	PIPE,
-	SUBSHELL,
+	DOLLAR,
 	LINE_CHANGE
 }	t_lexeme_type;
 

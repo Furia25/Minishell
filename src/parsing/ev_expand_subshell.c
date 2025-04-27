@@ -6,11 +6,12 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:47:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/26 23:32:27 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/28 01:51:45 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+char	*handle_ev_in_lexeme(char *str, t_lexeme_type next_type, t_minishell *data);
 
 char	*stock_file_in_str(int fd, t_minishell *data)
 {
@@ -52,25 +53,52 @@ size_t	env_var_len(char *str)
 	size_t	i;
 
 	i = 0;
-	while (str[i] != '\0' && str[i] != '$' && str[i] != ')')
+	while (str[i] != '\0' && str[i] != '$')
 		i++;
 	return (i);
 }
 
-char	*ev_str(char *str, size_t ev_len, t_minishell *data)
+char	*ev_result(char *str, size_t ev_len, t_minishell *data)
 {
 	return (ft_substr("  d  ", 0, 5));
+}
+
+size_t	skip_subshell(char *str)
+{
+	size_t	i;
+
+	i = 0;
+	if (str[i] == '$' && str[i + 1] == '(')
+	{
+		while (str[i] != ')')
+			i++;
+	}
+	return (i);
+}
+
+char	*ev_expand(char *str, char *ev_str, t_lexeme_type next_type, t_minishell *data)
+{
+	size_t	ev_len;
+	char	*buff;
+
+	ev_len = env_var_len(ev_str);
+	if (ev_len == 0)
+		return (ft_calloc(1, sizeof(char)));
+	buff = ft_strjoin_alt(str, ev_result(ev_str, ev_len, data), FREE_PARAM2);
+	check_malloc(buff, data);
+	return (check_malloc(ft_strjoin_alt(buff,
+		handle_ev_in_lexeme(ev_str + ev_len, next_type, data),
+		FREE_PARAM1 | FREE_PARAM2), data));
 }
 
 char	*handle_ev_in_lexeme(char *str, t_lexeme_type next_type, t_minishell *data)
 {
 	size_t	i;
-	size_t	ev_len;
-	char	*buff;
 
 	i = 0;
 	while (str[i])
 	{
+		skip_subshell(str + i);
 		if (str[i] == '$' && str[i + 1] != '(')
 		{
 			if ((str[i + 1] != '\0'
@@ -78,19 +106,12 @@ char	*handle_ev_in_lexeme(char *str, t_lexeme_type next_type, t_minishell *data)
 			{
 				str[i] = '\0';
 				i++;
-				ev_len = env_var_len(str + i);
-				if (ev_len == 0)
-					return (ft_calloc(1, sizeof(char)));
-				buff = ft_strjoin_alt(str, ev_str(str + i, ev_len, data), FREE_PARAM2);
-				check_malloc(buff, data);
-				return (check_malloc(ft_strjoin_alt(buff,
-					handle_ev_in_lexeme(str + i + ev_len, next_type, data),
-					FREE_PARAM1 | FREE_PARAM2), data));
+				return (ev_expand(str, str + i, next_type, data));
 			}
 		}
 		i++;
 	}
-	return ((char *)check_malloc(ft_substr(str, 0, ft_strlen(str)), data));
+	return (check_malloc(ft_substr(str, 0, ft_strlen(str)), data));
 }
 
 char	*subshell_str(char *str, size_t in_par_len, t_minishell *data)
@@ -133,35 +154,48 @@ char	*handle_subshell_in_lexeme(char *str, t_minishell *data)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '$')
+		if (str[i] == '$' && str[i + 1] == '(')
 		{
 			str[i] = '\0';
 			i++;
-			if (str[i] == '(')
-			{
-				in_par_len = in_parenthesis_len(str + i, data);
-				buff = ft_strjoin_alt(str, subshell_str(str + i,
-					in_par_len, data), FREE_PARAM2);
-				check_malloc(buff, data);
-				return ((char *)check_malloc(ft_strjoin_alt(buff,
-					handle_subshell_in_lexeme(str + i + in_par_len + 2, data),
-					FREE_PARAM1 | FREE_PARAM2), data));
-			}
+			in_par_len = in_parenthesis_len(str + i, data);
+			buff = ft_strjoin_alt(str, subshell_str(str + i,
+				in_par_len, data), FREE_PARAM2);
+			check_malloc(buff, data);
+			return (check_malloc(ft_strjoin_alt(buff,
+				handle_subshell_in_lexeme(str + i + in_par_len + 2, data),
+				FREE_PARAM1 | FREE_PARAM2), data));
 		}
 		i++;
 	}
-	return ((char *)check_malloc(ft_substr(str, 0, ft_strlen(str)), data));// juste return str si free a enlever dans strjoin
+	return (check_malloc(ft_substr(str, 0, ft_strlen(str)), data));
+	// juste return str si free a enlever dans strjoin
 }
 
-t_lst	*create_subshell_lst(t_lst *token, t_minishell *data)
+static t_lst	*create_set_new_node(t_lst *token, size_t start, size_t len, t_minishell *data)
 {
-	t_lst	*subshell_lst;
-	size_t	i;
-	size_t	j;
-	char	*node_lexeme;
+	char *node_lexeme;
 	t_lst	*new_node;
 
-	subshell_lst = NULL;
+	node_lexeme = ft_substr(token->lexeme, start, len);
+	check_malloc(node_lexeme, data);
+	new_node = lstnew(node_lexeme);
+	check_malloc(new_node, data);
+	if (start == 0)
+		new_node->type = token->type;
+	else
+		new_node->type = DOLLAR;
+	new_node->metacharacter_after = token->metacharacter_after;
+	return (new_node);
+}
+
+t_lst	*create_dollars_lst(t_lst *token, t_minishell *data)
+{
+	t_lst	*dollars_lst;
+	size_t	i;
+	size_t	j;
+
+	dollars_lst = NULL;
 	i = 0;
 	while ((token->lexeme)[i] != '\0')
 	{
@@ -170,31 +204,58 @@ t_lst	*create_subshell_lst(t_lst *token, t_minishell *data)
 			j++;
 		if (j == ft_strlen(token->lexeme))
 			return (NULL);
-		node_lexeme = ft_substr(token->lexeme, i, j);
-		check_malloc(node_lexeme, data);
-		new_node = lstnew(node_lexeme);
-		check_malloc(new_node, data);
-		if (i == 0)
-			new_node->type = token->type;
-		else
-			new_node->type = SUBSHELL;
-		new_node->metacharacter_after = token->metacharacter_after;
-		lstadd_back(&subshell_lst, new_node);
+		lstadd_back(&dollars_lst, create_set_new_node(token, i, j, data));
 		while (ft_strchr("\n\t ", (token->lexeme)[i + j]) != NULL)
 		{
 			if ((token->lexeme)[i + j] == '\0')
-				return (subshell_lst);
+				return (dollars_lst);
 			j++;
 		}
 		i = i + j;
 	}
-	return (subshell_lst);
+	return (dollars_lst);
 }
 
-void	handle_subshell_in_cmd(t_leaf *command_tab, t_minishell *data)
+void	add_dollars_changes_in_lexeme(t_lst *token, t_minishell *data)
+{
+	char	*old_lexeme;
+
+	old_lexeme = token->lexeme;
+	if (token->type == DOUBLE_Q || token->next == NULL)
+		old_lexeme = handle_ev_in_lexeme(old_lexeme, LINE_CHANGE, data);
+	else
+		old_lexeme = handle_ev_in_lexeme(old_lexeme, token->next->type, data);
+	token->lexeme = handle_subshell_in_lexeme(old_lexeme, data);
+	free(old_lexeme);
+}
+
+void	create_add_dollars_nodes(t_lst *token, t_leaf *command_tab, t_minishell *data)
+{
+	t_lst	*dollars_lst;
+	char	*old_lexeme;
+
+	old_lexeme = token->lexeme;
+	if (ft_strchr("\n\t ", old_lexeme[0]) != NULL)
+		token->type = DOLLAR;
+	if (ft_strchr("\n\t ",
+		old_lexeme[ft_strlen(old_lexeme) - 1]) != NULL)
+		token->metacharacter_after = true;
+	token->lexeme = ft_strtrim(old_lexeme, "\n\t ");
+	check_malloc(token->lexeme, data);
+	free(old_lexeme);
+	dollars_lst = create_dollars_lst(token, data);
+	if (dollars_lst != NULL)
+	{
+		command_tab->tokens = dollars_lst;
+		lstdelone(token, free);
+		lstlast(dollars_lst)->next = token->next;
+	}
+}
+
+void	ev_subshell_in_cmd(t_leaf *command_tab, t_minishell *data)
 {
 	t_lst	*temp;
-	t_lst	*subshell_lst;
+	t_lst	*dollars_lst;
 	char	*old_lexeme;
 
 	temp = command_tab->tokens;
@@ -202,13 +263,7 @@ void	handle_subshell_in_cmd(t_leaf *command_tab, t_minishell *data)
 	{
 		if (temp->type == WORD || temp->type == DOUBLE_Q)
 		{
-			old_lexeme = temp->lexeme;
-			if (temp->next == NULL)
-				temp->lexeme = handle_ev_in_lexeme(temp->lexeme, LINE_CHANGE, data);
-			else
-				temp->lexeme = handle_ev_in_lexeme(temp->lexeme, temp->next->type, data);
-			temp->lexeme = handle_subshell_in_lexeme(temp->lexeme, data);
-			free(old_lexeme);
+			add_dollars_changes_in_lexeme(temp, data);
 			if (*(temp->lexeme) == '\0')
 				return ;
 		}
@@ -216,43 +271,11 @@ void	handle_subshell_in_cmd(t_leaf *command_tab, t_minishell *data)
 	}
 	temp = command_tab->tokens;
 	if (temp->type == WORD)
-	{
-		old_lexeme = temp->lexeme;
-		if (ft_strchr("\n\t ", old_lexeme[0]) != NULL)
-			temp->type = SUBSHELL;
-		if (ft_strchr("\n\t ",
-			old_lexeme[ft_strlen(old_lexeme) - 1]) != NULL)
-			temp->metacharacter_after = true;
-		temp->lexeme = ft_strtrim(old_lexeme, "\n\t ");
-		free(old_lexeme);
-		subshell_lst = create_subshell_lst(temp, data);
-		if (subshell_lst != NULL)
-		{
-			command_tab->tokens = subshell_lst;
-			lstdelone(temp, free);
-			lstlast(subshell_lst)->next = temp->next;
-		}
-	}
+		create_add_dollars_nodes(temp, command_tab, data);
 	while (temp->next)
 	{
 		if (temp->next->type == WORD)
-		{
-			old_lexeme = temp->next->lexeme;
-			if (ft_strchr("\n\t ", old_lexeme[0]) != NULL)
-				temp->next->type = SUBSHELL;
-			if (ft_strchr("\n\t ",
-				old_lexeme[ft_strlen(old_lexeme) - 1]) != NULL)
-				temp->next->metacharacter_after = true;
-			temp->next->lexeme = ft_strtrim(old_lexeme, "\n\t ");
-			free(old_lexeme);
-			subshell_lst = create_subshell_lst(temp->next, data);
-			if (subshell_lst != NULL)
-			{
-				lstdelone(temp->next, free);
-				lstlast(subshell_lst)->next = temp->next->next;
-				temp->next = subshell_lst;
-			}
-		}
+			create_add_dollars_nodes(temp->next, command_tab, data);
 		temp = temp->next;
 	}
 }
