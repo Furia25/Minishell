@@ -6,7 +6,7 @@
 #    By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/13 23:20:17 by val               #+#    #+#              #
-#    Updated: 2025/04/25 17:54:26 by vdurand          ###   ########.fr        #
+#    Updated: 2025/04/28 16:39:22 by vdurand          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,7 +67,6 @@ else
 endif
 
 SRC_FILES = \
-	test_parsing.c \
 	utils/write_utils.c \
 	wildcards/wildcards_search.c \
 	wildcards/wildcards.c \
@@ -84,21 +83,12 @@ SRC_FILES = \
 	builtins/echo_builtin.c \
 	builtins/cd_builtin.c \
 	builtins/cd_builtin_utils.c \
-	utils/strjoin_alt.c
-	builtins/export_builtin.c \
-	lexing/not_interpret.c \
-	lexing/quotes.c \
-	lexing/tokenization.c \
-	parsing/ast_functions.c \
-	parsing/command_table.c \
-	parsing/ev_expand_subshell.c \
-	parsing/redirections.c \
-	parsing/syntax_errors.c \
-	parsing/tokens_to_argv.c \
 	utils/strjoin_alt.c \
-	debug/print_argv.c \
-	debug/print_cmd.c \
-	debug/print_lst.c
+	utils/memory_utils.c \
+	errors_and_debug/malloc_error.c \
+	garbage_collector/garbage_functions.c \
+	garbage_collector/garbage_managing.c \
+	main.c
 
 SRC = $(patsubst %.c, $(SRC_DIR)/%.c, $(SRC_FILES))
 OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
@@ -149,9 +139,12 @@ re: fclean all
 debug: all
 	$(DEBUG_VALGRIND) ./$(NAME)
 
-env_debug: all
+debug_env: all
 	env -i $(DEBUG_VALGRIND) ./$(NAME)
+	
+debug_trueclean: all
+	$(DEBUG_VALGRIND) env -i ./$(NAME)
 
 -include $(DEP)
 
-.PHONY: all cleanlibs clean fclean re makelibft debug env_debug
+.PHONY: all cleanlibs clean fclean re makelibft debug debug_env debug_trueclean

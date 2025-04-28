@@ -6,11 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 22:28:35 by alpayet           #+#    #+#             */
-<<<<<<< HEAD:src/parsing/ast_functions.c
-/*   Updated: 2025/04/25 03:16:13 by alpayet          ###   ########.fr       */
-=======
-/*   Updated: 2025/04/17 16:42:18 by vdurand          ###   ########.fr       */
->>>>>>> BuiltinandExec:src/parsing/ast_fonctions.c
+/*   Updated: 2025/04/28 16:11:23 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

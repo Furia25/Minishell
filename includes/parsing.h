@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 03:23:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/25 03:27:15 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/26 15:55:00 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H
 # include "minishell.h"
+# include "parsing.h"
 
 typedef enum s_lexeme_type
 {

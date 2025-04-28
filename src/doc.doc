@@ -435,13 +435,15 @@ Cas limites à tester :
 
 
 - Hahsmap -> env
-- exit
-- ENV _ < 
-- signaux
+- CLEAN FDS DANS LARBRE
+- SIGNAUX : 
+PAS DE CTRL \ dans heredoc mais core dump si exec,
+ CTRL C clear mais arette les enfants,
+  CTRL D dans heredoc arette avec message
 - exec
 - expansion et $?
-- a regler gnl
-- refacto gc
+
+bash: warning: here-document at line 10 delimited by end-of-file (wanted `EOF')
 
 t_hash_entry *test = hashmap_search(hash(expand), &data.environment);
 	if (!test)

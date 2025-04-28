@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 15:20:54 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/18 17:24:26 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/26 15:44:09 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,9 @@ t_hash_entry	*hashmap_search(unsigned long key, t_hashmap *map);
 int				hashmap_insert(unsigned long key, void *value, t_hashmap *map);
 
 // hashmap_utils.c
-void			hashmap_iterate(t_hashmap *map,
-					void (*f) (unsigned long key, void *));
+void			hashmap_iterate(void (*f) (unsigned long key, void *), \
+				t_hashmap *map);
+void			hashmap_remove(unsigned long key, t_hashmap *map);
 unsigned long	hash(char *str);
 
 #endif

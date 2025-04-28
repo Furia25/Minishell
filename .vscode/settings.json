@@ -1,0 +1,11 @@
+{
+	"files.associations": {
+		"stdatomic.h": "c",
+		"minishell.h": "c",
+		"environment.h": "c",
+		"ft_printf.h": "c",
+		"wildcards.h": "c",
+		"stdio.h": "c",
+		"stdint.h": "c"
+	}
+}

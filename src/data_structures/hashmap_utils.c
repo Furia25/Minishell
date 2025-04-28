@@ -6,13 +6,13 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 19:10:14 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/11 19:57:31 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/26 15:43:33 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	hashmap_iterate(t_hashmap *map, void (*f) (unsigned long key, void *))
+void	hashmap_iterate(void (*f) (unsigned long key, void *), t_hashmap *map)
 {
 	size_t			index;
 	int				actual_count;
@@ -29,6 +29,18 @@ void	hashmap_iterate(t_hashmap *map, void (*f) (unsigned long key, void *))
 			actual_count++;
 		}
 		index++;
+	}
+}
+
+void	hashmap_remove(unsigned long key, t_hashmap *map)
+{
+	t_hash_entry	*entry;
+
+	entry = hashmap_search(key, map);
+	if (entry != NULL)
+	{
+		entry->status = TOMBSTONE;
+		map->count -= 1;
 	}
 }
 

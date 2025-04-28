@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 19:12:44 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/18 17:23:21 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/28 16:01:01 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ t_hashmap	*hashmap_new(int power, double chargefactor, void (*del)(void *))
 
 void	hashmap_free(t_hashmap *map)
 {
+	if (!map)
+		return ;
 	hashmap_free_content(map);
 	free(map);
 }
@@ -54,6 +56,8 @@ void	hashmap_free_content(t_hashmap *map)
 {
 	size_t	index;
 
+	if (map->table == NULL)
+		return ;
 	index = 0;
 	while (index < map->size)
 	{

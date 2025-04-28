@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 16:48:05 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/17 19:52:42 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/26 15:43:20 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,10 @@ int	unset_builtin(int argc, char **argv, t_minishell *data)
 	{
 		entry = hashmap_search(hash(argv[argc]), &data->environment);
 		if (entry != NULL)
+		{
 			entry->status = TOMBSTONE;
+			data->environment.charge_factor -= 1;
+		}	
 		else
 			exit_code = EXIT_FAILURE;
 		argc--;
