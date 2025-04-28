@@ -6,7 +6,7 @@
 #    By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/13 23:20:17 by val               #+#    #+#              #
-#    Updated: 2025/04/26 20:53:35 by alpayet          ###   ########.fr        #
+#    Updated: 2025/04/28 06:18:24 by alpayet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,12 +66,17 @@ else
     DUMP_OUT = > /dev/null 2>&1
 endif
 
+
 SRC_FILES = \
 	test_parsing.c \
-	utils/write_utils.c \
-	utils/strjoin_alt.c \
-	wildcards/wildcards_search.c \
-	wildcards/wildcards.c \
+	builtins/cd_builtin_utils.c \
+	builtins/cd_builtin.c \
+	builtins/echo_builtin.c \
+	builtins/env_builtin.c \
+	builtins/export_builtin.c \
+	builtins/pwd_builtin.c \
+	builtins/unset_builtin.c \
+	data_structures/create_node_ast.c \
 	data_structures/hashmap_managing.c \
 	data_structures/hashmap_methods.c \
 	data_structures/hashmap_utils.c \
@@ -79,33 +84,42 @@ SRC_FILES = \
 	environment/env_managing.c \
 	environment/env_methods.c \
 	environment/env_populate.c \
-	builtins/env_builtin.c \
-	builtins/export_builtin.c \
-	builtins/unset_builtin.c \
-	builtins/pwd_builtin.c \
-	builtins/echo_builtin.c \
-	builtins/cd_builtin.c \
-	builtins/cd_builtin_utils.c \
-	lexing/quotes_token.c \
-	lexing/tokenization.c \
-	lexing/word_token.c \
-	parsing/ast_functions.c \
-	parsing/command_table.c \
-	parsing/ev_expand_subshell.c \
-	parsing/redirections.c \
-	parsing/tokens_to_argv.c \
-	errors_and_debug/malloc_error.c \
 	errors_and_debug/not_interpret_error.c \
+	errors_and_debug/malloc_error.c \
 	errors_and_debug/print_argv.c \
 	errors_and_debug/print_cmd.c \
 	errors_and_debug/print_lst.c \
-	errors_and_debug/syntax_error.c
+	errors_and_debug/syntax_error.c \
+	exec/evaluate_ast.c \
+	exec/evaluate_logical_op.c \
+	exec/evaluate_pipe_op.c \
+	exec/execute_cmd.c \
+	garbage_collector/garbage_functions.c \
+	garbage_collector/garbage_managing.c \
+	garbage_collector/memory_utils.c \
+	lexing/quotes_token.c \
+	lexing/tokenization.c \
+	lexing/word_token.c \
+	parsing/ev_expand_subshell/ev_expand_in_lexeme.c \
+	parsing/ev_expand_subshell/ev_subshell_in_cmd.c \
+	parsing/ev_expand_subshell/subshell_in_lexeme.c \
+	parsing/redirect/handle_redis.c \
+	parsing/redirect/here_doc_utils.c \
+	parsing/redirect/here_doc.c \
+	parsing/redirect/redis_except_here_doc.c \
+	parsing/command_table.c \
+	parsing/create_ast.c \
+	parsing/tokens_to_argv.c \
+	utils/strjoin_alt.c \
+	utils/write_utils.c \
+	wildcards/wildcards_search.c \
+	wildcards/wildcards.c
 
 SRC = $(patsubst %.c, $(SRC_DIR)/%.c, $(SRC_FILES))
 OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 DEP = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.d, $(SRC))
 
-CC = cc
+CC = cc -g3
 CFLAGS =
 READLINE_INC = -I/usr/local/include
 INCLUDES = -I$(INC_DIR) -I$(LIBFT_DIR) $(READLINE_INC)

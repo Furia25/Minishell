@@ -6,13 +6,13 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 20:18:34 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/21 00:04:59 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/28 05:07:57 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "debug.h"
 
-void	print_argv(char **tab)
+static void	print_argv(char **tab)
 {
 	ft_printf("\n\nnew argv :\n\n");
 	while (*tab)

@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/26 03:38:18 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/28 06:13:37 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,16 +59,15 @@ typedef enum	e_exit_type
 }	t_exit;
 
 int		not_interpret_chara(char chara, char *str, t_minishell	*data);
+
 t_AST_node	*create_ast(t_leaf *command_tab, t_minishell *data);
 t_leaf	*evaluate_ast(t_AST_node *node, t_minishell *data);
 int			execute_cmd(t_leaf *cmd, t_minishell *data);
-
 
 void		*memset_fast(void *ptr, int value, size_t num);
 
 void		*check_malloc(void *content, t_minishell *data);
 
-char		*ft_strjoin_alt(char *s1, char *s2, t_strjoin free_what);
 
 int			env_builtin(t_minishell *data);
 int			pwd_builtin();
@@ -80,5 +79,6 @@ int			cd_builtin(int argc, char **argv, t_minishell *data);
 // UTILS
 bool		write_str_secure(char *str, int fd);
 t_envvar	*get_pwd(char *pwd_type, char *default_value, t_minishell *data);
+char		*ft_strjoin_alt(char *s1, char *s2, t_strjoin free_what);
 
 #endif

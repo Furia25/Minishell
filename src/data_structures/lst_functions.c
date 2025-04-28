@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 19:14:01 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/26 02:20:47 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/28 07:26:42 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_lst	*lstnew(char *lexeme)
 {
 	t_lst	*new;
 
-	new = malloc(sizeof(t_list));
+	new = malloc(sizeof(t_lst));
 	if (new == NULL)
 		return (NULL);
 	new->lexeme = lexeme;

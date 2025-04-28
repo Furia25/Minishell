@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:37:34 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/28 01:01:00 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/28 07:43:51 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	rm_here_doc_files(t_leaf *command_tab);
 
 int	main(int argc, char **argv, char **envp)
 {
-	char *input = "echo 'n'$a'n'";
+	char *input = "cat > sisi | cat";
 	t_minishell	data;
 	t_lst	*tokens;
 	t_leaf *command_tab;

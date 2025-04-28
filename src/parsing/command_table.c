@@ -6,13 +6,13 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 10:43:50 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/26 04:10:53 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/28 07:20:17 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-size_t	cmds_number(t_lst *tokens)
+static size_t	cmds_number(t_lst *tokens)
 {
 	size_t	i;
 	t_lst	*parenth_buff;
@@ -39,7 +39,7 @@ size_t	cmds_number(t_lst *tokens)
 	return (i + 1);
 }
 
-t_lst	*parenthesis_cmd(t_leaf *command_tab, t_lst *tokens, t_lst **prev)
+static t_lst	*parenthesis_cmd(t_leaf *command_tab, t_lst *tokens, t_lst **prev)
 {
 	t_lst	*parenth_buff;
 
@@ -63,7 +63,7 @@ t_lst	*parenthesis_cmd(t_leaf *command_tab, t_lst *tokens, t_lst **prev)
 	return (tokens);
 }
 
-int	check_op_after(t_leaf *command_tab, t_lst **temp, t_lst **prev)
+static bool	check_op_after(t_leaf *command_tab, t_lst **temp, t_lst **prev)
 {
 	if ((*temp)->type == PIPE)
 		command_tab->ope_after = PIPE;
@@ -75,12 +75,12 @@ int	check_op_after(t_leaf *command_tab, t_lst **temp, t_lst **prev)
 	{
 		*prev = *temp;
 		*temp = (*temp)->next;
-		return (1);
+		return (false);
 	}
-	return (0);
+	return (true);
 }
 
-void	fill_tab(t_leaf *command_tab, t_lst *tokens)
+static void	fill_tab(t_leaf *command_tab, t_lst *tokens)
 {
 	t_lst	*temp;
 	t_lst	*prev;
@@ -96,7 +96,7 @@ void	fill_tab(t_leaf *command_tab, t_lst *tokens)
 			if (temp == NULL)
 				continue ;
 		}
-		if (check_op_after(command_tab, &temp, &prev) == 1)
+		if (check_op_after(command_tab, &temp, &prev) == false)
 			continue ;
 		fill_tab(command_tab + 1, temp->next);
 		command_tab->tokens = tokens;
@@ -108,67 +108,23 @@ void	fill_tab(t_leaf *command_tab, t_lst *tokens)
 	command_tab->ope_after = LINE_CHANGE;
 }
 
-void	initialise_cmds_fd(t_leaf *command_tab, size_t	commands_number)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < commands_number)
-	{
-		command_tab->fd_input = 0;
-		command_tab->fd_output = 1;
-		command_tab->parenthesis = false;
-		command_tab++;
-		i++;
-	}
-}
-
 t_leaf	*create_cmd_tab(t_lst *tokens, t_minishell *data)
 {
 	t_leaf *command_tab;
+	size_t	i;
 	size_t	commands_number;
 
 	commands_number = cmds_number(tokens);
 	command_tab = malloc(sizeof(t_leaf) * commands_number);
 	check_malloc(command_tab, data);
-	initialise_cmds_fd(command_tab, commands_number);
+	i = 0;
+	while (i < commands_number)
+	{
+		command_tab[i].fd_input = STDIN_FILENO;
+		command_tab[i].fd_output = STDOUT_FILENO;
+		command_tab[i].parenthesis = false;
+		i++;
+	}
 	fill_tab(command_tab, tokens);
 	return (command_tab);
 }
-
-// int	main(void)
-// {
-// 	char *input = "((test";
-// 	t_lst	*tokens;
-// 	t_leaf *command_tab;
-
-// 	tokens = NULL;
-// 	create_tokens(&tokens, input);
-// 	check_syntax_errors(tokens);
-// 	fusion_quote_token(tokens);
-// 	command_tab = create_cmd_tab(tokens);
-// 	while (command_tab->ope_after != LINE_CHANGE)
-// 	{
-// 		printf("new cmd : \n\n");
-// 		while (command_tab->tokens)
-// 		{
-// 			printf("token : %s\n", command_tab->tokens->lexeme);
-// 			command_tab->tokens = command_tab->tokens->next;
-// 		}
-// 		printf("fd_in : %d\n", command_tab->fd_input);
-// 		printf("fd_out : %d\n", command_tab->fd_output);
-// 		printf("parenthesis : %d\n", command_tab->parenthesis);
-// 		printf("ope_after : %d\n\n", command_tab->ope_after);
-// 		command_tab++;
-// 	}
-// 	printf("new cmd : \n\n");
-// 	while (command_tab->tokens)
-// 	{
-// 		printf("token : %s\n", command_tab->tokens->lexeme);
-// 		command_tab->tokens = command_tab->tokens->next;
-// 	}
-// 	printf("fd_in : %d\n", command_tab->fd_input);
-// 	printf("fd_out : %d\n", command_tab->fd_output);
-// 	printf("parenthesis : %d\n", command_tab->parenthesis);
-// 	printf("ope_after : %d\n\n", command_tab->ope_after);
-// }

@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 23:34:55 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/26 19:19:33 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/28 07:26:10 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,4 @@ size_t word_token(t_lst **tokens, char *str, t_minishell *data)
 	lstadd_back(tokens, create_set_new_node(str, i, data));
 	return (i);
 }
-//$(ls)f
+

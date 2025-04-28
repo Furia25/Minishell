@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:22:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/26 04:24:12 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/28 05:09:39 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@ size_t single_quote_token(t_lst **tokens, char *str, t_minishell *data);
 size_t double_quote_token(t_lst **tokens, char *str, t_minishell *data);
 size_t word_token(t_lst **tokens, char *str, t_minishell *data);
 
-size_t op_control_token(t_lst **tokens, char *str, char op, t_minishell *data)
+static size_t op_control_token(t_lst **tokens, char *str, char op, t_minishell *data)
 {
 	size_t	i;
 	char *node_lexeme;
@@ -38,7 +38,7 @@ size_t op_control_token(t_lst **tokens, char *str, char op, t_minishell *data)
 	return (i);
 }
 
-size_t op_redirection_token(t_lst **tokens, char *str, char op, t_minishell *data)
+static size_t op_redirection_token(t_lst **tokens, char *str, char op, t_minishell *data)
 {
 	size_t	i;
 	char *node_lexeme;
@@ -67,7 +67,7 @@ size_t op_redirection_token(t_lst **tokens, char *str, char op, t_minishell *dat
 	return (i);
 }
 
-size_t op_parenthesis(t_lst **tokens, char *str, char op, t_minishell *data)
+static size_t op_parenthesis(t_lst **tokens, char *str, char op, t_minishell *data)
 {
 	char *node_lexeme;
 	t_lst	*new_node;

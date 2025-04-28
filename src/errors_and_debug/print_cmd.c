@@ -6,14 +6,14 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 20:02:42 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/21 00:04:49 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/28 05:08:32 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "debug.h"
 void	print_lst(t_lst	*lst, t_lst_members members);
 
-void	print_cmd(t_leaf *command, t_lst_members cmd_tokens_members)
+static void	print_cmd(t_leaf *command, t_lst_members cmd_tokens_members)
 {
 	ft_printf("\n\nnew cmd :\n\n");
 	ft_printf("tokens: \n");
@@ -24,7 +24,7 @@ void	print_cmd(t_leaf *command, t_lst_members cmd_tokens_members)
 	ft_printf("ope_after :%d\n", command->ope_after);
 }
 
-void	print_all_cmd(t_leaf *command_tab, t_lst_members cmd_tokens_members)
+static void	print_all_cmd(t_leaf *command_tab, t_lst_members cmd_tokens_members)
 {
 	while (command_tab->ope_after != LINE_CHANGE)
 	{
