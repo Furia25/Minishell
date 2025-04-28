@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:56:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/28 05:24:32 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/28 17:47:46 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@ void	handle_red_input(t_leaf *command_tab, char *file, t_minishell *data);
 void	handle_red_output(t_leaf *command_tab, char *file, t_minishell *data);
 void	handle_red_output_append(t_leaf *command_tab, char *file, t_minishell *data);
 void	handle_red_input_output(t_leaf *command_tab, char *file, t_minishell *data);
+void	rm_here_doc_files(t_lst	*tokens);
 
 static bool	check_redi(t_leaf *command_tab, t_lst *token, t_minishell *data)
 {
@@ -68,3 +69,22 @@ void	handle_reds_and_del(t_leaf *command_tab, t_minishell *data)
 		}
 	}
 }
+
+void	close_all_fds(t_leaf *command_tab)
+{
+	while (command_tab->ope_after != LINE_CHANGE)
+	{
+		if (command_tab->fd_input != 0)
+			close(command_tab->fd_input);
+		if (command_tab->fd_output != 1)
+			close(command_tab->fd_output);
+		rm_here_doc_files(command_tab->tokens);
+		command_tab++;
+	}
+	if (command_tab->fd_input != 0)
+		close(command_tab->fd_input);
+	if (command_tab->fd_output != 1)
+		close(command_tab->fd_output);
+	rm_here_doc_files(command_tab->tokens);
+}
+

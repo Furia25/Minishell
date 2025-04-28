@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:43:56 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/28 05:25:12 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/28 17:47:37 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,29 +60,16 @@ void	handle_all_here_doc(t_leaf *command_tab, t_minishell *data)
 	here_doc_to_red_input(command_tab, data);
 }
 
-void	rm_here_doc_files(t_leaf *command_tab)
+void	rm_here_doc_files(t_lst	*tokens)
 {
-	t_lst	*temp;
-
-	while (command_tab->ope_after != LINE_CHANGE)
+	while (tokens)
 	{
-		temp = command_tab->tokens;
-		while (temp)
-		{
-			if (temp->type == RED_IN &&
-				ft_strncmp("/tmp/here_doc", temp->next->lexeme, 13) == 0)
-				unlink(temp->next->lexeme);
-			temp = temp->next;
-		}
-		command_tab++;
-	}
-	temp = command_tab->tokens;
-	while (temp)
-	{
-		if (temp->type == RED_IN &&
-			ft_strncmp("/tmp/here_doc", temp->next->lexeme, 13) == 0)
-			unlink(temp->next->lexeme);
-		temp = temp->next;
+		if (tokens->type == RED_IN &&
+			ft_strncmp("/tmp/here_doc", tokens->next->lexeme, 13) == 0)
+			unlink(tokens->next->lexeme);
+		tokens = tokens->next;
 	}
 }
+
+
 

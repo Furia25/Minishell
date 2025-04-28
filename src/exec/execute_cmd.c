@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:31:08 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/28 06:51:04 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/28 17:49:55 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ int	execute_cmd(t_leaf *cmd, t_minishell *data)
 	print_debug_lst(cmd->tokens, ONLY_LEXEME, 7,
 		"\ndisplay command->tokens after handle fusion quotes\n");
 	pid = fork();
-
 	if (pid == 0)
 	{
 		if (cmd->parenthesis == false)
@@ -55,6 +54,7 @@ int	execute_cmd(t_leaf *cmd, t_minishell *data)
 		else
 		{}	//execve minishell
 	}
+	wait(NULL);
 	wait(NULL);
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:37:34 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/28 07:43:51 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/28 17:46:52 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@ int	create_tokens(t_lst **tokens, char *input, t_minishell *data);
 int	check_syntax_errors(t_lst *tokens, t_minishell *data);
 t_leaf	*create_cmd_tab(t_lst *tokens, t_minishell *data);
 void	handle_all_here_doc(t_leaf *command_tab, t_minishell *data);
-void	rm_here_doc_files(t_leaf *command_tab);
+void	close_all_fds(t_leaf *command_tab);
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -49,6 +49,6 @@ int	main(int argc, char **argv, char **envp)
 	check_malloc(top_node_ast, &data);
 	final = evaluate_ast(top_node_ast, &data);
 	execute_cmd(final, &data);
-	rm_here_doc_files(command_tab);
+	close_all_fds(command_tab);
 	//cc -I includes/ -I libft/ src/utils/strjoin_alt.c src/data_structures/*.c src/lexing/*.c src/parsing/*.c src/test_parsing.c libft/libft.a -lreadline
 }
