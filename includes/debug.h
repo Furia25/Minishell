@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 19:01:44 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/28 17:52:23 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/29 00:38:25 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 1: display all debug message
 2: display tokens just after creating it
 3: display command_tab just after creating it
-4: display input in here doc after handle ev_expension and subshell
+4: display input in here doc after handle ev_expension and subshell in it
 5: display command_tab after handle here doc (change node type )
 6: display command->tokens after handle ev_expension and subshell
 7: display command->tokens after handle fusion quotes
@@ -26,7 +26,7 @@
 # include "minishell.h"
 
 #ifndef DEBUG
-# define DEBUG 0
+# define DEBUG 4
 #endif
 
 typedef enum s_lst_members

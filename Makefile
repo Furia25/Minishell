@@ -6,7 +6,7 @@
 #    By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/13 23:20:17 by val               #+#    #+#              #
-#    Updated: 2025/04/28 06:18:24 by alpayet          ###   ########.fr        #
+#    Updated: 2025/04/29 00:35:44 by alpayet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -101,6 +101,7 @@ SRC_FILES = \
 	lexing/tokenization.c \
 	lexing/word_token.c \
 	parsing/ev_expand_subshell/ev_expand_in_lexeme.c \
+	parsing/ev_expand_subshell/ev_expand_in_here_doc.c \
 	parsing/ev_expand_subshell/ev_subshell_in_cmd.c \
 	parsing/ev_expand_subshell/subshell_in_lexeme.c \
 	parsing/redirect/handle_redis.c \

@@ -1,47 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ev_expand_in_lexeme.c                              :+:      :+:    :+:   */
+/*   ev_expand_in_here_doc.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/18 20:47:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/29 00:57:29 by alpayet          ###   ########.fr       */
+/*   Created: 2025/04/28 23:33:14 by alpayet           #+#    #+#             */
+/*   Updated: 2025/04/29 00:59:21 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-char	*handle_ev_in_lexeme(char *str, t_lexeme_type next_type, t_minishell *data);
+size_t	skip_subshell(char *str);
+char	*ev_result(char *str, size_t ev_len, t_minishell *data);
+char	*handle_ev_in_here_doc(char *str, t_minishell *data);
 
 static size_t	env_var_len(char *str)
 {
 	size_t	i;
 
 	i = 0;
-	while (str[i] != '\0' && str[i] != '$')
+	while (str[i] != '\0' && str[i] != '$'
+		&& str[i] != '\''&& str[i] != '\"')
 		i++;
 	return (i);
 }
 
-char	*ev_result(char *str, size_t ev_len, t_minishell *data)
-{
-	return (ft_substr("aaaa", 0, 5));
-}
-
-size_t	skip_subshell(char *str)
-{
-	size_t	i;
-
-	i = 0;
-	if (str[i] == '$' && str[i + 1] == '(')
-	{
-		while (str[i] != ')')
-			i++;
-	}
-	return (i);
-}
-
-static char	*ev_expand(char *str, char *ev_str, t_lexeme_type next_type, t_minishell *data)
+static char	*ev_expand(char *str, char *ev_str, t_minishell *data)
 {
 	size_t	ev_len;
 	char	*buff;
@@ -52,11 +37,11 @@ static char	*ev_expand(char *str, char *ev_str, t_lexeme_type next_type, t_minis
 	buff = ft_strjoin_alt(str, ev_result(ev_str, ev_len, data), FREE_PARAM2);
 	check_malloc(buff, data);
 	return (check_malloc(ft_strjoin_alt(buff,
-		handle_ev_in_lexeme(ev_str + ev_len, next_type, data),
+		handle_ev_in_here_doc(ev_str + ev_len, data),
 		FREE_PARAM1 | FREE_PARAM2), data));
 }
 
-char	*handle_ev_in_lexeme(char *str, t_lexeme_type next_type, t_minishell *data)
+char	*handle_ev_in_here_doc(char *str, t_minishell *data)
 {
 	size_t	i;
 
@@ -66,12 +51,11 @@ char	*handle_ev_in_lexeme(char *str, t_lexeme_type next_type, t_minishell *data)
 		skip_subshell(str + i);
 		if (str[i] == '$' && str[i + 1] != '(')
 		{
-			if ((str[i + 1] != '\0'
-				|| (next_type == DOUBLE_Q || next_type == SINGLE_Q)))
+			if (str[i + 1] != '\'' && str[i + 1] != '\"')
 			{
 				str[i] = '\0';
 				i++;
-				return (ev_expand(str, str + i, next_type, data));
+				return (ev_expand(str, str + i, data));
 			}
 		}
 		i++;

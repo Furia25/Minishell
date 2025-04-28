@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:31:08 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/28 17:49:55 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/29 00:36:44 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ int	execute_cmd(t_leaf *cmd, t_minishell *data)
 		else
 		{}	//execve minishell
 	}
-	wait(NULL);
 	wait(NULL);
 	return (EXIT_SUCCESS);
 }

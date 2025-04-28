@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:37:34 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/28 17:46:52 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/29 00:53:12 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	close_all_fds(t_leaf *command_tab);
 
 int	main(int argc, char **argv, char **envp)
 {
-	char *input = "cat > sisi | cat";
+	char *input = "<<eof cat";
 	t_minishell	data;
 	t_lst	*tokens;
 	t_leaf *command_tab;
@@ -43,6 +43,8 @@ int	main(int argc, char **argv, char **envp)
 	print_debug_all_cmd(command_tab, LEXEME_AND_TYPE, 3,
 		 "\ndisplay command_tab just after creating it\n");
 	handle_all_here_doc(command_tab, &data);
+	if (data.exit_code == 1)
+		exit(1);
 	print_debug_all_cmd(command_tab, LEXEME_AND_TYPE, 5
 		,"\ndisplay command_tab after handle here doc\n");
 	top_node_ast = create_ast(command_tab, &data);

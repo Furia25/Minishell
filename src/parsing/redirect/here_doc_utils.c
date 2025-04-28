@@ -6,12 +6,13 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:37:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/28 04:43:28 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/29 01:19:42 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <errno.h>
+char	*handle_ev_in_here_doc(char *str, t_minishell *data);
 char	*handle_subshell_in_lexeme(char *str, t_minishell *data);
 
 int	open_new_here_doc_file(t_leaf *command_tab, char **here_doc_file, t_minishell *data)
@@ -43,30 +44,83 @@ int	open_new_here_doc_file(t_leaf *command_tab, char **here_doc_file, t_minishel
 	return (fd);
 }
 
+bool	unclosed_par_here_doc(char *str, t_minishell *data)
+{
+	size_t	i;
+	size_t	index_last_closed_par;
+
+	i = 0;
+	while (str[i])
+	{
+		index_last_closed_par = 0;
+		if (str[i] == '$' && str[i + 1] == '(')
+		{
+			while (str[i] != '\0')
+			{
+				if (str[i] == ')')
+					index_last_closed_par = i;
+				i++;
+			}
+			i = index_last_closed_par;
+			if (index_last_closed_par == 0)
+			{
+				data->exit_code = 1;
+				return (true);
+			}
+		}
+		i++;
+	}
+	return (false);
+}
+
+char	*handle_dollars_in_here_doc(bool unclosed_par, char *input,
+	t_lst *token_eof, t_minishell *data)
+{
+	char	*buff;
+
+	if (token_eof->type != SINGLE_Q)
+	{
+		if (unclosed_par == false)
+		{
+			buff = handle_ev_in_here_doc(input, data);
+			free(input);
+			input = handle_subshell_in_lexeme(buff, data);
+			free(buff);
+		}
+	}
+	if (DEBUG == 4 || DEBUG == 1)
+		ft_printf("input: %s\n", input);
+	return (input);
+}
+
 void	write_in_here_doc_file(t_lst *token_eof, int fd, t_minishell *data)
 {
 	char	*input;
 	char	*buff;
+	bool	unclosed_par;
 
+	unclosed_par = false;
 	while (1)
 	{
 		input = readline("> ");
+		if (unclosed_par_here_doc(input, data) == true)
+			unclosed_par = true;
 		check_malloc(input, data);
 		if (ft_strcmp(input, token_eof->lexeme) == 0)
 		{
+			if (unclosed_par == true)
+			{
+				ft_putstr_fd("minishell: unexpected EOF ", 2);
+				ft_putendl_fd("while looking for matching `)'", 2);
+			}
 			free(input);
 			break ;
 		}
-		if (token_eof->type != SINGLE_Q)
-		{
-			buff = handle_subshell_in_lexeme(input, data);
-			free(input);
-			input = buff;
-		}
-		if (DEBUG == 4 || DEBUG == 1)
-			ft_printf("input: %s\n", input);
-		write(fd, input, ft_strlen(input));
-		write(fd, "\n", 1);
+		handle_dollars_in_here_doc(unclosed_par, input, token_eof, data);
+		ft_putendl_fd(input, fd);
 		free(input);
 	}
 }
+
+
+
