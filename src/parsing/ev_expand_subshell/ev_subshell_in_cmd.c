@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:06:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/28 05:20:11 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/29 23:17:41 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static t_lst	*create_set_new_node(t_lst *token, size_t start, size_t len, t_mini
 
 static t_lst	*create_dollars_lst(t_lst *token, t_minishell *data)
 {
-	t_lst	*dollars_lst;
+	t_lst	 *dollars_lst;
 	size_t	i;
 	size_t	j;
 
@@ -120,4 +120,11 @@ void	ev_subshell_in_cmd(t_leaf *command_tab, t_minishell *data)
 			create_and_add_dollars_nodes(temp->next, command_tab, data);
 		temp = temp->next;
 	}
+}
+
+void	ev_subshell_in_cmds(t_leaf *command_tab, t_minishell *data)
+{
+	while (command_tab->ope_after != LINE_CHANGE)
+		ev_subshell_in_cmd(command_tab, data);
+	ev_subshell_in_cmd(command_tab, data);
 }

@@ -6,14 +6,13 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:27:36 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/28 06:14:39 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/29 18:54:22 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 t_leaf	*evaluate_logical_op(t_AST_node *node, t_minishell *data);
 t_leaf	*evaluate_pipe_op(t_AST_node *node, t_minishell *data);
-
 
 t_leaf	*evaluate_ast(t_AST_node *node, t_minishell *data)
 {
@@ -27,3 +26,4 @@ t_leaf	*evaluate_ast(t_AST_node *node, t_minishell *data)
 		return (evaluate_pipe_op(node, data));
 	return (NULL);
 }
+

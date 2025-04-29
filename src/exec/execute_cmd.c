@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:31:08 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/29 00:36:44 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/29 18:34:59 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,22 +24,11 @@ int	execute_cmd(t_leaf *cmd, t_minishell *data)
 
 	if (cmd == NULL)
 		return (EXIT_FAILURE);
-	ev_subshell_in_cmd(cmd, data);
-	print_debug_lst(cmd->tokens, LEXEME_AND_TYPE, 6,
-		"\ndisplay command->tokens after handle ev_expension and subshell\n");
-	fusion_quote_token(cmd->tokens, data);
-	print_debug_lst(cmd->tokens, ONLY_LEXEME, 7,
-		"\ndisplay command->tokens after handle fusion quotes\n");
 	pid = fork();
 	if (pid == 0)
 	{
 		if (cmd->parenthesis == false)
 		{
-			handle_reds_and_del(cmd, data);
-			if (cmd->fd_input == -1 || cmd->fd_output == -1)
-				exit(1);
-			print_debug_all_cmd(cmd, ONLY_LEXEME, 8,
-				"\ndisplay command after handle redi\n");
 			print_debug_argv(tokens_to_argv(cmd->tokens, data), 9,
 			"\ndisplay argv after creating it\n");
 			dup2(cmd->fd_input, 0);
@@ -55,5 +44,9 @@ int	execute_cmd(t_leaf *cmd, t_minishell *data)
 		{}	//execve minishell
 	}
 	wait(NULL);
+	if (cmd->fd_input != 0)
+		close(cmd->fd_input);
+	if (cmd->fd_output != 1)
+		close(cmd->fd_output);
 	return (EXIT_SUCCESS);
 }

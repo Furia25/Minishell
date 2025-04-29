@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 17:17:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/29 21:06:17 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/29 21:35:27 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static int	check_flags_c(int argc, char **argv);
 static void	handle_script(char **argv, t_minishell *data);
 static void	handle_subshell(int argc, char **argv, t_minishell *data);
 static void	handle_shell(int argc, char **argv, t_minishell *data);
+void	parsing_exec(char *input, t_minishell *data);
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -86,7 +87,7 @@ static void	handle_script(char **argv, t_minishell *data)
 
 static void	handle_subshell(int argc, char **argv, t_minishell *data)
 {
-	
+
 }
 
 static void	handle_shell(int argc, char **argv, t_minishell *data)
@@ -109,9 +110,7 @@ static void	handle_shell(int argc, char **argv, t_minishell *data)
 			}
 		}
 		if (input && *input)
-		{
-		
-		}
+			parsing_exec(input, data);
 		free(input);
 	}
 }

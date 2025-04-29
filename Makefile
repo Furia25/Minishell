@@ -6,11 +6,7 @@
 #    By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/13 23:20:17 by val               #+#    #+#              #
-<<<<<<< HEAD
-#    Updated: 2025/04/29 00:35:44 by alpayet          ###   ########.fr        #
-=======
-#    Updated: 2025/04/28 16:39:22 by vdurand          ###   ########.fr        #
->>>>>>> origin/Garbage2.0AndExec100.0
+#    Updated: 2025/04/29 23:26:37 by alpayet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,8 +68,8 @@ endif
 
 
 SRC_FILES = \
-<<<<<<< HEAD
-	test_parsing.c \
+	main.c \
+	parsing_exec.c \
 	builtins/cd_builtin_utils.c \
 	builtins/cd_builtin.c \
 	builtins/echo_builtin.c \
@@ -82,11 +78,6 @@ SRC_FILES = \
 	builtins/pwd_builtin.c \
 	builtins/unset_builtin.c \
 	data_structures/create_node_ast.c \
-=======
-	utils/write_utils.c \
-	wildcards/wildcards_search.c \
-	wildcards/wildcards.c \
->>>>>>> origin/Garbage2.0AndExec100.0
 	data_structures/hashmap_managing.c \
 	data_structures/hashmap_methods.c \
 	data_structures/hashmap_utils.c \
@@ -94,9 +85,8 @@ SRC_FILES = \
 	environment/env_managing.c \
 	environment/env_methods.c \
 	environment/env_populate.c \
-<<<<<<< HEAD
-	errors_and_debug/not_interpret_error.c \
 	errors_and_debug/malloc_error.c \
+	errors_and_debug/not_interpret_error.c \
 	errors_and_debug/print_argv.c \
 	errors_and_debug/print_cmd.c \
 	errors_and_debug/print_lst.c \
@@ -107,7 +97,6 @@ SRC_FILES = \
 	exec/execute_cmd.c \
 	garbage_collector/garbage_functions.c \
 	garbage_collector/garbage_managing.c \
-	garbage_collector/memory_utils.c \
 	lexing/quotes_token.c \
 	lexing/tokenization.c \
 	lexing/word_token.c \
@@ -122,25 +111,11 @@ SRC_FILES = \
 	parsing/command_table.c \
 	parsing/create_ast.c \
 	parsing/tokens_to_argv.c \
+	utils/memory_utils.c \
 	utils/strjoin_alt.c \
 	utils/write_utils.c \
 	wildcards/wildcards_search.c \
 	wildcards/wildcards.c
-=======
-	builtins/env_builtin.c \
-	builtins/export_builtin.c \
-	builtins/unset_builtin.c \
-	builtins/pwd_builtin.c \
-	builtins/echo_builtin.c \
-	builtins/cd_builtin.c \
-	builtins/cd_builtin_utils.c \
-	utils/strjoin_alt.c \
-	utils/memory_utils.c \
-	errors_and_debug/malloc_error.c \
-	garbage_collector/garbage_functions.c \
-	garbage_collector/garbage_managing.c \
-	main.c
->>>>>>> origin/Garbage2.0AndExec100.0
 
 SRC = $(patsubst %.c, $(SRC_DIR)/%.c, $(SRC_FILES))
 OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
@@ -193,7 +168,7 @@ debug: all
 
 debug_env: all
 	env -i $(DEBUG_VALGRIND) ./$(NAME)
-	
+
 debug_trueclean: all
 	$(DEBUG_VALGRIND) env -i ./$(NAME)
 

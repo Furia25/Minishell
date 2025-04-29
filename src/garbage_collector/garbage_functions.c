@@ -6,11 +6,12 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:58:23 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/29 17:08:07 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/29 19:05:20 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+void	*memset_fast(void *ptr, int value, size_t num);
 
 void	*gc_malloc(size_t size, t_minishell *data)
 {

@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 19:01:44 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/29 17:10:49 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/29 18:43:11 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # include "parsing.h"
 
 #ifndef DEBUG
-# define DEBUG 4
+# define DEBUG 0
 #endif
 
 typedef enum e_lst_members

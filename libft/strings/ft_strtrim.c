@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strtrim.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 19:03:29 by vdurand           #+#    #+#             */
-/*   Updated: 2024/11/08 17:31:50 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/29 23:24:52 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,11 @@ char	*ft_strtrim(char const *s1, char const *set)
 	result = ft_substr(s1, start, end - start + 1);
 	return (result);
 }
+// #include <stdio.h>
+// int	main(void)
+// {
+// 	char	*test = "\n\t ";
+// 	char	*test2 = ft_strtrim("dsasad", "\n\t ");
 
-/* int	main(void)
-{
-	char	*test = "";
-	char	*test2 = ft_strtrim(test, "");
-
-	printf(test2);
-} */
+// 	printf("%s :", test2);
+// }
