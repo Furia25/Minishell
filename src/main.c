@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 17:17:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/29 19:31:15 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/29 20:31:48 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,19 +28,19 @@ int	main(int argc, char **argv, char **envp)
 	int			flags;
 
 	init_minishell(&data, envp);
-	if (isatty(0) == 0)
+	flags = check_flag_c(argv);
+	if (flags == -1)
 	{
-		flags = check_flag_c(argv);
-		if (flags == -1)
+		if (isatty(0) == 0)
 			handle_script(argc, argv, &data);
 		else
-			handle_subshell(argc, argv, &data);
+			handle_shell(argc, argv, &data);
 	}
 	else
 	{
-		handle_shell(argc, argv, &data);
+		handle_subshell(argc, argv, &data);
 	}
-	init_minishell(&data, envp);
+	return (data.exit_code);
 }
 
 static int	init_minishell(t_minishell *data, char **envp)
