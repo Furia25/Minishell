@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 17:17:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/28 16:09:38 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/29 19:31:15 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,34 @@
 #include "garbage_collector.h"
 #include <stdio.h>
 
-void	test_lstprint(void *str)
+static int	init_minishell(t_minishell *data, char **envp);
+int			check_flags_c(int argc, char **argv);
+static void	handle_subshell(int argc, char **argv, t_minishell *data);
+static void	handle_shell(int argc, char **argv, t_minishell *data);
+
+int	main(int argc, char **argv, char **envp)
 {
-	ft_printf("%s ", (char *)str);
+	char		*input;
+	t_minishell	data;
+	int			flags;
+
+	init_minishell(&data, envp);
+	if (isatty(0) == 0)
+	{
+		flags = check_flag_c(argv);
+		if (flags == -1)
+			handle_script(argc, argv, &data);
+		else
+			handle_subshell(argc, argv, &data);
+	}
+	else
+	{
+		handle_shell(argc, argv, &data);
+	}
+	init_minishell(&data, envp);
 }
 
-int	init_minishell(t_minishell *data, char **envp)
+static int	init_minishell(t_minishell *data, char **envp)
 {
 	data->exit_code = EXIT_SUCCESS;
 	if (!hashmap_init_basics(&(data->environment), envvar_free))
@@ -33,15 +55,15 @@ int	init_minishell(t_minishell *data, char **envp)
 	return (1);
 }
 
-int	main(int argc, char **argv, char **envp)
+static void	handle_subshell(int argc, char **argv, t_minishell *data)
 {
-	char		*input;
-	t_wsearch	wildcard_result;
-	t_minishell	data;
+	
+}
 
-	(void) argc;
-	(void) argv;
-	init_minishell(&data, envp);
+static void	handle_shell(int argc, char **argv, t_minishell *data)
+{
+	char	*input;
+
 	while (1)
 	{
 		input = readline(PROMPT);
@@ -57,68 +79,34 @@ int	main(int argc, char **argv, char **envp)
 				return (0);
 			}
 		}
-		if (*input)
+		if (*input && input)
 		{
-			if (ft_strcmp(input, "env") == 0)
-			{
-				env_builtin(&data);
-			}else
-			if (ft_strncmp(input, "export", 6) == 0)
-			{
-				export_builtin(2, (char *[]){"export", "HOME=./test_home", NULL}, &data);
-				export_builtin(2, (char *[]){"export", "TEST", NULL}, &data);
-				export_builtin(2, (char *[]){"export", "TEST2=", NULL}, &data);
-				export_builtin(1, (char *[]){"export", NULL}, &data);
-			}else 
-			if (ft_strncmp(input, "unset", 5) == 0)
-			{
-				unset_builtin(2, (char *[]){"unset", "PATH", "TEST", NULL}, &data);
-			}else
-			if (ft_strcmp(input, "pwd") == 0)
-			{
-				pwd_builtin();
-			}else
-			if (ft_strncmp(input, "echo", 4) == 0)
-			{
-				echo_builtin(3, (char *[]){"echo", "-n", "bonjour", NULL});
-			}else
-			if (ft_strcmp(input, "cd") == 0)
-			{
-				cd_builtin(2, (char *[]){"cd", "-", NULL}, &data);
-			}else if (ft_strcmp(input, "export") == 0)
-			{
-				export_builtin(2, (char *[]){"export", "HOME=./test_home", NULL}, &data);
-				export_builtin(2, (char *[]){"export", "TEST", NULL}, &data);
-				export_builtin(2, (char *[]){"export", "TEST2=", NULL}, &data);
-				export_builtin(1, (char *[]){"export", NULL}, &data);
-			}else if (ft_strncmp(input, "unset", 5) == 0) {
-				unset_builtin(2, (char *[]){"unset", "PATH", "TEST", NULL}, &data);
-			}else
-			if (ft_strcmp(input, "pwd") == 0)
-			{
-				pwd_builtin();
-			}else
-			if (ft_strncmp(input, "echo", 4) == 0)
-			{
-				echo_builtin(3, (char *[]){"echo", "-n", "bonjour", NULL});
-			}else
-			if (ft_strcmp(input, "cd") == 0)
-			{
-				cd_builtin(2, (char *[]){"cd", "-", NULL}, &data);
-			}else
-			{
-				add_history(input);
-				wildcard_result = wildcard_lst_from_token(input);
-				if (wildcard_result.code == -1)
-					perror("WILDCARDS :");
-				if (wildcard_result.code == 0 && wildcard_result.result == NULL)
-					ft_printf("%s ", input);
-				ft_lstiter(wildcard_result.result, &test_lstprint);
-				ft_putchar_fd('\n', 1);
-				ft_lstclear(&wildcard_result.result, free);
-			}
-
+		
 		}
 		free(input);
 	}
+}
+
+int	check_flags_c(int argc, char **argv)
+{
+	int		index;
+	char	*temp;
+	
+	if (argc == 1)
+		return (-1);
+	index = 1;
+	while (argv[index] && index < argc)
+	{
+		temp = argv[index];
+		if (*temp != '-')
+			return (-1);
+		while (*temp && temp)
+		{
+			if (*temp != 'c')
+				return (-1);
+			temp++;
+		}
+		index++;
+	}
+	return (index);
 }
