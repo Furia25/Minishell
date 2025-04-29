@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/08 18:14:20 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/08 16:59:47 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/29 17:28:29 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ void	free_chartab(char **tab)
 {
 	size_t	index;
 
+	if (!tab)
+		return ;
 	index = 0;
 	while (tab[index])
 	{
