@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   memory_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 18:12:01 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/09 15:35:12 by val              ###   ########.fr       */
+/*   Updated: 2025/04/26 16:08:28 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,4 +34,9 @@ void	*memset_fast(void *ptr, int value, size_t num)
 	while (num--)
 		*p++ = val;
 	return (ptr);
+}
+
+unsigned long	hash_ptr(void *ptr)
+{
+	return ((unsigned long)((uintptr_t)ptr ^ ((uintptr_t)ptr >> 16)));
 }

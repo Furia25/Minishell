@@ -6,29 +6,35 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 23:17:25 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/26 02:28:05 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/29 17:03:00 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "garbage_collector.h"
 
 void	*check_malloc(void *content, t_minishell *data)
 {
-	//gc_add(content);
 	if (content == NULL)
 	{
-		perror("minishell");
-		data->exit_code = EXIT_FAILURE;
-		//free_lesfddanslarbrestp
-		//exit_minishell(data);
+		malloc_error(data);
+		return (NULL);
 	}
+	gc_add(content, data);
 	return (content);
 }
 
-// void	exit_minishell(t_minishell *data)
-// {
-// 	hashmap_free_content(&data->environment);
-// 	gc_clean(&data->gc);
-// 	exit (data->exit_code);
-// }
+void	malloc_error(t_minishell *data)
+{
+	perror("minishell:");
+	data->exit_code = EXIT_FAILURE;
+	exit_minishell(data);
+}
 
+void	exit_minishell(t_minishell *data)
+{
+	//free_lesfddanslarbrestp
+	hashmap_free_content(&data->environment);
+	gc_clean(data);
+	exit(data->exit_code);
+}

@@ -1,24 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   garbage_collector.h                                :+:      :+:    :+:   */
+/*   exit_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/31 14:36:49 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/28 16:05:51 by vdurand          ###   ########.fr       */
+/*   Created: 2025/04/28 16:22:24 by vdurand           #+#    #+#             */
+/*   Updated: 2025/04/28 16:22:25 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GARBAGE_COLLECTOR_H
-# define GARBAGE_COLLECTOR_H
-# include "minishell.h"
-
-void			*gc_calloc(size_t count, size_t size, t_minishell *data);
-void			*gc_malloc(size_t size, t_minishell *data);
-void			gc_free(void *pointer, t_minishell *data);
-void			gc_add(void *ptr, t_minishell *data);
-void			gc_clean(t_minishell *data);
-bool			gc_init(t_minishell *data);
-
-#endif

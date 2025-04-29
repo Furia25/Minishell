@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   debug.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 19:01:44 by alpayet           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/04/29 00:38:25 by alpayet          ###   ########.fr       */
+=======
+/*   Updated: 2025/04/26 16:00:30 by vdurand          ###   ########.fr       */
+>>>>>>> origin/Garbage2.0AndExec100.0
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +28,13 @@
 #ifndef DEBUG_H
 # define DEBUG_H
 # include "minishell.h"
+# include "parsing.h"
 
 #ifndef DEBUG
 # define DEBUG 4
 #endif
 
-typedef enum s_lst_members
+typedef enum e_lst_members
 {
 	ONLY_LEXEME,
 	LEXEME_AND_TYPE

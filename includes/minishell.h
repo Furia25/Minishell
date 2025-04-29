@@ -6,12 +6,13 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/28 06:13:37 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/29 17:06:50 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+typedef struct s_minishell	t_minishell;
 # include "libft.h"
 # include <unistd.h>
 # include <stdio.h>
@@ -22,7 +23,6 @@
 # include "parsing.h"
 # include "debug.h"
 # include "hashmap.h"
-# include "garbage_collector.h"
 # include "wildcards.h"
 # include "environment.h"
 # include "ft_printf.h"
@@ -41,12 +41,12 @@
 
 typedef struct s_minishell
 {
-	t_garbage_collector			gc;
-	t_hashmap					environment;
-	unsigned char				exit_code;
+	t_hashmap			gc;
+	t_hashmap			environment;
+	unsigned char		exit_code;
 }	t_minishell;
 
-typedef enum s_strjoin
+typedef enum e_strjoin
 {
 	NO_FREE = 1<<0,
 	FREE_PARAM1 = 1<<1,
@@ -64,7 +64,9 @@ t_AST_node	*create_ast(t_leaf *command_tab, t_minishell *data);
 t_leaf	*evaluate_ast(t_AST_node *node, t_minishell *data);
 int			execute_cmd(t_leaf *cmd, t_minishell *data);
 
-void		*memset_fast(void *ptr, int value, size_t num);
+void			check_malloc(void *content, t_minishell *data);
+void			malloc_error(t_minishell *data);
+void			exit_minishell(t_minishell *data);
 
 void		*check_malloc(void *content, t_minishell *data);
 
@@ -80,5 +82,6 @@ int			cd_builtin(int argc, char **argv, t_minishell *data);
 bool		write_str_secure(char *str, int fd);
 t_envvar	*get_pwd(char *pwd_type, char *default_value, t_minishell *data);
 char		*ft_strjoin_alt(char *s1, char *s2, t_strjoin free_what);
+unsigned long	hash_ptr(void *ptr);
 
 #endif

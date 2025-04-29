@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   strjoin_alt.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 00:17:20 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/14 00:17:23 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/26 15:45:19 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/*Peux etre on devrait free dans tout les cas meme si ca fail*/
 
 char	*ft_strjoin_alt(char *s1, char *s2, t_strjoin free_what)
 {

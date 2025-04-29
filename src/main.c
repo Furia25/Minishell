@@ -6,18 +6,31 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 17:17:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/25 17:56:46 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/28 16:09:38 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "ft_printf.h"
 #include "environment.h"
+#include "garbage_collector.h"
 #include <stdio.h>
 
 void	test_lstprint(void *str)
 {
 	ft_printf("%s ", (char *)str);
+}
+
+int	init_minishell(t_minishell *data, char **envp)
+{
+	data->exit_code = EXIT_SUCCESS;
+	if (!hashmap_init_basics(&(data->environment), envvar_free))
+		exit(EXIT_FAILURE);
+	if (!env_populate(envp, &(data->environment)))
+		malloc_error(data);
+	if (!gc_init(data))
+		malloc_error(data);
+	return (1);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -28,13 +41,7 @@ int	main(int argc, char **argv, char **envp)
 
 	(void) argc;
 	(void) argv;
-	if (!hashmap_init_basics(&data.environment, envvar_free))
-		return (EXIT_FAILURE);
-	if (!env_populate(envp, &data.environment))
-	{
-		hashmap_free_content(&data.environment);
-		return (EXIT_FAILURE);
-	}
+	init_minishell(&data, envp);
 	while (1)
 	{
 		input = readline(PROMPT);
@@ -46,7 +53,7 @@ int	main(int argc, char **argv, char **envp)
 			{
 				ft_putstr_fd("\nEnd of program (EOF detected), \
 					history is cleaned\n", 2);
-				hashmap_free_content(&data.environment);
+				exit_minishell(&data);
 				return (0);
 			}
 		}
