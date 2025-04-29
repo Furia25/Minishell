@@ -6,13 +6,12 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/29 17:06:50 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/29 17:11:09 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-typedef struct s_minishell	t_minishell;
 # include "libft.h"
 # include <unistd.h>
 # include <stdio.h>
@@ -64,7 +63,6 @@ t_AST_node	*create_ast(t_leaf *command_tab, t_minishell *data);
 t_leaf	*evaluate_ast(t_AST_node *node, t_minishell *data);
 int			execute_cmd(t_leaf *cmd, t_minishell *data);
 
-void			check_malloc(void *content, t_minishell *data);
 void			malloc_error(t_minishell *data);
 void			exit_minishell(t_minishell *data);
 
