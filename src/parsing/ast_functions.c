@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 22:28:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/28 16:11:23 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/29 16:51:40 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,17 +200,8 @@ t_leaf	*evaluate_pipe_op(t_AST_node *node, t_minishell *data)
 			ft_printf("%s", get_next_line(0));
 			exit(0);
 		}
-<<<<<<< HEAD:src/parsing/ast_functions.c
 		else
 		{}	//execve minishell
-=======
-		close(pipefd[1]);
-		right_value->fd_input = pipefd[0];
-		if (left_value->fd_input != 0)
-			close(left_value->fd_input);
-		if (left_value->fd_output != 1)
-			close(left_value->fd_output);
->>>>>>> BuiltinandExec:src/parsing/ast_fonctions.c
 	}
 	close(pipefd[1]);
 	right_value->fd_input = pipefd[0];
