@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 17:17:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/29 20:31:48 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/29 21:06:17 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 #include <stdio.h>
 
 static int	init_minishell(t_minishell *data, char **envp);
-int			check_flags_c(int argc, char **argv);
+static int	check_flags_c(int argc, char **argv);
+static void	handle_script(char **argv, t_minishell *data);
 static void	handle_subshell(int argc, char **argv, t_minishell *data);
 static void	handle_shell(int argc, char **argv, t_minishell *data);
 
@@ -28,11 +29,11 @@ int	main(int argc, char **argv, char **envp)
 	int			flags;
 
 	init_minishell(&data, envp);
-	flags = check_flag_c(argv);
-	if (flags == -1)
+	flags = check_flags_c(argc, argv);
+	if (flags < 2)
 	{
-		if (isatty(0) == 0)
-			handle_script(argc, argv, &data);
+		if (isatty(0) == 0 || flags == 1)
+			handle_script(argv, &data);
 		else
 			handle_shell(argc, argv, &data);
 	}
@@ -55,6 +56,34 @@ static int	init_minishell(t_minishell *data, char **envp)
 	return (1);
 }
 
+static void	handle_script(char **argv, t_minishell *data)
+{
+	size_t	line;
+	int		fd;
+	char	*input;
+
+	line = 0;
+	fd = open(argv[1], O_RDONLY);
+	if (fd == -1)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		perror(argv[1]);
+		data->exit_code = EXIT_FAILURE;
+		exit_minishell(data);
+		return ;
+	}
+	dup2(fd, 0);
+	close(fd);
+	input = readline(NULL);
+	while (input)
+	{
+		line++;
+		ft_printf(input);
+		free(input);
+		input = readline(NULL);
+	}
+}
+
 static void	handle_subshell(int argc, char **argv, t_minishell *data)
 {
 	
@@ -75,11 +104,11 @@ static void	handle_shell(int argc, char **argv, t_minishell *data)
 			{
 				ft_putstr_fd("\nEnd of program (EOF detected), \
 					history is cleaned\n", 2);
-				exit_minishell(&data);
-				return (0);
+				exit_minishell(data);
+				return ;
 			}
 		}
-		if (*input && input)
+		if (input && *input)
 		{
 		
 		}
@@ -87,23 +116,24 @@ static void	handle_shell(int argc, char **argv, t_minishell *data)
 	}
 }
 
-int	check_flags_c(int argc, char **argv)
+static int	check_flags_c(int argc, char **argv)
 {
 	int		index;
 	char	*temp;
-	
+
 	if (argc == 1)
-		return (-1);
+		return (0);
 	index = 1;
-	while (argv[index] && index < argc)
+	while (argv[index])
 	{
 		temp = argv[index];
 		if (*temp != '-')
-			return (-1);
+			return (index);
+		temp++;
 		while (*temp && temp)
 		{
 			if (*temp != 'c')
-				return (-1);
+				return (index);
 			temp++;
 		}
 		index++;
