@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 19:50:54 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/08 19:51:18 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/29 19:33:22 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,5 +17,5 @@ int	ft_strcmp(const char *s1, const char *s2)
 		s1++;
 		s2++;
 	}
-	return *(unsigned char *)s1 - *(unsigned char *)s2;
+	return (*(unsigned char *)s1 - *(unsigned char *)s2);
 }
