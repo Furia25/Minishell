@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:56:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/30 15:20:04 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/30 16:26:16 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,20 +68,6 @@ void	handle_reds_and_del(t_leaf *command_tab, t_minishell *data)
 			temp = temp->next;
 		}
 	}
-}
-
-void	handle_reds_cmds(t_leaf *command_tab, t_minishell *data)
-{
-	while (command_tab->ope_after != LINE_CHANGE)
-		handle_reds_and_del(command_tab, data);
-	handle_reds_and_del(command_tab, data);
-	while (command_tab->ope_after != LINE_CHANGE)
-	{
-		if (command_tab->fd_input == -1 || command_tab->fd_output == -1)
-			exit(1);
-	}
-	if (command_tab->fd_input == -1 || command_tab->fd_output == -1)
-		exit(1);
 }
 
 void	close_all_fds(t_leaf *command_tab)

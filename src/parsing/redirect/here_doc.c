@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:43:56 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/30 15:24:19 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/30 16:36:27 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static void	here_doc_to_red_input(t_leaf *command_tab, t_minishell *data)
 		if (temp->type == HERE_DOC)
 		{
 			here_doc_file = handle_here_doc(command_tab, temp->next, data);
-			gc_free_node(temp->next->lexeme, data);
+			gc_free(temp->next->lexeme, data);
 			temp->type = RED_IN;
 			temp->next->lexeme = here_doc_file;
 			temp = temp->next->next;

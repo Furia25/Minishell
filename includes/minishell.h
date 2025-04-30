@@ -6,12 +6,15 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/30 15:42:42 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/30 16:31:20 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
+typedef enum e_exit_type t_exit;
+typedef struct s_minishell t_minishell;
+typedef enum e_strjoin t_strjoin;
 # include "libft.h"
 # include <unistd.h>
 # include <stdio.h>
@@ -39,12 +42,12 @@
 # define BUILTIN_ERROR_CD_COLON "cd : "
 # define BUILTIN_ERROR_CD_NOTSET " not set\n"
 
-typedef struct s_minishell
+struct s_minishell
 {
 	t_hashmap			gc;
 	t_hashmap			environment;
 	unsigned char		exit_code;
-}	t_minishell;
+};
 
 typedef enum e_strjoin
 {
@@ -58,10 +61,7 @@ typedef enum	e_exit_type
 	EXIT_NORMAL,
 }	t_exit;
 
-int		not_interpret_chara(char chara, char *str, t_minishell	*data);
 
-t_AST_node	*create_ast(t_leaf *command_tab, t_minishell *data);
-t_leaf	*evaluate_ast(t_AST_node *node, t_minishell *data);
 int			execute_cmd(t_leaf *cmd, t_minishell *data);
 
 void			malloc_error(t_minishell *data);

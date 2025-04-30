@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 10:43:50 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/30 15:26:57 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/30 16:38:03 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,13 +92,13 @@ static void	fill_tab(t_leaf *command_tab, t_lst *tokens, t_minishell *data)
 		{
 			tokens = temp->next;
 			gc_free_node(temp, data);
-			temp = parenthesis_cmd(command_tab, tokens, &prev);
+			temp = parenthesis_cmd(command_tab, tokens, &prev, data);
 			if (temp == NULL)
 				continue ;
 		}
 		if (check_op_after(command_tab, &temp, &prev) == false)
 			continue ;
-		fill_tab(command_tab + 1, temp->next);
+		fill_tab(command_tab + 1, temp->next, data);
 		command_tab->tokens = tokens;
 		prev->next = NULL;
 		gc_free_node(temp, data);

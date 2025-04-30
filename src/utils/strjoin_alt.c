@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 00:17:20 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/30 15:42:26 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/30 16:41:11 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*ft_strjoin_alt(char *s1, char *s2, t_strjoin free_what)
 	return (s1_s2_conc);
 }
 
-void	free_params(char *s1, char *s2, enum e_strjoin free_what, t_minishell *data)
+void	free_params_gc(char *s1, char *s2, enum e_strjoin free_what, t_minishell *data)
 {
 	if (free_what == FREE_PARAM1)
 		gc_free(s1, data);

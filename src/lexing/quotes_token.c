@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 23:49:57 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/30 15:43:44 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/30 16:26:24 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,11 +111,4 @@ void	fusion_quote_token(t_lst *tokens, t_minishell *data)
 		}
 		tokens = tokens->next;
 	}
-}
-
-void	fusion_quote_cmds(t_leaf *command_tab, t_minishell *data)
-{
-	while (command_tab->ope_after != LINE_CHANGE)
-		fusion_quote_token(command_tab->tokens, data);
-	fusion_quote_token(command_tab->tokens, data);
 }

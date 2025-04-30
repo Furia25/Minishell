@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:37:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/30 15:49:25 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/30 16:42:26 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	open_new_here_doc_file(t_leaf *command_tab, char **here_doc_file, t_minishel
 		while (errno == EEXIST)
 		{
 			gc_free(*here_doc_file, data);
-			*here_doc_file = ft_strjoin_alt_buff("/tmp/here_doc", ft_itoa(i), FREE_PARAM2, data);
+			*here_doc_file = ft_strjoin_alt_gc("/tmp/here_doc", ft_itoa(i), FREE_PARAM2, data);
 			check_malloc(*here_doc_file, data);
 			fd = open(*here_doc_file, O_WRONLY | O_CREAT | O_EXCL, 0644);
 			if (fd != -1)

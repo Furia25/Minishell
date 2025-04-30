@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:06:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/30 15:15:45 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/30 16:25:51 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,11 +120,4 @@ void	ev_subshell_in_cmd(t_leaf *command_tab, t_minishell *data)
 			create_and_add_dollars_nodes(temp->next, command_tab, data);
 		temp = temp->next;
 	}
-}
-
-void	ev_subshell_in_cmds(t_leaf *command_tab, t_minishell *data)
-{
-	while (command_tab->ope_after != LINE_CHANGE)
-		ev_subshell_in_cmd(command_tab, data);
-	ev_subshell_in_cmd(command_tab, data);
 }
