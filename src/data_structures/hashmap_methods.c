@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hashmap_methods.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 17:18:50 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/18 17:24:22 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/30 14:25:00 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static void	prcs(unsigned long key, size_t i, t_hash_entry last, t_hashmap *map)
 
 	while (1)
 	{
-		if (map->table[i].status == EMPTY || 
+		if (map->table[i].status == EMPTY ||
 			(map->table[i].key == key && map->table[i].status == OCCUPIED))
 		{
 			if (map->table[i].status == EMPTY)
@@ -116,7 +116,6 @@ int	hashmap_insert(unsigned long key, void *value, t_hashmap *map)
 	prcs(key, pos, last, map);
 	return (1);
 }
-
 /**
  * @brief Searches for a key in the hashmap.
  *

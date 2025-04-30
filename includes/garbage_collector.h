@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   garbage_collector.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 14:36:49 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/28 16:05:51 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/04/30 15:09:07 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 void			*gc_calloc(size_t count, size_t size, t_minishell *data);
 void			*gc_malloc(size_t size, t_minishell *data);
 void			gc_free(void *pointer, t_minishell *data);
+void			gc_free_node(t_lst *node, t_minishell *data);
 void			gc_add(void *ptr, t_minishell *data);
 void			gc_clean(t_minishell *data);
 bool			gc_init(t_minishell *data);

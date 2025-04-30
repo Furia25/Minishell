@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/29 17:51:15 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/30 15:42:42 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include "hashmap.h"
 # include "wildcards.h"
 # include "environment.h"
+# include "garbage_collector.h"
 # include "ft_printf.h"
 # include <readline/readline.h>
 # include <readline/history.h>
@@ -80,6 +81,7 @@ int			cd_builtin(int argc, char **argv, t_minishell *data);
 bool		write_str_secure(char *str, int fd);
 t_envvar	*get_pwd(char *pwd_type, char *default_value, t_minishell *data);
 char		*ft_strjoin_alt(char *s1, char *s2, t_strjoin free_what);
+char	*ft_strjoin_alt_gc(char *s1, char *s2, t_strjoin free_what, t_minishell *data);
 unsigned long	hash_ptr(void *ptr);
 
 #endif

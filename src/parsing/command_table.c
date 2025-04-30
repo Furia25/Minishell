@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 10:43:50 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/28 07:20:17 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/30 15:26:57 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static size_t	cmds_number(t_lst *tokens)
 	return (i + 1);
 }
 
-static t_lst	*parenthesis_cmd(t_leaf *command_tab, t_lst *tokens, t_lst **prev)
+static t_lst	*parenthesis_cmd(t_leaf *command_tab, t_lst *tokens, t_lst **prev, t_minishell *data)
 {
 	t_lst	*parenth_buff;
 
@@ -54,7 +54,7 @@ static t_lst	*parenthesis_cmd(t_leaf *command_tab, t_lst *tokens, t_lst **prev)
 		tokens = tokens->next;
 	}
 	tokens = parenth_buff->next;
-	lstdelone(parenth_buff, free);
+	gc_free_node(parenth_buff, data);
 	if (tokens == NULL)
 	{
 		(*prev)->next = NULL;
@@ -80,7 +80,7 @@ static bool	check_op_after(t_leaf *command_tab, t_lst **temp, t_lst **prev)
 	return (true);
 }
 
-static void	fill_tab(t_leaf *command_tab, t_lst *tokens)
+static void	fill_tab(t_leaf *command_tab, t_lst *tokens, t_minishell *data)
 {
 	t_lst	*temp;
 	t_lst	*prev;
@@ -91,7 +91,7 @@ static void	fill_tab(t_leaf *command_tab, t_lst *tokens)
 		if (temp->type == PAR_OPEN)
 		{
 			tokens = temp->next;
-			lstdelone(temp, free);
+			gc_free_node(temp, data);
 			temp = parenthesis_cmd(command_tab, tokens, &prev);
 			if (temp == NULL)
 				continue ;
@@ -101,7 +101,7 @@ static void	fill_tab(t_leaf *command_tab, t_lst *tokens)
 		fill_tab(command_tab + 1, temp->next);
 		command_tab->tokens = tokens;
 		prev->next = NULL;
-		lstdelone(temp, free);
+		gc_free_node(temp, data);
 		return ;
 	}
 	command_tab->tokens = tokens;
@@ -125,6 +125,6 @@ t_leaf	*create_cmd_tab(t_lst *tokens, t_minishell *data)
 		command_tab[i].parenthesis = false;
 		i++;
 	}
-	fill_tab(command_tab, tokens);
+	fill_tab(command_tab, tokens, data);
 	return (command_tab);
 }

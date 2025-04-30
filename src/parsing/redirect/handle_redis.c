@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:56:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/29 18:24:40 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/30 15:20:04 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ static bool	check_redi(t_leaf *command_tab, t_lst *token, t_minishell *data)
 	return (false);
 }
 
-static void	del_reds_tokens(t_lst *token)
+static void	del_reds_tokens(t_lst *token, t_minishell *data)
 {
-	lstdelone(token->next, free);
-	lstdelone(token, free);
+	gc_free_node(token->next, data);
+	gc_free_node(token, data);
 }
 
 void	handle_reds_and_del(t_leaf *command_tab, t_minishell *data)
@@ -51,7 +51,7 @@ void	handle_reds_and_del(t_leaf *command_tab, t_minishell *data)
 	{
 		temp = command_tab->tokens;
 		command_tab->tokens = command_tab->tokens->next->next;
-		del_reds_tokens(temp);
+		del_reds_tokens(temp, data);
 	}
 	temp = command_tab->tokens;
 	while (temp)
@@ -59,7 +59,7 @@ void	handle_reds_and_del(t_leaf *command_tab, t_minishell *data)
 		if (check_redi(command_tab, temp, data) == true)
 		{
 			prev->next = temp->next->next;
-			del_reds_tokens(temp);
+			del_reds_tokens(temp, data);
 			temp = prev->next;
 		}
 		else

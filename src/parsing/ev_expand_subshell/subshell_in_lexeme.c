@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:08:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/28 05:11:50 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/30 15:47:44 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,12 +92,12 @@ char	*handle_subshell_in_lexeme(char *str, t_minishell *data)
 			str[i] = '\0';
 			i++;
 			in_par_len = in_parenthesis_len(str + i, data);
-			buff = ft_strjoin_alt(str, subshell_str(str + i,
-				in_par_len, data), FREE_PARAM2);
+			buff = ft_strjoin_alt_gc(str, subshell_str(str + i,
+				in_par_len, data), FREE_PARAM2, data);
 			check_malloc(buff, data);
-			return (check_malloc(ft_strjoin_alt(buff,
+			return (check_malloc(ft_strjoin_alt_gc(buff,
 				handle_subshell_in_lexeme(str + i + in_par_len + 2, data),
-				FREE_PARAM1 | FREE_PARAM2), data));
+				FREE_PARAM1 | FREE_PARAM2, data), data));
 		}
 		i++;
 	}

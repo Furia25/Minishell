@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:47:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/29 00:57:29 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/30 15:46:10 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,12 @@ static char	*ev_expand(char *str, char *ev_str, t_lexeme_type next_type, t_minis
 	ev_len = env_var_len(ev_str);
 	if (ev_len == 0)
 		return (ft_calloc(1, sizeof(char)));
-	buff = ft_strjoin_alt(str, ev_result(ev_str, ev_len, data), FREE_PARAM2);
+	buff = ft_strjoin_alt_gc(str, ev_result(ev_str, ev_len, data),
+	FREE_PARAM2, data);
 	check_malloc(buff, data);
-	return (check_malloc(ft_strjoin_alt(buff,
+	return (check_malloc(ft_strjoin_alt_gc(buff,
 		handle_ev_in_lexeme(ev_str + ev_len, next_type, data),
-		FREE_PARAM1 | FREE_PARAM2), data));
+		FREE_PARAM1 | FREE_PARAM2, data), data));
 }
 
 char	*handle_ev_in_lexeme(char *str, t_lexeme_type next_type, t_minishell *data)

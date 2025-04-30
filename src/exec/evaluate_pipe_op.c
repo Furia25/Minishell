@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:32:36 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/29 18:34:43 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/30 15:56:13 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ t_leaf	*evaluate_pipe_op(t_AST_node *node, t_minishell *data)
 
 	left_value = evaluate_ast(node->t_ope_node.left_node, data);
 	right_value = evaluate_ast(node->t_ope_node.right_node, data);
+
 	pipe(pipefd);
 	pid = fork();
 	if (pid == 0)

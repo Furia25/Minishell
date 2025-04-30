@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:33:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/29 00:59:21 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/30 15:45:27 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,12 @@ static char	*ev_expand(char *str, char *ev_str, t_minishell *data)
 	ev_len = env_var_len(ev_str);
 	if (ev_len == 0)
 		return (ft_calloc(1, sizeof(char)));
-	buff = ft_strjoin_alt(str, ev_result(ev_str, ev_len, data), FREE_PARAM2);
+	buff = ft_strjoin_alt_gc(str, ev_result(ev_str, ev_len, data),
+		FREE_PARAM2, data);
 	check_malloc(buff, data);
-	return (check_malloc(ft_strjoin_alt(buff,
+	return (check_malloc(ft_strjoin_alt_gc(buff,
 		handle_ev_in_here_doc(ev_str + ev_len, data),
-		FREE_PARAM1 | FREE_PARAM2), data));
+		FREE_PARAM1 | FREE_PARAM2, data), data));
 }
 
 char	*handle_ev_in_here_doc(char *str, t_minishell *data)

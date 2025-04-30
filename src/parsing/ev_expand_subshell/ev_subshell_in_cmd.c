@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:06:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/29 23:17:41 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/30 15:15:45 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	add_dollars_changes_in_lexeme(t_lst *token, t_minishell *data)
 	else
 		old_lexeme = handle_ev_in_lexeme(old_lexeme, token->next->type, data);
 	token->lexeme = handle_subshell_in_lexeme(old_lexeme, data);
-	free(old_lexeme);
+	gc_free(old_lexeme, data);
 }
 
 static t_lst	*create_set_new_node(t_lst *token, size_t start, size_t len, t_minishell *data)
@@ -84,12 +84,12 @@ static void	create_and_add_dollars_nodes(t_lst *token, t_leaf *command_tab, t_mi
 		token->metacharacter_after = true;
 	token->lexeme = ft_strtrim(old_lexeme, "\n\t ");
 	check_malloc(token->lexeme, data);
-	free(old_lexeme);
+	gc_free(old_lexeme, data);
 	dollars_lst = create_dollars_lst(token, data);
 	if (dollars_lst != NULL)
 	{
 		command_tab->tokens = dollars_lst;
-		lstdelone(token, free);
+		gc_free_node(token, data);
 		lstlast(dollars_lst)->next = token->next;
 	}
 }

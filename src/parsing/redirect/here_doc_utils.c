@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:37:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/29 01:19:42 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/04/30 15:49:25 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ int	open_new_here_doc_file(t_leaf *command_tab, char **here_doc_file, t_minishel
 		i = 1;
 		while (errno == EEXIST)
 		{
-			free(*here_doc_file);
-			*here_doc_file = ft_strjoin_alt("/tmp/here_doc", ft_itoa(i), FREE_PARAM2);
+			gc_free(*here_doc_file, data);
+			*here_doc_file = ft_strjoin_alt_buff("/tmp/here_doc", ft_itoa(i), FREE_PARAM2, data);
 			check_malloc(*here_doc_file, data);
 			fd = open(*here_doc_file, O_WRONLY | O_CREAT | O_EXCL, 0644);
 			if (fd != -1)
@@ -83,9 +83,9 @@ char	*handle_dollars_in_here_doc(bool unclosed_par, char *input,
 		if (unclosed_par == false)
 		{
 			buff = handle_ev_in_here_doc(input, data);
-			free(input);
+			gc_free(input, data);
 			input = handle_subshell_in_lexeme(buff, data);
-			free(buff);
+			gc_free(buff, data);
 		}
 	}
 	if (DEBUG == 4 || DEBUG == 1)
@@ -113,12 +113,12 @@ void	write_in_here_doc_file(t_lst *token_eof, int fd, t_minishell *data)
 				ft_putstr_fd("minishell: unexpected EOF ", 2);
 				ft_putendl_fd("while looking for matching `)'", 2);
 			}
-			free(input);
+			gc_free(input, data);
 			break ;
 		}
 		handle_dollars_in_here_doc(unclosed_par, input, token_eof, data);
 		ft_putendl_fd(input, fd);
-		free(input);
+		gc_free(input, data);
 	}
 }
 
