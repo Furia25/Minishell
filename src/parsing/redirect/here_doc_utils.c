@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:37:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/30 16:42:26 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/01 23:33:57 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	open_new_here_doc_file(t_leaf *command_tab, char **here_doc_file, t_minishel
 	if (fd == -1 && errno != EEXIST)
 	{
 		command_tab->fd_input = -1;
+		ft_putstr_fd("minishell: ", 2);
 		perror("here doc");
 		exit(1);//a secur
 	}
@@ -96,7 +97,6 @@ char	*handle_dollars_in_here_doc(bool unclosed_par, char *input,
 void	write_in_here_doc_file(t_lst *token_eof, int fd, t_minishell *data)
 {
 	char	*input;
-	char	*buff;
 	bool	unclosed_par;
 
 	unclosed_par = false;

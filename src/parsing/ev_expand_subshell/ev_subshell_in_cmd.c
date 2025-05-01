@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:06:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/01 18:05:17 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/01 23:24:24 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,6 @@ static void	create_and_add_dollars_nodes(t_lst *token, t_leaf *command_tab, t_mi
 void	ev_subshell_in_cmd(t_leaf *command_tab, t_minishell *data)
 {
 	t_lst	*temp;
-	t_lst	*dollars_lst;
-	char	*old_lexeme;
 
 	temp = command_tab->tokens;
 	while (temp)

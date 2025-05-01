@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:31:08 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/01 15:24:16 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/01 23:29:38 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	**tokens_to_argv(t_lst *tokens, t_minishell *data);
 int	execute_cmd(t_leaf *cmd, t_minishell *data)
 {
 	pid_t	pid;
-	int returned_value;
+	char	**argv;
 
 	if (cmd == NULL)
 		return (EXIT_FAILURE);
@@ -35,24 +35,28 @@ int	execute_cmd(t_leaf *cmd, t_minishell *data)
 		"\ndisplay command after handle redi\n");
 	if (cmd->fd_input != -1 && cmd->fd_output != -1)
 	{
-		print_debug_argv(tokens_to_argv(cmd->tokens, data), 9,
+		argv = tokens_to_argv(cmd->tokens, data);
+		print_debug_argv(argv, 9,
 		"\ndisplay argv after creating it\n");
-		pid = fork();
-		if (pid == 0)
+		if (argv != NULL)
 		{
-			if (cmd->parenthesis == false)
+			pid = fork();
+			if (pid == 0)
 			{
-				dup2(cmd->fd_input, 0);
-				dup2(cmd->fd_output, 1);
-				if (cmd->fd_input != 0)
-					close(cmd->fd_input);
-				if (cmd->fd_output != 1)
-					close(cmd->fd_output);
-				ft_printf("%s", get_next_line(0));
-				exit(0);
+				if (cmd->parenthesis == false)
+				{
+					dup2(cmd->fd_input, 0);
+					dup2(cmd->fd_output, 1);
+					if (cmd->fd_input != 0)
+						close(cmd->fd_input);
+					if (cmd->fd_output != 1)
+						close(cmd->fd_output);
+					ft_printf("%s", get_next_line(0));
+					exit(0);
+				}
+				else
+				{}	//execve minishell
 			}
-			else
-			{}	//execve minishell
 		}
 	}
 	wait(NULL);

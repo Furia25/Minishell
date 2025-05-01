@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 22:19:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/28 00:28:31 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/01 23:21:51 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,8 @@ static int	print_error(char *str, t_minishell *data)
 
 int	check_syntax_errors(t_lst *tokens, t_minishell *data)
 {
-	size_t	i;
 	t_lst	*parenth_buff;
 
-	i = 0;
 	parenth_buff = NULL;
 	if (tokens->type == AND || tokens->type == PIPE
 		|| tokens->type == OR)

@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 23:34:55 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/01 17:01:15 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/01 23:22:49 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,6 @@ size_t word_token(t_lst **tokens, char *str, t_minishell *data)
 {
 	size_t	i;
 	size_t	i_last_closed_par;
-	char *node_lexeme;
-	t_lst	*new_node;
 
 	i = 0;
 	while (ft_strchr("|&;<>() \t\'\"", str[i]) == NULL)

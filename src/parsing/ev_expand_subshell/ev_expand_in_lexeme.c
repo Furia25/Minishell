@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:47:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/01 18:22:31 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/01 23:23:59 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ static size_t	env_var_len(char *str)
 
 char	*ev_result(char *str, size_t ev_len, t_minishell *data)
 {
+	(void)str;
+	(void)data;
 	if (ev_len == 0)
 		return (ft_calloc(1, sizeof(char)));
 	return (ft_substr("   ", 0, 3));

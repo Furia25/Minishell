@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:32:36 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/01 15:23:45 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/01 23:29:49 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ t_leaf	*evaluate_pipe_op(t_AST_node *node, t_minishell *data)
 {
 	t_leaf	*left_value;
 	t_leaf	*right_value;
+	char		**argv;
 	int		pipefd[2];
 	pid_t		pid;
 
@@ -32,35 +33,38 @@ t_leaf	*evaluate_pipe_op(t_AST_node *node, t_minishell *data)
 	fusion_quote_token(left_value->tokens, data);
 	print_debug_lst(left_value->tokens, LEXEME, 7,
 		"\ndisplay command->tokens after handle fusion quotes\n");
+	pipe(pipefd);
 	handle_reds_and_del(left_value, data);
-	if (left_value->fd_input == -1 || left_value->fd_output == -1)
-		exit(1);
 	print_debug_cmd(left_value, LEXEME, 8,
 		"\ndisplay command after handle redi\n");
-	pipe(pipefd);
 	if (left_value->fd_input != -1 && left_value->fd_output != -1)
 	{
-		print_debug_argv(tokens_to_argv(left_value->tokens, data), 9,
+		argv = tokens_to_argv(left_value->tokens, data);
+		print_debug_argv(argv, 9,
 		"\ndisplay argv after creating it\n");
-		pid = fork();
-		if (pid == 0)
+		if (argv != NULL)
 		{
-			close(pipefd[0]);
-			dup2(pipefd[1], 1);
-			close(pipefd[1]);
-			if (left_value->parenthesis == false)
+			pid = fork();
+			if (pid == 0)
 			{
-				dup2(left_value->fd_input, 0);
-				dup2(left_value->fd_output, 1);
-				if (left_value->fd_input != 0)
-					close(left_value->fd_input);
-				if (left_value->fd_output != 1)
-					close(left_value->fd_output);
-				ft_printf("%s\n", get_next_line(0));
-				exit(0);
+				close(pipefd[0]);
+				dup2(pipefd[1], 1);
+				close(pipefd[1]);
+				if (left_value->parenthesis == false)
+				{
+					dup2(left_value->fd_input, 0);
+					dup2(left_value->fd_output, 1);
+					if (left_value->fd_input != 0)
+						close(left_value->fd_input);
+					if (left_value->fd_output != 1)
+						close(left_value->fd_output);
+					ft_printf("%s\n", get_next_line(0));
+					exit(0);
+				}
+				else
+				{}	//execve minishell
 			}
-			else
-			{}	//execve minishell
+			
 		}
 	}
 	close(pipefd[1]);

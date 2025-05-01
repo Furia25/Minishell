@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:49:43 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/28 05:21:37 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/01 23:32:30 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ void	handle_red_input(t_leaf *command_tab, char *file, t_minishell *data)
 		close(command_tab->fd_input);
 	command_tab->fd_input = open(file, O_RDONLY);//truncate + droit
 	if (command_tab->fd_input == -1)
+	{
+		ft_putstr_fd("minishell: ", 2);
 		perror(file);
+	}
 	if (ft_strncmp("/tmp/here_doc", file, 13) == 0)
 		unlink(file);
 }
@@ -35,7 +38,10 @@ void	handle_red_output(t_leaf *command_tab, char *file, t_minishell *data)
 		close(command_tab->fd_output);
 	command_tab->fd_output = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (command_tab->fd_output == -1)
+	{
+		ft_putstr_fd("minishell: ", 2);
 		perror(file);
+	}
 }
 
 void	handle_red_output_append(t_leaf *command_tab, char *file, t_minishell *data)
@@ -47,7 +53,10 @@ void	handle_red_output_append(t_leaf *command_tab, char *file, t_minishell *data
 		close(command_tab->fd_output);//secur close
 	command_tab->fd_output = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (command_tab->fd_output == -1)
+	{
+		ft_putstr_fd("minishell: ", 2);
 		perror(file);
+	}
 }
 
 void	handle_red_input_output(t_leaf *command_tab, char *file, t_minishell *data)
@@ -59,6 +68,9 @@ void	handle_red_input_output(t_leaf *command_tab, char *file, t_minishell *data)
 		close(command_tab->fd_input);//secur close
 	command_tab->fd_input = open(file, O_RDWR | O_CREAT | O_APPEND, 0644);
 	if (command_tab->fd_input == -1)
+	{
+		ft_putstr_fd("minishell: ", 2);
 		perror(file);
+	}
 }
 

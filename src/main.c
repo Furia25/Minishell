@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 17:17:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/29 21:35:27 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/01 23:21:06 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,12 @@
 static int	init_minishell(t_minishell *data, char **envp);
 static int	check_flags_c(int argc, char **argv);
 static void	handle_script(char **argv, t_minishell *data);
-static void	handle_subshell(int argc, char **argv, t_minishell *data);
-static void	handle_shell(int argc, char **argv, t_minishell *data);
+// static void	handle_subshell(int argc, char **argv, t_minishell *data);
+static void	handle_shell(t_minishell *data);
 void	parsing_exec(char *input, t_minishell *data);
 
 int	main(int argc, char **argv, char **envp)
 {
-	char		*input;
 	t_minishell	data;
 	int			flags;
 
@@ -36,11 +35,11 @@ int	main(int argc, char **argv, char **envp)
 		if (isatty(0) == 0 || flags == 1)
 			handle_script(argv, &data);
 		else
-			handle_shell(argc, argv, &data);
+			handle_shell(&data);
 	}
 	else
 	{
-		handle_subshell(argc, argv, &data);
+		// handle_subshell(argc, argv, &data);
 	}
 	return (data.exit_code);
 }
@@ -85,12 +84,12 @@ static void	handle_script(char **argv, t_minishell *data)
 	}
 }
 
-static void	handle_subshell(int argc, char **argv, t_minishell *data)
-{
+// static void	handle_subshell(int argc, char **argv, t_minishell *data)
+// {
 
-}
+// }
 
-static void	handle_shell(int argc, char **argv, t_minishell *data)
+static void	handle_shell(t_minishell *data)
 {
 	char	*input;
 

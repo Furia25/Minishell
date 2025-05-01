@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 16:18:39 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/01 18:20:43 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/01 23:15:50 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ char	**tokens_to_argv(t_lst *tokens, t_minishell *data)
 	size_t	i;
 
 	tokens_size = lst_size(tokens);
+	if (tokens_size == 0)
+		return (NULL);
 	argv = malloc((tokens_size + 1) * sizeof(char*));
 	check_malloc(argv, data);
 	argv[tokens_size] = NULL;
