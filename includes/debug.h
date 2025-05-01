@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 19:01:44 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/30 16:32:40 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/01 18:21:45 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,14 @@
 # include "minishell.h"
 
 #ifndef DEBUG
-# define DEBUG 0
+# define DEBUG 9
 #endif
 
 typedef enum e_lst_members
 {
-	ONLY_LEXEME,
-	LEXEME_AND_TYPE
+	LEXEME = 1<<0,
+	TYPE = 1<<1,
+	SPECIAL_PARAMETER = 1<<2
 }	t_lst_members;
 
 void	print_debug_lst(t_lst *lst, t_lst_members members, int debug, char *str);

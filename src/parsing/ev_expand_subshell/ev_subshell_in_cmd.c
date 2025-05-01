@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:06:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/30 16:25:51 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/01 18:05:17 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ static void	add_dollars_changes_in_lexeme(t_lst *token, t_minishell *data)
 {
 	char	*old_lexeme;
 
-	old_lexeme = token->lexeme;
 	if (token->type == DOUBLE_Q || token->next == NULL)
-		old_lexeme = handle_ev_in_lexeme(old_lexeme, LINE_CHANGE, data);
+		old_lexeme = handle_ev_in_lexeme(token->lexeme, LINE_CHANGE, data);
 	else
-		old_lexeme = handle_ev_in_lexeme(old_lexeme, token->next->type, data);
+		old_lexeme = handle_ev_in_lexeme(token->lexeme, token->next->type, data);
+	gc_free(token->lexeme, data);
 	token->lexeme = handle_subshell_in_lexeme(old_lexeme, data);
 	gc_free(old_lexeme, data);
 }
@@ -79,6 +79,8 @@ static void	create_and_add_dollars_nodes(t_lst *token, t_leaf *command_tab, t_mi
 	old_lexeme = token->lexeme;
 	if (ft_strchr("\n\t ", old_lexeme[0]) != NULL)
 		token->type = DOLLAR;
+	if (old_lexeme[0] == '\0')
+		return ;
 	if (ft_strchr("\n\t ",
 		old_lexeme[ft_strlen(old_lexeme) - 1]) != NULL)
 		token->metacharacter_after = true;
@@ -104,11 +106,7 @@ void	ev_subshell_in_cmd(t_leaf *command_tab, t_minishell *data)
 	while (temp)
 	{
 		if (temp->type == WORD || temp->type == DOUBLE_Q)
-		{
 			add_dollars_changes_in_lexeme(temp, data);
-			if (*(temp->lexeme) == '\0')
-				return ;
-		}
 		temp = temp->next;
 	}
 	temp = command_tab->tokens;

@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:31:08 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/30 16:56:40 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/01 15:24:16 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@ int	execute_cmd(t_leaf *cmd, t_minishell *data)
 	if (cmd == NULL)
 		return (EXIT_FAILURE);
 	ev_subshell_in_cmd(cmd, data);
-	print_debug_lst(cmd->tokens, LEXEME_AND_TYPE, 6,
+	print_debug_lst(cmd->tokens, LEXEME | TYPE, 6,
 		"\ndisplay command->tokens after handle ev_expension and subshell\n");
 	fusion_quote_token(cmd->tokens, data);
-	print_debug_lst(cmd->tokens, ONLY_LEXEME, 7,
+	print_debug_lst(cmd->tokens, LEXEME, 7,
 		"\ndisplay command->tokens after handle fusion quotes\n");
 	handle_reds_and_del(cmd, data);
-	print_debug_cmd(cmd, ONLY_LEXEME, 8,
+	print_debug_cmd(cmd, LEXEME, 8,
 		"\ndisplay command after handle redi\n");
 	if (cmd->fd_input != -1 && cmd->fd_output != -1)
 	{

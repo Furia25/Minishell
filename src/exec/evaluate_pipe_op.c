@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:32:36 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/30 16:52:59 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/01 15:23:45 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,15 @@ t_leaf	*evaluate_pipe_op(t_AST_node *node, t_minishell *data)
 	left_value = evaluate_ast(node->t_ope_node.left_node, data);
 	right_value = evaluate_ast(node->t_ope_node.right_node, data);
 	ev_subshell_in_cmd(left_value, data);
-	print_debug_lst(left_value->tokens, LEXEME_AND_TYPE, 6,
+	print_debug_lst(left_value->tokens, LEXEME | TYPE, 6,
 		"\ndisplay command->tokens after handle ev_expension and subshell\n");
 	fusion_quote_token(left_value->tokens, data);
-	print_debug_lst(left_value->tokens, ONLY_LEXEME, 7,
+	print_debug_lst(left_value->tokens, LEXEME, 7,
 		"\ndisplay command->tokens after handle fusion quotes\n");
 	handle_reds_and_del(left_value, data);
 	if (left_value->fd_input == -1 || left_value->fd_output == -1)
 		exit(1);
-	print_debug_cmd(left_value, ONLY_LEXEME, 8,
+	print_debug_cmd(left_value, LEXEME, 8,
 		"\ndisplay command after handle redi\n");
 	pipe(pipefd);
 	if (left_value->fd_input != -1 && left_value->fd_output != -1)

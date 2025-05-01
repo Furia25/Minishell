@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 20:18:34 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/28 05:07:57 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/01 18:27:07 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	print_argv(char **tab)
 	ft_printf("\n\nnew argv :\n\n");
 	while (*tab)
 	{
-		ft_printf("argv: %s\n", *tab);
+		ft_printf("argv :%s\n", *tab);
 		tab++;
 	}
 }

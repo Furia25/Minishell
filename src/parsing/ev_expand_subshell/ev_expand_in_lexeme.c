@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:47:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/30 15:46:10 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/01 18:22:31 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,9 @@ static size_t	env_var_len(char *str)
 
 char	*ev_result(char *str, size_t ev_len, t_minishell *data)
 {
-	return (ft_substr("aaaa", 0, 5));
+	if (ev_len == 0)
+		return (ft_calloc(1, sizeof(char)));
+	return (ft_substr("   ", 0, 3));
 }
 
 size_t	skip_subshell(char *str)
@@ -47,8 +49,6 @@ static char	*ev_expand(char *str, char *ev_str, t_lexeme_type next_type, t_minis
 	char	*buff;
 
 	ev_len = env_var_len(ev_str);
-	if (ev_len == 0)
-		return (ft_calloc(1, sizeof(char)));
 	buff = ft_strjoin_alt_gc(str, ev_result(ev_str, ev_len, data),
 	FREE_PARAM2, data);
 	check_malloc(buff, data);
@@ -65,7 +65,7 @@ char	*handle_ev_in_lexeme(char *str, t_lexeme_type next_type, t_minishell *data)
 	while (str[i])
 	{
 		skip_subshell(str + i);
-		if (str[i] == '$' && str[i + 1] != '(')
+		if (str[i] == '$' && str[i + 1] != '\'')
 		{
 			if ((str[i + 1] != '\0'
 				|| (next_type == DOUBLE_Q || next_type == SINGLE_Q)))

@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 16:18:39 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/28 05:29:10 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/01 18:20:43 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,17 @@
 static size_t lst_size(t_lst *lst)
 {
 	size_t	i;
-	char	*lexeme;
 
 	i = 0;
 	while (lst)
 	{
-		lexeme = lst->lexeme;
-		if (lst->type != DOUBLE_Q && lst->type != SINGLE_Q)
+		if (lst->type == DOLLAR)
 		{
-			if (ft_strchr("\n\t ", *lexeme) == NULL)
-				i++;
+			if (*(lst->lexeme) != '\0')
+				i++;			
 		}
 		else
-		{
-			if (*lexeme != '\0')
-				i++;
-		}
+			i++;
 		lst = lst->next;
 	}
 	return (i);
@@ -55,15 +50,10 @@ char	**tokens_to_argv(t_lst *tokens, t_minishell *data)
 	i = 0;
 	while (i < tokens_size)
 	{
-		if (tokens->type != DOUBLE_Q && tokens->type != SINGLE_Q)
+		if (*(tokens->lexeme) != '\0' || tokens->type != DOLLAR)
 		{
-			if (ft_strchr("\n\t ", *(tokens->lexeme)) == NULL)
-				i = i + set_str(&(argv[i]), tokens->lexeme);
-		}
-		else
-		{
-			if (*(tokens->lexeme) != '\0')
-				i = i + set_str(&(argv[i]), tokens->lexeme);
+			argv[i] = tokens->lexeme;
+			i++;	
 		}
 		tokens = tokens->next;
 	}

@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 23:34:55 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/28 07:26:10 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/01 17:01:15 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,10 @@ static t_lst	*create_set_new_node(char *str, size_t len, t_minishell *data)
 		new_node->metacharacter_after = false;
 	else
 		new_node->metacharacter_after = true;
+	if (ft_strchr(str, '*') == NULL)
+		new_node->special_parameter = true;
+	else
+		new_node->special_parameter = false;
 	return (new_node);
 }
 
