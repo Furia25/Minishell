@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 17:17:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/09 15:13:51 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/09 15:55:36 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ static int	init_minishell(t_minishell *data, char **envp)
 	if (!gc_init(data))
 		malloc_error(data);
 	data->in_child = false;
+	data->in_pipe = false;
 	data->line = 0;
 	data->line_mode = false;
 	return (1);
