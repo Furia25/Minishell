@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 15:11:13 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/09 16:00:01 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/09 16:09:18 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,7 @@ bool	try_builtin(t_builtin_type type, int argc, char **v, t_minishell *data)
 	if (type == BUILTIN_TYPE_CD)
 		data->exit_code = cd_builtin(argc, v, data);
 	else if (type == BUILTIN_TYPE_ECHO)
-	{
-		ft_putstr_fd("tfdsg", 2);
 		data->exit_code = echo_builtin(argc, v);
-	}
 	else if (type == BUILTIN_TYPE_ENV)
 		data->exit_code = env_builtin(data);
 	else if (type == BUILTIN_TYPE_EXPORT)
