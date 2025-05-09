@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:37:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/01 23:33:57 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/09 19:03:57 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	open_new_here_doc_file(t_leaf *command_tab, char **here_doc_file, t_minishel
 	return (fd);
 }
 
-bool	unclosed_par_here_doc(char *str, t_minishell *data)
+bool	unclosed_par_here_doc(char *str)
 {
 	size_t	i;
 	size_t	index_last_closed_par;
@@ -64,10 +64,7 @@ bool	unclosed_par_here_doc(char *str, t_minishell *data)
 			}
 			i = index_last_closed_par;
 			if (index_last_closed_par == 0)
-			{
-				data->exit_code = 1;
 				return (true);
-			}
 		}
 		i++;
 	}
@@ -103,7 +100,7 @@ void	write_in_here_doc_file(t_lst *token_eof, int fd, t_minishell *data)
 	while (1)
 	{
 		input = readline("> ");
-		if (unclosed_par_here_doc(input, data) == true)
+		if (unclosed_par_here_doc(input) == true)
 			unclosed_par = true;
 		check_malloc(input, data);
 		if (ft_strcmp(input, token_eof->lexeme) == 0)
@@ -112,6 +109,7 @@ void	write_in_here_doc_file(t_lst *token_eof, int fd, t_minishell *data)
 			{
 				ft_putstr_fd("minishell: unexpected EOF ", 2);
 				ft_putendl_fd("while looking for matching `)'", 2);
+				data->exit_code = 1;
 			}
 			gc_free(input, data);
 			break ;

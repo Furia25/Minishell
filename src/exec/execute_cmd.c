@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:31:08 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/09 15:59:27 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/09 19:37:40 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,18 @@ int	execute_cmd(t_leaf *cmd, t_minishell *data)
 	if (cmd->fd_input != -1 && cmd->fd_output != -1)
 	{
 		argv = tokens_to_argv(cmd->tokens, data);
+		print_debug_argv(argv, 9,
+			"\ndisplay argv after creating it\n");
 		/*BUILTIN HANDLER THIS IS JUST A TEST*/
 		t_builtin_type type = get_builtin(argv[0]);
-		ft_putnbr_fd(type, 2);
+		// ft_putnbr_fd(type, 2);
 		if (type != BUILTIN_TYPE_NOTBUILTIN)
 		{
 			if (!try_builtin(type, 1, argv, data))
 				exit_minishell(data);
 			return EXIT_SUCCESS;
 		}
-		print_debug_argv(argv, 9,
-		"\ndisplay argv after creating it\n");
-		if (argv != NULL)
+		else if (argv != NULL)
 		{
 			pid = fork();
 			if (pid == 0)
@@ -74,9 +74,11 @@ int	execute_cmd(t_leaf *cmd, t_minishell *data)
 		}
 	}
 	wait(NULL);
-	if (cmd->fd_input != 0)
+	if (cmd->fd_input != 0 && cmd->fd_input != -1)
 		close(cmd->fd_input);
-	if (cmd->fd_output != 1)
+	if (cmd->fd_output != 1 && cmd->fd_output != -1)
 		close(cmd->fd_output);
+	if (cmd->fd_input == -1 || cmd->fd_output == -1)
+		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }

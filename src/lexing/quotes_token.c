@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 23:49:57 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/01 15:32:18 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/09 19:07:32 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,7 @@ void	fusion_quote_token(t_lst *tokens, t_minishell *data)
 				tokens->lexeme = ft_strjoin_alt_gc(tokens->lexeme, tokens->next->lexeme,
 					FREE_PARAM1, data);
 				tokens->type = tokens->next->type;
-				tokens->metacharacter_after = tokens->next->metacharacter_after;
-				if (tokens->special_parameter | tokens->next->special_parameter)
-					
+				tokens->metacharacter_after = tokens->next->metacharacter_after;	
 				check_malloc(tokens->lexeme, data);
 				buff = tokens->next->next;
 				gc_free_node(tokens->next, data);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   evaluate_pipe_op.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:32:36 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/09 15:53:36 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/09 19:33:38 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,26 +33,24 @@ t_leaf	*evaluate_pipe_op(t_AST_node *node, t_minishell *data)
 	fusion_quote_token(left_value->tokens, data);
 	print_debug_lst(left_value->tokens, LEXEME, 7,
 		"\ndisplay command->tokens after handle fusion quotes\n");
-	
-	/*BUILTIN HANDLER THIS IS JUST A TEST*/
-	t_builtin_type type = get_builtin(argv[0]);
-	if (type != BUILTIN_TYPE_NOTBUILTIN)
-	{
-		if (!try_builtin(1, argv, data, type))
-			exit_minishell(data);
-		return NULL;
-	}
-	
-	pipe(pipefd);
 	handle_reds_and_del(left_value, data);
 	print_debug_cmd(left_value, LEXEME, 8,
 		"\ndisplay command after handle redi\n");
+	pipe(pipefd);
 	if (left_value->fd_input != -1 && left_value->fd_output != -1)
 	{
 		argv = tokens_to_argv(left_value->tokens, data);
 		print_debug_argv(argv, 9,
 		"\ndisplay argv after creating it\n");
-		if (argv != NULL)
+			/*BUILTIN HANDLER THIS IS JUST A TEST*/
+		t_builtin_type type = get_builtin(argv[0]);
+		// ft_putnbr_fd(type, 2);
+		if (type != BUILTIN_TYPE_NOTBUILTIN)
+		{
+			if (!try_builtin(type, 1, argv, data))
+				exit_minishell(data);
+		}
+		else if (argv != NULL)
 		{
 			pid = fork();
 			if (pid == 0)
@@ -69,7 +67,6 @@ t_leaf	*evaluate_pipe_op(t_AST_node *node, t_minishell *data)
 						close(left_value->fd_input);
 					if (left_value->fd_output != 1)
 						close(left_value->fd_output);
-					char **argv = tokens_to_argv(left_value->tokens, data);
 					char *command_path = find_command(argv[0], data);
 					if (!command_path)
 						ft_putstr_fd("caca dur", 2);
@@ -83,9 +80,9 @@ t_leaf	*evaluate_pipe_op(t_AST_node *node, t_minishell *data)
 		}
 	}
 	close(pipefd[1]);
-	if (left_value->fd_input != 0)
+	if (left_value->fd_input != 0 && left_value->fd_input != -1)
 		close(left_value->fd_input);
-	if (left_value->fd_output != 1)
+	if (left_value->fd_output != 1 && left_value->fd_output != -1)
 		close(left_value->fd_output);
 	right_value->fd_input = pipefd[0];
 	return (right_value);

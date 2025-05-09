@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 17:17:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/09 15:55:36 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/09 18:58:27 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,14 +104,10 @@ static void	handle_shell(t_minishell *data)
 		if (!input)
 		{
 			free(input);
-			rl_clear_history();
-			if (DEBUG == 2 || DEBUG == 1)
-			{
-				ft_putstr_fd("\nEnd of program (EOF detected), \
-					history is cleaned\n", 2);
-				exit_minishell(data);
-				return ;
-			}
+			// rl_clear_history();
+			ft_putstr_fd("End of program (EOF detected)\n", 2);
+			exit_minishell(data);
+			return ;
 		}
 		if (input && *input)
 			parsing_exec(input, data);
