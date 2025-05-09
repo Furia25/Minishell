@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:31:08 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/09 14:35:17 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/09 15:15:47 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,13 @@ int	execute_cmd(t_leaf *cmd, t_minishell *data)
 			{
 				if (cmd->parenthesis == false)
 				{
+					data->in_child = true;
 					dup2(cmd->fd_input, 0);
 					dup2(cmd->fd_output, 1);
 					if (cmd->fd_input != 0)
 						close(cmd->fd_input);
 					if (cmd->fd_output != 1)
 						close(cmd->fd_output);
-					char **argv = tokens_to_argv(cmd->tokens, data);
 					char *command_path = find_command(argv[0], data);
 					if (!command_path)
 						ft_putstr_fd("LA COMMANDE NEST PAS TROUVE GROS CACA\n", 2);

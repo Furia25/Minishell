@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 13:42:49 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/18 01:22:12 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/09 15:05:04 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,21 @@ char	*ft_join_nline(char *s1, char *s2)
 	return (result);
 }
 
-char	*get_next_line(int fd)
+static t_gnl_result	gnl_return(char *line, int error, bool dofree)
+{
+	t_gnl_result	result;
+
+	result.line = line;
+	if (dofree)
+	{
+		free(result.line);
+		result.line = NULL;
+	}
+	result.error = error;
+	return (result);
+}
+
+t_gnl_result	get_next_line(int fd)
 {
 	static char		buffer[GNL_BUFFER_SIZE + 1];
 	ssize_t			readed;
@@ -81,19 +95,19 @@ char	*get_next_line(int fd)
 		{
 			readed = read(fd, buffer, GNL_BUFFER_SIZE);
 			if (readed == -1)
-				return (free(line), NULL);
+				return (gnl_return(line, 1, true));
 			if (readed == 0)
-				return (line);
+				return (gnl_return(line, 0, false));
 		}
 		line = ft_join_nline(line, buffer);
 		if (!line)
-			return (NULL);
+			return (gnl_return(NULL, 1, false));
 	}
 	res = ft_substr(line, 0, iuntilchar(line, '\n'));
 	free(line);
-	if (!res)
-		return (NULL);
-	return (bufcpy(buffer, buffer + iuntilchar(buffer, '\n')), res);
+	if (res)
+		bufcpy(buffer, buffer + iuntilchar(buffer, '\n'));
+	return (gnl_return(res, res != NULL, false));
 }
 
 /*  int	main(void)

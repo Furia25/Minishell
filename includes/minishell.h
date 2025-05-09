@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/09 14:26:32 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/09 15:15:16 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,10 @@ struct s_minishell
 {
 	t_hashmap			gc;
 	t_hashmap			environment;
+	char				**environment_tab;
+	size_t				line;
+	bool				line_mode;
+	bool				in_child;
 	unsigned char		exit_code;
 };
 

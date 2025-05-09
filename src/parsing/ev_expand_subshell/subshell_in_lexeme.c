@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   subshell_in_lexeme.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:08:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/01 23:24:59 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/09 15:05:26 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ static char	*stock_file_in_str(int fd, t_minishell *data)
 
 	str = ft_calloc(1, sizeof(char));
 	check_malloc(str, data);
-	buff = get_next_line(fd);
+	//buff = get_next_line(fd);
 	//check_malloc(buff, data);
 	while (buff)
 	{
 		str = ft_strjoin_alt(str, buff, FREE_PARAM1 | FREE_PARAM2);
 		check_malloc(str, data);
-		buff = get_next_line(fd);
+		//buff = get_next_line(fd);
 		//check_malloc(buff, data);
 	}
 	return (str);

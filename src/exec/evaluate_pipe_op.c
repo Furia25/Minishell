@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:32:36 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/09 14:32:46 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/09 15:14:10 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ t_leaf	*evaluate_pipe_op(t_AST_node *node, t_minishell *data)
 			pid = fork();
 			if (pid == 0)
 			{
+				data->in_child = true;
 				close(pipefd[0]);
 				dup2(pipefd[1], 1);
 				close(pipefd[1]);
@@ -69,7 +70,6 @@ t_leaf	*evaluate_pipe_op(t_AST_node *node, t_minishell *data)
 				else
 				{}	//execve minishell
 			}
-			
 		}
 	}
 	close(pipefd[1]);

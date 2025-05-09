@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 17:17:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/01 23:21:06 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/09 15:13:51 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,16 +53,18 @@ static int	init_minishell(t_minishell *data, char **envp)
 		malloc_error(data);
 	if (!gc_init(data))
 		malloc_error(data);
+	data->in_child = false;
+	data->line = 0;
+	data->line_mode = false;
 	return (1);
 }
 
 static void	handle_script(char **argv, t_minishell *data)
 {
-	size_t	line;
-	int		fd;
-	char	*input;
+	int				fd;
+	t_gnl_result	gnl;
 
-	line = 0;
+	data->line_mode = true;
 	fd = open(argv[1], O_RDONLY);
 	if (fd == -1)
 	{
@@ -74,14 +76,16 @@ static void	handle_script(char **argv, t_minishell *data)
 	}
 	dup2(fd, 0);
 	close(fd);
-	input = readline(NULL);
-	while (input)
+	gnl = get_next_line(0);
+	while (gnl.line)
 	{
-		line++;
-		ft_printf(input);
-		free(input);
-		input = readline(NULL);
+		data->line++;
+		parsing_exec(gnl.line, data);
+		free(gnl.line);
+		gnl = get_next_line(0);
 	}
+	if (gnl.error)
+		malloc_error(data);
 }
 
 // static void	handle_subshell(int argc, char **argv, t_minishell *data)
