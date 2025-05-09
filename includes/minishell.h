@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/09 15:33:37 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/09 15:39:31 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,22 @@ typedef enum e_strjoin
 	FREE_PARAM2 = 1<<2,
 }	t_strjoin;
 
-typedef enum	e_exit_type
+typedef enum e_exit_type
 {
 	EXIT_NORMAL,
 }	t_exit;
 
+typedef enum e_builtin_type
+{
+	BUILTIN_TYPE_CD,
+	BUILTIN_TYPE_EXPORT,
+	BUILTIN_TYPE_ENV,
+	BUILTIN_TYPE_UNSET,
+	BUILTIN_TYPE_PWD,
+	BUILTIN_TYPE_ECHO,
+	BUILTIN_TYPE_EXIT,
+	BUILTIN_TYPE_NOTBUILTIN
+}	t_builtin_type;
 
 int				execute_cmd(t_leaf *cmd, t_minishell *data);
 
@@ -90,4 +101,5 @@ unsigned long	hash_ptr(void *ptr);
 
 char			*find_command(char *cmd, t_minishell *data);
 bool			try_builtin(int argc, char **argv, t_minishell *data);
+t_builtin_type	get_builtin(char *cmd);
 #endif
