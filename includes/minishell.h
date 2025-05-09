@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/30 16:31:20 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/09 14:26:32 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,26 +62,28 @@ typedef enum	e_exit_type
 }	t_exit;
 
 
-int			execute_cmd(t_leaf *cmd, t_minishell *data);
+int				execute_cmd(t_leaf *cmd, t_minishell *data);
 
 void			malloc_error(t_minishell *data);
 void			exit_minishell(t_minishell *data);
 
-void		*check_malloc(void *content, t_minishell *data);
+void			*check_malloc(void *content, t_minishell *data);
 
 
-int			env_builtin(t_minishell *data);
-int			pwd_builtin();
-int			export_builtin(int argc, char **argv, t_minishell *data);
-int			unset_builtin(int argc, char **argv, t_minishell *data);
-int			echo_builtin(int argc, char **argv);
-int			cd_builtin(int argc, char **argv, t_minishell *data);
+int				env_builtin(t_minishell *data);
+int				pwd_builtin();
+int				export_builtin(int argc, char **argv, t_minishell *data);
+int				unset_builtin(int argc, char **argv, t_minishell *data);
+int				echo_builtin(int argc, char **argv);
+int				cd_builtin(int argc, char **argv, t_minishell *data);
 
 // UTILS
-bool		write_str_secure(char *str, int fd);
-t_envvar	*get_pwd(char *pwd_type, char *default_value, t_minishell *data);
-char		*ft_strjoin_alt(char *s1, char *s2, t_strjoin free_what);
-char	*ft_strjoin_alt_gc(char *s1, char *s2, t_strjoin free_what, t_minishell *data);
+bool			write_str_secure(char *str, int fd);
+t_envvar		*get_pwd(char *pwd_type, char *default_value, t_minishell *data);
+char			*ft_strjoin_alt(char *s1, char *s2, t_strjoin free_what);
+char			*ft_strjoin_alt_gc(char *s1, char *s2, t_strjoin free_what, t_minishell *data);
 unsigned long	hash_ptr(void *ptr);
+
+char			*find_command(char *cmd, t_minishell *data);
 
 #endif

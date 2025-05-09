@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:31:08 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/01 23:29:38 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/09 14:35:17 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,12 @@ int	execute_cmd(t_leaf *cmd, t_minishell *data)
 						close(cmd->fd_input);
 					if (cmd->fd_output != 1)
 						close(cmd->fd_output);
-					ft_printf("%s", get_next_line(0));
+					char **argv = tokens_to_argv(cmd->tokens, data);
+					char *command_path = find_command(argv[0], data);
+					if (!command_path)
+						ft_putstr_fd("LA COMMANDE NEST PAS TROUVE GROS CACA\n", 2);
+					execve(command_path, argv, make_env(&data->environment));
+					free(command_path);
 					exit(0);
 				}
 				else

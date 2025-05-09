@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   evaluate_pipe_op.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:32:36 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/01 23:29:49 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/09 14:32:46 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,12 @@ t_leaf	*evaluate_pipe_op(t_AST_node *node, t_minishell *data)
 						close(left_value->fd_input);
 					if (left_value->fd_output != 1)
 						close(left_value->fd_output);
-					ft_printf("%s\n", get_next_line(0));
+					char **argv = tokens_to_argv(left_value->tokens, data);
+					char *command_path = find_command(argv[0], data);
+					if (!command_path)
+						ft_putstr_fd("caca dur", 2);
+					execve(command_path, argv, make_env(&data->environment));
+					free(command_path);
 					exit(0);
 				}
 				else

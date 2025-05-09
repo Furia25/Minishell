@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+         #
+#    By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/13 23:20:17 by val               #+#    #+#              #
-#    Updated: 2025/05/03 16:14:29 by alpayet          ###   ########.fr        #
+#    Updated: 2025/05/09 14:26:42 by vdurand          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -95,6 +95,7 @@ SRC_FILES = \
 	exec/evaluate_logical_op.c \
 	exec/evaluate_pipe_op.c \
 	exec/execute_cmd.c \
+	exec/exec.c \
 	garbage_collector/garbage_functions.c \
 	garbage_collector/garbage_managing.c \
 	lexing/quotes_token.c \
