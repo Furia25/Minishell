@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 15:11:13 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/09 16:11:22 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/09 16:16:16 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ bool	try_builtin(t_builtin_type type, int argc, char **v, t_minishell *data)
 	else if (type == BUILTIN_TYPE_UNSET)
 		data->exit_code = unset_builtin(argc, v, data);
 	else if (type == BUILTIN_TYPE_EXIT)
-		//result = exit_bultin(afrgc, v, data);
+		//result = exit_bultin(argc, v, data);
 	if (data->exit_code == BUILTIN_FATAL_ERROR)
 		return (false);
 	return (true);
