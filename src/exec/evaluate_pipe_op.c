@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:32:36 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/09 19:33:38 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/09 19:53:51 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,39 +43,42 @@ t_leaf	*evaluate_pipe_op(t_AST_node *node, t_minishell *data)
 		print_debug_argv(argv, 9,
 		"\ndisplay argv after creating it\n");
 			/*BUILTIN HANDLER THIS IS JUST A TEST*/
-		t_builtin_type type = get_builtin(argv[0]);
-		// ft_putnbr_fd(type, 2);
-		if (type != BUILTIN_TYPE_NOTBUILTIN)
+		if (argv != NULL)
 		{
-			if (!try_builtin(type, 1, argv, data))
-				exit_minishell(data);
-		}
-		else if (argv != NULL)
-		{
-			pid = fork();
-			if (pid == 0)
+			t_builtin_type type = get_builtin(argv[0]);
+			// ft_putnbr_fd(type, 2);
+			if (type != BUILTIN_TYPE_NOTBUILTIN)
 			{
-				data->in_child = true;
-				close(pipefd[0]);
-				dup2(pipefd[1], 1);
-				close(pipefd[1]);
-				if (left_value->parenthesis == false)
+				if (!try_builtin(type, 1, argv, data))
+					exit_minishell(data);
+			}
+			else
+			{
+				pid = fork();
+				if (pid == 0)
 				{
-					dup2(left_value->fd_input, 0);
-					dup2(left_value->fd_output, 1);
-					if (left_value->fd_input != 0)
-						close(left_value->fd_input);
-					if (left_value->fd_output != 1)
-						close(left_value->fd_output);
-					char *command_path = find_command(argv[0], data);
-					if (!command_path)
-						ft_putstr_fd("caca dur", 2);
-					execve(command_path, argv, make_env(&data->environment));
-					free(command_path);
-					exit(0);
+					data->in_child = true;
+					close(pipefd[0]);
+					dup2(pipefd[1], 1);
+					close(pipefd[1]);
+					if (left_value->parenthesis == false)
+					{
+						dup2(left_value->fd_input, 0);
+						dup2(left_value->fd_output, 1);
+						if (left_value->fd_input != 0)
+							close(left_value->fd_input);
+						if (left_value->fd_output != 1)
+							close(left_value->fd_output);
+						char *command_path = find_command(argv[0], data);
+						if (!command_path)
+							ft_putstr_fd("caca dur", 2);
+						execve(command_path, argv, make_env(&data->environment));
+						free(command_path);
+						exit(0);
+					}
+					else
+					{}	//execve minishell
 				}
-				else
-				{}	//execve minishell
 			}
 		}
 	}
