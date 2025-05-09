@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:32:36 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/09 15:14:10 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/09 15:53:36 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,16 @@ t_leaf	*evaluate_pipe_op(t_AST_node *node, t_minishell *data)
 	fusion_quote_token(left_value->tokens, data);
 	print_debug_lst(left_value->tokens, LEXEME, 7,
 		"\ndisplay command->tokens after handle fusion quotes\n");
+	
+	/*BUILTIN HANDLER THIS IS JUST A TEST*/
+	t_builtin_type type = get_builtin(argv[0]);
+	if (type != BUILTIN_TYPE_NOTBUILTIN)
+	{
+		if (!try_builtin(1, argv, data, type))
+			exit_minishell(data);
+		return NULL;
+	}
+	
 	pipe(pipefd);
 	handle_reds_and_del(left_value, data);
 	print_debug_cmd(left_value, LEXEME, 8,

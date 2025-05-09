@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/09 15:39:31 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/09 15:53:09 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ struct s_minishell
 	size_t				line;
 	bool				line_mode;
 	bool				in_child;
+	bool				in_pipe;
 	unsigned char		exit_code;
 };
 
@@ -100,6 +101,7 @@ char			*ft_strjoin_alt_gc(char *s1, char *s2, t_strjoin free_what, t_minishell *
 unsigned long	hash_ptr(void *ptr);
 
 char			*find_command(char *cmd, t_minishell *data);
-bool			try_builtin(int argc, char **argv, t_minishell *data);
+bool			try_builtin(t_builtin_type type, 
+					int argc, char **v, t_minishell *data);
 t_builtin_type	get_builtin(char *cmd);
 #endif
