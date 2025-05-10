@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:32:36 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/09 19:53:51 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/10 21:30:03 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,9 @@ t_leaf	*evaluate_pipe_op(t_AST_node *node, t_minishell *data)
 		argv = tokens_to_argv(left_value->tokens, data);
 		print_debug_argv(argv, 9,
 		"\ndisplay argv after creating it\n");
-			/*BUILTIN HANDLER THIS IS JUST A TEST*/
 		if (argv != NULL)
 		{
+			/*BUILTIN HANDLER THIS IS JUST A TEST*/
 			t_builtin_type type = get_builtin(argv[0]);
 			// ft_putnbr_fd(type, 2);
 			if (type != BUILTIN_TYPE_NOTBUILTIN)
@@ -64,9 +64,9 @@ t_leaf	*evaluate_pipe_op(t_AST_node *node, t_minishell *data)
 					if (left_value->parenthesis == false)
 					{
 						dup2(left_value->fd_input, 0);
-						dup2(left_value->fd_output, 1);
 						if (left_value->fd_input != 0)
 							close(left_value->fd_input);
+						dup2(left_value->fd_output, 1);
 						if (left_value->fd_output != 1)
 							close(left_value->fd_output);
 						char *command_path = find_command(argv[0], data);

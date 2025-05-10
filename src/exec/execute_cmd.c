@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:31:08 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/09 19:55:16 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/10 21:35:10 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ int	execute_cmd(t_leaf *cmd, t_minishell *data)
 			{
 				if (!try_builtin(type, 1, argv, data))
 					exit_minishell(data);
-				return EXIT_SUCCESS;
 			}
 			else
 			{
@@ -76,11 +75,13 @@ int	execute_cmd(t_leaf *cmd, t_minishell *data)
 			}	
 		}
 	}
-	wait(NULL);
 	if (cmd->fd_input != 0 && cmd->fd_input != -1)
 		close(cmd->fd_input);
 	if (cmd->fd_output != 1 && cmd->fd_output != -1)
 		close(cmd->fd_output);
+	wait(NULL);
+	wait(NULL);
+	wait(NULL);
 	if (cmd->fd_input == -1 || cmd->fd_output == -1)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
