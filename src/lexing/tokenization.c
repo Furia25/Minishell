@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:22:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/30 15:08:30 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/11 20:22:35 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,8 @@ static size_t op_parenthesis(t_lst **tokens, char *str, char op, t_minishell *da
 
 int	create_tokens(t_lst **tokens, char *input, t_minishell *data)
 {
-	size_t	token_len;
+	size_t	lexeme_len;
 
-	token_len = 0;
 	if (*input == '\0')
 		return (EXIT_SUCCESS);
 	while (*input == ' ' || *input == '\t')
@@ -96,18 +95,18 @@ int	create_tokens(t_lst **tokens, char *input, t_minishell *data)
 	if ((*input == '&' && *(input + 1) != '&') || *input == ';' || *input == '\\')
 		return (not_interpret_chara(*input, "\'", data));
 	if (ft_strchr("|&;()<> \t\'\"", *input) == NULL)
-		token_len = word_token(tokens, input, data);
+		lexeme_len = word_token(tokens, input, data);
 	if (*input == '\'')
-		token_len = single_quote_token(tokens, input, data);
+		lexeme_len = single_quote_token(tokens, input, data);
 	if (*input == '\"')
-		token_len = double_quote_token(tokens, input, data);
+		lexeme_len = double_quote_token(tokens, input, data);
 	if (*input == '(' || *input == ')')
-		token_len = op_parenthesis(tokens, input, *input, data);
+		lexeme_len = op_parenthesis(tokens, input, *input, data);
 	if (*input == '|' || *input == '&')
-		token_len = op_control_token(tokens, input, *input, data);
+		lexeme_len = op_control_token(tokens, input, *input, data);
 	if (*input == '<' || *input == '>')
-		token_len = op_redirection_token(tokens, input, *input, data);
-	if (token_len == 0)
+		lexeme_len = op_redirection_token(tokens, input, *input, data);
+	if (lexeme_len == 0)
 		return (EXIT_FAILURE);
-	return (create_tokens(tokens, input + token_len, data));
+	return (create_tokens(tokens, input + lexeme_len, data));
 }

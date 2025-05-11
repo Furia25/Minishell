@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 18:57:12 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/02 20:34:29 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/11 20:03:04 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,12 @@ int	main(int argc, char **argv, char **envp)
 {
 	t_minishell	data;
 	init_minishell(&data, envp);
-	char	*input = "k*c";
-		
+	char	*input = malloc(4);
+
+	input[0] = 'k';
+	input[1] = '*';
+	input[2] = '*';
+	input[3] = '\0';
 	t_wsearch wildcard_result = wildcard_lst_from_token(input);
 	if (wildcard_result.code == -1)
 		perror("WILDCARDS :");

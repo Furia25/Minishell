@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 03:23:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/01 15:18:29 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/11 20:04:02 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ typedef struct s_lst
 	char *lexeme;
 	t_lexeme_type type;
 	bool metacharacter_after;
-	bool special_parameter;
 	struct s_lst *next;
 }	t_lst;
 

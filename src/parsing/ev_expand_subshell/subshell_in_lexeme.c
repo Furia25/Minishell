@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   subshell_in_lexeme.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:08:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/09 15:05:26 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/11 20:52:29 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,11 @@ static char	*stock_file_in_str(int fd, t_minishell *data)
 static size_t	in_parenthesis_len(char *str)
 {
 	size_t	i;
-	size_t	index_last_closed_par;
 
 	i = 0;
-	index_last_closed_par = 0;
-	while (str[i])
-	{
-		if (str[i] == ')')
-		index_last_closed_par = i;
+	while (str[i] != ')')
 		i++;
-	}
-	return (index_last_closed_par - 1);
+	return (i);
 }
 
 static char	*subshell_str(char *str, size_t in_par_len, t_minishell *data)
@@ -90,13 +84,13 @@ char	*handle_subshell_in_lexeme(char *str, t_minishell *data)
 		if (str[i] == '$' && str[i + 1] == '(')
 		{
 			str[i] = '\0';
-			i++;
+			i += 2;
 			in_par_len = in_parenthesis_len(str + i);
 			buff = ft_strjoin_alt_gc(str, subshell_str(str + i,
 				in_par_len, data), FREE_PARAM2, data);
 			check_malloc(buff, data);
 			return (check_malloc(ft_strjoin_alt_gc(buff,
-				handle_subshell_in_lexeme(str + i + in_par_len + 2, data),
+				handle_subshell_in_lexeme(str + i + in_par_len + 1, data),
 				FREE_PARAM1 | FREE_PARAM2, data), data));
 		}
 		i++;

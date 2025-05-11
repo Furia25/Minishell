@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 19:01:44 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/09 20:21:47 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/11 20:10:43 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 6: display command->tokens after handle ev_expension and subshell
 7: display command->tokens after handle fusion quotes
 8: display command after handle redi (rm some nodes of command->tokens and change fd values)
-9: display argv after creating it (not adding WORD tokens whose lexeme is null-terminated or all blank)*/
+9: display argv after creating it (not adding WORD tokens whose lexeme is null-terminated)*/
 
 #ifndef DEBUG_H
 # define DEBUG_H
@@ -32,8 +32,7 @@
 typedef enum e_lst_members
 {
 	LEXEME = 1<<0,
-	TYPE = 1<<1,
-	SPECIAL_PARAMETER = 1<<2
+	TYPE = 1<<1
 }	t_lst_members;
 
 void	print_debug_lst(t_lst *lst, t_lst_members members, int debug, char *str);

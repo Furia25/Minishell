@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 23:34:55 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/01 23:22:49 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/11 21:19:03 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ size_t	index_last_closed_par(char *str, t_minishell *data)
 	return (index_last_closed_par);
 }
 
-static t_lst	*create_set_new_node(char *str, size_t len, t_minishell *data)
+static t_lst	*create_set_word_node(char *str, size_t len, t_minishell *data)
 {
 	char *node_lexeme;
 	t_lst	*new_node;
@@ -47,10 +47,6 @@ static t_lst	*create_set_new_node(char *str, size_t len, t_minishell *data)
 		new_node->metacharacter_after = false;
 	else
 		new_node->metacharacter_after = true;
-	if (ft_strchr(str, '*') == NULL)
-		new_node->special_parameter = true;
-	else
-		new_node->special_parameter = false;
 	return (new_node);
 }
 
@@ -72,7 +68,7 @@ size_t word_token(t_lst **tokens, char *str, t_minishell *data)
 		}
 		i++;
 	}
-	lstadd_back(tokens, create_set_new_node(str, i, data));
+	lstadd_back(tokens, create_set_word_node(str, i, data));
 	return (i);
 }
 

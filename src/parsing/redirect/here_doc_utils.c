@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:37:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/09 19:03:57 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/11 21:11:18 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,10 @@ void	write_in_here_doc_file(t_lst *token_eof, int fd, t_minishell *data)
 	char	*input;
 	bool	unclosed_par;
 
-	unclosed_par = false;
 	while (1)
 	{
 		input = readline("> ");
-		if (unclosed_par_here_doc(input) == true)
-			unclosed_par = true;
+		unclosed_par = unclosed_par_here_doc(input);
 		check_malloc(input, data);
 		if (ft_strcmp(input, token_eof->lexeme) == 0)
 		{

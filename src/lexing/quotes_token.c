@@ -6,12 +6,29 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 23:49:57 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/09 19:07:32 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/11 21:23:03 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 size_t	index_last_closed_par(char *str, t_minishell *data);
+
+static t_lst	*create_set_quote_node(char *str, t_lexeme_type type ,size_t len, t_minishell *data)
+{
+	char *node_lexeme;
+	t_lst	*new_node;
+
+	node_lexeme = ft_substr(str, 1, len - 1);
+	check_malloc(node_lexeme, data);
+	new_node = lstnew(node_lexeme);
+	check_malloc(new_node, data);
+	new_node->type = type;
+	if (ft_strchr("|&;()<> \t", str[len + 1]) == NULL)
+		new_node->metacharacter_after = false;
+	else
+		new_node->metacharacter_after = true;
+	return (new_node);
+}
 
 size_t single_quote_token(t_lst **tokens, char *str, t_minishell *data)
 {
@@ -21,42 +38,18 @@ size_t single_quote_token(t_lst **tokens, char *str, t_minishell *data)
 
 	i = 1;
 	while (str[i] != '\0' && str[i] != '\'')
+	{
+		if (str[i] == '*')
+			str[i] = -'*';
 		i++;
+	}
 	if (str[i] == '\0')
 	{
 		not_interpret_chara('\'', "\' (unclosed single quote)", data);
 		return (0);
 	}
-	node_lexeme = ft_substr(str, 1, i - 1);
-	check_malloc(node_lexeme, data);
-	new_node = lstnew(node_lexeme);
-	check_malloc(new_node, data);
-	new_node->type = SINGLE_Q;
-	if (ft_strchr("|&;()<> \t", str[i + 1]) == NULL)
-		new_node->metacharacter_after = false;
-	else
-		new_node->metacharacter_after = true;
-	new_node->special_parameter = false;
-	lstadd_back(tokens, new_node);
+	lstadd_back(tokens, create_set_new_node(str, SINGLE_Q, i, data));
 	return (i + 1);
-}
-
-static t_lst	*create_set_new_node(char *str, size_t len, t_minishell *data)
-{
-	char *node_lexeme;
-	t_lst	*new_node;
-
-	node_lexeme = ft_substr(str, 1, len - 1);
-	check_malloc(node_lexeme, data);
-	new_node = lstnew(node_lexeme);
-	check_malloc(new_node, data);
-	new_node->type = DOUBLE_Q;
-	if (ft_strchr("|&;()<> \t", str[len + 1]) == NULL)
-		new_node->metacharacter_after = false;
-	else
-		new_node->metacharacter_after = true;
-	new_node->special_parameter = false;
-	return (new_node);
 }
 
 size_t double_quote_token(t_lst **tokens, char *str, t_minishell *data)
@@ -75,6 +68,8 @@ size_t double_quote_token(t_lst **tokens, char *str, t_minishell *data)
 				return (0);
 			i = i + i_last_closed_par;
 		}
+		if (str[i] == '*')
+			str[i] = -'*';
 		i++;
 	}
 	if (str[i] == '\0')
@@ -82,7 +77,7 @@ size_t double_quote_token(t_lst **tokens, char *str, t_minishell *data)
 		not_interpret_chara('\"', "\' (unclosed double quote)", data);
 		return (0);
 	}
-	lstadd_back(tokens, create_set_new_node(str, i, data));
+	lstadd_back(tokens, create_set_new_node(str, DOUBLE_Q, i, data));
 	return (i + 1);
 }
 
