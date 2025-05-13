@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/13 14:54:49 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/13 16:06:29 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ typedef enum e_exit_type t_exit;
 typedef struct s_minishell t_minishell;
 typedef enum e_strjoin t_strjoin;
 # include "libft.h"
+# include <stdbool.h>
 # include <unistd.h>
 # include <stdio.h>
 # include <fcntl.h>
