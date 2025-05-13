@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:20:04 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/22 19:23:25 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/13 15:36:31 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ char	**make_env(t_hashmap *env)
 			result[actual_count] = envvar_str(env->table[index].value);
 			if (!result[actual_count])
 			{
+				ft_putstr_fd("ZIZI DUR", 2);
 				free_chartab(result);
 				return (NULL);
 			}
@@ -85,16 +86,13 @@ char	*envvar_str(t_envvar *var)
 	char	*result;
 	char	*temp;
 
-	if (!var || !var->name || var->value)
+	if (!var || !var->name || !var->value)
 		return (NULL);
 	temp = ft_strjoin(var->name, "=");
 	if (!temp)
 		return (NULL);
 	result = ft_strjoin_alt(temp, var->value, FREE_PARAM1);
 	if (!result)
-	{
-		free(temp);
 		return (NULL);
-	}
 	return (result);
 }

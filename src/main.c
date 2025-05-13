@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 17:17:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/13 15:13:03 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/13 15:30:37 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ static int	init_minishell(t_minishell *data, char **envp)
 	data->in_pipe = false;
 	data->line = 0;
 	data->script_mode = false;
+	data->script_fd = -1;
 	return (1);
 }
 
