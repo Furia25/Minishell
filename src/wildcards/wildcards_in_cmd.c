@@ -6,49 +6,37 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 19:54:39 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/13 10:49:31 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/13 15:49:10 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	wildcards_in_first_tokens_node(t_leaf *cmd, t_minishell *data)
+static t_lst *create_and_add_wildcards_nodes(t_lst *prev, t_lst *current, t_leaf *cmd, t_minishell *data)
 {
 	t_wsearch wildcard_result;
-	t_lst	*buff_next;
 	
-	wildcard_result = wildcard_lst_from_lexeme(cmd->tokens->lexeme);
+	wildcard_result = wildcard_lst_from_lexeme(current->lexeme);
 	if (wildcard_result.code == -1)
 		malloc_error(data);
 	if (wildcard_result.code == 1)
 	{
-		buff_next = cmd->tokens->next;
-		cmd->tokens = wildcard_result.result;
-		lstlast(wildcard_result.result)->next = buff_next;
-	
+		if (current == cmd->tokens)
+			cmd->tokens = wildcard_result.result;
+		else
+			prev->next = wildcard_result.result;
+		lstlast(wildcard_result.result)->next = current->next;
+		gc_free_node(current, data);
+		return (lstlast(wildcard_result.result));
 	}
+	return (current);
 }
 
 void	wildcards_in_cmd(t_leaf *cmd, t_minishell *data)
 {
-	t_wsearch wildcard_result;
-	t_lst	*buff_next;
 	t_lst	*tokens;
-
-	wildcards_in_first_tokens_node(cmd, data);
-	tokens = cmd->tokens;
+	
+	tokens = create_and_add_wildcards_nodes(NULL, cmd->tokens, cmd, data);
 	while (tokens->next != NULL)
-	{
-		wildcard_result = wildcard_lst_from_lexeme(tokens->next->lexeme);
-		if (wildcard_result.code == -1)
-			malloc_error(data);
-		if (wildcard_result.code == 1)
-		{
-			buff_next = tokens->next->next;
-			tokens->next = wildcard_result.result;
-			lstlast(wildcard_result.result)->next = buff_next;
-		
-		}
-		tokens = tokens->next;
-	}
+		tokens = create_and_add_wildcards_nodes(tokens, tokens->next, cmd, data);
 }

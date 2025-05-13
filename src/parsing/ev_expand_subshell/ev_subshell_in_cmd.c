@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:06:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/01 23:24:24 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/13 15:54:33 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,49 +71,54 @@ static t_lst	*create_dollars_lst(t_lst *token, t_minishell *data)
 	return (dollars_lst);
 }
 
-static void	create_and_add_dollars_nodes(t_lst *token, t_leaf *command_tab, t_minishell *data)
+static t_lst *create_and_add_dollars_nodes(t_lst *prev, t_lst *current, t_leaf *cmd, t_minishell *data)
 {
 	t_lst	*dollars_lst;
 	char	*old_lexeme;
 
-	old_lexeme = token->lexeme;
+	old_lexeme = current->lexeme;
 	if (ft_strchr("\n\t ", old_lexeme[0]) != NULL)
-		token->type = DOLLAR;
+		current->type = DOLLAR;
 	if (old_lexeme[0] == '\0')
-		return ;
-	if (ft_strchr("\n\t ",
-		old_lexeme[ft_strlen(old_lexeme) - 1]) != NULL)
-		token->metacharacter_after = true;
-	token->lexeme = ft_strtrim(old_lexeme, "\n\t ");
-	check_malloc(token->lexeme, data);
+		return (current);
+	if (ft_strchr("\n\t ", old_lexeme[ft_strlen(old_lexeme) - 1]) != NULL)
+		current->metacharacter_after = true;
+	current->lexeme = ft_strtrim(old_lexeme, "\n\t ");
+	check_malloc(current->lexeme, data);
 	gc_free(old_lexeme, data);
-	dollars_lst = create_dollars_lst(token, data);
+	dollars_lst = create_dollars_lst(current, data);
 	if (dollars_lst != NULL)
 	{
-		command_tab->tokens = dollars_lst;
-		gc_free_node(token, data);
-		lstlast(dollars_lst)->next = token->next;
+		if (current == cmd->tokens)
+			cmd->tokens = dollars_lst;
+		else
+			prev->next = dollars_lst;
+		lstlast(dollars_lst)->next = current->next;
+		gc_free_node(current, data);
+		return (lstlast(dollars_lst));
 	}
+	return (current);
 }
 
-void	ev_subshell_in_cmd(t_leaf *command_tab, t_minishell *data)
+void	ev_subshell_in_cmd(t_leaf *cmd, t_minishell *data)
 {
 	t_lst	*temp;
 
-	temp = command_tab->tokens;
+	temp = cmd->tokens;
 	while (temp)
 	{
 		if (temp->type == WORD || temp->type == DOUBLE_Q)
 			add_dollars_changes_in_lexeme(temp, data);
 		temp = temp->next;
 	}
-	temp = command_tab->tokens;
+	temp = cmd->tokens;
 	if (temp->type == WORD)
-		create_and_add_dollars_nodes(temp, command_tab, data);
+		temp = create_and_add_dollars_nodes(NULL, cmd->tokens, cmd, data);
 	while (temp->next)
 	{
 		if (temp->next->type == WORD)
-			create_and_add_dollars_nodes(temp->next, command_tab, data);
-		temp = temp->next;
+			temp = create_and_add_dollars_nodes(temp, temp->next, cmd, data);
+		else
+			temp = temp->next;
 	}
 }
