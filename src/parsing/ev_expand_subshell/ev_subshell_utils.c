@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 22:36:15 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/13 22:37:18 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/13 23:25:53 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ void check_blank_in_extremity(t_lst *token, t_minishell *data)
 	old_lexeme = token->lexeme;
 	if (ft_strchr("\n\t ", old_lexeme[0]) != NULL)
 		token->type = DOLLAR;
-	if (old_lexeme[0] == '\0')
-		return (token);
 	if (ft_strchr("\n\t ", old_lexeme[ft_strlen(old_lexeme) - 1]) != NULL)
 		token->metacharacter_after = true;
 	token->lexeme = ft_strtrim(old_lexeme, "\n\t ");
