@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 23:17:25 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/30 14:05:53 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/12 19:48:08 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	*check_malloc(void *content, t_minishell *data)
 
 void	malloc_error(t_minishell *data)
 {
-	perror("minishell:");
+	perror("minishell");
 	data->exit_code = EXIT_FAILURE;
 	exit_minishell(data);
 }

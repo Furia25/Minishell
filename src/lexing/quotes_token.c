@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 23:49:57 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/11 21:23:03 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/12 19:11:36 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ size_t single_quote_token(t_lst **tokens, char *str, t_minishell *data)
 		not_interpret_chara('\'', "\' (unclosed single quote)", data);
 		return (0);
 	}
-	lstadd_back(tokens, create_set_new_node(str, SINGLE_Q, i, data));
+	lstadd_back(tokens, create_set_quote_node(str, SINGLE_Q, i, data));
 	return (i + 1);
 }
 
@@ -77,7 +77,7 @@ size_t double_quote_token(t_lst **tokens, char *str, t_minishell *data)
 		not_interpret_chara('\"', "\' (unclosed double quote)", data);
 		return (0);
 	}
-	lstadd_back(tokens, create_set_new_node(str, DOUBLE_Q, i, data));
+	lstadd_back(tokens, create_set_quote_node(str, DOUBLE_Q, i, data));
 	return (i + 1);
 }
 

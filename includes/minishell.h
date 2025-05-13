@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/09 15:53:09 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/13 11:01:25 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ typedef enum e_strjoin t_strjoin;
 # include "libft.h"
 # include <unistd.h>
 # include <stdio.h>
-# include <stdbool.h>
 # include <fcntl.h>
 # include <sys/wait.h>
 # include <stdlib.h>
@@ -78,6 +77,12 @@ typedef enum e_builtin_type
 	BUILTIN_TYPE_NOTBUILTIN
 }	t_builtin_type;
 
+int		not_interpret_chara(char chara, char *str, t_minishell	*data);
+
+void	wildcards_in_cmd(t_leaf *cmd, t_minishell *data);
+
+t_AST_node	*create_ast(t_leaf *command_tab, t_minishell *data);
+t_leaf	*evaluate_ast(t_AST_node *node, t_minishell *data);
 int				execute_cmd(t_leaf *cmd, t_minishell *data);
 
 void			malloc_error(t_minishell *data);

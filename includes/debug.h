@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 19:01:44 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/11 20:10:43 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/13 11:34:49 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,17 @@
 2: display tokens just after creating it
 3: display command_tab just after creating it
 4: display input in here doc after handle ev_expension and subshell in it
-5: display command_tab after handle here doc (change node type )
+5: display command_tab after handle here doc (change node type)
 6: display command->tokens after handle ev_expension and subshell
 7: display command->tokens after handle fusion quotes
-8: display command after handle redi (rm some nodes of command->tokens and change fd values)
-9: display argv after creating it (not adding WORD tokens whose lexeme is null-terminated)*/
+8: display command->tokens after handle wildcards (add wilcards' type nodes in command->tokens)
+9: display command after handle redi (rm redi's type nodes of command->tokens and change fd values)
+10: display argv after creating it (not adding WORD tokens whose lexeme is null-terminated)*/
 
 #ifndef DEBUG_H
 # define DEBUG_H
-# include "minishell.h"
+# include "parsing.h"
+# include "ft_printf.h"
 
 #ifndef DEBUG
 # define DEBUG 0

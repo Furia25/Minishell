@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 15:11:13 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/09 16:16:16 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/13 11:33:56 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,6 @@
 
 bool	try_builtin(t_builtin_type type, int argc, char **v, t_minishell *data)
 {
-	if (data->in_pipe)
-	{
-		data->exit_code = EXIT_SUCCESS;
-		return (true);
-	}
-	if (data->in_child)
-		return (false);
 	if (type == BUILTIN_TYPE_CD)
 		data->exit_code = cd_builtin(argc, v, data);
 	else if (type == BUILTIN_TYPE_ECHO)

@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:31:08 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/10 21:35:10 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/13 11:36:26 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void	ev_subshell_in_cmd(t_leaf *command_tab, t_minishell *data);
 void	fusion_quote_token(t_lst *tokens, t_minishell *data);
 void	handle_reds_and_del(t_leaf *command_tab, t_minishell *data);
 char	**tokens_to_argv(t_lst *tokens, t_minishell *data);
+size_t tab_size(char **tab);
 
 int	execute_cmd(t_leaf *cmd, t_minishell *data)
 {
@@ -30,56 +31,57 @@ int	execute_cmd(t_leaf *cmd, t_minishell *data)
 	fusion_quote_token(cmd->tokens, data);
 	print_debug_lst(cmd->tokens, LEXEME, 7,
 		"\ndisplay command->tokens after handle fusion quotes\n");
+	wildcards_in_cmd(cmd, data);
+	print_debug_lst(cmd->tokens, LEXEME | TYPE, 8,
+		"\ndisplay command->tokens after handle wildcards\n");
 	handle_reds_and_del(cmd, data);
-	print_debug_cmd(cmd, LEXEME, 8,
+	print_debug_cmd(cmd, LEXEME, 9,
 		"\ndisplay command after handle redi\n");
 	if (cmd->fd_input != -1 && cmd->fd_output != -1)
 	{
 		argv = tokens_to_argv(cmd->tokens, data);
-		print_debug_argv(argv, 9,
+		print_debug_argv(argv, 10,
 			"\ndisplay argv after creating it\n");
 		if (argv != NULL)
 		{
-			/*BUILTIN HANDLER THIS IS JUST A TEST*/
-			t_builtin_type type = get_builtin(argv[0]);
-			// ft_putnbr_fd(type, 2);
-			if (type != BUILTIN_TYPE_NOTBUILTIN)
+			pid = fork();
+			if (pid == 0)
 			{
-				if (!try_builtin(type, 1, argv, data))
-					exit_minishell(data);
-			}
-			else
-			{
-				pid = fork();
-				if (pid == 0)
+				if (cmd->parenthesis == false)
 				{
-					if (cmd->parenthesis == false)
+					dup2(cmd->fd_input, 0);
+					dup2(cmd->fd_output, 1);
+					if (cmd->fd_input != 0)
+						close(cmd->fd_input);
+					if (cmd->fd_output != 1)
+						close(cmd->fd_output);
+					/*BUILTIN HANDLER THIS IS JUST A TEST*/
+					t_builtin_type type = get_builtin(argv[0]);
+					// ft_putnbr_fd(type, 2);
+					if (type != BUILTIN_TYPE_NOTBUILTIN)
 					{
-						data->in_child = true;
-						dup2(cmd->fd_input, 0);
-						dup2(cmd->fd_output, 1);
-						if (cmd->fd_input != 0)
-							close(cmd->fd_input);
-						if (cmd->fd_output != 1)
-							close(cmd->fd_output);
+						if (!try_builtin(type, tab_size(argv), argv, data))
+							exit_minishell(data);
+					}
+					else
+					{
 						char *command_path = find_command(argv[0], data);
 						if (!command_path)
 							ft_putstr_fd("LA COMMANDE NEST PAS TROUVE GROS CACA\n", 2);
 						execve(command_path, argv, make_env(&data->environment));
-						free(command_path);
-						exit(0);
+						free(command_path);			
 					}
-					else
-					{}	//execve minishell
+					exit(0);
 				}
-			}	
+				else
+				{}	//execve minishell
+			}
 		}
 	}
 	if (cmd->fd_input != 0 && cmd->fd_input != -1)
 		close(cmd->fd_input);
 	if (cmd->fd_output != 1 && cmd->fd_output != -1)
 		close(cmd->fd_output);
-	wait(NULL);
 	wait(NULL);
 	wait(NULL);
 	if (cmd->fd_input == -1 || cmd->fd_output == -1)

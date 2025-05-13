@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 18:49:08 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/11 20:01:38 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/13 10:11:35 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@
 static bool	pattern(char **name, char **pattern,
 				char **bt_name, char **bt_pattern);
 
-t_wsearch	wildcard_lst_from_token(char *token)
+t_wsearch	wildcard_lst_from_lexeme(char *lexeme)
 {
 	t_wildcard	wildcard;
 	t_wsearch	search_result;
 	size_t		index;
 
-	wildcard.rules = ft_split(token, PATH_SYMBOL);
+	wildcard.rules = ft_split(lexeme, PATH_SYMBOL);
 	if (!wildcard.rules)
 		return ((t_wsearch){-1, NULL});
 	index = 0;
@@ -36,7 +36,7 @@ t_wsearch	wildcard_lst_from_token(char *token)
 		index++;
 	}
 	wildcard.result = NULL;
-	wildcard.token = token;
+	wildcard.lexeme = lexeme;
 	search_result = wildcard_explore(".", &wildcard, 0);
 	free_chartab(wildcard.rules);
 	return (search_result);

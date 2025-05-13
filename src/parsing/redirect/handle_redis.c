@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:56:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/10 21:05:56 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/13 09:26:37 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	handle_red_output_append(t_leaf *command_tab, char *file, t_minishell *data
 void	handle_red_input_output(t_leaf *command_tab, char *file, t_minishell *data);
 void	rm_here_doc_files(t_lst	*tokens);
 
-static bool	check_redi(t_leaf *command_tab, t_lst *token, t_minishell *data)
+static bool	is_redi(t_leaf *command_tab, t_lst *token, t_minishell *data)
 {
 	if (token->type == RED_IN || token->type == RED_OUT
 		|| token->type == RED_OUT_A || token->type == RED_IN_OUT)
@@ -47,7 +47,7 @@ void	handle_reds_and_del(t_leaf *command_tab, t_minishell *data)
 	t_lst	*prev;
 
 	while (command_tab->tokens != NULL
-		&& check_redi(command_tab, command_tab->tokens, data) == true)
+		&& is_redi(command_tab, command_tab->tokens, data) == true)
 	{
 		temp = command_tab->tokens;
 		command_tab->tokens = command_tab->tokens->next->next;
@@ -56,7 +56,7 @@ void	handle_reds_and_del(t_leaf *command_tab, t_minishell *data)
 	temp = command_tab->tokens;
 	while (temp)
 	{
-		if (check_redi(command_tab, temp, data) == true)
+		if (is_redi(command_tab, temp, data) == true)
 		{
 			prev->next = temp->next->next;
 			del_reds_tokens(temp, data);

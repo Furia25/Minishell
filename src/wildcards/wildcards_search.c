@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcards_search.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 00:18:29 by val               #+#    #+#             */
-/*   Updated: 2025/04/24 17:55:32 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/13 10:22:15 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,16 @@
 #include <stdint.h>
 
 static bool			switch_depth_handler(char *new_path, t_wildcard *wd,
-						size_t depth, t_list **results);
+						size_t depth, t_lst **results);
 static bool			handle_recursive_case(char *new_path, t_wildcard *wd,
-						size_t depth, t_list **results);
-static t_wsearch	clean_return(t_list *results, DIR *dir, char *path);
+						size_t depth, t_lst **results);
+static t_wsearch	clean_return(t_lst *results, DIR *dir, char *path);
 static bool			should_skip_entry(char *name, t_wildcard *wd, size_t depth);
 
 t_wsearch	wildcard_explore(char *dir_name, t_wildcard *wd, size_t depth)
 {
 	DIR				*dir;
-	t_list			*results;
+	t_lst			*results;
 	struct dirent	*file;
 	char			*new_path;
 
@@ -49,9 +49,9 @@ t_wsearch	wildcard_explore(char *dir_name, t_wildcard *wd, size_t depth)
 }
 
 static bool	switch_depth_handler(char *new_path, t_wildcard *wd,
-	size_t depth, t_list **results)
+	size_t depth, t_lst **results)
 {
-	t_list	*new;
+	t_lst	*new;
 
 	if (depth + 1 < wd->count)
 	{
@@ -59,16 +59,17 @@ static bool	switch_depth_handler(char *new_path, t_wildcard *wd,
 	}
 	else
 	{
-		new = ft_lstnew(new_path);
+		new = lstnew(new_path);
 		if (!new)
 			return (false);
-		ft_lstadd_back(results, new);
+		new->type = WILDCARD;
+		lstadd_back(results, new);
 		return (true);
 	}
 }
 
 static bool	handle_recursive_case(char *new_path, t_wildcard *wd,
-	size_t depth, t_list **results)
+	size_t depth, t_lst **results)
 {
 	t_wsearch	search_result;
 
@@ -78,7 +79,7 @@ static bool	handle_recursive_case(char *new_path, t_wildcard *wd,
 		if (!(*results))
 			*results = search_result.result;
 		else
-			ft_lstadd_back(results, search_result.result);
+			lstadd_back(results, search_result.result);
 		free(new_path);
 		return (true);
 	}
@@ -103,12 +104,12 @@ static bool	should_skip_entry(char *name, t_wildcard *wd, size_t depth)
 	return (!wildcard_matches(name, p));
 }
 
-static t_wsearch	clean_return(t_list *results, DIR *dir, char *path)
+static t_wsearch	clean_return(t_lst *results, DIR *dir, char *path)
 {
 	if (path)
 		free(path);
 	if (results)
-		ft_lstclear(&results, free);
+		lstclear(&results, free);
 	if (dir)
 		closedir(dir);
 	return ((t_wsearch){-1, NULL});

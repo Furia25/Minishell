@@ -6,7 +6,7 @@
 #    By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/13 23:20:17 by val               #+#    #+#              #
-#    Updated: 2025/05/11 21:28:25 by alpayet          ###   ########.fr        #
+#    Updated: 2025/05/13 10:49:17 by alpayet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -117,7 +117,8 @@ SRC_FILES = \
 	utils/strjoin_alt.c \
 	utils/write_utils.c \
 	wildcards/wildcards_search.c \
-	wildcards/wildcards.c
+	wildcards/wildcards.c \
+	wildcards/wildcards_in_cmd.c
 
 SRC = $(patsubst %.c, $(SRC_DIR)/%.c, $(SRC_FILES))
 OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
