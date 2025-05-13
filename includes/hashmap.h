@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hashmap.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 15:20:54 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/26 15:44:09 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/14 00:51:13 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ t_hashmap		*hashmap_new(int power, double charge, void (*del)(void *));
 bool			hashmap_init_basics(t_hashmap *map, void (*del)(void *));
 void			hashmap_free(t_hashmap *map);
 void			hashmap_free_content(t_hashmap *map);
+void			hashmap_clean(t_hashmap *map);
 
 // hashmap_methods.c
 int				hashmap_resize(size_t new_size, t_hashmap *map);

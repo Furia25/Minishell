@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:31:08 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/13 16:54:45 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/14 01:21:46 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	execute_cmd(t_leaf *cmd, t_minishell *data)
 		t_builtin_type type = get_builtin(argv[0]);
 		// ft_putnbr_fd(type, 2);
 		if (type != BUILTIN_TYPE_NOTBUILTIN)
-			{
+		{
 			if (!try_builtin(type, tab_size(argv), argv, data))
 				exit_minishell(data);
 		}
@@ -67,7 +67,7 @@ int	execute_cmd(t_leaf *cmd, t_minishell *data)
 						close(cmd->fd_output);
 					char *command_path = find_command(argv[0], data);
 					if (!command_path)
-						command_notfound(argv[0], data);
+						command_notfound(argv[0], data);	
 					execve(command_path, argv, data->environment_tab);
 					free(command_path);
 					exit(0);

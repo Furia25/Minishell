@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 13:38:31 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/13 15:02:22 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/14 01:23:49 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,4 +77,6 @@ void	command_notfound(char *cmd, t_minishell *data)
 		ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(cmd, 2);
 	ft_putstr_fd(" : command not found\n", 2);
+	data->exit_code = 127;
+	exit_minishell(data);
 }

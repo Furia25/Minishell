@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 17:17:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/13 15:30:37 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/14 01:25:30 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ static int	init_minishell(t_minishell *data, char **envp)
 		malloc_error(data);
 	if (!gc_init(data))
 		malloc_error(data);
+	data->environment_tab = NULL;
 	data->in_child = false;
 	data->in_pipe = false;
 	data->line = 0;
@@ -104,13 +105,16 @@ static void	handle_shell(t_minishell *data)
 		if (!input)
 		{
 			free(input);
-			// rl_clear_history();
+			rl_clear_history();
 			ft_putstr_fd("End of program (EOF detected)\n", 2);
 			exit_minishell(data);
 			return ;
 		}
 		if (input && *input)
+		{
 			parsing_exec(input, data);
+			add_history(input);
+		}
 		free(input);
 	}
 }

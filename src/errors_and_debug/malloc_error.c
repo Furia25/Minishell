@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   malloc_error.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 23:17:25 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/13 15:30:08 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/14 00:49:28 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ void	malloc_error(t_minishell *data)
 
 void	exit_minishell(t_minishell *data)
 {
-	//free_lesfddanslarbrestp
 	hashmap_free_content(&data->environment);
 	free_chartab(data->environment_tab);
 	if (data->script_fd != -1)

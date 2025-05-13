@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:37:34 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/14 00:07:21 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/14 01:19:54 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	parsing_exec(char *input, t_minishell *data)
 	t_AST_node	*top_node_ast;
 	t_leaf	*final;
 
+	data->last_cmd_pid = -1;
 	tokens = NULL;
 	if (create_tokens(&tokens, input, data) == EXIT_FAILURE
 		|| check_syntax_errors(tokens, data) == EXIT_FAILURE)
@@ -38,6 +39,8 @@ void	parsing_exec(char *input, t_minishell *data)
 		exit(1);
 	print_debug_all_cmd(command_tab, LEXEME | TYPE, 5
 		,"\ndisplay command_tab after handle here doc\n");
+	if (data->environment_tab)
+		free_chartab(data->environment_tab);
 	data->environment_tab = make_env(&data->environment);
 	if (!data->environment_tab)
 		malloc_error(data);
@@ -52,6 +55,8 @@ static void	wait_childs(t_minishell *data)
 {
 	int	status;
 
+	if (data->last_cmd_pid == -1)
+		return ;
 	waitpid(data->last_cmd_pid, &status, 0);
 	data->exit_code = (status >> 8) & 0xFF;
 	while (wait(NULL) != -1);
