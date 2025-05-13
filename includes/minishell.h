@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/13 11:01:25 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/13 14:54:49 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,10 @@ struct s_minishell
 	t_hashmap			gc;
 	t_hashmap			environment;
 	char				**environment_tab;
+	char				*script_file;
 	size_t				line;
-	bool				line_mode;
+	int					script_fd;
+	bool				script_mode;
 	bool				in_child;
 	bool				in_pipe;
 	unsigned char		exit_code;
@@ -109,4 +111,5 @@ char			*find_command(char *cmd, t_minishell *data);
 bool			try_builtin(t_builtin_type type, 
 					int argc, char **v, t_minishell *data);
 t_builtin_type	get_builtin(char *cmd);
+void			command_notfound(char *cmd, t_minishell *data);
 #endif

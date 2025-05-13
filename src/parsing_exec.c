@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:37:34 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/01 15:21:48 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/13 15:03:33 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,5 +41,6 @@ void	parsing_exec(char *input, t_minishell *data)
 	top_node_ast = create_ast(command_tab, data);
 	final = evaluate_ast(top_node_ast, data);
 	execute_cmd(final, data);
+	while (wait(NULL) != -1);
 }
 

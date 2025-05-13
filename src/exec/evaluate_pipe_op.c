@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   evaluate_pipe_op.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:32:36 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/13 11:34:24 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/13 14:48:27 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ t_leaf	*evaluate_pipe_op(t_AST_node *node, t_minishell *data)
 					{
 						char *command_path = find_command(argv[0], data);
 						if (!command_path)
-							ft_putstr_fd("LA COMMANDE NEST PAS TROUVE GROS CACA\n", 2);
+							command_notfound(argv[0], data);
 						execve(command_path, argv, make_env(&data->environment));
 						free(command_path);			
 					}

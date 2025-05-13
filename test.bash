@@ -1,7 +1,5 @@
-hello
-gfdgfd
-hgfhgfh
-gjgfjfd
-yo
-la
-team
+echo fdfdsfdsgdsgsgdsgdsgdsgdsgsdg
+fdsgfs
+ls
+gsrdhfd
+cat

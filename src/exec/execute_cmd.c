@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:31:08 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/13 12:48:32 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/13 14:48:51 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ev_subshell_in_cmd(t_leaf *command_tab, t_minishell *data);
 void	fusion_quote_token(t_lst *tokens, t_minishell *data);
 void	handle_reds_and_del(t_leaf *command_tab, t_minishell *data);
 char	**tokens_to_argv(t_lst *tokens, t_minishell *data);
-size_t tab_size(char **tab);
+size_t	tab_size(char **tab);
 
 int	execute_cmd(t_leaf *cmd, t_minishell *data)
 {
@@ -67,9 +67,9 @@ int	execute_cmd(t_leaf *cmd, t_minishell *data)
 							close(cmd->fd_output);
 						char *command_path = find_command(argv[0], data);
 						if (!command_path)
-							ft_putstr_fd("LA COMMANDE NEST PAS TROUVE GROS CACA\n", 2);
+							command_notfound(argv[0], data);
 						execve(command_path, argv, make_env(&data->environment));
-						free(command_path);			
+						free(command_path);
 						exit(0);
 					}
 					else
@@ -82,7 +82,6 @@ int	execute_cmd(t_leaf *cmd, t_minishell *data)
 		close(cmd->fd_input);
 	if (cmd->fd_output != 1 && cmd->fd_output != -1)
 		close(cmd->fd_output);
-	wait(NULL);
 	if (cmd->fd_input == -1 || cmd->fd_output == -1)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);

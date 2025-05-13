@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 13:38:31 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/09 14:32:28 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/13 15:02:22 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,19 @@ static void	error_free_paths(char **paths, t_minishell *data)
 {
 	free_chartab(paths);
 	malloc_error(data);
+}
+
+void	command_notfound(char *cmd, t_minishell *data)
+{
+	if (data->script_mode)
+	{
+		ft_putstr_fd(data->script_file, 2);
+		ft_putstr_fd(": line ", 2);
+		ft_putnbr_fd(data->line, 2);
+		ft_putstr_fd(": ", 2);
+	}
+	else
+		ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(cmd, 2);
+	ft_putstr_fd(" : command not found\n", 2);
 }
