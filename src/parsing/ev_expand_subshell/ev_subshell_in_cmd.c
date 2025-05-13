@@ -6,13 +6,14 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:06:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/13 15:54:33 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/13 22:37:50 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 char	*handle_ev_in_lexeme(char *str, t_lexeme_type next_type, t_minishell *data);
 char	*handle_subshell_in_lexeme(char *str, t_minishell *data);
+void check_blank_in_extremity(t_lst *token, t_minishell *data);
 
 static void	add_dollars_changes_in_lexeme(t_lst *token, t_minishell *data)
 {
@@ -74,18 +75,9 @@ static t_lst	*create_dollars_lst(t_lst *token, t_minishell *data)
 static t_lst *create_and_add_dollars_nodes(t_lst *prev, t_lst *current, t_leaf *cmd, t_minishell *data)
 {
 	t_lst	*dollars_lst;
-	char	*old_lexeme;
+	t_lst *last_dollars_node;
 
-	old_lexeme = current->lexeme;
-	if (ft_strchr("\n\t ", old_lexeme[0]) != NULL)
-		current->type = DOLLAR;
-	if (old_lexeme[0] == '\0')
-		return (current);
-	if (ft_strchr("\n\t ", old_lexeme[ft_strlen(old_lexeme) - 1]) != NULL)
-		current->metacharacter_after = true;
-	current->lexeme = ft_strtrim(old_lexeme, "\n\t ");
-	check_malloc(current->lexeme, data);
-	gc_free(old_lexeme, data);
+	check_blank_in_extremity(current, data);
 	dollars_lst = create_dollars_lst(current, data);
 	if (dollars_lst != NULL)
 	{
@@ -93,9 +85,10 @@ static t_lst *create_and_add_dollars_nodes(t_lst *prev, t_lst *current, t_leaf *
 			cmd->tokens = dollars_lst;
 		else
 			prev->next = dollars_lst;
-		lstlast(dollars_lst)->next = current->next;
+		last_dollars_node = lstlast(dollars_lst);
+		last_dollars_node->next = current->next;
 		gc_free_node(current, data);
-		return (lstlast(dollars_lst));
+		return (last_dollars_node);
 	}
 	return (current);
 }

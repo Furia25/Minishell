@@ -6,7 +6,7 @@
 #    By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/13 23:20:17 by val               #+#    #+#              #
-#    Updated: 2025/05/13 10:49:17 by alpayet          ###   ########.fr        #
+#    Updated: 2025/05/13 22:44:52 by alpayet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -105,6 +105,7 @@ SRC_FILES = \
 	parsing/ev_expand_subshell/ev_expand_in_lexeme.c \
 	parsing/ev_expand_subshell/ev_expand_in_here_doc.c \
 	parsing/ev_expand_subshell/ev_subshell_in_cmd.c \
+	parsing/ev_expand_subshell/ev_subshell_utils.c \
 	parsing/ev_expand_subshell/subshell_in_lexeme.c \
 	parsing/redirect/handle_redis.c \
 	parsing/redirect/here_doc_utils.c \

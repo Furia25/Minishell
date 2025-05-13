@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 19:54:39 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/13 15:49:10 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/13 22:12:55 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static t_lst *create_and_add_wildcards_nodes(t_lst *prev, t_lst *current, t_leaf *cmd, t_minishell *data)
 {
 	t_wsearch wildcard_result;
+	t_lst *last_wildcards_node;
 	
 	wildcard_result = wildcard_lst_from_lexeme(current->lexeme);
 	if (wildcard_result.code == -1)
@@ -25,9 +26,10 @@ static t_lst *create_and_add_wildcards_nodes(t_lst *prev, t_lst *current, t_leaf
 			cmd->tokens = wildcard_result.result;
 		else
 			prev->next = wildcard_result.result;
-		lstlast(wildcard_result.result)->next = current->next;
+		last_wildcards_node = lstlast(wildcard_result.result);
+		last_wildcards_node->next = current->next;
 		gc_free_node(current, data);
-		return (lstlast(wildcard_result.result));
+		return (last_wildcards_node);
 	}
 	return (current);
 }
