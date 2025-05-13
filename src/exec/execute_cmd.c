@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:31:08 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/13 11:36:26 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/13 12:48:32 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,37 +44,37 @@ int	execute_cmd(t_leaf *cmd, t_minishell *data)
 			"\ndisplay argv after creating it\n");
 		if (argv != NULL)
 		{
-			pid = fork();
-			if (pid == 0)
+			/*BUILTIN HANDLER THIS IS JUST A TEST*/
+			t_builtin_type type = get_builtin(argv[0]);
+			// ft_putnbr_fd(type, 2);
+			if (type != BUILTIN_TYPE_NOTBUILTIN)
 			{
-				if (cmd->parenthesis == false)
+				if (!try_builtin(type, tab_size(argv), argv, data))
+					exit_minishell(data);
+			}
+			else
+			{
+				pid = fork();
+				if (pid == 0)
 				{
-					dup2(cmd->fd_input, 0);
-					dup2(cmd->fd_output, 1);
-					if (cmd->fd_input != 0)
-						close(cmd->fd_input);
-					if (cmd->fd_output != 1)
-						close(cmd->fd_output);
-					/*BUILTIN HANDLER THIS IS JUST A TEST*/
-					t_builtin_type type = get_builtin(argv[0]);
-					// ft_putnbr_fd(type, 2);
-					if (type != BUILTIN_TYPE_NOTBUILTIN)
+					if (cmd->parenthesis == false)
 					{
-						if (!try_builtin(type, tab_size(argv), argv, data))
-							exit_minishell(data);
-					}
-					else
-					{
+						dup2(cmd->fd_input, 0);
+						dup2(cmd->fd_output, 1);
+						if (cmd->fd_input != 0)
+							close(cmd->fd_input);
+						if (cmd->fd_output != 1)
+							close(cmd->fd_output);
 						char *command_path = find_command(argv[0], data);
 						if (!command_path)
 							ft_putstr_fd("LA COMMANDE NEST PAS TROUVE GROS CACA\n", 2);
 						execve(command_path, argv, make_env(&data->environment));
 						free(command_path);			
+						exit(0);
 					}
-					exit(0);
+					else
+					{}	//execve minishell
 				}
-				else
-				{}	//execve minishell
 			}
 		}
 	}
@@ -82,7 +82,6 @@ int	execute_cmd(t_leaf *cmd, t_minishell *data)
 		close(cmd->fd_input);
 	if (cmd->fd_output != 1 && cmd->fd_output != -1)
 		close(cmd->fd_output);
-	wait(NULL);
 	wait(NULL);
 	if (cmd->fd_input == -1 || cmd->fd_output == -1)
 		return (EXIT_FAILURE);
