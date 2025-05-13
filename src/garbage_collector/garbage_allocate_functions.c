@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   garbage_functions.c                                :+:      :+:    :+:   */
+/*   garbage_allocate_functions.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:58:23 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/30 15:07:08 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/14 00:00:17 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,15 +37,4 @@ void	*gc_calloc(size_t count, size_t size, t_minishell *data)
 	check_malloc(temp, data);
 	memset_fast(temp, 0, rsize);
 	return (temp);
-}
-
-void	gc_free(void *ptr, t_minishell *data)
-{
-	hashmap_remove(hash_ptr(ptr), &data->gc);
-}
-
-void	gc_free_node(t_lst *node, t_minishell *data)
-{
-	gc_free(node->lexeme, data);
-	gc_free(node, data);
 }

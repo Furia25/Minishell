@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:37:34 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/13 16:55:42 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/14 00:07:21 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@ int	create_tokens(t_lst **tokens, char *input, t_minishell *data);
 int	check_syntax_errors(t_lst *tokens, t_minishell *data);
 t_leaf	*create_cmd_tab(t_lst *tokens, t_minishell *data);
 void	handle_all_here_doc(t_leaf *command_tab, t_minishell *data);
-void	close_all_fds(t_leaf *command_tab);
 static void	wait_childs(t_minishell *data);
 
 void	parsing_exec(char *input, t_minishell *data)
@@ -37,15 +36,16 @@ void	parsing_exec(char *input, t_minishell *data)
 	handle_all_here_doc(command_tab, data);
 	if (data->exit_code == 1) // <- C'est chelou ? 
 		exit(1);
+	print_debug_all_cmd(command_tab, LEXEME | TYPE, 5
+		,"\ndisplay command_tab after handle here doc\n");
 	data->environment_tab = make_env(&data->environment);
 	if (!data->environment_tab)
 		malloc_error(data);
-	print_debug_all_cmd(command_tab, LEXEME | TYPE, 5
-		,"\ndisplay command_tab after handle here doc\n");
 	top_node_ast = create_ast(command_tab, data);
 	final = evaluate_ast(top_node_ast, data);
 	execute_cmd(final, data);
 	wait_childs(data);
+	gc_free_ast(top_node_ast, data);
 }
 
 static void	wait_childs(t_minishell *data)
