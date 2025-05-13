@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:31:08 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/13 15:29:14 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/13 16:54:45 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,40 +42,43 @@ int	execute_cmd(t_leaf *cmd, t_minishell *data)
 		argv = tokens_to_argv(cmd->tokens, data);
 		print_debug_argv(argv, 10,
 			"\ndisplay argv after creating it\n");
-		if (argv != NULL)
+		if (argv == NULL)
+			ft_putstr_fd("Error test", 2);
+		/*BUILTIN HANDLER THIS IS JUST A TEST*/
+		t_builtin_type type = get_builtin(argv[0]);
+		// ft_putnbr_fd(type, 2);
+		if (type != BUILTIN_TYPE_NOTBUILTIN)
+			{
+			if (!try_builtin(type, tab_size(argv), argv, data))
+				exit_minishell(data);
+		}
+		else
 		{
-			/*BUILTIN HANDLER THIS IS JUST A TEST*/
-			t_builtin_type type = get_builtin(argv[0]);
-			// ft_putnbr_fd(type, 2);
-			if (type != BUILTIN_TYPE_NOTBUILTIN)
+			pid = fork();
+			if (pid == 0)
 			{
-				if (!try_builtin(type, tab_size(argv), argv, data))
-					exit_minishell(data);
-			}
-			else
-			{
-				pid = fork();
-				if (pid == 0)
+				if (cmd->parenthesis == false)
 				{
-					if (cmd->parenthesis == false)
-					{
-						dup2(cmd->fd_input, 0);
-						dup2(cmd->fd_output, 1);
-						if (cmd->fd_input != 0)
-							close(cmd->fd_input);
-						if (cmd->fd_output != 1)
-							close(cmd->fd_output);
-						char *command_path = find_command(argv[0], data);
-						if (!command_path)
-							command_notfound(argv[0], data);
-						execve(command_path, argv, data->environment_tab);
-						free(command_path);
-						exit(0);
-					}
-					else
-					{}	//execve minishell
+					dup2(cmd->fd_input, 0);
+					dup2(cmd->fd_output, 1);
+					if (cmd->fd_input != 0)
+						close(cmd->fd_input);
+					if (cmd->fd_output != 1)
+						close(cmd->fd_output);
+					char *command_path = find_command(argv[0], data);
+					if (!command_path)
+						command_notfound(argv[0], data);
+					execve(command_path, argv, data->environment_tab);
+					free(command_path);
+					exit(0);
 				}
+				else
+				{}	//execve minishell
 			}
+			else if (pid != -1)
+				data->last_cmd_pid = pid;
+			else
+				ft_putstr_fd("Error", 2);
 		}
 	}
 	if (cmd->fd_input != 0 && cmd->fd_input != -1)

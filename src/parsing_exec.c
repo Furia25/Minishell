@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:37:34 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/13 15:37:08 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/13 16:55:42 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	check_syntax_errors(t_lst *tokens, t_minishell *data);
 t_leaf	*create_cmd_tab(t_lst *tokens, t_minishell *data);
 void	handle_all_here_doc(t_leaf *command_tab, t_minishell *data);
 void	close_all_fds(t_leaf *command_tab);
+static void	wait_childs(t_minishell *data);
 
 void	parsing_exec(char *input, t_minishell *data)
 {
@@ -24,7 +25,6 @@ void	parsing_exec(char *input, t_minishell *data)
 	t_AST_node	*top_node_ast;
 	t_leaf	*final;
 
-	
 	tokens = NULL;
 	if (create_tokens(&tokens, input, data) == EXIT_FAILURE
 		|| check_syntax_errors(tokens, data) == EXIT_FAILURE)
@@ -45,6 +45,14 @@ void	parsing_exec(char *input, t_minishell *data)
 	top_node_ast = create_ast(command_tab, data);
 	final = evaluate_ast(top_node_ast, data);
 	execute_cmd(final, data);
-	while (wait(NULL) != -1);
+	wait_childs(data);
 }
 
+static void	wait_childs(t_minishell *data)
+{
+	int	status;
+
+	waitpid(data->last_cmd_pid, &status, 0);
+	data->exit_code = (status >> 8) & 0xFF;
+	while (wait(NULL) != -1);
+}
