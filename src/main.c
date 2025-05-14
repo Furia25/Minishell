@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 17:17:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/14 01:25:30 by val              ###   ########.fr       */
+/*   Updated: 2025/05/14 10:18:13 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ static int	check_flags_c(int argc, char **argv);
 static void	handle_script(char **argv, t_minishell *data);
 // static void	handle_subshell(int argc, char **argv, t_minishell *data);
 static void	handle_shell(t_minishell *data);
+static bool	is_void_or_full_blank(char *input);
 void	parsing_exec(char *input, t_minishell *data);
 
 int	main(int argc, char **argv, char **envp)
@@ -110,7 +111,7 @@ static void	handle_shell(t_minishell *data)
 			exit_minishell(data);
 			return ;
 		}
-		if (input && *input)
+		if (is_void_or_full_blank(input) == false)
 		{
 			parsing_exec(input, data);
 			add_history(input);
@@ -142,4 +143,14 @@ static int	check_flags_c(int argc, char **argv)
 		index++;
 	}
 	return (index);
+}
+
+static bool	is_void_or_full_blank(char *input)
+{
+	size_t	i;
+
+	i = 0;
+	while (input[i] == ' ' || input[i] == '\t')
+		i++;
+	return (input[i] == '\0');
 }

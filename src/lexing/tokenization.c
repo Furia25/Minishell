@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:22:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/11 20:22:35 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/14 10:04:26 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,10 @@ int	create_tokens(t_lst **tokens, char *input, t_minishell *data)
 {
 	size_t	lexeme_len;
 
-	if (*input == '\0')
-		return (EXIT_SUCCESS);
 	while (*input == ' ' || *input == '\t')
 		input++;
+	if (*input == '\0')
+		return (EXIT_SUCCESS);
 	if ((*input == '&' && *(input + 1) != '&') || *input == ';' || *input == '\\')
 		return (not_interpret_chara(*input, "\'", data));
 	if (ft_strchr("|&;()<> \t\'\"", *input) == NULL)
