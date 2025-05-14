@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:17:52 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/28 05:28:44 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/14 11:00:43 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 t_AST_node	*create_leaf_node(t_leaf *cmd, t_minishell *data);
 t_AST_node	*create_parent_node(t_lexeme_type ope, t_AST_node *left, t_AST_node *right, t_minishell *data);
 
-static void	latest_logical_op(t_leaf *cmds, t_leaf **buff)
+static void	latest_logical_op(t_leaf *command_tab, t_leaf **buff)
 {
 	t_leaf	*temp;
 
-	temp = cmds;
+	temp = command_tab;
 	while (temp->ope_after != LINE_CHANGE && temp->ope_after != VOID)
 	{
 		if (temp->ope_after == AND || temp->ope_after == OR)
@@ -27,11 +27,11 @@ static void	latest_logical_op(t_leaf *cmds, t_leaf **buff)
 	}
 }
 
-static void	latest_pipe_op(t_leaf *cmds, t_leaf **buff)
+static void	latest_pipe_op(t_leaf *command_tab, t_leaf **buff)
 {
 	t_leaf	*temp;
 
-	temp = cmds;
+	temp = command_tab;
 	while (temp->ope_after != LINE_CHANGE && temp->ope_after != VOID)
 	{
 		if (temp->ope_after == PIPE)

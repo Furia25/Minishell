@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:37:34 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/14 10:12:49 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/14 11:44:48 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@ int	create_tokens(t_lst **tokens, char *input, t_minishell *data);
 int	check_syntax_errors(t_lst *tokens, t_minishell *data);
 t_leaf	*create_cmd_tab(t_lst *tokens, t_minishell *data);
 void	handle_all_here_doc(t_leaf *command_tab, t_minishell *data);
-static void	wait_childs(t_minishell *data);
 
 void	parsing_exec(char *input, t_minishell *data)
 {
@@ -28,7 +27,7 @@ void	parsing_exec(char *input, t_minishell *data)
 	tokens = NULL;
 	if (create_tokens(&tokens, input, data) == EXIT_FAILURE
 		|| check_syntax_errors(tokens, data) == EXIT_FAILURE)
-		exit(2);
+		return ;
 	print_debug_lst(tokens, LEXEME | TYPE, 2,
 		 "\ndisplay tokens just after creating it\n");
 	command_tab = create_cmd_tab(tokens, data);
@@ -36,7 +35,7 @@ void	parsing_exec(char *input, t_minishell *data)
 		 "\ndisplay command_tab just after creating it\n");
 	handle_all_here_doc(command_tab, data);
 	if (data->exit_code == 1) // <- C'est chelou ? 
-		exit(1);
+		return ;
 	print_debug_all_cmd(command_tab, LEXEME | TYPE, 5
 		,"\ndisplay command_tab after handle here doc\n");
 	if (data->environment_tab)
@@ -47,17 +46,7 @@ void	parsing_exec(char *input, t_minishell *data)
 	top_node_ast = create_ast(command_tab, data);
 	final = evaluate_ast(top_node_ast, data);
 	execute_cmd(final, data);
-	wait_childs(data);
 	gc_free_ast(top_node_ast, data);
+	gc_free(command_tab, data);
 }
 
-static void	wait_childs(t_minishell *data)
-{
-	int	status;
-
-	if (data->last_cmd_pid == -1)
-		return ;
-	waitpid(data->last_cmd_pid, &status, 0);
-	data->exit_code = (status >> 8) & 0xFF;
-	while (wait(NULL) != -1);
-}

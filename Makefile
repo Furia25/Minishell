@@ -6,7 +6,7 @@
 #    By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/13 23:20:17 by val               #+#    #+#              #
-#    Updated: 2025/05/14 00:00:50 by alpayet          ###   ########.fr        #
+#    Updated: 2025/05/14 11:07:42 by alpayet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -97,8 +97,7 @@ SRC_FILES = \
 	exec/evaluate_pipe_op.c \
 	exec/execute_cmd.c \
 	exec/exec.c \
-	garbage_collector/garbage_allocate_functions.c \
-	garbage_collector/garbage_free_functions.c \
+	garbage_collector/garbage_functions.c \
 	garbage_collector/garbage_managing.c \
 	lexing/quotes_token.c \
 	lexing/tokenization.c \

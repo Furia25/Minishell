@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 10:43:50 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/30 16:38:03 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/14 11:09:11 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static size_t	cmds_number(t_lst *tokens)
 	return (i + 1);
 }
 
-static t_lst	*parenthesis_cmd(t_leaf *command_tab, t_lst *tokens, t_lst **prev, t_minishell *data)
+static t_lst *parenthesis_cmd(t_leaf *command_tab, t_lst **prev, t_lst *tokens, t_minishell *data)
 {
 	t_lst	*parenth_buff;
 
@@ -57,24 +57,25 @@ static t_lst	*parenthesis_cmd(t_leaf *command_tab, t_lst *tokens, t_lst **prev, 
 	gc_free_node(parenth_buff, data);
 	if (tokens == NULL)
 	{
-		(*prev)->next = NULL;
+		if (*prev != NULL)
+			(*prev)->next = NULL;
 		return (NULL);
 	}
 	return (tokens);
 }
 
-static bool	check_op_after(t_leaf *command_tab, t_lst **temp, t_lst **prev)
+static bool	is_op_after(t_leaf *command_tab, t_lst **prev, t_lst **curr)
 {
-	if ((*temp)->type == PIPE)
+	if ((*curr)->type == PIPE)
 		command_tab->ope_after = PIPE;
-	else if ((*temp)->type == OR)
+	else if ((*curr)->type == OR)
 		command_tab->ope_after = OR;
-	else if ((*temp)->type == AND)
+	else if ((*curr)->type == AND)
 		command_tab->ope_after = AND;
 	else
 	{
-		*prev = *temp;
-		*temp = (*temp)->next;
+		*prev = *curr;
+		*curr = (*curr)->next;
 		return (false);
 	}
 	return (true);
@@ -82,26 +83,27 @@ static bool	check_op_after(t_leaf *command_tab, t_lst **temp, t_lst **prev)
 
 static void	fill_tab(t_leaf *command_tab, t_lst *tokens, t_minishell *data)
 {
-	t_lst	*temp;
+	t_lst	*curr;
 	t_lst	*prev;
 
-	temp = tokens;
-	while (temp)
+	curr = tokens;
+	prev = NULL;
+	while (curr)
 	{
-		if (temp->type == PAR_OPEN)
+		if (curr->type == PAR_OPEN)
 		{
-			tokens = temp->next;
-			gc_free_node(temp, data);
-			temp = parenthesis_cmd(command_tab, tokens, &prev, data);
-			if (temp == NULL)
+			tokens = curr->next;
+			gc_free_node(curr, data);
+			curr = parenthesis_cmd(command_tab, &prev, tokens, data);
+			if (curr == NULL)
 				continue ;
 		}
-		if (check_op_after(command_tab, &temp, &prev) == false)
+		if (is_op_after(command_tab, &prev, &curr) == false)
 			continue ;
-		fill_tab(command_tab + 1, temp->next, data);
+		fill_tab(command_tab + 1, curr->next, data);
 		command_tab->tokens = tokens;
 		prev->next = NULL;
-		gc_free_node(temp, data);
+		gc_free_node(curr, data);
 		return ;
 	}
 	command_tab->tokens = tokens;
