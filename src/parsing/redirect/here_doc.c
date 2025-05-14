@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:43:56 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/13 15:25:41 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/14 22:32:52 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,23 @@ void	handle_all_here_doc(t_leaf *command_tab, t_minishell *data)
 	here_doc_to_red_input(command_tab, data);
 }
 
-void	rm_here_doc_files(t_lst	*tokens)
+void	rm_all_here_doc_files(t_leaf *command_tab)
 {
+	t_lst	*tokens;
+	
+	while (command_tab->ope_after != LINE_CHANGE)
+	{
+		tokens = command_tab->tokens;
+		while (tokens)
+		{
+			if (tokens->type == RED_IN &&
+				ft_strncmp("/tmp/here_doc", tokens->next->lexeme, 13) == 0)
+				unlink(tokens->next->lexeme);
+			tokens = tokens->next;
+		}
+		command_tab++;
+	}
+	tokens = command_tab->tokens;
 	while (tokens)
 	{
 		if (tokens->type == RED_IN &&
@@ -69,6 +84,7 @@ void	rm_here_doc_files(t_lst	*tokens)
 			unlink(tokens->next->lexeme);
 		tokens = tokens->next;
 	}
+	
 }
 
 

@@ -6,7 +6,7 @@
 #    By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/15 21:41:19 by val               #+#    #+#              #
-#    Updated: 2025/04/21 14:04:19 by alpayet          ###   ########.fr        #
+#    Updated: 2025/05/14 21:30:42 by alpayet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,6 +57,7 @@ BASE_SRC = checks/ft_isalpha.c \
 		files_managing/ft_putnbr_base_fd.c \
 		files_managing/get_next_line.c \
 		ft_printf.c \
+		ft_printf_fd.c \
 
 BONUS_SRC = chained_lists/ft_lstadd_back_bonus.c \
 			chained_lists/ft_lstadd_front_bonus.c \

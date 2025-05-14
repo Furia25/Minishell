@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/28 13:42:18 by vdurand           #+#    #+#             */
-/*   Updated: 2025/03/12 17:33:02 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/14 21:29:23 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 
 int		ft_isspace(char str);
 int		ft_printf(const char *format, ...);
+int		ft_printf_fd(int fd, const char *format, ...);
 int		ft_atoi_base(char *str, char *base);
 //
 int		ft_putptr_fd(size_t ptr, int fd);

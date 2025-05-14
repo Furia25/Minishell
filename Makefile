@@ -6,7 +6,7 @@
 #    By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/13 23:20:17 by val               #+#    #+#              #
-#    Updated: 2025/05/14 11:07:42 by alpayet          ###   ########.fr        #
+#    Updated: 2025/05/14 20:07:20 by alpayet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -89,6 +89,7 @@ SRC_FILES = \
 	errors_and_debug/malloc_error.c \
 	errors_and_debug/not_interpret_error.c \
 	errors_and_debug/print_argv.c \
+	errors_and_debug/print_ast.c \
 	errors_and_debug/print_cmd.c \
 	errors_and_debug/print_lst.c \
 	errors_and_debug/syntax_error.c \

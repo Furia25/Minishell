@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:37:34 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/14 11:44:48 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/14 22:32:35 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@ int	create_tokens(t_lst **tokens, char *input, t_minishell *data);
 int	check_syntax_errors(t_lst *tokens, t_minishell *data);
 t_leaf	*create_cmd_tab(t_lst *tokens, t_minishell *data);
 void	handle_all_here_doc(t_leaf *command_tab, t_minishell *data);
+void	rm_all_here_doc_files(t_leaf *command_tab);
 
 void	parsing_exec(char *input, t_minishell *data)
 {
@@ -44,8 +45,11 @@ void	parsing_exec(char *input, t_minishell *data)
 	if (!data->environment_tab)
 		malloc_error(data);
 	top_node_ast = create_ast(command_tab, data);
+	print_debug_ast(top_node_ast, 6, 
+		"\ndisplay AST just after creating it\n");
 	final = evaluate_ast(top_node_ast, data);
 	execute_cmd(final, data);
+	rm_all_here_doc_files(command_tab);
 	gc_free_ast(top_node_ast, data);
 	gc_free(command_tab, data);
 }

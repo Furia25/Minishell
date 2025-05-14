@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   evaluate_pipe_op.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:32:36 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/13 15:29:02 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/14 21:43:46 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,22 +29,22 @@ t_leaf	*evaluate_pipe_op(t_AST_node *node, t_minishell *data)
 	left_value = evaluate_ast(node->t_ope_node.left_node, data);
 	right_value = evaluate_ast(node->t_ope_node.right_node, data);
 	ev_subshell_in_cmd(left_value, data);
-	print_debug_lst(left_value->tokens, LEXEME | TYPE, 6,
+	print_debug_lst(left_value->tokens, LEXEME | TYPE, 7,
 		"\ndisplay command->tokens after handle ev_expension and subshell\n");
 	fusion_quote_token(left_value->tokens, data);
-	print_debug_lst(left_value->tokens, LEXEME, 7,
+	print_debug_lst(left_value->tokens, LEXEME, 8,
 		"\ndisplay command->tokens after handle fusion quotes\n");
 	wildcards_in_cmd(left_value, data);
-	print_debug_lst(left_value->tokens, LEXEME | TYPE, 8,
+	print_debug_lst(left_value->tokens, LEXEME | TYPE, 9,
 		"\ndisplay command->tokens after handle wildcards\n");
 	handle_reds_and_del(left_value, data);
-	print_debug_cmd(left_value, LEXEME, 9,
+	print_debug_cmd(left_value, LEXEME, 10,
 		"\ndisplay command after handle redi\n");
 	pipe(pipefd);
 	if (left_value->fd_input != -1 && left_value->fd_output != -1)
 	{
 		argv = tokens_to_argv(left_value->tokens, data);
-		print_debug_argv(argv, 10,
+		print_debug_argv(argv, 11,
 		"\ndisplay argv after creating it\n");
 		if (argv != NULL)
 		{

@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 16:12:56 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/26 03:38:04 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/14 21:35:32 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,7 @@
 
 int	not_interpret_chara(char chara, char *str, t_minishell	*data)
 {
-	ft_putstr_fd("minishell: we are not supposed to manage this `", 2);
-	ft_putchar_fd(chara, 2);
-	ft_putendl_fd(str, 2);
+	ft_printf_fd(2, "minishell: we are not supposed to manage this `%c%s\n", chara, str);
 	// free data->gc
 	data->exit_code = 2;
 	return (EXIT_FAILURE);

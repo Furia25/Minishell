@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 18:56:56 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/11 20:07:23 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/14 21:31:33 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ void	print_lst(t_lst	*lst, t_lst_members members)
 	while (lst)
 	{
 		if (members == LEXEME)
-			ft_printf("   lexeme :%s\n", lst->lexeme);
+			ft_printf_fd(2, "   lexeme :%s\n", lst->lexeme);
 		if (members == (LEXEME | TYPE))
 		{
-			ft_printf("   lexeme :%s\n", lst->lexeme);
-			ft_printf("   type :%d\n", lst->type);
+			ft_printf_fd(2, "   lexeme :%s\n", lst->lexeme);
+			ft_printf_fd(2, "   type :%d\n", lst->type);
 		}
 		lst = lst->next;
 	}
@@ -31,7 +31,7 @@ void	print_debug_lst(t_lst *lst, t_lst_members members, int debug, char *str)
 {
 	if (DEBUG == debug || DEBUG == 1)
 	{
-		ft_printf("%s", str);
+		ft_printf_fd(2, "%s", str);
 		print_lst(lst, members);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:56:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/13 09:26:37 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/14 22:29:18 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,21 +70,21 @@ void	handle_reds_and_del(t_leaf *command_tab, t_minishell *data)
 	}
 }
 
-void	close_all_fds(t_leaf *command_tab)
-{
-	while (command_tab->ope_after != LINE_CHANGE)
-	{
-		if (command_tab->fd_input != 0)
-			close(command_tab->fd_input);
-		if (command_tab->fd_output != 1)
-			close(command_tab->fd_output);
-		rm_here_doc_files(command_tab->tokens);
-		command_tab++;
-	}
-	if (command_tab->fd_input != 0)
-		close(command_tab->fd_input);
-	if (command_tab->fd_output != 1)
-		close(command_tab->fd_output);
-	rm_here_doc_files(command_tab->tokens);
-}
+// void	close_all_fds(t_leaf *command_tab)
+// {
+// 	while (command_tab->ope_after != LINE_CHANGE)
+// 	{
+// 		if (command_tab->fd_input != 0)
+// 			close(command_tab->fd_input);
+// 		if (command_tab->fd_output != 1)
+// 			close(command_tab->fd_output);
+// 		rm_here_doc_files(command_tab->tokens);
+// 		command_tab++;
+// 	}
+// 	if (command_tab->fd_input != 0)
+// 		close(command_tab->fd_input);
+// 	if (command_tab->fd_output != 1)
+// 		close(command_tab->fd_output);
+// 	rm_here_doc_files(command_tab->tokens);
+// }
 

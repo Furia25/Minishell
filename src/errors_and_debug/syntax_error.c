@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 22:19:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/01 23:21:51 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/14 21:37:02 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,7 @@
 
 static int	print_error(char *str, t_minishell *data)
 {
-	ft_putstr_fd("minishell: syntax error near unexpected token `", 2);
-	ft_putstr_fd(str, 2);
-	ft_putendl_fd("\'", 2);
+	ft_printf_fd(2, "minishell: syntax error near unexpected token `%s\'", str);
 	//free data->gc
 	//exit_minishell(data);
 	data->exit_code = 2;

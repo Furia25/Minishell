@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:37:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/11 21:11:18 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/14 21:39:06 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ char	*handle_dollars_in_here_doc(bool unclosed_par, char *input,
 		}
 	}
 	if (DEBUG == 4 || DEBUG == 1)
-		ft_printf("input: %s\n", input);
+		ft_printf_fd(2, "input: %s\n", input);
 	return (input);
 }
 
