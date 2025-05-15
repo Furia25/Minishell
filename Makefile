@@ -6,7 +6,7 @@
 #    By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/13 23:20:17 by val               #+#    #+#              #
-#    Updated: 2025/05/15 16:07:24 by vdurand          ###   ########.fr        #
+#    Updated: 2025/05/15 18:39:37 by vdurand          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,7 +70,7 @@ endif
 SRC_FILES = \
 	main/main.c \
 	main/main_script_handlers.c \
-	parsing_exec.c \
+	main/parsing_exec.c \
 	builtins/cd_builtin_utils.c \
 	builtins/cd_builtin.c \
 	builtins/echo_builtin.c \

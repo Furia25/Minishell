@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 18:14:00 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/14 21:27:59 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/15 18:16:59 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,14 @@ static int	process_arg(int fd, const char *format, size_t index, va_list ap)
 	if (format[index] == 'd' || format[index] == 'i')
 		return (ft_putnbr_base_fd(va_arg(ap, int), BASE_DECIMAL, fd));
 	if (format[index] == 'u')
-		return (ft_putnbr_base_fd(va_arg(ap, unsigned int), BASE_DECIMAL, fd));
+		return (ft_putnbr_base_fd(va_arg(ap, unsigned int), 
+			BASE_DECIMAL, fd));
 	if (format[index] == 'x')
-		return (ft_putnbr_base_fd(va_arg(ap, unsigned int), BASE_SMALL_HEX, fd));
+		return (ft_putnbr_base_fd(va_arg(ap, unsigned int), 
+			BASE_SMALL_HEX, fd));
 	if (format[index] == 'X')
-		return (ft_putnbr_base_fd(va_arg(ap, unsigned int), BASE_BIG_HEX, fd));
+		return (ft_putnbr_base_fd(va_arg(ap, unsigned int), 
+			BASE_BIG_HEX, fd));
 	return (0);
 }
 

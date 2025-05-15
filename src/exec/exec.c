@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 13:38:31 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/15 17:01:46 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/15 18:41:30 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*find_command(char *cmd, t_minishell *data)
 
 	if (!cmd)
 		return (NULL);
-	if (access(cmd, F_OK | X_OK | R_OK) == 0)
+	if (access(cmd, F_OK | X_OK) == 0)
 		return (cmd);
 	path = hashmap_search(hash(ENV_PATH), &data->environment);
 	if (path != NULL)

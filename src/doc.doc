@@ -453,3 +453,8 @@ test2->name;
 
 export x="  "
 $x echo caca dans tokens to argv maybe
+
+/home/vdurand/Documents/PROJECTS/Minishell$> cd gfdgfd
+cd : No such file or directory
+/home/vdurand/Documents/PROJECTS/Minishell$> env
+/home/vdurand/Documents/PROJECTS/Minishell$>

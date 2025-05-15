@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:37:34 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/15 04:13:38 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/15 18:31:08 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 int	create_tokens(t_lst **tokens, char *input, t_minishell *data);
 int	check_syntax_errors(t_lst *tokens, t_minishell *data);
 t_leaf	*create_cmd_tab(t_lst *tokens, t_minishell *data);
-void	handle_all_here_doc(t_leaf *command_tab, t_minishell *data);
+bool	handle_all_here_doc(t_leaf *command_tab, t_minishell *data);
 void	rm_all_here_doc_files(t_leaf *command_tab);
 
 void	parsing_exec(char *input, t_minishell *data)
@@ -34,8 +34,7 @@ void	parsing_exec(char *input, t_minishell *data)
 	data->command_tab = create_cmd_tab(tokens, data);
 	print_debug_all_cmd(data->command_tab, LEXEME | TYPE, 3,
 		 "\ndisplay command_tab just after creating it\n");
-	handle_all_here_doc(data->command_tab, data);
-	if (data->exit_code == EXIT_FAILURE) // <- C'est chelou ? 
+	if (!handle_all_here_doc(data->command_tab, data))
 		return ;
 	print_debug_all_cmd(data->command_tab, LEXEME | TYPE, 5
 		,"\ndisplay command_tab after handle here doc\n");

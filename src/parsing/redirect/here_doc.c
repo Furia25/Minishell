@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:43:56 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/15 04:22:00 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/15 18:29:19 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static char	*handle_here_doc(t_leaf *cmd, t_lst *token_eof, t_minishell *data)
 	return (here_doc_file);
 }
 
-static void	here_doc_to_red_input(t_leaf *cmd, t_minishell *data)
+static bool	here_doc_to_red_input(t_leaf *cmd, t_minishell *data)
 {
 	t_lst	*temp;
 	char	*here_doc_file;
@@ -43,7 +43,7 @@ static void	here_doc_to_red_input(t_leaf *cmd, t_minishell *data)
 		{
 			here_doc_file = handle_here_doc(cmd, temp->next, data);
 			if (here_doc_file == NULL)
-				return ;
+				return (false);
 			gc_free(temp->next->lexeme, data);
 			temp->type = RED_IN;
 			temp->next->lexeme = here_doc_file;
@@ -52,16 +52,21 @@ static void	here_doc_to_red_input(t_leaf *cmd, t_minishell *data)
 		else
 			temp = temp->next;
 	}
+	return (true);
 }
 
-void	handle_all_here_doc(t_leaf *command_tab, t_minishell *data)
+bool	handle_all_here_doc(t_leaf *command_tab, t_minishell *data)
 {
+	bool	temp;
+
+	temp = true;
 	while (command_tab->ope_after != LINE_CHANGE)
 	{
-		here_doc_to_red_input(command_tab, data);
+		temp = here_doc_to_red_input(command_tab, data);
 		command_tab++;
 	}
-	here_doc_to_red_input(command_tab, data);
+	temp = here_doc_to_red_input(command_tab, data);
+	return (temp);
 }
 
 void	rm_here_doc_files_in_cmd(t_lst *tokens)
