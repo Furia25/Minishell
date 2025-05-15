@@ -6,17 +6,39 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 13:38:31 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/15 19:53:03 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/15 20:44:37 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <sys/stat.h>
+#include <unistd.h>
 
+static char *search_command(char *cmd, t_minishell *data);
 static char	*find_command_path(char *cmd, t_hash_entry *path,
 	t_minishell *data);
 static void	error_free_paths(char **paths, t_minishell *data);
 
 char	*find_command(char *cmd, t_minishell *data)
+{
+	char			*command_finded;
+	struct stat		file_data;
+
+	ft_memset(&file_data, 0, sizeof(struct stat));
+	command_finded = search_command(cmd, data);
+	if (!command_finded)
+		return (NULL);
+	lstat(command_finded, &file_data);
+	if (!S_ISDIR(file_data.st_mode))
+		return (command_finded);
+	else
+	{
+		free(command_finded);
+		return (NULL);
+	}
+}
+
+static char *search_command(char *cmd, t_minishell *data)
 {
 	t_hash_entry	*path;
 
@@ -70,6 +92,8 @@ static void	error_free_paths(char **paths, t_minishell *data)
 
 void	command_notfound(char *cmd, t_minishell *data)
 {
+	if (!cmd)
+		ft_putstr_fd("ZIZICACA", 2);
 	if (data->script_mode)
 	{
 		if (data->script_file)
