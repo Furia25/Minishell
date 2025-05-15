@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:32:36 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/15 13:16:51 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/15 13:46:37 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,41 +34,44 @@ t_leaf	*evaluate_pipe_op(t_AST_node *node, t_minishell *data)
 		print_debug_argv(argv, 11,
 		"\ndisplay argv after creating it\n");
 		if (argv != NULL)
+			ft_printf("Error");
+		pid = fork();
+		if (pid == 0)
 		{
-			pid = fork();
-			if (pid == 0)
+			close(pipefd[0]);
+			dup2(pipefd[1], 1);
+			close(pipefd[1]);
+			dup2(left_value->fd_input, 0);
+			if (left_value->fd_input != 0)
+				close(left_value->fd_input);
+			dup2(left_value->fd_output, 1);
+			if (left_value->fd_output != 1)
+				close(left_value->fd_output);
+			if (left_value->parenthesis == false)
 			{
-				close(pipefd[0]);
-				dup2(pipefd[1], 1);
-				close(pipefd[1]);
-				if (left_value->parenthesis == false)
+				/*BUILTIN HANDLER THIS IS JUST A TEST*/
+				t_builtin_type type = get_builtin(argv[0]);
+				// ft_putnbr_fd(type, 2);
+				if (type != BUILTIN_TYPE_NOTBUILTIN)
 				{
-					dup2(left_value->fd_input, 0);
-					if (left_value->fd_input != 0)
-						close(left_value->fd_input);
-					dup2(left_value->fd_output, 1);
-					if (left_value->fd_output != 1)
-						close(left_value->fd_output);
-					/*BUILTIN HANDLER THIS IS JUST A TEST*/
-					t_builtin_type type = get_builtin(argv[0]);
-					// ft_putnbr_fd(type, 2);
-					if (type != BUILTIN_TYPE_NOTBUILTIN)
-					{
-						if (!try_builtin(type, tab_size(argv), argv, data))
-							exit_minishell(data);
-					}
-					else
-					{
-						char *command_path = find_command(argv[0], data);
-						if (!command_path)
-							command_notfound(argv[0], data);
-						execve(command_path, argv, data->environment_tab);
-						free(command_path);			
-					}
-					exit(0);
+					if (!try_builtin(type, tab_size(argv), argv, data))
+						exit_minishell(data);
 				}
 				else
-				{}	//execve minishell
+				{
+					char *command_path = find_command(argv[0], data);
+					if (!command_path)
+						command_notfound(argv[0], data);
+					execve(command_path, argv, data->environment_tab);
+					free(command_path);
+				}
+				exit_minishell(data);
+			}
+			else
+			{
+				data->is_subshell = true;
+				parsing_exec("ls", data);
+				return (data->exit_code);
 			}
 		}
 	}

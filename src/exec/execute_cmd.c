@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:31:08 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/15 13:39:29 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/15 13:46:46 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,8 @@ int	execute_cmd(t_leaf *cmd, t_minishell *data)
 				else
 				{
 					data->is_subshell = true;
-					parsing_exec("test", data); // ???
+					parsing_exec("ls", data);
+					return (data->exit_code);
 				}
 			}
 			else if (pid != -1)
