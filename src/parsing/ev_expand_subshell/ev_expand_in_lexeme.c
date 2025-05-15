@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ev_expand_in_lexeme.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:47:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/05 17:30:07 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/15 17:34:27 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,18 @@ size_t	env_var_len(char *str)
 
 char	*ev_result(char *str, size_t ev_len, t_minishell *data)
 {
-	//retirer les void
-	(void)str;
-	(void)data;
+	t_hash_entry	*entry;
+	t_envvar		*var;
+
 	if (ev_len == 0)
 		return (ft_calloc(1, sizeof(char)));
-	return (ft_substr("a b", 0, 3));
+	if (str[0] == '?')
+		return (ft_itoa(data->exit_code));
+	entry = hashmap_search(hash(str), &data->environment);
+	if (entry == NULL)
+		return (ft_calloc(1, sizeof(char)));
+	var = (t_envvar *)entry->value;
+	return (ft_strdup(var->value));
 }
 
 size_t	skip_subshell_and_special_chara(char *str)
