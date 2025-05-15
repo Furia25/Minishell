@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+         #
+#    By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/13 23:20:17 by val               #+#    #+#              #
-#    Updated: 2025/05/15 04:31:45 by alpayet          ###   ########.fr        #
+#    Updated: 2025/05/15 15:44:54 by vdurand          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -170,13 +170,13 @@ fclean: clean cleanlibs
 re: fclean all
 
 debug: all
-	$(DEBUG_VALGRIND) ./$(NAME)
+	$(DEBUG_VALGRIND) ./$(NAME) $(ARGS)
 
 debug_env: all
-	env -i $(DEBUG_VALGRIND) ./$(NAME)
+	env -i $(DEBUG_VALGRIND) ./$(NAME) $(ARGS)
 
 debug_trueclean: all
-	$(DEBUG_VALGRIND) env -i ./$(NAME)
+	$(DEBUG_VALGRIND) env -i ./$(NAME) $(ARGS)
 
 -include $(DEP)
 

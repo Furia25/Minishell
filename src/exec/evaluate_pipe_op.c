@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:32:36 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/15 13:46:37 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/15 15:36:27 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_leaf	*evaluate_pipe_op(t_AST_node *node, t_minishell *data)
 		argv = tokens_to_argv(left_value->tokens, data);
 		print_debug_argv(argv, 11,
 		"\ndisplay argv after creating it\n");
-		if (argv != NULL)
+		if (argv == NULL)
 			ft_printf("Error");
 		pid = fork();
 		if (pid == 0)
@@ -71,7 +71,7 @@ t_leaf	*evaluate_pipe_op(t_AST_node *node, t_minishell *data)
 			{
 				data->is_subshell = true;
 				parsing_exec("ls", data);
-				return (data->exit_code);
+				exit_minishell(data);
 			}
 		}
 	}

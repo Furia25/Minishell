@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:31:08 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/15 13:46:46 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/15 15:35:23 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	execute_cmd(t_leaf *cmd, t_minishell *data)
 		argv = tokens_to_argv(cmd->tokens, data);
 		print_debug_argv(argv, 11,
 			"\ndisplay argv after creating it\n");
-		if (argv != NULL)
+		if (argv == NULL)
 			ft_printf("Error");
 		/*BUILTIN HANDLER THIS IS JUST A TEST*/
 		t_builtin_type type = get_builtin(argv[0]);
@@ -80,7 +80,7 @@ int	execute_cmd(t_leaf *cmd, t_minishell *data)
 				{
 					data->is_subshell = true;
 					parsing_exec("ls", data);
-					return (data->exit_code);
+					exit_minishell(data);
 				}
 			}
 			else if (pid != -1)

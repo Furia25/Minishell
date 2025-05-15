@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 17:17:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/15 13:37:31 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/15 15:46:13 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 static int	init_minishell(t_minishell *data, char **envp);
 static int	check_flags_c(int argc, char **argv);
 static void	handle_script(char **argv, t_minishell *data);
-// static void	handle_subshell(int argc, char **argv, t_minishell *data);
+static void	handle_subshell(char **argv, t_minishell *data);
 static void	handle_shell(t_minishell *data);
 static bool	is_void_or_full_blank(char *input);
 
@@ -39,7 +39,7 @@ int	main(int argc, char **argv, char **envp)
 	}
 	else
 	{
-		// handle_subshell(argc, argv, &data);
+		handle_subshell(argv + flags, &data);
 	}
 	return (data.exit_code);
 }
@@ -53,6 +53,7 @@ static int	init_minishell(t_minishell *data, char **envp)
 		malloc_error(data);
 	if (!gc_init(data))
 		malloc_error(data);
+	data->command_tab = NULL;
 	data->environment_tab = NULL;
 	data->in_child = false;
 	data->in_pipe = false;
@@ -91,10 +92,19 @@ static void	handle_script(char **argv, t_minishell *data)
 	close(data->script_fd);
 }
 
-// static void	handle_subshell(int argc, char **argv, t_minishell *data)
-// {
-
-// }
+static void	handle_subshell(char **argv, t_minishell *data)
+{
+	data->script_mode = 1;
+	data->script_file = "bash";
+	data->script_fd = -1;
+	data->line = 1;
+	while (*argv)
+	{
+		parsing_exec(*argv, data);
+		data->line += 1;
+		argv++;
+	}
+}
 
 static void	handle_shell(t_minishell *data)
 {
