@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 19:01:44 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/15 13:13:26 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/15 19:49:25 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # include "ft_printf.h"
 
 #ifndef DEBUG
-# define DEBUG 17
+# define DEBUG 11
 #endif
 
 typedef enum e_lst_members

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   evaluate_pipe_op.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:32:36 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/15 17:52:38 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/15 19:28:10 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,7 @@ t_leaf	*evaluate_pipe_op(t_AST_node *node, t_minishell *data)
 					close(left_value->fd_output);
 				if (left_value->parenthesis == false)
 				{
-					/*BUILTIN HANDLER THIS IS JUST A TEST*/
 					t_builtin_type type = get_builtin(argv[0]);
-					// ft_putnbr_fd(type, 2);
 					if (type != BUILTIN_TYPE_NOTBUILTIN)
 					{
 						if (!try_builtin(type, tab_size(argv), argv, data))

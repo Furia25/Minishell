@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:02:46 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/28 16:37:52 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/15 19:29:46 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ bool	env_update_lastcmd(const char *cmd, t_hashmap *environment)
 
 	entry = hashmap_search(hash(ENV_LASTCMD), environment);
 	if (!entry)
-		return (add_envvar_stack(ENV_LASTCMD, "minishell", environment));
+		return (add_envvar_stack(ENV_LASTCMD, "groscacaquipue", environment));
 	else
 		return (add_envvar(ft_strdup(ENV_LASTCMD), ft_strdup(cmd), environment));
 }
@@ -79,7 +79,7 @@ static bool env_add_mandatories(t_hashmap *environment)
 		if (!add_envvar(ft_strdup(ENV_PWD), getcwd(NULL, 0), environment))
 			return (false);
 	}
-	return (env_update_lastcmd("minishell", environment));
+	return (env_update_lastcmd("groscacaquipue", environment));
 }
 
 static bool	add_envvar_stack(char *key, char *value, t_hashmap *env)
