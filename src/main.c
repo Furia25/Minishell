@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 17:17:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/15 03:35:12 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/15 13:37:31 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ static void	handle_script(char **argv, t_minishell *data);
 // static void	handle_subshell(int argc, char **argv, t_minishell *data);
 static void	handle_shell(t_minishell *data);
 static bool	is_void_or_full_blank(char *input);
-void	parsing_exec(char *input, t_minishell *data);
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -60,6 +59,7 @@ static int	init_minishell(t_minishell *data, char **envp)
 	data->line = 0;
 	data->script_mode = false;
 	data->script_fd = -1;
+	data->is_subshell = false;
 	return (1);
 }
 

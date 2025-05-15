@@ -1,4 +1,4 @@
-echo fdfdsfdsgdsgsgdsgdsgdsgdsgsdg
+echo fdfdsfdsgdsgsgdsgdsgdsgdsgsdg && ls
 fdsgfs
 ls
 gsrdhfd

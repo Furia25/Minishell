@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/15 04:08:54 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/15 13:37:52 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,10 @@ struct s_minishell
 	int					last_cmd_pid;
 	int					script_fd;
 	bool				script_mode;
-	t_leaf 			*command_tab;
+	t_leaf 				*command_tab;
 	bool				in_child;
 	bool				in_pipe;
+	bool				is_subshell;
 	unsigned char		exit_code;
 };
 
@@ -86,8 +87,8 @@ int		not_interpret_chara(char chara, char *str, t_minishell	*data);
 
 void	wildcards_in_cmd(t_leaf *cmd, t_minishell *data);
 
-t_AST_node	*create_ast(t_leaf *command_tab, t_minishell *data);
-t_leaf	*evaluate_ast(t_AST_node *node, t_minishell *data);
+t_AST_node		*create_ast(t_leaf *command_tab, t_minishell *data);
+t_leaf			*evaluate_ast(t_AST_node *node, t_minishell *data);
 int				execute_cmd(t_leaf *cmd, t_minishell *data);
 
 void			malloc_error(t_minishell *data);
@@ -115,4 +116,6 @@ bool			try_builtin(t_builtin_type type,
 					int argc, char **v, t_minishell *data);
 t_builtin_type	get_builtin(char *cmd);
 void			command_notfound(char *cmd, t_minishell *data);
+
+void			parsing_exec(char *input, t_minishell *data);
 #endif

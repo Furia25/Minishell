@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 19:01:44 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/14 22:05:14 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/15 13:13:26 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # include "ft_printf.h"
 
 #ifndef DEBUG
-# define DEBUG 0
+# define DEBUG 17
 #endif
 
 typedef enum e_lst_members
