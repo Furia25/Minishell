@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 13:38:31 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/14 01:23:49 by val              ###   ########.fr       */
+/*   Updated: 2025/05/15 17:01:46 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,10 @@ void	command_notfound(char *cmd, t_minishell *data)
 {
 	if (data->script_mode)
 	{
-		ft_putstr_fd(data->script_file, 2);
+		if (data->script_file)
+			ft_putstr_fd(data->script_file, 2);
+		else
+			ft_putstr_fd("minishell", 2);
 		ft_putstr_fd(": line ", 2);
 		ft_putnbr_fd(data->line, 2);
 		ft_putstr_fd(": ", 2);

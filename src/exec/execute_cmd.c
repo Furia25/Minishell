@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:31:08 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/15 16:22:24 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/15 16:36:59 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,8 @@ int	execute_cmd(t_leaf *cmd, t_minishell *data)
 						command_notfound(argv[0], data);	
 					execve(command_path, argv, data->environment_tab);
 					data->exit_code = EXIT_FAILURE;
-					exit_minishell(data);
 					free(command_path);
+					exit_minishell(data);
 				}
 				else
 				{
