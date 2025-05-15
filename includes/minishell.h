@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/13 16:42:42 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/15 04:08:54 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ struct s_minishell
 	int					last_cmd_pid;
 	int					script_fd;
 	bool				script_mode;
+	t_leaf 			*command_tab;
 	bool				in_child;
 	bool				in_pipe;
 	unsigned char		exit_code;

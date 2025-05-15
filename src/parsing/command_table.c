@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 10:43:50 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/14 11:09:11 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/15 04:26:17 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,11 @@ static size_t	cmds_number(t_lst *tokens)
 	return (i + 1);
 }
 
-static t_lst *parenthesis_cmd(t_leaf *command_tab, t_lst **prev, t_lst *tokens, t_minishell *data)
+static t_lst *parenthesis_cmd(t_leaf *cmd, t_lst **prev, t_lst *tokens, t_minishell *data)
 {
 	t_lst	*parenth_buff;
 
-	command_tab->parenthesis = true;
+	cmd->parenthesis = true;
 	while (tokens->next)
 	{
 		if (tokens->next->type == PAR_CLOSE)
@@ -64,14 +64,14 @@ static t_lst *parenthesis_cmd(t_leaf *command_tab, t_lst **prev, t_lst *tokens, 
 	return (tokens);
 }
 
-static bool	is_op_after(t_leaf *command_tab, t_lst **prev, t_lst **curr)
+static bool	is_op_after(t_leaf *cmd, t_lst **prev, t_lst **curr)
 {
 	if ((*curr)->type == PIPE)
-		command_tab->ope_after = PIPE;
+		cmd->ope_after = PIPE;
 	else if ((*curr)->type == OR)
-		command_tab->ope_after = OR;
+		cmd->ope_after = OR;
 	else if ((*curr)->type == AND)
-		command_tab->ope_after = AND;
+		cmd->ope_after = AND;
 	else
 	{
 		*prev = *curr;

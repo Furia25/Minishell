@@ -6,15 +6,13 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:31:08 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/14 22:37:21 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/15 05:00:01 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "ft_printf.h"
-void	ev_subshell_in_cmd(t_leaf *command_tab, t_minishell *data);
-void	fusion_quote_token(t_lst *tokens, t_minishell *data);
-void	handle_reds_and_del(t_leaf *command_tab, t_minishell *data);
+void	parse_cmd(t_leaf *cmd, t_minishell *data);
 char	**tokens_to_argv(t_lst *tokens, t_minishell *data);
 size_t	tab_size(char **tab);
 
@@ -24,7 +22,10 @@ static void	wait_childs(t_minishell *data)
 	int	status;
 
 	if (data->last_cmd_pid == -1)
+	{
+		while (wait(NULL) != -1);
 		return ;
+	}
 	waitpid(data->last_cmd_pid, &status, 0);
 	data->exit_code = (status >> 8) & 0xFF;
 	while (wait(NULL) != -1);
@@ -37,18 +38,7 @@ int	execute_cmd(t_leaf *cmd, t_minishell *data)
 
 	if (cmd == NULL)
 		return (EXIT_FAILURE);
-	ev_subshell_in_cmd(cmd, data);
-	print_debug_lst(cmd->tokens, LEXEME | TYPE, 7,
-		"\ndisplay command->tokens after handle ev_expension and subshell\n");
-	fusion_quote_token(cmd->tokens, data);
-	print_debug_lst(cmd->tokens, LEXEME, 8,
-		"\ndisplay command->tokens after handle fusion quotes\n");
-	wildcards_in_cmd(cmd, data);
-	print_debug_lst(cmd->tokens, LEXEME | TYPE, 9,
-		"\ndisplay command->tokens after handle wildcards\n");
-	handle_reds_and_del(cmd, data);
-	print_debug_cmd(cmd, LEXEME, 10,
-		"\ndisplay command after handle redi\n");
+	parse_cmd(cmd, data);
 	if (cmd->fd_input != -1 && cmd->fd_output != -1)
 	{
 		argv = tokens_to_argv(cmd->tokens, data);
@@ -100,6 +90,6 @@ int	execute_cmd(t_leaf *cmd, t_minishell *data)
 		close(cmd->fd_output);
 	wait_childs(data);
 	if (cmd->fd_input == -1 || cmd->fd_output == -1)
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
+		data->exit_code = EXIT_FAILURE;
+	return (data->exit_code);
 }

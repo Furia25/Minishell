@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:37:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/14 21:39:06 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/15 04:19:28 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char	*handle_ev_in_here_doc(char *str, t_minishell *data);
 char	*handle_subshell_in_lexeme(char *str, t_minishell *data);
 
-int	open_new_here_doc_file(t_leaf *command_tab, char **here_doc_file, t_minishell *data)
+int	open_new_here_doc_file(t_leaf *cmd, char **here_doc_file, t_minishell *data)
 {
 	int		fd;
 	int		i;
@@ -37,10 +37,9 @@ int	open_new_here_doc_file(t_leaf *command_tab, char **here_doc_file, t_minishel
 	}
 	if (fd == -1 && errno != EEXIST)
 	{
-		command_tab->fd_input = -1;
-		ft_putstr_fd("minishell: ", 2);
-		perror("here doc");
-		exit(1);//a secur
+		cmd->fd_input = -1;
+		perror("minishell: here doc");
+		return (-1);
 	}
 	return (fd);
 }

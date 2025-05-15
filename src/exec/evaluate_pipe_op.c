@@ -6,15 +6,13 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:32:36 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/14 21:43:46 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/15 03:50:59 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "ft_printf.h"
-void	ev_subshell_in_cmd(t_leaf *command_tab, t_minishell *data);
-void	fusion_quote_token(t_lst *tokens, t_minishell *data);
-void	handle_reds_and_del(t_leaf *command_tab, t_minishell *data);
+void	parse_cmd(t_leaf *cmd, t_minishell *data);
 char	**tokens_to_argv(t_lst *tokens, t_minishell *data);
 size_t tab_size(char **tab);
 
@@ -28,19 +26,8 @@ t_leaf	*evaluate_pipe_op(t_AST_node *node, t_minishell *data)
 
 	left_value = evaluate_ast(node->t_ope_node.left_node, data);
 	right_value = evaluate_ast(node->t_ope_node.right_node, data);
-	ev_subshell_in_cmd(left_value, data);
-	print_debug_lst(left_value->tokens, LEXEME | TYPE, 7,
-		"\ndisplay command->tokens after handle ev_expension and subshell\n");
-	fusion_quote_token(left_value->tokens, data);
-	print_debug_lst(left_value->tokens, LEXEME, 8,
-		"\ndisplay command->tokens after handle fusion quotes\n");
-	wildcards_in_cmd(left_value, data);
-	print_debug_lst(left_value->tokens, LEXEME | TYPE, 9,
-		"\ndisplay command->tokens after handle wildcards\n");
-	handle_reds_and_del(left_value, data);
-	print_debug_cmd(left_value, LEXEME, 10,
-		"\ndisplay command after handle redi\n");
 	pipe(pipefd);
+	parse_cmd(left_value, data);
 	if (left_value->fd_input != -1 && left_value->fd_output != -1)
 	{
 		argv = tokens_to_argv(left_value->tokens, data);
