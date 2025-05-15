@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 17:17:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/15 15:46:13 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/15 16:25:32 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,6 @@
 #include <stdio.h>
 
 static int	init_minishell(t_minishell *data, char **envp);
-static int	check_flags_c(int argc, char **argv);
-static void	handle_script(char **argv, t_minishell *data);
-static void	handle_subshell(char **argv, t_minishell *data);
 static void	handle_shell(t_minishell *data);
 static bool	is_void_or_full_blank(char *input);
 
@@ -39,9 +36,9 @@ int	main(int argc, char **argv, char **envp)
 	}
 	else
 	{
-		handle_subshell(argv + flags, &data);
+		handle_cflag(argv + flags, &data);
 	}
-	return (data.exit_code);
+	exit_minishell(&data);
 }
 
 static int	init_minishell(t_minishell *data, char **envp)
@@ -64,55 +61,20 @@ static int	init_minishell(t_minishell *data, char **envp)
 	return (1);
 }
 
-static void	handle_script(char **argv, t_minishell *data)
-{
-	t_gnl_result	gnl;
-
-	data->script_mode = true;
-	data->script_file = argv[1];
-	data->script_fd = open(argv[1], O_RDONLY);
-	if (data->script_fd == -1)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		perror(argv[1]);
-		data->exit_code = EXIT_FAILURE;
-		exit_minishell(data);
-		return ;
-	}
-	gnl = get_next_line(data->script_fd);
-	while (gnl.line)
-	{
-		data->line++;
-		parsing_exec(gnl.line, data);
-		free(gnl.line);
-		gnl = get_next_line(data->script_fd);
-	}
-	if (gnl.error)
-		malloc_error(data);
-	close(data->script_fd);
-}
-
-static void	handle_subshell(char **argv, t_minishell *data)
-{
-	data->script_mode = 1;
-	data->script_file = "bash";
-	data->script_fd = -1;
-	data->line = 1;
-	while (*argv)
-	{
-		parsing_exec(*argv, data);
-		data->line += 1;
-		argv++;
-	}
-}
+static char	*get_prompt(t_minishell *data);
 
 static void	handle_shell(t_minishell *data)
 {
 	char	*input;
+	char	*prompt;
 
 	while (1)
 	{
-		input = readline(PROMPT);
+		prompt = get_prompt(data);
+		if (!prompt)
+			exit_minishell(data);
+		input = readline(prompt);
+		free(prompt);
 		if (!input)
 		{
 			free(input);
@@ -130,29 +92,18 @@ static void	handle_shell(t_minishell *data)
 	}
 }
 
-static int	check_flags_c(int argc, char **argv)
+static char	*get_prompt(t_minishell *data)
 {
-	int		index;
-	char	*temp;
+	t_envvar		*var;
+	t_hash_entry	*temp_entry;
+	char			*prompt;
 
-	if (argc == 1)
-		return (0);
-	index = 1;
-	while (argv[index])
-	{
-		temp = argv[index];
-		if (*temp != '-')
-			return (index);
-		temp++;
-		while (*temp && temp)
-		{
-			if (*temp != 'c')
-				return (index);
-			temp++;
-		}
-		index++;
-	}
-	return (index);
+	temp_entry = hashmap_search(hash(ENV_PWD), &data->environment);
+	if (!temp_entry)
+		return (ft_strdup(PROMPT));
+	var = (t_envvar *) temp_entry->value;
+	prompt = ft_strjoin(var->value, PROMPT);
+	return (prompt);
 }
 
 static bool	is_void_or_full_blank(char *input)

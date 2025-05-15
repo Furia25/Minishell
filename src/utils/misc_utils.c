@@ -1,36 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset_builtin.c                                    :+:      :+:    :+:   */
+/*   misc_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/17 16:48:05 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/15 16:22:59 by vdurand          ###   ########.fr       */
+/*   Created: 2025/05/15 15:58:02 by vdurand           #+#    #+#             */
+/*   Updated: 2025/05/15 15:58:06 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
-int	unset_builtin(int argc, char **argv, t_minishell *data)
+int	check_flags_c(int argc, char **argv)
 {
-	int				exit_code;
-	t_hash_entry	*entry;
+	int		index;
+	char	*temp;
 
 	if (argc == 1)
-		return (EXIT_FAILURE);
-	exit_code = EXIT_SUCCESS;
-	while (argc > 1)
+		return (0);
+	index = 1;
+	while (argv[index])
 	{
-		entry = hashmap_search(hash(argv[argc - 1]), &data->environment);
-		if (entry != NULL)
+		temp = argv[index];
+		if (*temp != '-')
+			return (index);
+		temp++;
+		while (*temp && temp)
 		{
-			entry->status = TOMBSTONE;
-			data->environment.charge_factor -= 1;
-		}	
-		else
-			exit_code = EXIT_FAILURE;
-		argc--;
+			if (*temp != 'c')
+				return (index);
+			temp++;
+		}
+		index++;
 	}
-	return (exit_code);
+	return (index);
 }

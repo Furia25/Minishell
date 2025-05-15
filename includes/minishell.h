@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/15 13:37:52 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/15 16:07:52 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ void			exit_minishell(t_minishell *data);
 
 void			*check_malloc(void *content, t_minishell *data);
 
-
 int				env_builtin(t_minishell *data);
 int				pwd_builtin();
 int				export_builtin(int argc, char **argv, t_minishell *data);
@@ -118,4 +117,8 @@ t_builtin_type	get_builtin(char *cmd);
 void			command_notfound(char *cmd, t_minishell *data);
 
 void			parsing_exec(char *input, t_minishell *data);
+
+int				check_flags_c(int argc, char **argv);
+void			handle_script(char **argv, t_minishell *data);
+void			handle_cflag(char **argv, t_minishell *data);
 #endif

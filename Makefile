@@ -6,7 +6,7 @@
 #    By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/13 23:20:17 by val               #+#    #+#              #
-#    Updated: 2025/05/15 15:44:54 by vdurand          ###   ########.fr        #
+#    Updated: 2025/05/15 16:07:24 by vdurand          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,7 +68,8 @@ endif
 
 
 SRC_FILES = \
-	main.c \
+	main/main.c \
+	main/main_script_handlers.c \
 	parsing_exec.c \
 	builtins/cd_builtin_utils.c \
 	builtins/cd_builtin.c \
@@ -119,9 +120,10 @@ SRC_FILES = \
 	utils/memory_utils.c \
 	utils/strjoin_alt.c \
 	utils/write_utils.c \
+	utils/misc_utils.c \
 	wildcards/wildcards_search.c \
 	wildcards/wildcards.c \
-	wildcards/wildcards_in_cmd.c
+	wildcards/wildcards_in_cmd.c 
 
 SRC = $(patsubst %.c, $(SRC_DIR)/%.c, $(SRC_FILES))
 OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
