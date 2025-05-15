@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 13:38:31 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/15 20:44:37 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/15 20:57:14 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,7 @@ char	*find_command(char *cmd, t_minishell *data)
 	if (!S_ISDIR(file_data.st_mode))
 		return (command_finded);
 	else
-	{
-		free(command_finded);
 		return (NULL);
-	}
 }
 
 static char *search_command(char *cmd, t_minishell *data)
