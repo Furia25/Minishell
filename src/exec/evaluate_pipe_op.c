@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   evaluate_pipe_op.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:32:36 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/15 16:52:38 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/15 17:52:38 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ t_leaf	*evaluate_pipe_op(t_AST_node *node, t_minishell *data)
 		argv = tokens_to_argv(left_value->tokens, data);
 		print_debug_argv(argv, 11,
 		"\ndisplay argv after creating it\n");
-		if (argv == NULL)
+		if (argv != NULL)
 		{
 			pid = fork();
 			if (pid == 0)
