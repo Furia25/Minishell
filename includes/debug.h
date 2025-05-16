@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 19:01:44 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/16 06:09:10 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/16 16:59:07 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	print_debug_cmd(t_leaf *command, t_lst_members cmd_tokens_members, int debu
 void	print_debug_all_cmd(t_leaf *command_tab, t_lst_members cmd_tokens_members, int debug, char *str);
 void	print_debug_ast(t_AST_node *top_node_ast, int debug, char *str);
 void	print_debug_argv(char **tab, int debug, char *str);
-int	not_interpret_chara(char chara, char *str, t_minishell *data);
-int	check_syntax_errors(t_lst *tokens, t_minishell *data);
+int		not_interpret_chara(char chara, char *str, t_minishell *data);
+int		check_syntax_errors(t_lst *tokens, t_minishell *data);
 
 #endif

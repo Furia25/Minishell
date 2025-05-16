@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:31:08 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/16 15:53:23 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/16 16:56:34 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ static int	exec_not_parenthesized_cmd(t_leaf *cmd, t_minishell *data)
 {
 	pid_t	pid;
 	char	**argv;
-	char	*command_path;
 
 	parse_cmd(cmd, data);
 	if (cmd->fd_input != -1 && cmd->fd_output != -1)
@@ -81,10 +80,7 @@ static int	exec_not_parenthesized_cmd(t_leaf *cmd, t_minishell *data)
 			t_builtin_type type = get_builtin(argv[0]);
 			// ft_putnbr_fd(type, 2);
 			if (type != BUILTIN_TYPE_NOTBUILTIN)
-			{
-				if (!try_builtin(type, tab_size(argv), argv, data))
-					exit_minishell(data);
-			}
+				try_builtin(type, tab_size(argv), argv, data);
 			else
 			{
 				pid = fork();
@@ -96,13 +92,7 @@ static int	exec_not_parenthesized_cmd(t_leaf *cmd, t_minishell *data)
 						close(cmd->fd_input);
 					if (cmd->fd_output != 1)
 						close(cmd->fd_output);
-					command_path = find_command(argv[0], data);
-					if (!command_path)
-						command_notfound(argv[0], data);
-					execve(command_path, argv, data->environment_tab);
-					data->exit_code = EXIT_FAILURE;
-					free(command_path);
-					exit_minishell(data);
+					exec_command(argv, data);
 				}
 				else if (pid != -1)
 					data->last_cmd_pid = pid;

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+         #
+#    By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/13 23:20:17 by val               #+#    #+#              #
-#    Updated: 2025/05/16 04:11:30 by alpayet          ###   ########.fr        #
+#    Updated: 2025/05/16 16:29:00 by vdurand          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -87,7 +87,7 @@ SRC_FILES = \
 	environment/env_managing.c \
 	environment/env_methods.c \
 	environment/env_populate.c \
-	errors_and_debug/malloc_error.c \
+	errors_and_debug/errors.c \
 	errors_and_debug/not_interpret_error.c \
 	errors_and_debug/print_str.c \
 	errors_and_debug/print_argv.c \

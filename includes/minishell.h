@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/16 04:10:05 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/16 16:56:02 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ char			*ft_strjoin_alt_gc(char *s1, char *s2, t_strjoin free_what, t_minishell *
 unsigned long	hash_ptr(void *ptr);
 
 char			*find_command(char *cmd, t_minishell *data);
-bool			try_builtin(t_builtin_type type, 
+void			try_builtin(t_builtin_type type, 
 					int argc, char **v, t_minishell *data);
 t_builtin_type	get_builtin(char *cmd);
 void			command_notfound(char *cmd, t_minishell *data);
@@ -121,4 +121,5 @@ void			command_notfound(char *cmd, t_minishell *data);
 int				check_flags_c(int argc, char **argv);
 void			handle_script(char **argv, t_minishell *data);
 void			handle_cflag(char **argv, t_minishell *data);
+void			exec_command(char **argv, t_minishell *data);
 #endif

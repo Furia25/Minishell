@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 15:11:13 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/13 11:33:56 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/16 16:56:05 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	try_builtin(t_builtin_type type, int argc, char **v, t_minishell *data)
+void	try_builtin(t_builtin_type type, int argc, char **v, t_minishell *data)
 {
 	if (type == BUILTIN_TYPE_CD)
 		data->exit_code = cd_builtin(argc, v, data);
@@ -29,8 +29,8 @@ bool	try_builtin(t_builtin_type type, int argc, char **v, t_minishell *data)
 	else if (type == BUILTIN_TYPE_EXIT)
 		//result = exit_bultin(argc, v, data);
 	if (data->exit_code == BUILTIN_FATAL_ERROR)
-		return (false);
-	return (true);
+		data->exit_code = EXIT_FAILURE;
+	exit_minishell(data);
 }
 
 t_builtin_type	get_builtin(char *cmd)

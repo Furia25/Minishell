@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 13:38:31 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/16 16:23:51 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/16 16:53:45 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,18 @@ static char *search_command(char *cmd, t_minishell *data);
 static char	*find_command_path(char *cmd, t_hash_entry *path,
 	t_minishell *data);
 static void	error_free_paths(char **paths, t_minishell *data);
+
+void	exec_command(char **argv, t_minishell *data)
+{
+	char	*command_path;
+
+	command_path = find_command(argv[0], data);
+	if (!command_path)
+		command_notfound(argv[0], data);
+	execve(command_path, argv, data->environment_tab);
+	free(command_path);
+	exit_minishell(data);
+}
 
 char	*find_command(char *cmd, t_minishell *data)
 {
