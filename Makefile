@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+         #
+#    By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/13 23:20:17 by val               #+#    #+#              #
-#    Updated: 2025/05/16 18:44:02 by vdurand          ###   ########.fr        #
+#    Updated: 2025/05/17 01:12:24 by alpayet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -110,7 +110,6 @@ SRC_FILES = \
 	parsing/ev_expand_subshell/ev_expand_in_lexeme.c \
 	parsing/ev_expand_subshell/ev_expand_in_here_doc.c \
 	parsing/ev_expand_subshell/ev_subshell_in_cmd.c \
-	parsing/ev_expand_subshell/ev_subshell_utils.c \
 	parsing/ev_expand_subshell/subshell_in_lexeme.c \
 	parsing/redirect/redirections_in_cmd.c \
 	parsing/redirect/redirections_in_par_cmd.c \
@@ -128,7 +127,7 @@ SRC_FILES = \
 	utils/misc_utils.c \
 	wildcards/wildcards_search.c \
 	wildcards/wildcards.c \
-	wildcards/wildcards_in_cmd.c 
+	wildcards/wildcards_in_cmd.c
 
 SRC = $(patsubst %.c, $(SRC_DIR)/%.c, $(SRC_FILES))
 OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))

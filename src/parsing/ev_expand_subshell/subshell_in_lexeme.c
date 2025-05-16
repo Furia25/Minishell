@@ -6,11 +6,30 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:08:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/16 22:21:47 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/17 01:17:48 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	trim_blank_in_end(char *str)
+{
+	size_t	i;
+
+	if (str[0] == '\0')
+		return ;
+	i = ft_strlen(str) - 1;
+	while (ft_strchr("\n\t ", str[i]) != NULL)
+	{
+		if (i == 0)
+		{
+			str[0] = '\0';
+			return ;
+		}
+		i--;
+	}
+	str[i + 1] = '\0';
+}
 
 static char	*stock_file_in_str(int fd, t_minishell *data)
 {
@@ -37,6 +56,34 @@ static char	*stock_file_in_str(int fd, t_minishell *data)
 	return (str);
 }
 
+static char	*subshell_str(char *str, size_t in_par_len, t_minishell *data)
+{
+	int		pipefd[2];
+	pid_t		pid;
+
+	str = ft_substr(str, 0, in_par_len);
+	check_malloc(str, data);
+	if (pipe(pipefd) == -1)
+		pipe_error(data);
+	pid = fork();
+	if (pid == 0)
+	{
+		close(pipefd[0]);
+		dup2(pipefd[1], 1);
+		close(pipefd[1]);
+		parsing_exec(str, data);
+		exit_minishell(data);
+	}
+	else if (pid == -1)
+		fork_error(data);
+	close(pipefd[1]);
+	waitpid(pid, NULL, 0);
+	str = stock_file_in_str(pipefd[0], data);
+	trim_blank_in_end(str);
+	close(pipefd[0]);
+	return (str);
+}
+
 static size_t	in_parenthesis_len(char *str)
 {
 	size_t	i;
@@ -45,30 +92,6 @@ static size_t	in_parenthesis_len(char *str)
 	while (str[i] != ')')
 		i++;
 	return (i);
-}
-
-static char	*subshell_str(char *str, size_t in_par_len, t_minishell *data)
-{
-	int		pipefd[2];
-	pid_t		pid;
-
-	str = ft_substr(str, 0, in_par_len);
-	check_malloc(str, data);
-	pipe(pipefd);
-	pid = fork();
-	if (pid == 0)
-	{
-		close(pipefd[0]);
-		dup2(pipefd[1], 1);
-		close(pipefd[1]);
-		parsing_exec(str, data);
-		exit(0);
-	}
-	close(pipefd[1]);
-	waitpid(pid, NULL, 0);
-	str = stock_file_in_str(pipefd[0], data);
-	close(pipefd[0]);
-	return (str);
 }
 
 char	*handle_subshell_in_lexeme(char *str, t_minishell *data)

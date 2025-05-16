@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:06:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/16 23:42:55 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/17 01:07:28 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ static void	add_dollars_changes_in_lexeme(t_lst *token, t_minishell *data)
 		old_lexeme = handle_ev_in_lexeme(token->lexeme, token->next->type, data);
 	gc_free(token->lexeme, data);
 	token->lexeme = handle_subshell_in_lexeme(old_lexeme, data);
-	if (token->type == DOUBLE_Q)
-		trim_blank_in_end(token->lexeme);
 	gc_free(old_lexeme, data);
 }
 
@@ -58,18 +56,14 @@ static t_lst	*create_dollars_lst(t_lst *token, t_minishell *data)
 	i = 0;
 	while ((token->lexeme)[i] != '\0')
 	{
+		while (ft_strchr("\n\t ", (token->lexeme)[i]) != NULL)
+			i++;
 		j = 0;
 		while (ft_strchr("\n\t ", (token->lexeme)[i + j]) == NULL)
 			j++;
 		if (j == ft_strlen(token->lexeme))
 			return (NULL);
 		lstadd_back(&dollars_lst, create_set_new_node(token, i, j, data));
-		while (ft_strchr("\n\t ", (token->lexeme)[i + j]) != NULL)
-		{
-			if ((token->lexeme)[i + j] == '\0')
-				return (dollars_lst);
-			j++;
-		}
 		i = i + j;
 	}
 	return (dollars_lst);
@@ -85,7 +79,6 @@ static t_lst *create_and_add_dollars_nodes(t_lst *prev, t_lst *current, t_leaf *
 		current->type = DOLLAR;
 		return (current);
 	}
-	check_blank_in_extremity(current, data);
 	dollars_lst = create_dollars_lst(current, data);
 	if (dollars_lst != NULL)
 	{
