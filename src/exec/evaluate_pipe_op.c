@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:32:36 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/16 18:24:08 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/16 18:49:48 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,6 @@ static void	secure_pipe_dup2(int pipefd[2], t_leaf *cmd, t_minishell *data)
 
 static void	exec_pipe_cmd(char **argv, t_minishell *data)
 {
-	exec_builtins(argv, data);
+	exec_builtins(argv, true, data);
 	exec_command(argv, data);
 }

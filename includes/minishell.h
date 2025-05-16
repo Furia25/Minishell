@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/16 18:12:35 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/16 19:01:01 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ typedef enum e_strjoin t_strjoin;
 # define BUILTIN_FATAL_ERROR	177
 # define BUILTIN_FLAG_ECHO_NONL	'n'
 # define BUILTIN_FLAG_SEPARATOR	'-'
+# define BUILTIN_ERROR_EXIT	"exit: too many arguments"
 # define BUILTIN_ERROR_EXPORT	"export : Not a valid identifier : "
 # define BUILTIN_ERROR_CD	"cd "
 # define BUILTIN_ERROR_CD_ARGS	"cd : too many arguments"
@@ -100,8 +101,9 @@ void			exit_minishell(t_minishell *data);
 
 void			*check_malloc(void *content, t_minishell *data);
 
-void			exec_builtins(char **argv, t_minishell *data);
+bool			exec_builtins(char **argv, bool exit, t_minishell *data);
 
+int				exit_builtin(int argc, char **argv, t_minishell *data);
 int				env_builtin(t_minishell *data);
 int				pwd_builtin();
 int				export_builtin(int argc, char **argv, t_minishell *data);

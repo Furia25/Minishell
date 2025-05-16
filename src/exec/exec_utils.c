@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:42:39 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/16 18:15:17 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/16 19:01:24 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	close_input_output(t_leaf *cmd)
 		close(cmd->fd_output);
 }
 
-void	exec_builtins(char **argv, t_minishell *data)
+bool	exec_builtins(char **argv, bool exit, t_minishell *data)
 {
 	t_builtin_type	type;
 	size_t			argc;
@@ -42,5 +42,11 @@ void	exec_builtins(char **argv, t_minishell *data)
 	argc = tab_size(argv);
 	type = get_builtin(argv[0]);
 	if (type != BUILTIN_TYPE_NOTBUILTIN)
+	{
 		try_builtin(type, argc, argv, data);
+		if (exit)
+			exit_minishell(data);
+		return (true);
+	}
+	return (false);
 }

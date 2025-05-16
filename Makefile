@@ -6,7 +6,7 @@
 #    By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/13 23:20:17 by val               #+#    #+#              #
-#    Updated: 2025/05/16 17:53:15 by vdurand          ###   ########.fr        #
+#    Updated: 2025/05/16 18:44:02 by vdurand          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -78,6 +78,7 @@ SRC_FILES = \
 	builtins/export_builtin.c \
 	builtins/pwd_builtin.c \
 	builtins/unset_builtin.c \
+	builtins/exit_builtin.c \
 	builtins/builtins.c \
 	data_structures/create_node_ast.c \
 	data_structures/hashmap_managing.c \

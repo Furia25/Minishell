@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   evaluate_ast.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:27:36 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/29 18:54:22 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/16 18:36:35 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,3 @@ t_leaf	*evaluate_ast(t_AST_node *node, t_minishell *data)
 		return (evaluate_pipe_op(node, data));
 	return (NULL);
 }
-
