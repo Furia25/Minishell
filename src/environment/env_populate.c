@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:02:46 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/15 19:29:46 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/16 15:54:05 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,6 @@
 static bool	add_envvar(char *key, char *value, t_hashmap *env);
 static bool	add_envvar_stack(char *key, char *value, t_hashmap *env);
 static bool env_add_mandatories(t_hashmap *environment);
-
-bool	env_update_lastcmd(const char *cmd, t_hashmap *environment)
-{
-	t_hash_entry	*entry;
-
-	entry = hashmap_search(hash(ENV_LASTCMD), environment);
-	if (!entry)
-		return (add_envvar_stack(ENV_LASTCMD, "groscacaquipue", environment));
-	else
-		return (add_envvar(ft_strdup(ENV_LASTCMD), ft_strdup(cmd), environment));
-}
 
 bool	env_populate(char **envp, t_hashmap *environment)
 {
@@ -79,7 +68,7 @@ static bool env_add_mandatories(t_hashmap *environment)
 		if (!add_envvar(ft_strdup(ENV_PWD), getcwd(NULL, 0), environment))
 			return (false);
 	}
-	return (env_update_lastcmd("groscacaquipue", environment));
+	return (true);
 }
 
 static bool	add_envvar_stack(char *key, char *value, t_hashmap *env)
