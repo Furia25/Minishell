@@ -6,13 +6,14 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:06:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/13 23:25:37 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/16 23:42:55 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 char	*handle_ev_in_lexeme(char *str, t_lexeme_type next_type, t_minishell *data);
 char	*handle_subshell_in_lexeme(char *str, t_minishell *data);
+void	trim_blank_in_end(char *str);
 void check_blank_in_extremity(t_lst *token, t_minishell *data);
 
 static void	add_dollars_changes_in_lexeme(t_lst *token, t_minishell *data)
@@ -25,6 +26,8 @@ static void	add_dollars_changes_in_lexeme(t_lst *token, t_minishell *data)
 		old_lexeme = handle_ev_in_lexeme(token->lexeme, token->next->type, data);
 	gc_free(token->lexeme, data);
 	token->lexeme = handle_subshell_in_lexeme(old_lexeme, data);
+	if (token->type == DOUBLE_Q)
+		trim_blank_in_end(token->lexeme);
 	gc_free(old_lexeme, data);
 }
 
