@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:31:08 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/15 19:32:49 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/16 01:58:12 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,48 @@ static void	wait_childs(t_minishell *data)
 	while (wait(NULL) != -1);
 }
 
-int	execute_cmd(t_leaf *cmd, t_minishell *data)
+int	exec_parenthesized_cmd(t_leaf *cmd, t_minishell *data)
+{
+	pid_t	pid;
+	char	*command_path;
+
+	if (cmd->fd_input != -1 && cmd->fd_output != -1)
+	{
+		pid = fork();
+		if (pid == 0)
+		{
+			dup2(cmd->fd_input, 0);
+			dup2(cmd->fd_output, 1);
+			if (cmd->fd_input != 0)
+				close(cmd->fd_input);
+			if (cmd->fd_output != 1)
+				close(cmd->fd_output);
+			data->is_subshell = true;
+			parsing_exec("ls", data);
+			exit_minishell(data);
+		}
+		else if (pid != -1)
+			data->last_cmd_pid = pid;
+		else
+			ft_putstr_fd("Error", 2);
+	}
+	if (cmd->fd_input != 0 && cmd->fd_input != -1)
+		close(cmd->fd_input);
+	if (cmd->fd_output != 1 && cmd->fd_output != -1)
+		close(cmd->fd_output);
+	wait_childs(data);
+	if (cmd->fd_input == -1 || cmd->fd_output == -1)
+		data->exit_code = EXIT_FAILURE;
+	return (data->exit_code);
+}
+
+
+int	exec_not_parenthesized_cmd(t_leaf *cmd, t_minishell *data)
 {
 	pid_t	pid;
 	char	**argv;
 	char	*command_path;
 
-	if (cmd == NULL)
-		return (EXIT_FAILURE);
 	parse_cmd(cmd, data);
 	if (cmd->fd_input != -1 && cmd->fd_output != -1)
 	{
@@ -66,22 +100,13 @@ int	execute_cmd(t_leaf *cmd, t_minishell *data)
 						close(cmd->fd_input);
 					if (cmd->fd_output != 1)
 						close(cmd->fd_output);
-					if (cmd->parenthesis == false)
-					{
-						command_path = find_command(argv[0], data);
-						if (!command_path)
-							command_notfound(argv[0], data);
-						execve(command_path, argv, data->environment_tab);
-						data->exit_code = EXIT_FAILURE;
-						free(command_path);
-						exit_minishell(data);
-					}
-					else
-					{
-						data->is_subshell = true;
-						parsing_exec("ls", data);
-						exit_minishell(data);
-					}
+					command_path = find_command(argv[0], data);
+					if (!command_path)
+						command_notfound(argv[0], data);
+					execve(command_path, argv, data->environment_tab);
+					data->exit_code = EXIT_FAILURE;
+					free(command_path);
+					exit_minishell(data);
 				}
 				else if (pid != -1)
 					data->last_cmd_pid = pid;
@@ -98,4 +123,13 @@ int	execute_cmd(t_leaf *cmd, t_minishell *data)
 	if (cmd->fd_input == -1 || cmd->fd_output == -1)
 		data->exit_code = EXIT_FAILURE;
 	return (data->exit_code);
+}
+
+int	execute_cmd(t_leaf *cmd, t_minishell *data)
+{	
+	if (cmd == NULL)
+		return (EXIT_FAILURE);
+	if (cmd->parenthesis == true)
+		return (exec_parenthesized_cmd(cmd, data));
+	return (exec_not_parenthesized_cmd(cmd, data));
 }
