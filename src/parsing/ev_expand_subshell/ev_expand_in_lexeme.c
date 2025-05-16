@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ev_expand_in_lexeme.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:47:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/17 00:09:54 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/17 01:45:15 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,5 +91,5 @@ char	*handle_ev_in_lexeme(char *str, t_lexeme_type next_type, t_minishell *data)
 		}
 		i++;
 	}
-	return (check_malloc(ft_substr(str, 0, ft_strlen(str)), data));
+	return (check_malloc(ft_strdup(str), data));
 }

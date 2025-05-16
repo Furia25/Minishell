@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   garbage_managing.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 15:20:37 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/16 17:48:13 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/17 01:48:38 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,19 @@ bool	gc_init(t_minishell *data)
 	return (hashmap_init_basics(&data->gc, free));
 }
 
-void	gc_clean(t_minishell *data)
+void	gc_full_clean(t_minishell *data)
 {
 	if (data->gc.table)
 		hashmap_free_content(&data->gc);
+}
+
+void	gc_clean(t_minishell *data)
+{
+	if (data->gc.table)
+	{
+		if (!hashmap_resize(data->gc.size, &data->gc))
+			malloc_error(data);
+	}
 }
 
 void	gc_add(void *ptr, t_minishell *data)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:37:34 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/16 02:55:43 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/17 01:43:36 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	parsing_exec(char *input, t_minishell *data)
 {
-	t_lst	*tokens;
+	t_lst		*tokens;
 	t_AST_node	*top_node_ast;
-	t_leaf	*final;
+	t_leaf		*final;
 
 	data->last_cmd_pid = -1;
 	tokens = NULL;
@@ -46,5 +46,5 @@ void	parsing_exec(char *input, t_minishell *data)
 	rm_all_here_doc_files(data->command_tab);
 	gc_free_ast(top_node_ast, data);
 	gc_free(data->command_tab, data);
+	gc_clean(data);
 }
-

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 17:17:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/16 16:24:24 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/17 01:36:01 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	exit_minishell(t_minishell *data)
 		close_all_fds(data->command_tab);
 	if (data->script_fd != -1)
 		close(data->script_fd);
-	gc_clean(data);
+	gc_full_clean(data);
 	exit(data->exit_code);
 }
 
