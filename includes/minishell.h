@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/16 17:48:50 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/16 18:12:35 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,8 @@ void			malloc_error(t_minishell *data);
 void			exit_minishell(t_minishell *data);
 
 void			*check_malloc(void *content, t_minishell *data);
+
+void			exec_builtins(char **argv, t_minishell *data);
 
 int				env_builtin(t_minishell *data);
 int				pwd_builtin();

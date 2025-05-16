@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:31:08 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/16 17:52:58 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/16 18:13:22 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,22 +53,17 @@ static int	exec_not_parenthesized_cmd(t_leaf *cmd, t_minishell *data)
 		argv = tokens_to_argv(cmd->tokens, data);
 		if (argv != NULL)
 		{
-			type = get_builtin(argv[0]);
-			if (type != BUILTIN_TYPE_NOTBUILTIN)
-				try_builtin(type, tab_size(argv), argv, data);
-			else
+			exec_builtins(argv, data);
+			pid = fork();
+			if (pid == 0)
 			{
-				pid = fork();
-				if (pid == 0)
-				{
-					secure_dup2(cmd, data);
-					exec_command(argv, data);
-				}
-				else if (pid != -1)
-					data->last_cmd_pid = pid;
-				else
-					fork_error(data);
+				secure_dup2(cmd, data);
+				exec_command(argv, data);
 			}
+			else if (pid != -1)
+				data->last_cmd_pid = pid;
+			else
+				fork_error(data);
 		}
 	}
 	return (close_and_wait(cmd, data));

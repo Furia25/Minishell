@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:32:36 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/16 17:52:47 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/16 18:24:08 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	secure_pipe_dup2(int pipefd[2], t_leaf *cmd, t_minishell *data);
 
-int exec_parenthesized_cmd_in_pipe(t_leaf *cmd, t_minishell *data)
+int exec_parenthesized_cmd_pipe(t_leaf *cmd, t_minishell *data)
 {
 	int		pipefd[2];
 	pid_t		pid;
@@ -40,9 +40,10 @@ int exec_parenthesized_cmd_in_pipe(t_leaf *cmd, t_minishell *data)
 	return (pipefd[0]);
 }
 
-int exec_not_parenthesized_cmd_in_pipe(t_leaf *cmd, t_minishell *data)
+static void	exec_pipe_cmd(char **argv, t_minishell *data);
+
+int	exec_not_parenthesized_cmd_pipe(t_leaf *cmd, t_minishell *data)
 {
-	t_builtin_type	type;
 	char			**argv;
 	int				pipefd[2];
 	pid_t			pid;
@@ -59,11 +60,7 @@ int exec_not_parenthesized_cmd_in_pipe(t_leaf *cmd, t_minishell *data)
 			if (pid == 0)
 			{
 				secure_pipe_dup2(pipefd, cmd, data);
-				type = get_builtin(argv[0]);
-				if (type != BUILTIN_TYPE_NOTBUILTIN)
-					try_builtin(type, tab_size(argv), argv, data);
-				else
-					exec_command(argv, data);
+				exec_pipe_cmd(argv, data);
 			}
 			else if (pid == -1)
 				fork_error(data);
@@ -82,9 +79,9 @@ t_leaf	*evaluate_pipe_op(t_AST_node *node, t_minishell *data)
 	left_value = evaluate_ast(node->t_ope_node.left_node, data);
 	right_value = evaluate_ast(node->t_ope_node.right_node, data);
 	if (left_value->parenthesis == true)
-		right_value->fd_input = exec_parenthesized_cmd_in_pipe(left_value, data);
+		right_value->fd_input = exec_parenthesized_cmd_pipe(left_value, data);
 	else
-		right_value->fd_input = exec_not_parenthesized_cmd_in_pipe(left_value, data);
+		right_value->fd_input = exec_not_parenthesized_cmd_pipe(left_value, data);
 	return (right_value);
 }
 
@@ -112,4 +109,10 @@ static void	secure_pipe_dup2(int pipefd[2], t_leaf *cmd, t_minishell *data)
 	}
 	if (cmd->fd_output != 1)
 		close(cmd->fd_output);
+}
+
+static void	exec_pipe_cmd(char **argv, t_minishell *data)
+{
+	exec_builtins(argv, data);
+	exec_command(argv, data);
 }
