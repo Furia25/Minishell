@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+         #
+#    By: val <val@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/15 21:41:19 by val               #+#    #+#              #
-#    Updated: 2025/05/14 21:30:42 by alpayet          ###   ########.fr        #
+#    Updated: 2025/05/17 00:56:53 by val              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,6 +49,7 @@ BASE_SRC = checks/ft_isalpha.c \
 		strings/ft_strend.c \
 		conversions/ft_atoi.c \
 		conversions/ft_itoa.c \
+		conversions/ft_count_digits.c \
 		files_managing/ft_putchar_fd.c \
 		files_managing/ft_putstr_fd.c \
 		files_managing/ft_putendl_fd.c \

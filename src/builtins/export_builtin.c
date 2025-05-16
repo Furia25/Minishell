@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:40:07 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/18 19:35:38 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/17 00:38:58 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	export_builtin(int argc, char **argv, t_minishell *data)
 			continue ;
 		}
 		if (!make_var_separator(argv[index], separator, data))
-			return (BUILTIN_FATAL_ERROR); //EXIT MINISHELL IF THAT HAPPEN
+			return (BUILTIN_FATAL_ERROR);
 	}
 	return (code);
 }

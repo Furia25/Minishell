@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:39:28 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/16 19:36:12 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/17 00:56:36 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ char			*ft_strchr(const char *s, int c);
 char			*ft_strdup(const char *s);
 t_gnl_result	get_next_line(int fd);
 char			*ft_itoa(int n);
+size_t			ft_count_digits(long long n);
 //
 void			ft_striteri(char *s, void (*f)(size_t, char *));
 void			ft_lstdelone(t_list *lst, void (*del)(void *));

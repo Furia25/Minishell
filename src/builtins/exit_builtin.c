@@ -3,21 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   exit_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:22:24 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/16 19:35:11 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/17 01:11:16 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <limits.h>
 
-static bool	exit_parse_value(char *value, unsigned char *result);
+static void			exit_parse_value(char *value, bool is_negative, t_minishell *data);
+static long long	exit_atoi(const char *nptr);
 
 int	exit_builtin(int argc, char **argv, t_minishell *data)
 {
 	char			*value;
-	unsigned char	result;
+	bool			negative;
 
 	if (argc > 2)
 	{
@@ -25,41 +27,64 @@ int	exit_builtin(int argc, char **argv, t_minishell *data)
 		ft_putstr_fd(": ", 2);
 		ft_putstr_fd(BUILTIN_ERROR_EXIT, 2);
 		ft_putchar_fd('\n', 2);
-		return (EXIT_FAILURE);
+		data->exit_code = 2;
+		exit_minishell(data);
 	}
 	if (argc == 1)
 		exit_minishell(data);
 	value = argv[1];
-	result = 0;
+	negative = false;
+	if (value && *value == '-')
+	{
+		value++;
+		negative++;
+	}
 	while (value && *value == '0')
 		value++;
-	if (value)
-	{
-		if (!exit_parse_value(value, &result))
-			return (EXIT_FAILURE);
-	}
-	data->exit_code = result;
-	exit_minishell(data);
+	exit_parse_value(value, negative, data);
 	return (EXIT_SUCCESS);
 }
 
-static bool	exit_parse_value(char *value, unsigned char *result)
+static void	exit_parse_value(char *value, bool is_negative, t_minishell *data)
 {
 	size_t	index;
+	size_t	digits;
 
 	index = 0;
+	digits = ft_count_digits(LLONG_MAX);
 	while (value[index])
 	{
-		if (!ft_isdigit(value[index]))
+		if (!ft_isdigit(value[index]) || digits <= 0)
 		{
 			ft_putstr_fd("minishell: ", 2);
 			ft_putstr_fd("exit: ", 2);
 			ft_putstr_fd(value, 2);
 			ft_putstr_fd(": numeric argument required\n", 2);
-			return (false);
+			data->exit_code = 2;
+			exit_minishell(data);
 		}
+		digits--;
 		index++;
 	}
-	*result = ft_atoi(value);
-	return (true);
+	data->exit_code = exit_atoi(value) * (1 - 2 * is_negative);
+	exit_minishell(data);
+}
+
+static long long	exit_atoi(const char *nptr)
+{
+	int					index;
+	int					sign;
+	unsigned long long	result;
+
+	if (!nptr)
+		return (0);
+	index = 0;
+	result = 0;
+	sign = 1;
+	while (nptr[index] && nptr[index] >= '0' && nptr[index] <= '9')
+	{
+		result = result * 10 + (nptr[index] - '0');
+		index++;
+	}
+	return (result * sign);
 }

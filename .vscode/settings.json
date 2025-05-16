@@ -59,6 +59,7 @@
   "files.associations": {
     "compare": "c",
     "type_traits": "c",
-    "parsing.h": "c"
+    "parsing.h": "c",
+    "utility": "c"
   }
 }
