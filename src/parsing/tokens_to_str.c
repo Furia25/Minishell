@@ -1,0 +1,68 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokens_to_str.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/15 16:18:39 by alpayet           #+#    #+#             */
+/*   Updated: 2025/05/16 06:08:46 by alpayet          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+static char	*append_lexeme_to_string(t_lexeme_type type, char **str, char *lexeme, t_minishell *data)
+{
+	if (type == DOUBLE_Q)
+	{
+		*str = ft_strjoin_alt_gc(*str, "\"", FREE_PARAM1, data);
+		check_malloc(*str, data);
+		*str = ft_strjoin_alt_gc(*str, lexeme, FREE_PARAM1, data);
+		check_malloc(*str, data);
+		*str = ft_strjoin_alt_gc(*str, "\"", FREE_PARAM1, data);
+		check_malloc(*str, data);
+	}
+	else if (type == SINGLE_Q)
+	{
+		*str = ft_strjoin_alt_gc(*str, "\'", FREE_PARAM1, data);
+		check_malloc(*str, data);
+		*str = ft_strjoin_alt_gc(*str, lexeme, FREE_PARAM1, data);
+		check_malloc(*str, data);
+		*str = ft_strjoin_alt_gc(*str, "\'", FREE_PARAM1, data);
+		check_malloc(*str, data);
+	}
+	else
+	{
+		*str = ft_strjoin_alt_gc(*str, lexeme, FREE_PARAM1, data);
+		check_malloc(*str, data);
+	}
+	return (*str);
+}
+
+char	*tokens_to_str(t_lst *tokens, t_minishell *data)
+{
+	char	*str;
+
+	str = NULL;
+	while (tokens->type != PAR_CLOSE || tokens->next != NULL)
+	{
+		if (str == NULL)
+		{
+			str = ft_strdup(tokens->lexeme);
+			check_malloc(str, data);
+		}
+		else
+			append_lexeme_to_string(tokens->type, &str, tokens->lexeme, data);
+		if (tokens->metacharacter_after == true)
+		{
+			str = ft_strjoin_alt_gc(str, " ", FREE_PARAM1, data);
+			check_malloc(str, data);
+		}
+		tokens = tokens->next;
+	}
+	print_debug_str(str, 12, 
+		"\ndisplay parenthesis_string just after creating it\n");
+	return (str);
+}
+

@@ -6,14 +6,11 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 03:43:36 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/15 03:48:16 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/16 03:39:32 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-void	ev_subshell_in_cmd(t_leaf *cmd, t_minishell *data);
-void	fusion_quote_token(t_lst *tokens, t_minishell *data);
-void	handle_reds_and_del(t_leaf *cmd, t_minishell *data);
 
 void	parse_cmd(t_leaf *cmd, t_minishell *data)
 {
@@ -32,7 +29,7 @@ void	parse_cmd(t_leaf *cmd, t_minishell *data)
 	wildcards_in_cmd(cmd, data);
 	print_debug_lst(cmd->tokens, LEXEME | TYPE, 9,
 		"\ndisplay command->tokens after handle wildcards\n");
-	handle_reds_and_del(cmd, data);
+	redirections_in_cmd(cmd, data);
 	print_debug_cmd(cmd, LEXEME, 10,
 		"\ndisplay command after handle redi\n");
 }

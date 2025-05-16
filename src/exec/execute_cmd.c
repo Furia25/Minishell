@@ -6,16 +6,11 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:31:08 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/16 01:58:12 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/16 06:01:40 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "ft_printf.h"
-void	parse_cmd(t_leaf *cmd, t_minishell *data);
-char	**tokens_to_argv(t_lst *tokens, t_minishell *data);
-size_t	tab_size(char **tab);
-
 
 static void	wait_childs(t_minishell *data)
 {
@@ -31,11 +26,14 @@ static void	wait_childs(t_minishell *data)
 	while (wait(NULL) != -1);
 }
 
-int	exec_parenthesized_cmd(t_leaf *cmd, t_minishell *data)
+static int	exec_parenthesized_cmd(t_leaf *cmd, t_minishell *data)
 {
 	pid_t	pid;
 	char	*command_path;
 
+	redirections_in_par_cmd(cmd, data);
+	print_debug_cmd(cmd, LEXEME, 10,
+		"\ndisplay command after handle redi\n");
 	if (cmd->fd_input != -1 && cmd->fd_output != -1)
 	{
 		pid = fork();
@@ -48,7 +46,7 @@ int	exec_parenthesized_cmd(t_leaf *cmd, t_minishell *data)
 			if (cmd->fd_output != 1)
 				close(cmd->fd_output);
 			data->is_subshell = true;
-			parsing_exec("ls", data);
+			parsing_exec(tokens_to_str(cmd->tokens->next, data), data);
 			exit_minishell(data);
 		}
 		else if (pid != -1)
@@ -67,7 +65,7 @@ int	exec_parenthesized_cmd(t_leaf *cmd, t_minishell *data)
 }
 
 
-int	exec_not_parenthesized_cmd(t_leaf *cmd, t_minishell *data)
+static int	exec_not_parenthesized_cmd(t_leaf *cmd, t_minishell *data)
 {
 	pid_t	pid;
 	char	**argv;
@@ -77,8 +75,6 @@ int	exec_not_parenthesized_cmd(t_leaf *cmd, t_minishell *data)
 	if (cmd->fd_input != -1 && cmd->fd_output != -1)
 	{
 		argv = tokens_to_argv(cmd->tokens, data);
-		print_debug_argv(argv, 11,
-			"\ndisplay argv after creating it\n");
 		if (argv != NULL)
 		{
 			/*BUILTIN HANDLER THIS IS JUST A TEST*/

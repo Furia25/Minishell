@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 10:43:50 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/15 04:26:17 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/16 05:06:58 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,32 +39,23 @@ static size_t	cmds_number(t_lst *tokens)
 	return (i + 1);
 }
 
-static t_lst *parenthesis_cmd(t_leaf *cmd, t_lst **prev, t_lst *tokens, t_minishell *data)
+static t_lst *node_after_parenthesis(t_lst **prev, t_lst *curr)
 {
 	t_lst	*parenth_buff;
 
-	cmd->parenthesis = true;
-	while (tokens->next)
+	parenth_buff = NULL;
+	while (curr != NULL)
 	{
-		if (tokens->next->type == PAR_CLOSE)
-		{
-			parenth_buff = tokens->next;
-			*prev = tokens;
-		}
-		tokens = tokens->next;
+		if (curr->type == PAR_CLOSE)
+			parenth_buff = curr;
+		curr = curr->next;
 	}
-	tokens = parenth_buff->next;
-	gc_free_node(parenth_buff, data);
-	if (tokens == NULL)
-	{
-		if (*prev != NULL)
-			(*prev)->next = NULL;
-		return (NULL);
-	}
-	return (tokens);
+	*prev = parenth_buff;
+	curr = parenth_buff->next;
+	return (curr);
 }
 
-static bool	is_op_after(t_leaf *cmd, t_lst **prev, t_lst **curr)
+static bool	is_op_node(t_leaf *cmd, t_lst **prev, t_lst **curr)
 {
 	if ((*curr)->type == PIPE)
 		cmd->ope_after = PIPE;
@@ -92,13 +83,12 @@ static void	fill_tab(t_leaf *command_tab, t_lst *tokens, t_minishell *data)
 	{
 		if (curr->type == PAR_OPEN)
 		{
-			tokens = curr->next;
-			gc_free_node(curr, data);
-			curr = parenthesis_cmd(command_tab, &prev, tokens, data);
+			command_tab->parenthesis = true;
+			curr = node_after_parenthesis(&prev, tokens);
 			if (curr == NULL)
 				continue ;
 		}
-		if (is_op_after(command_tab, &prev, &curr) == false)
+		if (is_op_node(command_tab, &prev, &curr) == false)
 			continue ;
 		fill_tab(command_tab + 1, curr->next, data);
 		command_tab->tokens = tokens;

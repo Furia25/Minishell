@@ -1,20 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   handle_redis.c                                     :+:      :+:    :+:   */
+/*   redirections_in_cmd.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:56:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/15 04:23:00 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/16 04:12:11 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-void	handle_red_input(t_leaf *cmd, char *file, t_minishell *data);
-void	handle_red_output(t_leaf *cmd, char *file, t_minishell *data);
-void	handle_red_output_append(t_leaf *cmd, char *file, t_minishell *data);
-void	handle_red_input_output(t_leaf *cmd, char *file, t_minishell *data);
 void	rm_here_doc_files_in_cmd(t_lst *tokens);
 
 static bool	is_redi(t_leaf *cmd, t_lst *token, t_minishell *data)
@@ -35,13 +31,13 @@ static bool	is_redi(t_leaf *cmd, t_lst *token, t_minishell *data)
 	return (false);
 }
 
-static void	del_reds_tokens(t_lst *token, t_minishell *data)
+void	del_reds_tokens(t_lst *token, t_minishell *data)
 {
 	gc_free_node(token->next, data);
 	gc_free_node(token, data);
 }
 
-void	handle_reds_and_del(t_leaf *cmd, t_minishell *data)
+void	redirections_in_cmd(t_leaf *cmd, t_minishell *data)
 {
 	t_lst	*curr;
 	t_lst	*prev;

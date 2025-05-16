@@ -3,19 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:37:34 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/15 18:31:08 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/16 02:55:43 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-int	create_tokens(t_lst **tokens, char *input, t_minishell *data);
-int	check_syntax_errors(t_lst *tokens, t_minishell *data);
-t_leaf	*create_cmd_tab(t_lst *tokens, t_minishell *data);
-bool	handle_all_here_doc(t_leaf *command_tab, t_minishell *data);
-void	rm_all_here_doc_files(t_leaf *command_tab);
 
 void	parsing_exec(char *input, t_minishell *data)
 {

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+         #
+#    By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/13 23:20:17 by val               #+#    #+#              #
-#    Updated: 2025/05/15 19:47:21 by vdurand          ###   ########.fr        #
+#    Updated: 2025/05/16 04:11:30 by alpayet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -89,6 +89,7 @@ SRC_FILES = \
 	environment/env_populate.c \
 	errors_and_debug/malloc_error.c \
 	errors_and_debug/not_interpret_error.c \
+	errors_and_debug/print_str.c \
 	errors_and_debug/print_argv.c \
 	errors_and_debug/print_ast.c \
 	errors_and_debug/print_cmd.c \
@@ -109,14 +110,16 @@ SRC_FILES = \
 	parsing/ev_expand_subshell/ev_subshell_in_cmd.c \
 	parsing/ev_expand_subshell/ev_subshell_utils.c \
 	parsing/ev_expand_subshell/subshell_in_lexeme.c \
-	parsing/redirect/handle_redis.c \
+	parsing/redirect/redirections_in_cmd.c \
+	parsing/redirect/redirections_in_par_cmd.c \
 	parsing/redirect/here_doc_utils.c \
-	parsing/redirect/here_doc.c \
+	parsing/redirect/here_docs.c \
 	parsing/redirect/redis_except_here_doc.c \
 	parsing/command_table.c \
 	parsing/parse_cmd.c \
 	parsing/create_ast.c \
 	parsing/tokens_to_argv.c \
+	parsing/tokens_to_str.c \
 	utils/memory_utils.c \
 	utils/strjoin_alt.c \
 	utils/write_utils.c \

@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 16:18:39 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/13 11:19:59 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/16 03:06:40 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ char	**tokens_to_argv(t_lst *tokens, t_minishell *data)
 		}
 		tokens = tokens->next;
 	}
+	print_debug_argv(argv, 11,
+		"\ndisplay argv after creating it\n");
 	return (argv);
 }
 
