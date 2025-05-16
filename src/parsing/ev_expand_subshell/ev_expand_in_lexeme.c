@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ev_expand_in_lexeme.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:47:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/15 17:34:27 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/17 00:09:54 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ size_t	env_var_len(char *str)
 
 	i = 0;
 	if (str[i] == '?')
-		return (1);	
-	while (ft_isalnum(str[i]) == true)
+		return (1);
+	while (str[i] == '_' || ft_isalnum(str[i]) == true)
 		i++;
 	return (i);
 }
@@ -52,7 +52,7 @@ size_t	skip_subshell_and_special_chara(char *str)
 			i++;
 	}
 	if (str[i] == '$' && ft_isalnum(str[i + 1]) == false
-		&& str[i + 1] != '?' && str[i + 1] != '\0')
+		&& str[i + 1] != '?' && str[i + 1] != '_' && str[i + 1] != '\0')
 		i++;
 	return (i);
 }
