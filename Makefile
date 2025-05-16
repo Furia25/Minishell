@@ -6,7 +6,7 @@
 #    By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/13 23:20:17 by val               #+#    #+#              #
-#    Updated: 2025/05/16 16:29:00 by vdurand          ###   ########.fr        #
+#    Updated: 2025/05/16 17:53:15 by vdurand          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -100,6 +100,7 @@ SRC_FILES = \
 	exec/evaluate_pipe_op.c \
 	exec/execute_cmd.c \
 	exec/exec.c \
+	exec/exec_utils.c \
 	garbage_collector/garbage_functions.c \
 	garbage_collector/garbage_managing.c \
 	lexing/quotes_token.c \

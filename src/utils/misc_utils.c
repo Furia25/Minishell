@@ -6,9 +6,11 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 15:58:02 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/15 16:57:50 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/16 17:43:20 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "minishell.h"
 
 int	check_flags_c(int argc, char **argv)
 {
@@ -33,4 +35,16 @@ int	check_flags_c(int argc, char **argv)
 		index++;
 	}
 	return (index);
+}
+
+void	close_fds(int fd1, int fd2, int fd3, int fd4)
+{
+	if (fd1 != -1)
+		close(fd1);
+	if (fd2 != -1)
+		close(fd2);
+	if (fd3 != -1)
+		close(fd3);	
+	if (fd4 != -1)
+		close(fd4);	
 }

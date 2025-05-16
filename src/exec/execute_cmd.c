@@ -6,25 +6,14 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:31:08 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/16 16:56:34 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/16 17:52:58 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	wait_childs(t_minishell *data)
-{
-	int	status;
-
-	if (data->last_cmd_pid == -1)
-	{
-		while (wait(NULL) != -1);
-		return ;
-	}
-	waitpid(data->last_cmd_pid, &status, 0);
-	data->exit_code = (status >> 8) & 0xFF;
-	while (wait(NULL) != -1);
-}
+static unsigned char	close_and_wait(t_leaf *cmd, t_minishell *data);
+static void				secure_dup2(t_leaf *cmd, t_minishell *data);
 
 static int	exec_parenthesized_cmd(t_leaf *cmd, t_minishell *data)
 {
@@ -39,12 +28,7 @@ static int	exec_parenthesized_cmd(t_leaf *cmd, t_minishell *data)
 		pid = fork();
 		if (pid == 0)
 		{
-			dup2(cmd->fd_input, 0);
-			dup2(cmd->fd_output, 1);
-			if (cmd->fd_input != 0)
-				close(cmd->fd_input);
-			if (cmd->fd_output != 1)
-				close(cmd->fd_output);
+			secure_dup2(cmd, data);
 			data->is_subshell = true;
 			parsing_exec(tokens_to_str(cmd->tokens->next, data), data);
 			exit_minishell(data);
@@ -54,21 +38,14 @@ static int	exec_parenthesized_cmd(t_leaf *cmd, t_minishell *data)
 		else
 			ft_putstr_fd("Error", 2);
 	}
-	if (cmd->fd_input != 0 && cmd->fd_input != -1)
-		close(cmd->fd_input);
-	if (cmd->fd_output != 1 && cmd->fd_output != -1)
-		close(cmd->fd_output);
-	wait_childs(data);
-	if (cmd->fd_input == -1 || cmd->fd_output == -1)
-		data->exit_code = EXIT_FAILURE;
-	return (data->exit_code);
+	return (close_and_wait(cmd, data));
 }
-
 
 static int	exec_not_parenthesized_cmd(t_leaf *cmd, t_minishell *data)
 {
-	pid_t	pid;
-	char	**argv;
+	t_builtin_type	type;
+	pid_t			pid;
+	char			**argv;
 
 	parse_cmd(cmd, data);
 	if (cmd->fd_input != -1 && cmd->fd_output != -1)
@@ -76,9 +53,7 @@ static int	exec_not_parenthesized_cmd(t_leaf *cmd, t_minishell *data)
 		argv = tokens_to_argv(cmd->tokens, data);
 		if (argv != NULL)
 		{
-			/*BUILTIN HANDLER THIS IS JUST A TEST*/
-			t_builtin_type type = get_builtin(argv[0]);
-			// ft_putnbr_fd(type, 2);
+			type = get_builtin(argv[0]);
 			if (type != BUILTIN_TYPE_NOTBUILTIN)
 				try_builtin(type, tab_size(argv), argv, data);
 			else
@@ -86,29 +61,17 @@ static int	exec_not_parenthesized_cmd(t_leaf *cmd, t_minishell *data)
 				pid = fork();
 				if (pid == 0)
 				{
-					dup2(cmd->fd_input, 0);
-					dup2(cmd->fd_output, 1);
-					if (cmd->fd_input != 0)
-						close(cmd->fd_input);
-					if (cmd->fd_output != 1)
-						close(cmd->fd_output);
+					secure_dup2(cmd, data);
 					exec_command(argv, data);
 				}
 				else if (pid != -1)
 					data->last_cmd_pid = pid;
 				else
-					ft_putstr_fd("Error", 2);
+					fork_error(data);
 			}
 		}
 	}
-	if (cmd->fd_input != 0 && cmd->fd_input != -1)
-		close(cmd->fd_input);
-	if (cmd->fd_output != 1 && cmd->fd_output != -1)
-		close(cmd->fd_output);
-	wait_childs(data);
-	if (cmd->fd_input == -1 || cmd->fd_output == -1)
-		data->exit_code = EXIT_FAILURE;
-	return (data->exit_code);
+	return (close_and_wait(cmd, data));
 }
 
 int	execute_cmd(t_leaf *cmd, t_minishell *data)
@@ -118,4 +81,31 @@ int	execute_cmd(t_leaf *cmd, t_minishell *data)
 	if (cmd->parenthesis == true)
 		return (exec_parenthesized_cmd(cmd, data));
 	return (exec_not_parenthesized_cmd(cmd, data));
+}
+
+static unsigned char	close_and_wait(t_leaf *cmd, t_minishell *data)
+{
+	close_input_output(cmd);
+	wait_childs(data);
+	if (cmd->fd_input == -1 || cmd->fd_output == -1)
+		data->exit_code = EXIT_FAILURE;
+	return (data->exit_code);
+}
+
+static void secure_dup2(t_leaf *cmd, t_minishell *data)
+{
+	if (dup2(cmd->fd_input, 0) == -1)
+	{
+		close_input_output(cmd);
+		open_error(data);
+	}
+	if (dup2(cmd->fd_output, 1) == -1)
+	{
+		close_input_output(cmd);
+		open_error(data);
+	}
+	if (cmd->fd_input != 0)
+		close(cmd->fd_input);
+	if (cmd->fd_output != 1)
+		close(cmd->fd_output);
 }

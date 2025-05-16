@@ -6,27 +6,43 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 23:17:25 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/16 16:25:03 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/16 17:48:36 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "garbage_collector.h"
 
-void	*check_malloc(void *content, t_minishell *data)
-{
-	if (content == NULL)
-	{
-		malloc_error(data);
-		return (NULL);
-	}
-	gc_add(content, data);
-	return (content);
-}
-
 void	malloc_error(t_minishell *data)
 {
 	perror("minishell");
+	data->exit_code = EXIT_FAILURE;
+	exit_minishell(data);
+}
+
+void	open_error(t_minishell *data)
+{
+	ft_putstr_fd("minishell", 2);
+	ft_putstr_fd(": ", 2);
+	perror("open");
+	data->exit_code = EXIT_FAILURE;
+	exit_minishell(data);
+}
+
+void	pipe_error(t_minishell *data)
+{
+	ft_putstr_fd("minishell", 2);
+	ft_putstr_fd(": ", 2);
+	perror("pipe");
+	data->exit_code = EXIT_FAILURE;
+	exit_minishell(data);
+}
+
+void	fork_error(t_minishell *data)
+{
+	ft_putstr_fd("minishell", 2);
+	ft_putstr_fd(": ", 2);
+	perror("fork");
 	data->exit_code = EXIT_FAILURE;
 	exit_minishell(data);
 }

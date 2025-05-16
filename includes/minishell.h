@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/16 16:56:02 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/16 17:48:50 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,9 @@ t_AST_node		*create_ast(t_leaf *command_tab, t_minishell *data);
 t_leaf			*evaluate_ast(t_AST_node *node, t_minishell *data);
 int				execute_cmd(t_leaf *cmd, t_minishell *data);
 
-
+void			open_error(t_minishell *data);
+void			pipe_error(t_minishell *data);
+void			fork_error(t_minishell *data);
 void			malloc_error(t_minishell *data);
 void			exit_minishell(t_minishell *data);
 
@@ -122,4 +124,10 @@ int				check_flags_c(int argc, char **argv);
 void			handle_script(char **argv, t_minishell *data);
 void			handle_cflag(char **argv, t_minishell *data);
 void			exec_command(char **argv, t_minishell *data);
+
+void			close_fds(int fd1, int fd2, int fd3, int fd4);
+void			close_input_output(t_leaf *cmd);
+
+void			wait_childs(t_minishell *data);
+
 #endif

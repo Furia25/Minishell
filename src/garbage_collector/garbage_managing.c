@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   garbage_managing.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 15:20:37 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/14 01:01:58 by val              ###   ########.fr       */
+/*   Updated: 2025/05/16 17:48:13 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,4 +37,15 @@ void	gc_add(void *ptr, t_minishell *data)
 		free(ptr);
 		malloc_error(data);
 	}
+}
+
+void	*check_malloc(void *content, t_minishell *data)
+{
+	if (content == NULL)
+	{
+		malloc_error(data);
+		return (NULL);
+	}
+	gc_add(content, data);
+	return (content);
 }
