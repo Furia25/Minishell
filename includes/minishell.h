@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/16 19:01:01 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/17 01:52:41 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ t_builtin_type	get_builtin(char *cmd);
 void			command_notfound(char *cmd, t_minishell *data);
 
 int				check_flags_c(int argc, char **argv);
+void			handle_shell(t_minishell *data);
 void			handle_script(char **argv, t_minishell *data);
 void			handle_cflag(char **argv, t_minishell *data);
 void			exec_command(char **argv, t_minishell *data);

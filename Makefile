@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+         #
+#    By: val <val@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/13 23:20:17 by val               #+#    #+#              #
-#    Updated: 2025/05/17 01:12:24 by alpayet          ###   ########.fr        #
+#    Updated: 2025/05/17 01:52:59 by val              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,6 +70,7 @@ endif
 SRC_FILES = \
 	main/main.c \
 	main/main_script_handlers.c \
+	main/main_shell_handler.c \
 	main/parsing_exec.c \
 	builtins/cd_builtin_utils.c \
 	builtins/cd_builtin.c \
