@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 17:17:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/15 19:46:59 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/16 16:24:24 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,18 @@ int	main(int argc, char **argv, char **envp)
 		handle_cflag(argv + flags, &data);
 	}
 	exit_minishell(&data);
+}
+
+void	exit_minishell(t_minishell *data)
+{
+	hashmap_free_content(&data->environment);
+	free_chartab(data->environment_tab);
+	if (data->command_tab)
+		close_all_fds(data->command_tab);
+	if (data->script_fd != -1)
+		close(data->script_fd);
+	gc_clean(data);
+	exit(data->exit_code);
 }
 
 static int	init_minishell(t_minishell *data, char **envp)

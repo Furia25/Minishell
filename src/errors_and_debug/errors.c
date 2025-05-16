@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   malloc_error.c                                     :+:      :+:    :+:   */
+/*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 23:17:25 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/16 04:12:38 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/16 16:25:03 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,25 @@ void	malloc_error(t_minishell *data)
 	exit_minishell(data);
 }
 
-void	exit_minishell(t_minishell *data)
+void	command_notfound(char *cmd, t_minishell *data)
 {
-	hashmap_free_content(&data->environment);
-	free_chartab(data->environment_tab);
-	if (data->command_tab)
-		close_all_fds(data->command_tab);
-	if (data->script_fd != -1)
-		close(data->script_fd);
-	gc_clean(data);
-	exit(data->exit_code);
+	if (data->script_mode)
+	{
+		if (data->script_file)
+			ft_putstr_fd(data->script_file, 2);
+		else
+			ft_putstr_fd("minishell", 2);
+		ft_putstr_fd(": line ", 2);
+		ft_putnbr_fd(data->line, 2);
+		ft_putstr_fd(": ", 2);
+	}
+	else
+		ft_putstr_fd("minishell: ", 2);
+	if (cmd)
+		ft_putstr_fd(cmd, 2);
+	else
+		ft_putstr_fd("UNKNOW", 2);
+	ft_putstr_fd(" : command not found\n", 2);
+	data->exit_code = 127;
+	exit_minishell(data);
 }
