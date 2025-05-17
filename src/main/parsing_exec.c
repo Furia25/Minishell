@@ -6,17 +6,18 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:37:34 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/17 02:08:18 by val              ###   ########.fr       */
+/*   Updated: 2025/05/17 02:31:24 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static void parsing_exec_end(t_AST_node *top_node_ast, t_minishell *data);
+
 void	parsing_exec(char *input, t_minishell *data)
 {
 	t_lst		*tokens;
 	t_AST_node	*top_node_ast;
-	t_leaf		*final;
 
 	data->last_cmd_pid = -1;
 	tokens = NULL;
@@ -25,7 +26,7 @@ void	parsing_exec(char *input, t_minishell *data)
 		|| check_syntax_errors(tokens, data) == EXIT_FAILURE)
 		return ;
 	print_debug_lst(tokens, LEXEME | TYPE, 2,
-		 "\ndisplay tokens just after creating it\n");
+		"\ndisplay tokens just after creating it\n");
 	data->command_tab = create_cmd_tab(tokens, data);
 	print_debug_all_cmd(data->command_tab, LEXEME | TYPE, 3,
 		 "\ndisplay command_tab just after creating it\n");
@@ -39,6 +40,13 @@ void	parsing_exec(char *input, t_minishell *data)
 	if (!data->environment_tab)
 		malloc_error(data);
 	top_node_ast = create_ast(data->command_tab, data);
+	parsing_exec_end(top_node_ast, data);
+}
+
+static void parsing_exec_end(t_AST_node *top_node_ast, t_minishell *data)
+{
+	t_leaf		*final;
+
 	print_debug_ast(top_node_ast, 6, 
 		"\ndisplay AST just after creating it\n");
 	final = evaluate_ast(top_node_ast, data);
