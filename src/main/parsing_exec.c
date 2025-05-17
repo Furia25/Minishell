@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:37:34 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/17 01:43:36 by val              ###   ########.fr       */
+/*   Updated: 2025/05/17 02:08:18 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,6 @@ void	parsing_exec(char *input, t_minishell *data)
 	rm_all_here_doc_files(data->command_tab);
 	gc_free_ast(top_node_ast, data);
 	gc_free(data->command_tab, data);
+	data->command_tab = NULL;
 	gc_clean(data);
 }
