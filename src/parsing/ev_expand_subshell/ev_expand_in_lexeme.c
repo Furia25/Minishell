@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:47:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/17 01:45:15 by val              ###   ########.fr       */
+/*   Updated: 2025/05/17 15:31:01 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ size_t	env_var_len(char *str)
 
 char	*ev_result(char *str, size_t ev_len, t_minishell *data)
 {
+	char			*dup;
 	t_hash_entry	*entry;
 	t_envvar		*var;
 
@@ -38,7 +39,9 @@ char	*ev_result(char *str, size_t ev_len, t_minishell *data)
 	if (entry == NULL)
 		return (ft_calloc(1, sizeof(char)));
 	var = (t_envvar *)entry->value;
-	return (ft_strdup(var->value));
+	dup = ft_strdup(var->value);
+	check_malloc(dup, data)
+	return (dup);
 }
 
 size_t	skip_subshell_and_special_chara(char *str)

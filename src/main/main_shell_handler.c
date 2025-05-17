@@ -6,13 +6,13 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 01:51:08 by val               #+#    #+#             */
-/*   Updated: 2025/05/17 01:52:03 by val              ###   ########.fr       */
+/*   Updated: 2025/05/17 15:21:50 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static bool	is_void_or_full_blank(char *input);
+static bool	is_void_or_full_blank(char *input, t_minishell *data);
 static char	*get_prompt(t_minishell *data);
 
 void	handle_shell(t_minishell *data)
@@ -35,7 +35,7 @@ void	handle_shell(t_minishell *data)
 			exit_minishell(data);
 			return ;
 		}
-		if (is_void_or_full_blank(input) == false)
+		if (is_void_or_full_blank(input, data) == false)
 		{
 			parsing_exec(input, data);
 			add_history(input);
@@ -58,12 +58,16 @@ static char	*get_prompt(t_minishell *data)
 	return (prompt);
 }
 
-static bool	is_void_or_full_blank(char *input)
+static bool	is_void_or_full_blank(char *input, t_minishell *data)
 {
 	size_t	i;
 
 	i = 0;
+	if (input[i] == '\0')
+		return (true);
 	while (input[i] == ' ' || input[i] == '\t')
 		i++;
+	if (input[i] == '\0')
+		data->exit_code = 0;
 	return (input[i] == '\0');
 }
