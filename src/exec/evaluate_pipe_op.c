@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   evaluate_pipe_op.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:32:36 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/16 19:11:07 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/17 13:48:04 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,6 @@ int exec_parenthesized_cmd_pipe(t_leaf *cmd, t_minishell *data)
 	return (pipefd[0]);
 }
 
-static void	exec_pipe_cmd(char **argv, t_minishell *data);
-
 int	exec_not_parenthesized_cmd_pipe(t_leaf *cmd, t_minishell *data)
 {
 	char			**argv;
@@ -60,7 +58,7 @@ int	exec_not_parenthesized_cmd_pipe(t_leaf *cmd, t_minishell *data)
 			if (pid == 0)
 			{
 				secure_pipe_dup2(pipefd, cmd, data);
-				exec_pipe_cmd(argv, data);
+				exec_command(argv, data);
 			}
 			else if (pid == -1)
 				fork_error(data);
@@ -76,6 +74,7 @@ t_leaf	*evaluate_pipe_op(t_AST_node *node, t_minishell *data)
 	t_leaf	*left_value;
 	t_leaf	*right_value;
 
+	data->in_pipe = true;
 	left_value = evaluate_ast(node->t_ope_node.left_node, data);
 	right_value = evaluate_ast(node->t_ope_node.right_node, data);
 	if (left_value->parenthesis == true)
@@ -109,10 +108,4 @@ static void	secure_pipe_dup2(int pipefd[2], t_leaf *cmd, t_minishell *data)
 	}
 	if (cmd->fd_output != 1)
 		close(cmd->fd_output);
-}
-
-static void	exec_pipe_cmd(char **argv, t_minishell *data)
-{
-	exec_builtins(argv, true, data);
-	exec_command(argv, data);
 }

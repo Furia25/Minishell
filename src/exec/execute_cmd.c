@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:31:08 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/16 19:02:27 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/17 13:46:49 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static int	exec_not_parenthesized_cmd(t_leaf *cmd, t_minishell *data)
 		argv = tokens_to_argv(cmd->tokens, data);
 		if (argv != NULL)
 		{
-			if (exec_builtins(argv, false, data))
+			if (!data->in_pipe && exec_builtins(argv, false, data))
 				return (close_and_wait(cmd, data));
 			pid = fork();
 			if (pid == 0)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 13:38:31 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/16 16:53:45 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/17 13:47:44 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void	exec_command(char **argv, t_minishell *data)
 {
 	char	*command_path;
 
+	if (data->in_pipe)
+		exec_builtins(argv, true, data);
 	command_path = find_command(argv[0], data);
 	if (!command_path)
 		command_notfound(argv[0], data);
