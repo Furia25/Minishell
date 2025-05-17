@@ -3,20 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   wildcards_in_cmd.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 19:54:39 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/17 19:51:15 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/17 20:21:22 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static void	add_wildcard_to_gc(t_wsearch wildcard_result, t_minishell *data);
+static void clean_current_token(char *token);
 
 static	bool have_wildcard(char	*str)
 {
-	while (ft_strchr("-*\xD6\xC1", *str) == NULL)
+	while (ft_strchr("?*\xD6\xC1", *str) == NULL)
 		str++;
 	return (*str != '\0');
 }
@@ -45,6 +46,7 @@ static t_lst *create_and_add_wildcards_nodes(t_lst *prev, t_lst *current,
 		gc_free_node(current, data);
 		return (last_wildcards_node);
 	}
+	clean_current_token(current->lexeme);
 	return (current);
 }
 
@@ -66,5 +68,15 @@ static void	add_wildcard_to_gc(t_wsearch wildcard_result, t_minishell *data)
 		gc_add(wildcard_result.result->lexeme, data);
 		gc_add(wildcard_result.result, data);
 		wildcard_result.result = wildcard_result.result->next;
+	}
+}
+
+static void clean_current_token(char *token)
+{
+	while (token && *token)
+	{
+		if (*token == -'*' || *token == -'?')
+			*token = -(*token);
+		token++;
 	}
 }

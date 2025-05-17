@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes_token.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 23:49:57 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/16 01:40:54 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/17 20:06:56 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ size_t double_quote_token(t_lst **tokens, char *str, t_minishell *data)
 				return (0);
 			i = i + i_last_closed_par;
 		}
-		if (str[i] == '*')
-			str[i] = -'*';
+		if (str[i] == '*' || str[i] == '?')
+			str[i] = -str[i];
 		i++;
 	}
 	if (str[i] == '\0')
