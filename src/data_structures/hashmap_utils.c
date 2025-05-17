@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hashmap_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 19:10:14 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/26 15:43:33 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/17 14:26:50 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ void	hashmap_remove(unsigned long key, t_hashmap *map)
 	if (entry != NULL)
 	{
 		entry->status = TOMBSTONE;
+		map->del(entry->value);
+		entry->value = NULL;
 		map->count -= 1;
 	}
 }

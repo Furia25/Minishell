@@ -6,14 +6,14 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 15:20:54 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/17 13:38:14 by val              ###   ########.fr       */
+/*   Updated: 2025/05/17 14:32:35 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef HASHMAP_H
 # define HASHMAP_H
 # include <stddef.h>
-# define HASHMAP_POWER	2
+# define HASHMAP_POWER	10
 # define HASHMAP_CHARGEFACTOR	0.8
 
 typedef enum e_hash_status

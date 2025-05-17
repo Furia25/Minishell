@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 17:18:50 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/17 02:06:07 by val              ###   ########.fr       */
+/*   Updated: 2025/05/17 14:30:37 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,6 @@ int	hashmap_resize(size_t new_size, t_hashmap *map)
 	index = 0;
 	while (index < old_size)
 	{
-		if (old_table[index].status == TOMBSTONE)
-			map->del(old_table[index].value);
 		if (old_table[index].status == OCCUPIED)
 			hashmap_insert(old_table[index].key, old_table[index].value, map);
 		index++;
@@ -61,22 +59,25 @@ int	hashmap_resize(size_t new_size, t_hashmap *map)
 	return (1);
 }
 
-static void	prcs(unsigned long key, size_t i, t_hash_entry last, t_hashmap *map)
+static void	prcs(unsigned long key, size_t i,
+				t_hash_entry last, t_hashmap *map)
 {
 	void	*old_value;
 
 	while (1)
 	{
-		if (map->table[i].status == EMPTY ||
-			(map->table[i].key == key && map->table[i].status == OCCUPIED))
+		if (map->table[i].status == EMPTY || map->table[i].status == TOMBSTONE)
 		{
-			if (map->table[i].status == EMPTY)
-				map->count++;
-			else if (map->table[i].key == key)
-			{
-				old_value = map->table[i].value;
-				map->del(old_value);
-			}
+			if (map->table[i].status == TOMBSTONE && map->table[i].value)
+				map->del(map->table[i].value);
+			map->table[i] = last;
+			map->count++;
+			return ;
+		}
+		if (map->table[i].status == OCCUPIED && map->table[i].key == key)
+		{
+			old_value = map->table[i].value;
+			map->del(old_value);
 			map->table[i] = last;
 			return ;
 		}

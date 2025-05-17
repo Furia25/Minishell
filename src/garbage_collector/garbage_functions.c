@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:58:23 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/17 13:56:27 by val              ###   ########.fr       */
+/*   Updated: 2025/05/17 14:00:00 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,6 @@ void	*gc_calloc(size_t count, size_t size, t_minishell *data)
 
 void	gc_free(void *ptr, t_minishell *data)
 {
-	if (hashmap_search(hash_ptr(ptr), &data->gc) != NULL)
-		return ;
 	hashmap_remove(hash_ptr(ptr), &data->gc);
 }
 

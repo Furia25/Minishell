@@ -1,3 +1,6 @@
+minishell
+.gdb*
+
 # Prerequisites
 *.d
 

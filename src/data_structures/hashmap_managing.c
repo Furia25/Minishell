@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 19:12:44 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/14 01:01:21 by val              ###   ########.fr       */
+/*   Updated: 2025/05/17 14:29:26 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	hashmap_free_content(t_hashmap *map)
 	index = 0;
 	while (index < map->size)
 	{
-		if (map->table[index].status == OCCUPIED || map->table[index].status == TOMBSTONE)
+		if (map->table[index].status == OCCUPIED)
 			map->del(map->table[index].value);
 		index++;
 	}
