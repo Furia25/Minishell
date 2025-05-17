@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 17:17:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/17 13:52:27 by val              ###   ########.fr       */
+/*   Updated: 2025/05/17 20:30:18 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int	main(int argc, char **argv, char **envp)
 
 void	exit_minishell(t_minishell *data)
 {
+	rl_clear_history();
 	hashmap_free_content(&data->environment);
 	free_chartab(data->environment_tab);
 	if (data->command_tab)

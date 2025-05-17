@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 01:51:08 by val               #+#    #+#             */
-/*   Updated: 2025/05/17 15:21:50 by val              ###   ########.fr       */
+/*   Updated: 2025/05/17 20:31:06 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,12 @@ void	handle_shell(t_minishell *data)
 	while (1)
 	{
 		prompt = get_prompt(data);
-		if (!prompt)
-			exit_minishell(data);
+		check_malloc(prompt, data);
 		input = readline(prompt);
-		free(prompt);
+		gc_free(prompt, data);
 		if (!input)
 		{
 			free(input);
-			rl_clear_history();
 			ft_putstr_fd("End of program (EOF detected)\n", 2);
 			exit_minishell(data);
 			return ;
