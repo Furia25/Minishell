@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcards_in_cmd.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 19:54:39 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/16 16:18:06 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/17 06:11:21 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ static t_lst *create_and_add_wildcards_nodes(t_lst *prev, t_lst *current,
 	t_wsearch	wildcard_result;
 	t_lst		*last_wildcards_node;
 
+	if (current == NULL)
+		return (NULL);
 	if (have_wildcard(current->lexeme) == false)
 		return (current);
 	wildcard_result = wildcard_lst_from_lexeme(current->lexeme);
@@ -54,6 +56,8 @@ void	wildcards_in_cmd(t_leaf *cmd, t_minishell *data)
 	t_lst	*tokens;
 
 	tokens = create_and_add_wildcards_nodes(NULL, cmd->tokens, cmd, data);
+	if (tokens == NULL)
+		return ;
 	while (tokens->next != NULL)
 		tokens = create_and_add_wildcards_nodes(tokens, tokens->next, cmd, data);
 }

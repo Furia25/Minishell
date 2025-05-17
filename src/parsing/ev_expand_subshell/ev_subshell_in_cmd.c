@@ -6,13 +6,14 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:06:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/17 05:11:18 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/17 06:11:02 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 char	*handle_ev_in_lexeme(char *str, t_lexeme_type next_type, t_minishell *data);
 char	*handle_subshell_in_lexeme(char *str, t_minishell *data);
+t_lst *ignore_void_lexeme(t_lst *prev, t_lst *current, t_leaf *cmd, t_minishell *data);
 void check_blank_in_extremity(t_lst *token, t_minishell *data);
 
 static void	add_dollars_changes_in_lexeme(t_lst *token, t_minishell *data)
@@ -74,16 +75,12 @@ static t_lst *create_and_add_dollars_nodes(t_lst *prev, t_lst *current, t_leaf *
 	t_lst *last_dollars_node;
 
 	if (*current->lexeme == '\0')
-	{
-		prev->next = current->next;
-		gc_free_node(current, data);
-		return (prev->next);
-	}
+		ignore_void_lexeme(prev, current, cmd, data);
 	check_blank_in_extremity(current, data);
 	dollars_lst = create_dollars_lst(current, data);
 	if (dollars_lst != NULL)
 	{
-		if (current == cmd->tokens)
+		if (prev == NULL)
 			cmd->tokens = dollars_lst;
 		else
 			prev->next = dollars_lst;

@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 22:36:15 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/17 05:17:43 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/17 06:00:04 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,19 @@ void	trim_nl_in_end(char *str)
 		i--;
 	}
 	str[i + 1] = '\0';
+}
+
+t_lst *ignore_void_lexeme(t_lst *prev, t_lst *current, t_leaf *cmd, t_minishell *data)
+{
+	if (prev == NULL)
+	{
+		cmd->tokens = current->next;
+		gc_free_node(current, data);
+		return (cmd->tokens);
+	}
+	prev->next = current->next;
+	gc_free_node(current, data);
+	return (prev->next);
 }
 
 void check_blank_in_extremity(t_lst *token, t_minishell *data)
