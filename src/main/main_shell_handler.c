@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 01:51:08 by val               #+#    #+#             */
-/*   Updated: 2025/05/17 20:31:06 by val              ###   ########.fr       */
+/*   Updated: 2025/05/17 20:42:58 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ void	handle_shell(t_minishell *data)
 		prompt = get_prompt(data);
 		check_malloc(prompt, data);
 		input = readline(prompt);
+		gc_add(input, data);
 		gc_free(prompt, data);
 		if (!input)
 		{
-			free(input);
 			ft_putstr_fd("End of program (EOF detected)\n", 2);
 			exit_minishell(data);
 			return ;
@@ -38,7 +38,7 @@ void	handle_shell(t_minishell *data)
 			parsing_exec(input, data);
 			add_history(input);
 		}
-		free(input);
+		gc_free(input, data);
 	}
 }
 
