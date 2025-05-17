@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 19:54:39 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/17 19:38:41 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/17 19:51:15 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,9 @@ static void	add_wildcard_to_gc(t_wsearch wildcard_result, t_minishell *data);
 
 static	bool have_wildcard(char	*str)
 {
-	while (ft_strchr("*?", *str) == NULL)
+	while (ft_strchr("-*\xD6\xC1", *str) == NULL)
 		str++;
-	if (*str == '\0')
-		return (false);
-	else
-		return (true);
+	return (*str != '\0');
 }
 static t_lst *create_and_add_wildcards_nodes(t_lst *prev, t_lst *current,
 	t_leaf *cmd, t_minishell *data)
