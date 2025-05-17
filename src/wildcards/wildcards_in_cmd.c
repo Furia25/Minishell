@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 19:54:39 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/17 06:11:21 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/17 17:06:32 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static	bool have_wildcard(char	*str)
 	else
 		return (true);
 }
-static t_lst *create_and_add_wildcards_nodes(t_lst *prev, t_lst *current, 
+static t_lst *create_and_add_wildcards_nodes(t_lst *prev, t_lst *current,
 	t_leaf *cmd, t_minishell *data)
 {
 	t_wsearch	wildcard_result;
@@ -39,7 +39,7 @@ static t_lst *create_and_add_wildcards_nodes(t_lst *prev, t_lst *current,
 	add_wildcard_to_gc(wildcard_result, data);
 	if (wildcard_result.code == 1)
 	{
-		if (current == cmd->tokens)
+		if (prev == NULL)
 			cmd->tokens = wildcard_result.result;
 		else
 			prev->next = wildcard_result.result;
@@ -58,7 +58,7 @@ void	wildcards_in_cmd(t_leaf *cmd, t_minishell *data)
 	tokens = create_and_add_wildcards_nodes(NULL, cmd->tokens, cmd, data);
 	if (tokens == NULL)
 		return ;
-	while (tokens->next != NULL)
+	while (tokens != NULL && tokens->next != NULL)
 		tokens = create_and_add_wildcards_nodes(tokens, tokens->next, cmd, data);
 }
 

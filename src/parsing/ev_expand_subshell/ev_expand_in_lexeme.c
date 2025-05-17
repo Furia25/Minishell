@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ev_expand_in_lexeme.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:47:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/17 15:35:02 by val              ###   ########.fr       */
+/*   Updated: 2025/05/17 16:31:40 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,12 @@ char	*ev_result(char *str, size_t ev_len, t_minishell *data)
 	t_envvar		*var;
 
 	if (ev_len == 0)
-		return (ft_calloc(1, sizeof(char)));
+		return (check_malloc(ft_calloc(1, sizeof(char)), data));
 	if (str[0] == '?')
-		return (ft_itoa(data->exit_code));
+		return (check_malloc(ft_itoa(data->exit_code), data));
 	entry = hashmap_search(hash(str), &data->environment);
 	if (entry == NULL)
-	{
-		dup = ft_calloc(1, sizeof(char));
-		check_malloc(dup, data);
-		return (dup);
-	}
+		return (check_malloc(ft_calloc(1, sizeof(char)), data));
 	var = (t_envvar *)entry->value;
 	dup = ft_strdup(var->value);
 	check_malloc(dup, data);

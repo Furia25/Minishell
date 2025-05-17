@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:06:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/17 06:11:02 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/17 16:58:41 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,8 @@ static t_lst *create_and_add_dollars_nodes(t_lst *prev, t_lst *current, t_leaf *
 	t_lst	*dollars_lst;
 	t_lst *last_dollars_node;
 
-	if (*current->lexeme == '\0')
-		ignore_void_lexeme(prev, current, cmd, data);
+	if (*(current->lexeme) == '\0')
+		return (ignore_void_lexeme(prev, current, cmd, data));
 	check_blank_in_extremity(current, data);
 	dollars_lst = create_dollars_lst(current, data);
 	if (dollars_lst != NULL)
@@ -106,7 +106,7 @@ void	ev_subshell_in_cmd(t_leaf *cmd, t_minishell *data)
 	temp = cmd->tokens;
 	if (temp->type == WORD)
 		temp = create_and_add_dollars_nodes(NULL, cmd->tokens, cmd, data);
-	while (temp->next)
+	while (temp != NULL && temp->next)
 	{
 		if (temp->next->type == WORD)
 			temp = create_and_add_dollars_nodes(temp, temp->next, cmd, data);

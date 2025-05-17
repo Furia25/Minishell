@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:08:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/17 05:12:45 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/17 16:25:01 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,11 +78,10 @@ char	*handle_subshell_in_lexeme(char *str, t_minishell *data)
 	{
 		if (str[i] == '$' && str[i + 1] == '(')
 		{
-			buff = ft_substr(str, 0, i);
-			check_malloc(buff, data);
+			str[i] = '\0';
 			i += 2;
 			in_par_len = in_parenthesis_len(str + i);
-			buff = ft_strjoin_alt_gc(buff, subshell_str(str + i,
+			buff = ft_strjoin_alt_gc(str, subshell_str(str + i,
 				in_par_len, data), FREE_PARAM1 | FREE_PARAM2, data);
 			check_malloc(buff, data);
 			return (check_malloc(ft_strjoin_alt_gc(buff,
