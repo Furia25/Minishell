@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcards_in_cmd.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 19:54:39 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/17 20:21:22 by val              ###   ########.fr       */
+/*   Updated: 2025/05/17 20:38:41 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,6 @@ void	wildcards_in_cmd(t_leaf *cmd, t_minishell *data)
 	t_lst	*tokens;
 
 	tokens = create_and_add_wildcards_nodes(NULL, cmd->tokens, cmd, data);
-	if (tokens == NULL)
-		return ;
 	while (tokens != NULL && tokens->next != NULL)
 		tokens = create_and_add_wildcards_nodes(tokens, tokens->next, cmd, data);
 }

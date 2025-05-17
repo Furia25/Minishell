@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes_token.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 23:49:57 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/17 20:06:56 by val              ###   ########.fr       */
+/*   Updated: 2025/05/17 20:49:53 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,12 @@ static t_lst	*create_set_quote_node(char *str, t_lexeme_type type ,size_t len, t
 	check_malloc(node_lexeme, data);
 	new_node = lstnew(node_lexeme);
 	check_malloc(new_node, data);
+	while (*node_lexeme != '\0')
+	{
+		if (ft_strchr("?*", *node_lexeme) != NULL)
+			*node_lexeme *= -1;
+		node_lexeme++;
+	}
 	new_node->type = type;
 	if (ft_strchr("|&;()<> \t", str[len + 1]) == NULL)
 		new_node->metacharacter_after = false;
@@ -38,11 +44,7 @@ size_t single_quote_token(t_lst **tokens, char *str, t_minishell *data)
 
 	i = 1;
 	while (str[i] != '\0' && str[i] != '\'')
-	{
-		if (str[i] == '*')
-			str[i] = -'*';
 		i++;
-	}
 	if (str[i] == '\0')
 	{
 		not_interpret_chara('\'', "\' (unclosed quote)", data);
@@ -68,8 +70,6 @@ size_t double_quote_token(t_lst **tokens, char *str, t_minishell *data)
 				return (0);
 			i = i + i_last_closed_par;
 		}
-		if (str[i] == '*' || str[i] == '?')
-			str[i] = -str[i];
 		i++;
 	}
 	if (str[i] == '\0')
@@ -98,7 +98,7 @@ void	fusion_quote_token(t_lst *tokens, t_minishell *data)
 				tokens->lexeme = ft_strjoin_alt_gc(tokens->lexeme, tokens->next->lexeme,
 					FREE_PARAM1, data);
 				tokens->type = tokens->next->type;
-				tokens->metacharacter_after = tokens->next->metacharacter_after;	
+				tokens->metacharacter_after = tokens->next->metacharacter_after;
 				check_malloc(tokens->lexeme, data);
 				buff = tokens->next->next;
 				gc_free_node(tokens->next, data);
