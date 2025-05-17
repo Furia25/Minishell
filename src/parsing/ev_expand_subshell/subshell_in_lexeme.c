@@ -6,30 +6,13 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:08:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/17 02:07:04 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/17 05:12:45 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	trim_blank_in_end(char *str)
-{
-	size_t	i;
-
-	if (str[0] == '\0')
-		return ;
-	i = ft_strlen(str) - 1;
-	while (ft_strchr("\n\t ", str[i]) != NULL)
-	{
-		if (i == 0)
-		{
-			str[0] = '\0';
-			return ;
-		}
-		i--;
-	}
-	str[i + 1] = '\0';
-}
+size_t	in_parenthesis_len(char *str);
+void		trim_nl_in_end(char *str);
 
 static char	*stock_file_in_str(int fd, t_minishell *data)
 {
@@ -79,19 +62,9 @@ static char	*subshell_str(char *str, size_t in_par_len, t_minishell *data)
 	close(pipefd[1]);
 	waitpid(pid, NULL, 0);
 	str = stock_file_in_str(pipefd[0], data);
-	trim_blank_in_end(str);
+	trim_nl_in_end(str);
 	close(pipefd[0]);
 	return (str);
-}
-
-static size_t	in_parenthesis_len(char *str)
-{
-	size_t	i;
-
-	i = 0;
-	while (str[i] != ')')
-		i++;
-	return (i);
 }
 
 char	*handle_subshell_in_lexeme(char *str, t_minishell *data)

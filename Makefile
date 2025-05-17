@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: val <val@student.42.fr>                    +#+  +:+       +#+         #
+#    By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/13 23:20:17 by val               #+#    #+#              #
-#    Updated: 2025/05/17 01:52:59 by val              ###   ########.fr        #
+#    Updated: 2025/05/17 05:13:14 by alpayet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -112,6 +112,7 @@ SRC_FILES = \
 	parsing/ev_expand_subshell/ev_expand_in_here_doc.c \
 	parsing/ev_expand_subshell/ev_subshell_in_cmd.c \
 	parsing/ev_expand_subshell/subshell_in_lexeme.c \
+	parsing/ev_expand_subshell/ev_subshell_utils.c \
 	parsing/redirect/redirections_in_cmd.c \
 	parsing/redirect/redirections_in_par_cmd.c \
 	parsing/redirect/here_doc_utils.c \

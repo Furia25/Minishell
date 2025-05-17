@@ -6,14 +6,13 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:06:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/17 01:07:28 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/17 05:11:18 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 char	*handle_ev_in_lexeme(char *str, t_lexeme_type next_type, t_minishell *data);
 char	*handle_subshell_in_lexeme(char *str, t_minishell *data);
-void	trim_blank_in_end(char *str);
 void check_blank_in_extremity(t_lst *token, t_minishell *data);
 
 static void	add_dollars_changes_in_lexeme(t_lst *token, t_minishell *data)
@@ -76,9 +75,11 @@ static t_lst *create_and_add_dollars_nodes(t_lst *prev, t_lst *current, t_leaf *
 
 	if (*current->lexeme == '\0')
 	{
-		current->type = DOLLAR;
-		return (current);
+		prev->next = current->next;
+		gc_free_node(current, data);
+		return (prev->next);
 	}
+	check_blank_in_extremity(current, data);
 	dollars_lst = create_dollars_lst(current, data);
 	if (dollars_lst != NULL)
 	{
