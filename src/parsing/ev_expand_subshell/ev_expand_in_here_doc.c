@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:33:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/05 17:41:51 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/17 02:03:58 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,5 @@ char	*handle_ev_in_here_doc(char *str, t_minishell *data)
 		}
 		i++;
 	}
-	return (check_malloc(ft_substr(str, 0, ft_strlen(str)), data));
+	return (check_malloc(ft_strdup(str), data));
 }
