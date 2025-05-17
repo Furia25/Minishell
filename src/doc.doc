@@ -433,15 +433,10 @@ Cas limites à tester :
         wildcard_matches("abc", "a?c?") → false (OK)
 
 
-
-- Hahsmap -> env
-- CLEAN FDS DANS LARBRE
 - SIGNAUX :
 PAS DE CTRL \ dans heredoc mais core dump si exec,
  CTRL C clear mais arette les enfants,
   CTRL D dans heredoc arette avec message
-- exec
-- expansion et $?
 
 bash: warning: here-document at line 10 delimited by end-of-file (wanted `EOF')
 

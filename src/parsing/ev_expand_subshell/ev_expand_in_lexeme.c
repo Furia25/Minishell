@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:47:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/17 15:31:41 by val              ###   ########.fr       */
+/*   Updated: 2025/05/17 15:35:02 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,11 @@ char	*ev_result(char *str, size_t ev_len, t_minishell *data)
 		return (ft_itoa(data->exit_code));
 	entry = hashmap_search(hash(str), &data->environment);
 	if (entry == NULL)
-		return (ft_calloc(1, sizeof(char)));
+	{
+		dup = ft_calloc(1, sizeof(char));
+		check_malloc(dup, data);
+		return (dup);
+	}
 	var = (t_envvar *)entry->value;
 	dup = ft_strdup(var->value);
 	check_malloc(dup, data);
