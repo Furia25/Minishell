@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 15:20:37 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/17 14:13:44 by val              ###   ########.fr       */
+/*   Updated: 2025/05/17 19:11:17 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	gc_clean(t_minishell *data)
 {
 	if (data->gc.table)
 	{
-		if (hashmap_resize(data->gc.size << 1, &data->gc) == 0)
+		if (hashmap_resize(data->gc.size, &data->gc) == 0)
 			malloc_error(data);
 	}
 }
