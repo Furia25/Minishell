@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:37:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/19 01:13:44 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/19 01:19:35 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ bool	unclosed_par_here_doc(char *str)
 	return (false);
 }
 
-char	*handle_dollars_in_here_doc(bool unclosed_par, char *input,
+char	*handle_dollars_in_here_doc(bool unclosed_par, char **input,
 	t_lst *token_eof, t_minishell *data)
 {
 	char	*buff;
@@ -81,15 +81,15 @@ char	*handle_dollars_in_here_doc(bool unclosed_par, char *input,
 	{
 		if (unclosed_par == false)
 		{
-			buff = handle_ev_in_here_doc(input, data);
-			gc_free(input, data);
-			input = handle_subshell_in_lexeme(buff, data);
+			buff = handle_ev_in_here_doc(*input, data);
+			gc_free(*input, data);
+			*input = handle_subshell_in_lexeme(buff, data);
 			gc_free(buff, data);
 		}
 	}
 	if (DEBUG == 4 || DEBUG == 1)
-		ft_printf_fd(2, "input: %s\n", input);
-	return (input);
+		ft_printf_fd(2, "input: %s\n", *input);
+	return (*input);
 }
 
 void	write_in_here_doc_file(t_leaf *cmd, t_lst *token_eof, int fd, t_minishell *data)
@@ -115,7 +115,7 @@ void	write_in_here_doc_file(t_leaf *cmd, t_lst *token_eof, int fd, t_minishell *
 			gc_free(input, data);
 			break ;
 		}
-		input = handle_dollars_in_here_doc(unclosed_par, input, token_eof, data);
+		handle_dollars_in_here_doc(unclosed_par, &input, token_eof, data);
 		ft_putendl_fd(input, fd);
 		gc_free(input, data);
 	}
