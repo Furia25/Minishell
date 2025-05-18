@@ -6,13 +6,13 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:43:56 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/16 01:45:04 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/18 17:54:37 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 int		open_new_here_doc_file(t_leaf *cmd, char **here_doc_file, t_minishell *data);
-void	write_in_here_doc_file(t_lst *token_eof, int fd, t_minishell *data);
+void	write_in_here_doc_file(t_leaf *cmd, t_lst *token_eof, int fd, t_minishell *data);
 
 static char	*handle_here_doc(t_leaf *cmd, t_lst *token_eof, t_minishell *data)
 {
@@ -26,12 +26,12 @@ static char	*handle_here_doc(t_leaf *cmd, t_lst *token_eof, t_minishell *data)
 	fd = open_new_here_doc_file(cmd, &here_doc_file, data);
 	if (fd == -1)
 		return (NULL);
-	write_in_here_doc_file(token_eof, fd, data);
+	write_in_here_doc_file(cmd ,token_eof, fd, data);
 	close(fd);
 	return (here_doc_file);
 }
 
-static bool	here_docs_in_cmd(t_leaf *cmd, t_minishell *data)
+static void	here_docs_in_cmd(t_leaf *cmd, t_minishell *data)
 {
 	t_lst	*temp;
 	char	*here_doc_file;
@@ -42,8 +42,6 @@ static bool	here_docs_in_cmd(t_leaf *cmd, t_minishell *data)
 		if (temp->type == HERE_DOC)
 		{
 			here_doc_file = handle_here_doc(cmd, temp->next, data);
-			if (here_doc_file == NULL)
-				return (false);
 			gc_free(temp->next->lexeme, data);
 			temp->type = RED_IN;
 			temp->next->lexeme = here_doc_file;
@@ -52,21 +50,16 @@ static bool	here_docs_in_cmd(t_leaf *cmd, t_minishell *data)
 		else
 			temp = temp->next;
 	}
-	return (true);
 }
 
-bool	handle_all_here_doc(t_leaf *command_tab, t_minishell *data)
+void	handle_all_here_doc(t_leaf *command_tab, t_minishell *data)
 {
-	bool	temp_bool;
-
-	temp_bool = true;
 	while (command_tab->ope_after != LINE_CHANGE)
 	{
-		temp_bool = here_docs_in_cmd(command_tab, data);
+		here_docs_in_cmd(command_tab, data);
 		command_tab++;
 	}
-	temp_bool = here_docs_in_cmd(command_tab, data);
-	return (temp_bool);
+	here_docs_in_cmd(command_tab, data);
 }
 
 void	rm_here_doc_files_in_cmd(t_lst *tokens)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/18 13:59:11 by val              ###   ########.fr       */
+/*   Updated: 2025/05/18 18:01:35 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,9 @@ typedef enum e_builtin_type
 
 void			parsing_exec(char *input, t_minishell *data);
 
-void			wildcards_in_cmd(t_leaf *cmd, t_minishell *data);
-void			parse_cmd(t_leaf *cmd, t_minishell *data);
-t_AST_node		*create_ast(t_leaf *command_tab, t_minishell *data);
+void				wildcards_in_cmd(t_leaf *cmd, t_minishell *data);
+
+void				parse_cmd(t_leaf *cmd, t_minishell *data);
 t_leaf			*evaluate_ast(t_AST_node *node, t_minishell *data);
 int				execute_cmd(t_leaf *cmd, t_minishell *data);
 

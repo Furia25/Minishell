@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 03:23:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/16 03:39:32 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/18 18:02:27 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,13 +88,13 @@ void	lstclear(t_lst **lst, void (*del)(void*));
 
 int	create_tokens(t_lst **tokens, char *input, t_minishell *data);
 t_leaf*create_cmd_tab(t_lst *tokens, t_minishell *data);
-bool	handle_all_here_doc(t_leaf *command_tab, t_minishell *data);
-void	rm_all_here_doc_files(t_leaf *command_tab);
+t_AST_node		*create_ast(t_leaf *command_tab, t_minishell *data);
 
 
 void	ev_subshell_in_cmd(t_leaf *cmd, t_minishell *data);
 void	fusion_quote_token(t_lst *tokens, t_minishell *data);
 void	redirections_in_cmd(t_leaf *cmd, t_minishell *data);
+
 
 char	*tokens_to_str(t_lst *tokens, t_minishell *data);
 char	**tokens_to_argv(t_lst *tokens, t_minishell *data);

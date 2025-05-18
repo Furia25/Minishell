@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:37:34 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/17 19:14:09 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/18 17:58:36 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,7 @@ static int	parsing(char *input, t_minishell *data)
 	data->command_tab = create_cmd_tab(tokens, data);
 	print_debug_all_cmd(data->command_tab, LEXEME | TYPE, 3,
 		 "\ndisplay command_tab just after creating it\n");
-	if (!handle_all_here_doc(data->command_tab, data))
-		return (EXIT_FAILURE);
+	handle_all_here_doc(data->command_tab, data);
 	print_debug_all_cmd(data->command_tab, LEXEME | TYPE, 5
 		,"\ndisplay command_tab after handle here doc\n");
 	return (EXIT_SUCCESS);
