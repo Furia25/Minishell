@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:22:24 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/17 01:11:16 by val              ###   ########.fr       */
+/*   Updated: 2025/05/18 23:37:39 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	exit_builtin(int argc, char **argv, t_minishell *data)
 	if (value && *value == '-')
 	{
 		value++;
-		negative++;
+		negative = true;
 	}
 	while (value && *value == '0')
 		value++;

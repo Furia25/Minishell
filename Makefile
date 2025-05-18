@@ -6,7 +6,7 @@
 #    By: val <val@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/13 23:20:17 by val               #+#    #+#              #
-#    Updated: 2025/05/18 22:47:43 by val              ###   ########.fr        #
+#    Updated: 2025/05/18 23:37:04 by val              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -137,7 +137,7 @@ OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 DEP = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.d, $(SRC))
 
 CC = cc -g3
-CFLAGS =
+CFLAGS = -Werror -Wextra -Wall
 READLINE_INC = -I/usr/local/include
 INCLUDES = -I$(INC_DIR) -I$(LIBFT_DIR) $(READLINE_INC)
 LDFLAGS = -L$(LIBFT_DIR) -lft -L/usr/local/lib -lreadline

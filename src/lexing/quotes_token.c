@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes_token.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 23:49:57 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/18 16:46:41 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/18 23:38:21 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ static t_lst	*create_set_quote_node(char *str, t_lexeme_type type ,size_t len, t
 size_t single_quote_token(t_lst **tokens, char *str, t_minishell *data)
 {
 	size_t	i;
-	char *node_lexeme;
-	t_lst	*new_node;
 
 	i = 1;
 	while (str[i] != '\0' && str[i] != '\'')

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections_in_par_cmd.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 03:56:04 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/16 04:08:27 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/18 23:40:23 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 void	rm_here_doc_files_in_cmd(t_lst *tokens);
 void	del_reds_tokens(t_lst *token, t_minishell *data);
 
-static bool	is_redi(t_leaf *cmd, t_lst *token, t_minishell *data)
+static bool	is_redi(t_leaf *cmd, t_lst *token)
 {
 	static bool	in_parenthesis = false;
 
@@ -28,13 +28,13 @@ static bool	is_redi(t_leaf *cmd, t_lst *token, t_minishell *data)
 		|| token->type == RED_OUT_A || token->type == RED_IN_OUT)
 	{
 		if (token->type == RED_IN)
-			handle_red_input(cmd, token->next->lexeme, data);
+			handle_red_input(cmd, token->next->lexeme);
 		if (token->type == RED_OUT)
-			handle_red_output(cmd, token->next->lexeme, data);
+			handle_red_output(cmd, token->next->lexeme);
 		if (token->type == RED_OUT_A)
-			handle_red_output_append(cmd, token->next->lexeme, data);
+			handle_red_output_append(cmd, token->next->lexeme);
 		if (token->type == RED_IN_OUT)
-			handle_red_input_output(cmd, token->next->lexeme, data);
+			handle_red_input_output(cmd, token->next->lexeme);
 		return (true);
 	}
 	return (false);
@@ -46,7 +46,7 @@ void	redirections_in_par_cmd(t_leaf *cmd, t_minishell *data)
 	t_lst	*prev;
 
 	while (cmd->tokens != NULL
-		&& is_redi(cmd, cmd->tokens, data) == true)
+		&& is_redi(cmd, cmd->tokens) == true)
 	{
 		curr = cmd->tokens;
 		cmd->tokens = cmd->tokens->next->next;
@@ -55,7 +55,7 @@ void	redirections_in_par_cmd(t_leaf *cmd, t_minishell *data)
 	curr = cmd->tokens;
 	while (curr)
 	{
-		if (is_redi(cmd, curr, data) == true)
+		if (is_redi(cmd, curr) == true)
 		{
 			prev->next = curr->next->next;
 			del_reds_tokens(curr, data);

@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:37:34 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/18 23:12:46 by val              ###   ########.fr       */
+/*   Updated: 2025/05/18 23:37:15 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	parsing_exec(char *input, t_minishell *data)
 static int	parsing(char *input, t_minishell *data)
 {
 	t_lst		*tokens;
-	t_AST_node	*top_node_ast;
 
 	data->last_cmd_pid = -1;
 	tokens = NULL;

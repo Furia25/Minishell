@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:31:08 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/18 20:12:18 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/18 23:38:08 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ static void				secure_dup2(t_leaf *cmd, t_minishell *data);
 static int	exec_parenthesized_cmd(t_leaf *cmd, t_minishell *data)
 {
 	pid_t	pid;
-	char	*command_path;
 
 	redirections_in_par_cmd(cmd, data);
 	print_debug_cmd(cmd, LEXEME, 10,
@@ -43,7 +42,6 @@ static int	exec_parenthesized_cmd(t_leaf *cmd, t_minishell *data)
 
 static int	exec_not_parenthesized_cmd(t_leaf *cmd, t_minishell *data)
 {
-	t_builtin_type	type;
 	pid_t			pid;
 	char			**argv;
 

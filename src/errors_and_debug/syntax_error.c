@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_error.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 22:19:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/17 00:46:07 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/18 23:37:53 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,9 @@ static int	syntax_errors_parenthesis(t_lst **tokens, t_minishell *data)
 }
 int	check_syntax_errors(t_lst *tokens, t_minishell *data)
 {
-	t_lst	*parenth_buff;
+	//t_lst	*parenth_buff;
 
-	parenth_buff = NULL;
+	//parenth_buff = NULL;
 	if (tokens->type == AND || tokens->type == PIPE
 		|| tokens->type == OR)
 		return (syntax_errors(tokens->lexeme, data));

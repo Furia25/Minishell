@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/18 22:38:01 by val              ###   ########.fr       */
+/*   Updated: 2025/05/18 23:21:19 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,11 +71,6 @@ typedef enum e_strjoin
 	FREE_PARAM1 = 1<<1,
 	FREE_PARAM2 = 1<<2,
 }	t_strjoin;
-
-typedef enum e_exit_type
-{
-	EXIT_NORMAL,
-}	t_exit;
 
 typedef enum e_builtin_type
 {

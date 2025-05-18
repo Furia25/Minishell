@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   redis_except_here_doc.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:49:43 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/16 16:36:06 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/18 23:39:12 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	handle_red_input(t_leaf *cmd, char *file, t_minishell *data)
+void	handle_red_input(t_leaf *cmd, char *file)
 {
 	if (cmd->fd_input == -1 || cmd->fd_output == -1)
 		return ;
@@ -28,7 +28,7 @@ void	handle_red_input(t_leaf *cmd, char *file, t_minishell *data)
 		unlink(file);
 }
 
-void	handle_red_output(t_leaf *cmd, char *file, t_minishell *data)
+void	handle_red_output(t_leaf *cmd, char *file)
 {
 	if (cmd->fd_input == -1 || cmd->fd_output == -1)
 		return ;
@@ -42,7 +42,7 @@ void	handle_red_output(t_leaf *cmd, char *file, t_minishell *data)
 	}
 }
 
-void	handle_red_output_append(t_leaf *cmd, char *file, t_minishell *data)
+void	handle_red_output_append(t_leaf *cmd, char *file)
 {
 	if (cmd->fd_input == -1 || cmd->fd_output == -1)
 		return ;
@@ -56,7 +56,7 @@ void	handle_red_output_append(t_leaf *cmd, char *file, t_minishell *data)
 	}
 }
 
-void	handle_red_input_output(t_leaf *cmd, char *file, t_minishell *data)
+void	handle_red_input_output(t_leaf *cmd, char *file)
 {
 	if (cmd->fd_input == -1 || cmd->fd_output == -1)
 		return ;
