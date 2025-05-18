@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:39:28 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/17 00:56:36 by val              ###   ########.fr       */
+/*   Updated: 2025/05/18 23:03:48 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 typedef	struct s_gnl_result
 {
 	int		error;
+	int		ended;
 	char	*line;
 }	t_gnl_result;
 

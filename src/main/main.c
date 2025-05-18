@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 17:17:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/18 13:33:51 by val              ###   ########.fr       */
+/*   Updated: 2025/05/18 22:52:05 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static int	init_minishell(t_minishell *data, char **envp)
 	data->environment_tab = NULL;
 	data->in_child = false;
 	data->in_pipe = false;
-	data->line = 0;
+	data->line = 1;
 	data->script_mode = false;
 	data->script_fd = -1;
 	data->is_subshell = false;

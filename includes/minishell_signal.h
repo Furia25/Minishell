@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 13:34:15 by val               #+#    #+#             */
-/*   Updated: 2025/05/18 13:59:00 by val              ###   ########.fr       */
+/*   Updated: 2025/05/18 23:18:10 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,13 @@
 
 extern volatile sig_atomic_t	g_signal_status;
 
-void	handle_prompt_sigint(void);
-void	handle_prompt_sigquit(void);
+typedef enum e_signal_context
+{
+	SIGCONTEXT_PROMPT,
+	SIGCONTEXT_HEREDOC,
+	SIGCONTEXT_FORK,
+	SIGCONTEXT_PARENT
+}	t_signal_context;
+
+void	setup_signals(t_signal_context context);
 #endif

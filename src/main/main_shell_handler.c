@@ -6,10 +6,11 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 01:51:08 by val               #+#    #+#             */
-/*   Updated: 2025/05/18 13:59:21 by val              ###   ########.fr       */
+/*   Updated: 2025/05/18 22:47:33 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell_signal.h"
 #include "minishell.h"
 
 static bool	is_void_or_full_blank(char *input, t_minishell *data);
@@ -20,9 +21,10 @@ void	handle_shell(t_minishell *data)
 	char	*input;
 	char	*prompt;
 
-	setup_signals_prompt();
+	disable_echoctl();
 	while (1)
 	{
+		setup_signals(SIGCONTEXT_PROMPT);
 		prompt = get_prompt(data);
 		check_malloc(prompt, data);
 		input = readline(prompt);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/18 18:01:35 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/18 22:38:01 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,10 @@ typedef enum e_strjoin t_strjoin;
 # include "ft_printf.h"
 # include <readline/readline.h>
 # include <readline/history.h>
+
+# ifndef ECHOCTL
+# define ECHOCTL 0001000
+# endif
 
 # define PROMPT "\001\033[35m\002$> \001\033[0m\002"
 # define BUILTIN_FATAL_ERROR	177
@@ -135,7 +139,6 @@ void			close_input_output(t_leaf *cmd);
 
 void			wait_childs(t_minishell *data);
 
-/*SIGNALS*/
-void			setup_signals_prompt(void);;
+void			disable_echoctl(void);
 
 #endif

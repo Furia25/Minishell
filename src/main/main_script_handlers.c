@@ -6,14 +6,14 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 16:04:21 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/18 12:45:26 by val              ###   ########.fr       */
+/*   Updated: 2025/05/18 23:14:57 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static void	script_init(char **argv, t_minishell *data);
-static bool	is_valid_script_line(char *line);
+static bool	is_valid_script_line(char *line, bool ended);
 
 void	handle_script(char **argv, t_minishell *data)
 {
@@ -21,11 +21,10 @@ void	handle_script(char **argv, t_minishell *data)
 
 	script_init(argv, data);
 	gnl = get_next_line(data->script_fd);
-	data->line++;
 	while (gnl.line)
 	{
 		gc_add(gnl.line, data);
-		if (!is_valid_script_line(gnl.line))
+		if (!is_valid_script_line(gnl.line, gnl.ended))
 		{
 			ft_putstr_fd(data->script_file, 2);
 			ft_putstr_fd(": line ", 2);
@@ -61,19 +60,18 @@ static void	script_init(char **argv, t_minishell *data)
 	}
 }
 
-static bool	is_valid_script_line(char *line)
+static bool	is_valid_script_line(char *line, bool ended)
 {
-	while (line && *line)
+	unsigned char	c;
+
+	while (*line && *line != '\n')
 	{
-		if (!ft_isascii(*line))
+		c = (unsigned char)*line;
+		if (c < 0x20 && c != 0x09 && c != 0x0A && c != 0x0D)
 			return (false);
-		if (*line == '\n')
-			break ;
 		line++;
-	}
-	if (*line != '\n')
-		return (false);
-	return (true);
+    }
+	return (*line == '\n' || ended);
 }
 
 void	handle_cflag(char **argv, t_minishell *data)
@@ -81,11 +79,9 @@ void	handle_cflag(char **argv, t_minishell *data)
 	data->script_mode = 1;
 	data->script_file = "minishell";
 	data->script_fd = -1;
-	data->line = 1;
 	while (*argv)
 	{
 		parsing_exec(*argv, data);
-		data->line += 1;
 		argv++;
 	}
 }

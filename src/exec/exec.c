@@ -6,10 +6,11 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 13:38:31 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/17 13:47:44 by val              ###   ########.fr       */
+/*   Updated: 2025/05/18 22:25:35 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell_signal.h"
 #include "minishell.h"
 #include <sys/stat.h>
 #include <unistd.h>
@@ -28,6 +29,7 @@ void	exec_command(char **argv, t_minishell *data)
 	command_path = find_command(argv[0], data);
 	if (!command_path)
 		command_notfound(argv[0], data);
+	setup_signals(SIGCONTEXT_FORK);
 	execve(command_path, argv, data->environment_tab);
 	free(command_path);
 	exit_minishell(data);

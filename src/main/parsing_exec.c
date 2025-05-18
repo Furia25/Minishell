@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:37:34 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/18 17:58:36 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/18 23:12:46 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell_signal.h"
 #include "minishell.h"
 
 static int	parsing(char *input, t_minishell *data);
@@ -20,6 +21,7 @@ void	parsing_exec(char *input, t_minishell *data)
 	if (parsing(input, data) == EXIT_FAILURE)
 		return ;
 	exec(data);
+	data->line++;
 }
 
 static int	parsing(char *input, t_minishell *data)
@@ -49,6 +51,8 @@ static void exec(t_minishell *data)
 	t_leaf		*final;
 	t_AST_node	*top_node_ast;
 
+	if (!data->script_mode)
+		setup_signals(SIGCONTEXT_PARENT);
 	if (data->environment_tab)
 		free_chartab(data->environment_tab);
 	data->environment_tab = make_env(&data->environment);

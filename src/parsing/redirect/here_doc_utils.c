@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:37:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/18 18:20:28 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/18 22:32:35 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ bool	unclosed_par_here_doc(char *str)
 	size_t	i;
 	size_t	index_last_closed_par;
 
+	if (!str)
+		return (false);
 	i = 0;
 	while (str[i])
 	{

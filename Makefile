@@ -6,7 +6,7 @@
 #    By: val <val@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/13 23:20:17 by val               #+#    #+#              #
-#    Updated: 2025/05/18 13:59:56 by val              ###   ########.fr        #
+#    Updated: 2025/05/18 22:47:43 by val              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -130,7 +130,6 @@ SRC_FILES = \
 	wildcards/wildcards_search.c \
 	wildcards/wildcards.c \
 	wildcards/wildcards_in_cmd.c \
-	signals/signals_prompt_handlers.c \
 	signals/signals_setups.c
 
 SRC = $(patsubst %.c, $(SRC_DIR)/%.c, $(SRC_FILES))

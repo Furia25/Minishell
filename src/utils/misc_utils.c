@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   misc_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 15:58:02 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/16 17:43:20 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/18 22:37:45 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <termios.h>
 
 int	check_flags_c(int argc, char **argv)
 {
@@ -47,4 +48,14 @@ void	close_fds(int fd1, int fd2, int fd3, int fd4)
 		close(fd3);	
 	if (fd4 != -1)
 		close(fd4);	
+}
+
+void	disable_echoctl(void)
+{
+	struct termios	term;
+
+	if (tcgetattr(STDIN_FILENO, &term) == -1)
+		return;
+	term.c_lflag &= ~ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }

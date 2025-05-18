@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 13:42:49 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/09 15:05:04 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/18 23:04:59 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,12 @@ char	*ft_join_nline(char *s1, char *s2)
 	return (result);
 }
 
-static t_gnl_result	gnl_return(char *line, int error, bool dofree)
+static t_gnl_result	gnl_return(char *line, int error, int ended, bool dofree)
 {
 	t_gnl_result	result;
 
 	result.line = line;
+	result.ended = ended;
 	if (dofree)
 	{
 		free(result.line);
@@ -95,19 +96,19 @@ t_gnl_result	get_next_line(int fd)
 		{
 			readed = read(fd, buffer, GNL_BUFFER_SIZE);
 			if (readed == -1)
-				return (gnl_return(line, 1, true));
+				return (gnl_return(line, 1, 0, true));
 			if (readed == 0)
-				return (gnl_return(line, 0, false));
+				return (gnl_return(line, 0, 1, false));
 		}
 		line = ft_join_nline(line, buffer);
 		if (!line)
-			return (gnl_return(NULL, 1, false));
+			return (gnl_return(NULL, 1, 0, false));
 	}
 	res = ft_substr(line, 0, iuntilchar(line, '\n'));
 	free(line);
 	if (res)
 		bufcpy(buffer, buffer + iuntilchar(buffer, '\n'));
-	return (gnl_return(res, res != NULL, false));
+	return (gnl_return(res, res != NULL, 0, false));
 }
 
 /*  int	main(void)

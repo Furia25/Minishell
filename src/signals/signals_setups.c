@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 12:54:33 by val               #+#    #+#             */
-/*   Updated: 2025/05/18 13:53:46 by val              ###   ########.fr       */
+/*   Updated: 2025/05/18 23:17:59 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,24 +16,46 @@
 volatile sig_atomic_t	g_signal_status = 0;
 
 static void	signal_prompt_handler(int sig);
+static void	signal_parent_handler(int sig);
 
-void	setup_signals_prompt(void)
+void	setup_signals(t_signal_context context)
 {
 	struct sigaction	s_sigaction;
+	void				(*handler)(int);
 
+	if (context == SIGCONTEXT_PROMPT)
+		handler = signal_prompt_handler;
+	else if (context == SIGCONTEXT_FORK)
+		handler = SIG_DFL;
 	sigemptyset(&s_sigaction.sa_mask);
-	s_sigaction.sa_handler = signal_prompt_handler;
+	s_sigaction.sa_handler = handler;
 	s_sigaction.sa_flags = SA_RESTART;
 	sigaction(SIGINT, &s_sigaction, NULL);
-	sigaction(SIGTERM, &s_sigaction, NULL);
-	signal(SIGQUIT, SIG_IGN);
+	sigaction(SIGQUIT, &s_sigaction, NULL);
 }
 
 static void	signal_prompt_handler(int sig)
 {
 	g_signal_status = sig;
 	if (sig == SIGINT)
-		handle_prompt_sigint();
+	{
+		write(1, "\n", 1);
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+	}
 	else if (sig == SIGQUIT)
-		handle_prompt_sigquit();
+	{
+		rl_replace_line("", 0);
+		rl_redisplay();
+		if (DEBUG == 13)
+			ft_putstr_fd("minishell: SIGQUIT RECEIVED\n", 2);
+	}
+}
+
+static void	signal_parent_handler(int sig)
+{
+	g_signal_status = sig;
+	if (sig == SIGQUIT)
+		ft_putstr_fd("Quit (core dumped)\n", 2);
 }
