@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 17:17:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/17 20:30:18 by val              ###   ########.fr       */
+/*   Updated: 2025/05/18 12:21:27 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	main(int argc, char **argv, char **envp)
 		handle_cflag(argv + flags, &data);
 	}
 	exit_minishell(&data);
+	return (EXIT_SUCCESS);
 }
 
 void	exit_minishell(t_minishell *data)
