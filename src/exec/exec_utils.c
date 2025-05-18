@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:42:39 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/16 19:01:24 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/18 20:05:56 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ void	wait_childs(t_minishell *data)
 
 void	close_input_output(t_leaf *cmd)
 {
-	if (cmd->fd_input != 0 && cmd->fd_input != -1)
+	if (cmd->fd_input > 0)
 		close(cmd->fd_input);
-	if (cmd->fd_output != 1 && cmd->fd_output != -1)
+	if (cmd->fd_output > 1)
 		close(cmd->fd_output);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   evaluate_pipe_op.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:32:36 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/17 13:48:04 by val              ###   ########.fr       */
+/*   Updated: 2025/05/18 20:14:11 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,22 +90,15 @@ static void	secure_pipe_dup2(int pipefd[2], t_leaf *cmd, t_minishell *data)
 	if (dup2(pipefd[1], 1) == -1)
 	{
 		close(pipefd[1]);
-		close_input_output(cmd);
 		open_error(data);
 	}
 	close(pipefd[1]);
 	if (dup2(cmd->fd_input, 0) == -1)
-	{
-		close_input_output(cmd);
 		open_error(data);
-	}
+	if (dup2(cmd->fd_output, 1) == -1)
+		open_error(data);
 	if (cmd->fd_input != 0)
 		close(cmd->fd_input);
-	if (dup2(cmd->fd_output, 1) == -1)
-	{
-		close_input_output(cmd);
-		open_error(data);
-	}
 	if (cmd->fd_output != 1)
 		close(cmd->fd_output);
 }

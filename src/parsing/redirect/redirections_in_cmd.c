@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:56:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/16 04:12:11 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/18 20:08:16 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,16 +70,16 @@ void	close_all_fds(t_leaf *command_tab)
 {
 	while (command_tab->ope_after != LINE_CHANGE)
 	{
-		if (command_tab->fd_input != 0)
+		if (command_tab->fd_input > 0)
 			close(command_tab->fd_input);
-		if (command_tab->fd_output != 1)
+		if (command_tab->fd_output > 1)
 			close(command_tab->fd_output);
 		rm_here_doc_files_in_cmd(command_tab->tokens);
 		command_tab++;
 	}
-	if (command_tab->fd_input != 0)
+	if (command_tab->fd_input > 0)
 		close(command_tab->fd_input);
-	if (command_tab->fd_output != 1)
+	if (command_tab->fd_output > 1)
 		close(command_tab->fd_output);
 	rm_here_doc_files_in_cmd(command_tab->tokens);
 }

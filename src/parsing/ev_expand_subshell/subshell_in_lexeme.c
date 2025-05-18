@@ -6,13 +6,24 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:08:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/17 19:27:18 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/18 20:25:16 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 size_t	in_parenthesis_len(char *str);
 void		trim_nl_in_end(char *str);
+
+static void	secure_subshell_dup2(int pipefd[2], t_minishell *data)
+{
+	close(pipefd[0]);
+	if (dup2(pipefd[1], 1) == -1)
+	{
+		close(pipefd[1]);
+		open_error(data);
+	}
+	close(pipefd[1]);
+}
 
 static char	*stock_file_in_str(int fd, t_minishell *data)
 {
@@ -46,14 +57,14 @@ static char	*subshell_str(char *str, size_t in_par_len, t_minishell *data)
 
 	str = ft_substr(str, 0, in_par_len);
 	check_malloc(str, data);
+	if (str[0] == '\0')
+		return (str);
 	if (pipe(pipefd) == -1)
 		pipe_error(data);
 	pid = fork();
 	if (pid == 0)
 	{
-		close(pipefd[0]);
-		dup2(pipefd[1], 1);
-		close(pipefd[1]);
+		secure_subshell_dup2(pipefd, data);
 		parsing_exec(str, data);
 		exit_minishell(data);
 	}

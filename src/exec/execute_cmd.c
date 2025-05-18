@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:31:08 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/17 13:46:49 by val              ###   ########.fr       */
+/*   Updated: 2025/05/18 20:12:18 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,15 +91,9 @@ static unsigned char	close_and_wait(t_leaf *cmd, t_minishell *data)
 static void secure_dup2(t_leaf *cmd, t_minishell *data)
 {
 	if (dup2(cmd->fd_input, 0) == -1)
-	{
-		close_input_output(cmd);
 		open_error(data);
-	}
 	if (dup2(cmd->fd_output, 1) == -1)
-	{
-		close_input_output(cmd);
 		open_error(data);
-	}
 	if (cmd->fd_input != 0)
 		close(cmd->fd_input);
 	if (cmd->fd_output != 1)
