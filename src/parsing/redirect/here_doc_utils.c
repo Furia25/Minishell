@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:37:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/18 23:32:37 by val              ###   ########.fr       */
+/*   Updated: 2025/05/19 01:13:44 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ void	write_in_here_doc_file(t_leaf *cmd, t_lst *token_eof, int fd, t_minishell *
 			gc_free(input, data);
 			break ;
 		}
-		handle_dollars_in_here_doc(unclosed_par, input, token_eof, data);
+		input = handle_dollars_in_here_doc(unclosed_par, input, token_eof, data);
 		ft_putendl_fd(input, fd);
 		gc_free(input, data);
 	}

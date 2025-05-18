@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:33:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/17 02:03:58 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/19 01:15:30 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*ev_result(char *str, size_t ev_len, t_minishell *data);
 char	*handle_ev_in_here_doc(char *str, t_minishell *data);
 
 
-static char	*ev_expand(char *str, char *ev_str, t_minishell *data)
+static char	*ev_expand_in_here_doc(char *str, char *ev_str, t_minishell *data)
 {
 	size_t	ev_len;
 	char	*buff;
@@ -44,7 +44,7 @@ char	*handle_ev_in_here_doc(char *str, t_minishell *data)
 		{
 			str[i] = '\0';
 			i++;
-			return (ev_expand(str, str + i, data));
+			return (ev_expand_in_here_doc(str, str + i, data));
 		}
 		i++;
 	}
