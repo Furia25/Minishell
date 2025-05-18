@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:40:07 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/17 00:38:58 by val              ###   ########.fr       */
+/*   Updated: 2025/05/18 23:45:05 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,8 @@ static int	print_export_error(char *str)
 		temp = ft_substr(str, 0, separator);
 	if (!temp)
 		return (-1);
-	if (!write_str_secure(BUILTIN_ERROR_EXPORT, 2) || !write_str_secure(temp, 2))
+	if (!write_str_secure(BUILTIN_ERROR_EXPORT, 2)
+		|| !write_str_secure(temp, 2))
 	{
 		free(temp);
 		return (0);

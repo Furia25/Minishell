@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcards_search.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 00:18:29 by val               #+#    #+#             */
-/*   Updated: 2025/05/16 16:02:17 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/19 00:00:08 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,11 +94,13 @@ static bool	handle_recursive_case(char *new_path, t_wildcard *wd,
 
 static bool	should_skip_entry(char *name, t_wildcard *wd, size_t depth)
 {
+	size_t	len;
 	char	*p;
 	bool	show_hidden;
 
 	p = wd->rules[depth];
-    show_hidden = (p[0] == '.' || ft_strnstr(p, "/.", ft_strlen(p)));
+	len = ft_strlen(p);
+	show_hidden = (p[0] == '.' || ft_strnstr(p, "/.", len));
 	if (name[0] == '.' && !show_hidden)
 		return (true);
 	return (!wildcard_matches(name, p));

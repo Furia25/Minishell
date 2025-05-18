@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 17:18:50 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/17 14:30:37 by val              ###   ########.fr       */
+/*   Updated: 2025/05/18 23:49:52 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,7 @@ int	hashmap_insert(unsigned long key, void *value, t_hashmap *map)
 	prcs(key, pos, last, map);
 	return (1);
 }
+
 /**
  * @brief Searches for a key in the hashmap.
  *

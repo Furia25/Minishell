@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   create_node_ast.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:15:51 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/28 04:17:15 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/18 23:49:31 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ t_AST_node	*create_leaf_node(t_leaf *cmd, t_minishell *data)
 	return (node);
 }
 
-t_AST_node	*create_parent_node(t_lexeme_type ope, t_AST_node *left, t_AST_node *right, t_minishell *data)
+t_AST_node	*create_parent_node(t_lexeme_type ope, t_AST_node *left,
+				t_AST_node *right, t_minishell *data)
 {
 	t_AST_node	*node;
 

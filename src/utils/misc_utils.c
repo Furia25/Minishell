@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 15:58:02 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/18 22:37:45 by val              ###   ########.fr       */
+/*   Updated: 2025/05/18 23:58:00 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ void	close_fds(int fd1, int fd2, int fd3, int fd4)
 	if (fd2 != -1)
 		close(fd2);
 	if (fd3 != -1)
-		close(fd3);	
+		close(fd3);
 	if (fd4 != -1)
-		close(fd4);	
+		close(fd4);
 }
 
 void	disable_echoctl(void)
@@ -55,7 +55,7 @@ void	disable_echoctl(void)
 	struct termios	term;
 
 	if (tcgetattr(STDIN_FILENO, &term) == -1)
-		return;
+		return ;
 	term.c_lflag &= ~ECHOCTL;
 	tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }

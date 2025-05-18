@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 01:21:44 by val               #+#    #+#             */
-/*   Updated: 2025/04/19 01:29:21 by val              ###   ########.fr       */
+/*   Updated: 2025/05/18 23:45:11 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static t_envvar	*make_pwd(char *key_to_dup, char *value)
 {
 	t_envvar	*var;
 	char		*key;
-	
+
 	if (!value)
 		return (NULL);
 	key = ft_strdup(key_to_dup);

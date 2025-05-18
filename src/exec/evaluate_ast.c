@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   evaluate_ast.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:27:36 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/16 18:36:35 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/18 23:51:05 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 t_leaf	*evaluate_logical_op(t_AST_node *node, t_minishell *data);
 t_leaf	*evaluate_pipe_op(t_AST_node *node, t_minishell *data);
 

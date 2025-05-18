@@ -6,14 +6,14 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:22:24 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/18 23:37:39 by val              ###   ########.fr       */
+/*   Updated: 2025/05/18 23:46:03 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <limits.h>
 
-static void			exit_parse_value(char *value, bool is_negative, t_minishell *data);
+static void			exit_parse_value(char *value, bool sign, t_minishell *data);
 static long long	exit_atoi(const char *nptr);
 
 int	exit_builtin(int argc, char **argv, t_minishell *data)
@@ -45,7 +45,7 @@ int	exit_builtin(int argc, char **argv, t_minishell *data)
 	return (EXIT_SUCCESS);
 }
 
-static void	exit_parse_value(char *value, bool is_negative, t_minishell *data)
+static void	exit_parse_value(char *value, bool sign, t_minishell *data)
 {
 	size_t	index;
 	size_t	digits;
@@ -66,7 +66,7 @@ static void	exit_parse_value(char *value, bool is_negative, t_minishell *data)
 		digits--;
 		index++;
 	}
-	data->exit_code = exit_atoi(value) * (1 - 2 * is_negative);
+	data->exit_code = exit_atoi(value) * (1 - 2 * sign);
 	exit_minishell(data);
 }
 

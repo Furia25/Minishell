@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   strjoin_alt.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 00:17:20 by alpayet           #+#    #+#             */
-/*   Updated: 2025/04/30 16:41:11 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/18 23:58:22 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ char	*ft_strjoin_alt(char *s1, char *s2, t_strjoin free_what)
 	return (s1_s2_conc);
 }
 
-void	free_params_gc(char *s1, char *s2, enum e_strjoin free_what, t_minishell *data)
+void	free_params_gc(char *s1, char *s2,
+			enum e_strjoin free_what, t_minishell *data)
 {
 	if (free_what == FREE_PARAM1)
 		gc_free(s1, data);
@@ -62,7 +63,8 @@ void	free_params_gc(char *s1, char *s2, enum e_strjoin free_what, t_minishell *d
 	}
 }
 
-char	*ft_strjoin_alt_gc(char *s1, char *s2, t_strjoin free_what, t_minishell *data)
+char	*ft_strjoin_alt_gc(char *s1, char *s2,
+			t_strjoin free_what, t_minishell *data)
 {
 	char		*s1_s2_conc;
 	size_t		size_s1_s2_conc;

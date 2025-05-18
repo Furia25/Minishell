@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   pwd_builtin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 19:20:41 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/15 16:27:47 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/18 23:45:26 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	pwd_builtin()
+int	pwd_builtin(void)
 {
 	char	*temp;
 

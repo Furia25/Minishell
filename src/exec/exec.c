@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 13:38:31 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/18 22:25:35 by val              ###   ########.fr       */
+/*   Updated: 2025/05/18 23:50:51 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 #include <sys/stat.h>
 #include <unistd.h>
 
-static char *search_command(char *cmd, t_minishell *data);
+static char	*search_command(char *cmd, t_minishell *data);
 static char	*find_command_path(char *cmd, t_hash_entry *path,
-	t_minishell *data);
+				t_minishell *data);
 static void	error_free_paths(char **paths, t_minishell *data);
 
 void	exec_command(char **argv, t_minishell *data)
@@ -51,7 +51,7 @@ char	*find_command(char *cmd, t_minishell *data)
 		return (NULL);
 }
 
-static char *search_command(char *cmd, t_minishell *data)
+static char	*search_command(char *cmd, t_minishell *data)
 {
 	t_hash_entry	*path;
 

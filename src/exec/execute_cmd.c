@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:31:08 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/18 23:38:08 by val              ###   ########.fr       */
+/*   Updated: 2025/05/18 23:55:22 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static int	exec_not_parenthesized_cmd(t_leaf *cmd, t_minishell *data)
 }
 
 int	execute_cmd(t_leaf *cmd, t_minishell *data)
-{	
+{
 	if (cmd == NULL)
 		return (EXIT_FAILURE);
 	if (cmd->parenthesis == true)
@@ -86,7 +86,7 @@ static unsigned char	close_and_wait(t_leaf *cmd, t_minishell *data)
 	return (data->exit_code);
 }
 
-static void secure_dup2(t_leaf *cmd, t_minishell *data)
+static void	secure_dup2(t_leaf *cmd, t_minishell *data)
 {
 	if (dup2(cmd->fd_input, 0) == -1)
 		open_error(data);

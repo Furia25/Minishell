@@ -6,11 +6,12 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:58:23 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/17 14:00:00 by val              ###   ########.fr       */
+/*   Updated: 2025/05/18 23:55:48 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 void	*memset_fast(void *ptr, int value, size_t num);
 
 void	*gc_malloc(size_t size, t_minishell *data)
@@ -52,8 +53,8 @@ void	gc_free_node(t_lst *node, t_minishell *data)
 
 void	gc_free_ast(t_AST_node	*ast_node, t_minishell *data)
 {
-	t_lst *token;
-	t_lst *buff;
+	t_lst	*token;
+	t_lst	*buff;
 
 	if (ast_node->type == NODE_COMMAND)
 	{

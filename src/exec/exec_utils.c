@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:42:39 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/18 20:05:56 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/18 23:52:45 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,21 @@
 
 void	wait_childs(t_minishell *data)
 {
-	int	status;
+	pid_t	temp_wait;
+	int		status;
 
 	if (data->last_cmd_pid == -1)
 	{
-		while (wait(NULL) != -1);
+		temp_wait = wait(NULL);
+		while (temp_wait != -1)
+			temp_wait = wait(NULL);
 		return ;
 	}
 	waitpid(data->last_cmd_pid, &status, 0);
 	data->exit_code = (status >> 8) & 0xFF;
-	while (wait(NULL) != -1);
+	temp_wait = wait(NULL);
+	while (temp_wait != -1)
+		temp_wait = wait(NULL);
 }
 
 void	close_input_output(t_leaf *cmd)

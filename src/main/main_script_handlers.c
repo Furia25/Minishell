@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 16:04:21 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/18 23:14:57 by val              ###   ########.fr       */
+/*   Updated: 2025/05/18 23:57:07 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	handle_script(char **argv, t_minishell *data)
 			ft_putstr_fd(": line ", 2);
 			ft_putnbr_fd(data->line, 2);
 			ft_putstr_fd(": invalid line exiting.\n", 2);
-			break;
+			break ;
 		}
 		parsing_exec(gnl.line, data);
 		gc_free(gnl.line, data);
@@ -39,7 +39,7 @@ void	handle_script(char **argv, t_minishell *data)
 	gc_free(gnl.line, data);
 	close(data->script_fd);
 	if (gnl.error && gnl.line == NULL)
-		malloc_error(data);	
+		malloc_error(data);
 }
 
 static void	script_init(char **argv, t_minishell *data)
@@ -70,7 +70,7 @@ static bool	is_valid_script_line(char *line, bool ended)
 		if (c < 0x20 && c != 0x09 && c != 0x0A && c != 0x0D)
 			return (false);
 		line++;
-    }
+	}
 	return (*line == '\n' || ended);
 }
 

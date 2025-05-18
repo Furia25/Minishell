@@ -3,20 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 03:23:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/18 18:02:27 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/18 23:48:10 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H
-typedef enum e_lexeme_type t_lexeme_type;
-typedef struct s_lst t_lst;
-typedef struct s_leaf t_leaf;
-typedef enum s_node_type t_node_type;
-typedef struct s_AST_node t_AST_node;
+
+typedef enum e_lexeme_type	t_lexeme_type;
+typedef struct s_lst		t_lst;
+typedef struct s_leaf		t_leaf;
+typedef enum s_node_type	t_node_type;
+typedef struct s_AST_node	t_AST_node;
+
 # include "libft.h"
 # include "minishell.h"
 

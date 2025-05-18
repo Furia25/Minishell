@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   evaluate_pipe_op.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:32:36 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/18 20:14:11 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/18 23:54:58 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 static void	secure_pipe_dup2(int pipefd[2], t_leaf *cmd, t_minishell *data);
 
-int exec_parenthesized_cmd_pipe(t_leaf *cmd, t_minishell *data)
+int	exec_parenthesized_cmd_pipe(t_leaf *cmd, t_minishell *data)
 {
 	int		pipefd[2];
-	pid_t		pid;
+	pid_t	pid;
 
 	if (pipe(pipefd) == -1)
 		pipe_error(data);
@@ -71,17 +71,17 @@ int	exec_not_parenthesized_cmd_pipe(t_leaf *cmd, t_minishell *data)
 
 t_leaf	*evaluate_pipe_op(t_AST_node *node, t_minishell *data)
 {
-	t_leaf	*left_value;
-	t_leaf	*right_value;
+	t_leaf	*left;
+	t_leaf	*right;
 
 	data->in_pipe = true;
-	left_value = evaluate_ast(node->t_ope_node.left_node, data);
-	right_value = evaluate_ast(node->t_ope_node.right_node, data);
-	if (left_value->parenthesis == true)
-		right_value->fd_input = exec_parenthesized_cmd_pipe(left_value, data);
+	left = evaluate_ast(node->t_ope_node.left_node, data);
+	right = evaluate_ast(node->t_ope_node.right_node, data);
+	if (left->parenthesis == true)
+		right->fd_input = exec_parenthesized_cmd_pipe(left, data);
 	else
-		right_value->fd_input = exec_not_parenthesized_cmd_pipe(left_value, data);
-	return (right_value);
+		right->fd_input = exec_not_parenthesized_cmd_pipe(left, data);
+	return (right);
 }
 
 static void	secure_pipe_dup2(int pipefd[2], t_leaf *cmd, t_minishell *data)

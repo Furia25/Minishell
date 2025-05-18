@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:39:28 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/18 23:03:48 by val              ###   ########.fr       */
+/*   Updated: 2025/05/18 23:44:41 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 #  define GNL_BUFFER_SIZE 10
 # endif
 
-typedef	struct s_gnl_result
+typedef struct s_gnl_result
 {
 	int		error;
 	int		ended;
@@ -32,7 +32,8 @@ typedef struct s_list
 	struct s_list	*next;
 }	t_list;
 
-t_list			*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+t_list			*ft_lstmap(t_list *lst, void *(*f)(void *),
+					void (*del)(void *));
 t_list			*ft_lstnew(void *content);
 t_list			*ft_lstlast(t_list *lst);
 //

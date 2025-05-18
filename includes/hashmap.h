@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 15:20:54 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/17 14:32:35 by val              ###   ########.fr       */
+/*   Updated: 2025/05/18 23:48:58 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ typedef struct s_hashmap
 	size_t			size;
 	int				count;
 	double			charge_factor;
-	void 			(*del)(void *);
+	void			(*del)(void *);
 }			t_hashmap;
 
 // hashmap_managing.c
