@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/17 01:52:41 by val              ###   ########.fr       */
+/*   Updated: 2025/05/18 13:59:11 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,5 +134,8 @@ void			close_fds(int fd1, int fd2, int fd3, int fd4);
 void			close_input_output(t_leaf *cmd);
 
 void			wait_childs(t_minishell *data);
+
+/*SIGNALS*/
+void			setup_signals_prompt(void);;
 
 #endif

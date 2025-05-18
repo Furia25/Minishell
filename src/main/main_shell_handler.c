@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 01:51:08 by val               #+#    #+#             */
-/*   Updated: 2025/05/17 20:42:58 by val              ###   ########.fr       */
+/*   Updated: 2025/05/18 13:59:21 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	handle_shell(t_minishell *data)
 	char	*input;
 	char	*prompt;
 
+	setup_signals_prompt();
 	while (1)
 	{
 		prompt = get_prompt(data);

@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 16:04:21 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/18 12:34:00 by val              ###   ########.fr       */
+/*   Updated: 2025/05/18 12:45:26 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	handle_script(char **argv, t_minishell *data)
 	if (gnl.error && gnl.line == NULL)
 		malloc_error(data);	
 }
+
 static void	script_init(char **argv, t_minishell *data)
 {
 	data->script_mode = true;

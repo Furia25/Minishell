@@ -61,6 +61,13 @@
     "type_traits": "c",
     "parsing.h": "c",
     "utility": "c",
-    "initializer_list": "c"
+    "initializer_list": "c",
+    "features.h": "c",
+    "signal.h": "c",
+    "minishell.h": "c",
+    "types.h": "c",
+    "unistd.h": "c",
+    "sigaction.h": "c",
+    "minishell_signal.h": "c"
   }
 }

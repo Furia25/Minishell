@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 19:01:44 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/16 16:59:07 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/18 13:57:02 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@
 9: display command->tokens after handle wildcards (add wilcards' type nodes in command->tokens)
 10: display command after handle redi (rm redi's type nodes of command->tokens and change fd values)
 11: display argv after creating it (not adding WORD tokens whose lexeme is null-terminated)
-12: displays the string created from merging tokens in a parenthesized command*/
+12: displays the string created from merging tokens in a parenthesized command
+13 : displays sigquit*/
 
 #ifndef DEBUG_H
 # define DEBUG_H

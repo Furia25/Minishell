@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 17:17:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/18 12:21:27 by val              ###   ########.fr       */
+/*   Updated: 2025/05/18 13:33:51 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include "environment.h"
 #include "garbage_collector.h"
 #include <stdio.h>
+#include <signal.h>
 
 static int	init_minishell(t_minishell *data, char **envp);
 
