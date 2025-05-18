@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 22:36:15 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/17 06:00:04 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/18 16:45:31 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	trim_nl_in_end(char *str)
 	if (str[0] == '\0')
 		return ;
 	i = ft_strlen(str) - 1;
-	while (ft_strchr("\n", str[i]) != NULL)
+	while (str[i] == '\n')
 	{
 		if (i == 0)
 		{

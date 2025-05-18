@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 23:49:57 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/17 20:49:53 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/18 16:46:41 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static t_lst	*create_set_quote_node(char *str, t_lexeme_type type ,size_t len, t
 	check_malloc(new_node, data);
 	while (*node_lexeme != '\0')
 	{
-		if (ft_strchr("?*", *node_lexeme) != NULL)
+		if (*node_lexeme == '*' || *node_lexeme == '?')
 			*node_lexeme *= -1;
 		node_lexeme++;
 	}

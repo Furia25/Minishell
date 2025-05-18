@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 19:54:39 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/17 20:38:41 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/18 17:08:37 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,15 @@
 static void	add_wildcard_to_gc(t_wsearch wildcard_result, t_minishell *data);
 static void clean_current_token(char *token);
 
-static	bool have_wildcard(char	*str)
+static bool have_wildcard(char *str)
 {
-	while (ft_strchr("?*\xD6\xC1", *str) == NULL)
+	while (str && *str)
+	{
+		if (*str == '?' || *str == '*' || *str == -'*' || *str == -'?')
+			return (true);
 		str++;
-	return (*str != '\0');
+	}
+	return (false);
 }
 static t_lst *create_and_add_wildcards_nodes(t_lst *prev, t_lst *current,
 	t_leaf *cmd, t_minishell *data)
@@ -61,7 +65,7 @@ void	wildcards_in_cmd(t_leaf *cmd, t_minishell *data)
 
 static void	add_wildcard_to_gc(t_wsearch wildcard_result, t_minishell *data)
 {
-	while(wildcard_result.result)
+	while (wildcard_result.result)
 	{
 		gc_add(wildcard_result.result->lexeme, data);
 		gc_add(wildcard_result.result, data);
