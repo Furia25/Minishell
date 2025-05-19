@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_docs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:43:56 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/19 03:44:36 by val              ###   ########.fr       */
+/*   Updated: 2025/05/19 17:12:57 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,16 @@ static char	*handle_here_doc(t_leaf *cmd, t_lst *token_eof, t_minishell *data)
 		return (here_doc_file);
 	here_doc_error = write_in_here_doc_file(cmd->fd_input, token_eof, data);
 	close(cmd->fd_input);
-	if (here_doc_error != 0)
+	if (here_doc_error != 1)
 		cmd->fd_input = -1;
-	if (here_doc_error == 0)
+	if (here_doc_error == 1)
 		cmd->fd_input = 0;
+	if (here_doc_error == 2)
+		return (NULL);
 	return (here_doc_file);
 }
 
-static void	here_docs_in_cmd(t_leaf *cmd, t_minishell *data)
+static bool	here_docs_in_cmd(t_leaf *cmd, t_minishell *data)
 {
 	t_lst	*temp;
 	char	*here_doc_file;
@@ -48,6 +50,8 @@ static void	here_docs_in_cmd(t_leaf *cmd, t_minishell *data)
 		if (temp->type == HERE_DOC)
 		{
 			here_doc_file = handle_here_doc(cmd, temp->next, data);
+			if (here_doc_file == NULL)
+				return (false);
 			gc_free(temp->next->lexeme, data);
 			temp->type = RED_IN;
 			temp->next->lexeme = here_doc_file;
@@ -56,20 +60,24 @@ static void	here_docs_in_cmd(t_leaf *cmd, t_minishell *data)
 		else
 			temp = temp->next;
 	}
+	return (true);
 }
 
-void	handle_all_here_doc(t_leaf *command_tab, t_minishell *data)
+bool	handle_all_here_doc(t_leaf *command_tab, t_minishell *data)
 {
 	setup_signals(SIGCONTEXT_HEREDOC);
 	while (command_tab->ope_after != LINE_CHANGE)
 	{
 		g_signal_status = 0;
-		here_docs_in_cmd(command_tab, data);
+		if (here_docs_in_cmd(command_tab, data) == false)
+			return (false);
 		command_tab++;
 	}
 	g_signal_status = 0;
-	here_docs_in_cmd(command_tab, data);
+	if (here_docs_in_cmd(command_tab, data) == false)
+		return (false);
 	setup_signals(SIGCONTEXT_PARENT);
+	return (true);
 }
 
 void	rm_here_doc_files_in_cmd(t_lst *tokens)
@@ -86,7 +94,7 @@ void	rm_here_doc_files_in_cmd(t_lst *tokens)
 void	rm_all_here_doc_files(t_leaf *command_tab)
 {
 	t_lst	*tokens;
-	
+
 	while (command_tab->ope_after != LINE_CHANGE)
 	{
 		tokens = command_tab->tokens;

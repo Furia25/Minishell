@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:37:34 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/18 23:56:40 by val              ###   ########.fr       */
+/*   Updated: 2025/05/19 16:47:21 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ static int	parsing(char *input, t_minishell *data)
 {
 	t_lst		*tokens;
 
+	if (!data->script_mode)
+		setup_signals(SIGCONTEXT_PARENT);
 	data->last_cmd_pid = -1;
 	tokens = NULL;
 	data->command_tab = NULL;
@@ -39,7 +41,8 @@ static int	parsing(char *input, t_minishell *data)
 	data->command_tab = create_cmd_tab(tokens, data);
 	print_debug_all_cmd(data->command_tab, LEXEME | TYPE, 3,
 		"\ndisplay command_tab just after creating it\n");
-	handle_all_here_doc(data->command_tab, data);
+	if (handle_all_here_doc(data->command_tab, data) == false)
+		return (EXIT_FAILURE);
 	print_debug_all_cmd(data->command_tab, LEXEME | TYPE, 5,
 		"\ndisplay command_tab after handle here doc\n");
 	return (EXIT_SUCCESS);
@@ -50,8 +53,6 @@ static void	exec(t_minishell *data)
 	t_leaf		*final;
 	t_AST_node	*top_node_ast;
 
-	if (!data->script_mode)
-		setup_signals(SIGCONTEXT_PARENT);
 	if (data->environment_tab)
 		free_chartab(data->environment_tab);
 	data->environment_tab = make_env(&data->environment);

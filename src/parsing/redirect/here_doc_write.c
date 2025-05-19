@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_write.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 01:56:12 by val               #+#    #+#             */
-/*   Updated: 2025/05/19 03:44:24 by val              ###   ########.fr       */
+/*   Updated: 2025/05/19 16:08:05 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	dummy_event(void)
 }
 
 /**
- * @brief Écrit les lignes saisies par l'utilisateur 
+ * @brief Écrit les lignes saisies par l'utilisateur
  * dans un fichier temporaire pour un heredoc.
  *
  * @param fd Descripteur de fichier vers lequel écrire.
@@ -50,6 +50,8 @@ int		write_in_here_doc_file(int fd, t_lst *token_eof, t_minishell *data)
 	{
 		input = readline("> ");
 		gc_add(input, data);
+		if (unclosed_par == false)
+			unclosed_par = unclosed_par_here_doc(input);
 		if (!input || g_signal_status == SIGINT)
 		{
 			gc_free(input, data);
@@ -62,8 +64,6 @@ int		write_in_here_doc_file(int fd, t_lst *token_eof, t_minishell *data)
 			}
 			return (1);
 		}
-		if (unclosed_par == false)
-			unclosed_par = unclosed_par_here_doc(input);
 		if (ft_strcmp(input, token_eof->lexeme) == 0)
 		{
 			gc_free(input, data);
