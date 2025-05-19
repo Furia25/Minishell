@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:22:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/17 01:27:11 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/19 23:39:21 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,16 +84,19 @@ static size_t op_parenthesis(t_lst **tokens, char *str, char op, t_minishell *da
 	return (1);
 }
 
-int	create_tokens(t_lst **tokens, char *input, t_minishell *data)
+bool	create_tokens(t_lst **tokens, char *input, t_minishell *data)
 {
 	size_t	lexeme_len;
 
 	while (*input == ' ' || *input == '\t')
 		input++;
 	if (*input == '\0')
-		return (EXIT_SUCCESS);
+		return (true);
 	if ((*input == '&' && *(input + 1) != '&') || *input == ';' || *input == '\\')
-		return (not_interpret_chara(*input, "\'", data));
+	{
+		not_interpret_chara(*input, "\'", data);
+		return (false);
+	}
 	if (ft_strchr("|&;()<> \t\'\"", *input) == NULL)
 		lexeme_len = word_token(tokens, input, data);
 	if (*input == '\'')
@@ -107,6 +110,6 @@ int	create_tokens(t_lst **tokens, char *input, t_minishell *data)
 	if (*input == '<' || *input == '>')
 		lexeme_len = op_redirection_token(tokens, input, *input, data);
 	if (lexeme_len == 0)
-		return (EXIT_FAILURE);
+		return (false);
 	return (create_tokens(tokens, input + lexeme_len, data));
 }

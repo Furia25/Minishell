@@ -3,28 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:37:34 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/19 19:57:36 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/19 23:41:43 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_signal.h"
 #include "minishell.h"
 
-static int	parsing(char *input, t_minishell *data);
+static bool	parsing(char *input, t_minishell *data);
 static void	exec(t_minishell *data);
 
 void	parsing_exec(char *input, t_minishell *data)
 {
-	if (parsing(input, data) == EXIT_FAILURE)
+	if (parsing(input, data) == false)
 		return ;
 	exec(data);
 	data->line++;
 }
 
-static int	parsing(char *input, t_minishell *data)
+static bool	parsing(char *input, t_minishell *data)
 {
 	t_lst		*tokens;
 
@@ -33,19 +33,19 @@ static int	parsing(char *input, t_minishell *data)
 	data->last_cmd_pid = -1;
 	tokens = NULL;
 	data->command_tab = NULL;
-	if (create_tokens(&tokens, input, data) == EXIT_FAILURE
-		|| check_syntax_errors(tokens, data) == EXIT_FAILURE)
-		return (EXIT_FAILURE);
+	if (create_tokens(&tokens, input, data) == false
+		|| have_syntax_errors(tokens, data) == true)
+		return (false);
 	print_debug_lst(tokens, LEXEME | TYPE, 2,
 		"\ndisplay tokens just after creating it\n");
 	data->command_tab = create_cmd_tab(tokens, data);
 	print_debug_all_cmd(data->command_tab, LEXEME | TYPE, 3,
 		"\ndisplay command_tab just after creating it\n");
 	if (handle_all_here_doc(data->command_tab, data) == false)
-		return (EXIT_FAILURE);
+		return (false);
 	print_debug_all_cmd(data->command_tab, LEXEME | TYPE, 5,
 		"\ndisplay command_tab after handle here doc\n");
-	return (EXIT_SUCCESS);
+	return (true);
 }
 
 static void	exec(t_minishell *data)

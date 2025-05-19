@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_write.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 01:56:12 by val               #+#    #+#             */
-/*   Updated: 2025/05/19 20:07:04 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/19 22:25:30 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,13 @@ int		write_in_here_doc_file(int fd, t_lst *token_eof, t_minishell *data)
 		}
 		handle_dollars_in_here_doc(unclosed_par, &input, token_eof, data);
 		ft_putendl_fd(input, fd);
+		//securiser
 		gc_free(input, data);
 	}
 	return (1);
 }
 
-static void	readline_and_check_unclosed(char **input, 
+static void	readline_and_check_unclosed(char **input,
 				bool *unclosed_par, t_minishell *data)
 {
 	*input = readline("> ");

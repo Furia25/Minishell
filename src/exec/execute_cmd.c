@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:31:08 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/19 20:13:25 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/19 23:43:54 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static int	exec_not_parenthesized_cmd(t_leaf *cmd, t_minishell *data)
 int	execute_cmd(t_leaf *cmd, t_minishell *data)
 {
 	if (cmd == NULL)
-		return (EXIT_FAILURE);
+		return (1);
 	if (cmd->parenthesis == true)
 		return (exec_parenthesized_cmd(cmd, data));
 	return (exec_not_parenthesized_cmd(cmd, data));

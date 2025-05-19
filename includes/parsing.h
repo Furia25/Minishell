@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 03:23:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/18 23:48:10 by val              ###   ########.fr       */
+/*   Updated: 2025/05/19 23:47:18 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	lstadd_back(t_lst **lst, t_lst *new);
 void	lstdelone(t_lst *lst, void (*del)(void*));
 void	lstclear(t_lst **lst, void (*del)(void*));
 
-int	create_tokens(t_lst **tokens, char *input, t_minishell *data);
+bool	create_tokens(t_lst **tokens, char *input, t_minishell *data);
 t_leaf*create_cmd_tab(t_lst *tokens, t_minishell *data);
 t_AST_node		*create_ast(t_leaf *command_tab, t_minishell *data);
 

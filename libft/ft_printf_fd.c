@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/20 18:14:00 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/18 23:42:57 by val              ###   ########.fr       */
+/*   Updated: 2025/05/19 22:19:00 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ int	ft_printf_fd(int fd, const char *format, ...)
 	va_end(ap);
 	return (sum);
 }
+
 // #include <limits.h>
 // #include <stdio.h>
 
