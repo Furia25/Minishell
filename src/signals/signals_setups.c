@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 12:54:33 by val               #+#    #+#             */
-/*   Updated: 2025/05/19 18:57:45 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/19 20:04:41 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void	signal_prompt_handler(int sig)
 		rl_replace_line("", 0);
 		rl_redisplay();
 		if (DEBUG == 13)
-			ft_putstr_fd("minishell: SIGQUIT RECEIVED\n", 2);
+			ft_printf_fd(2, "%s: SIGQUIT RECEIVED\n", MINISHELL_NAME);
 	}
 }
 
@@ -63,7 +63,7 @@ static void	signal_parent_handler(int sig)
 {
 	g_signal_status = sig;
 	if (sig == SIGQUIT)
-		ft_putstr_fd("Quit (core dumped)\n", 2);
+		ft_printf_fd(2, "%s\n", SIGNAL_CORE_DUMP);
 }
 
 static void	signal_heredoc_handler(int sig)

@@ -6,11 +6,12 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 20:15:50 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/16 18:59:53 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/19 20:17:03 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "builtin.h"
 
 static bool	is_valid_flags(char *str);
 
@@ -27,10 +28,9 @@ int	echo_builtin(int argc, char **argv)
 			do_nl = false;
 		else
 		{
-			if (!write_str_secure(argv[index], 1))
-				return (EXIT_FAILURE);
-			if (index < argc - 1 && write(1, " ", 1) == -1)
-				return (EXIT_FAILURE);
+			ft_putstr_fd(argv[index], 1);
+			if (index < argc - 1)
+				write(1, " ", 1);
 		}
 		index++;
 	}

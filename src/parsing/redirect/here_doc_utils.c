@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:37:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/19 02:58:50 by val              ###   ########.fr       */
+/*   Updated: 2025/05/19 19:58:45 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	open_new_here_doc_file(char **here_doc_file, t_minishell *data)
 	}
 	if (fd == -1 && errno != EEXIST)
 	{
-		perror("minishell: here doc");
+		print_basic_error("here-doc");
 		return (-1);
 	}
 	return (fd);

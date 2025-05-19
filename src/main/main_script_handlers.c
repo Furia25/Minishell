@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 16:04:21 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/19 15:48:55 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/19 20:00:32 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,8 @@ void	handle_script(char **argv, t_minishell *data)
 		gc_add(gnl.line, data);
 		if (!is_valid_script_line(gnl.line, gnl.ended))
 		{
-			ft_putstr_fd(data->script_file, 2);
-			ft_putstr_fd(": line ", 2);
-			ft_putnbr_fd(data->line, 2);
-			ft_putstr_fd(": invalid line exiting.\n", 2);
+			ft_printf_fd(2, "%s: line %d: invalid line exiting.\n", 
+				data->script_file, data->line);
 			break ;
 		}
 		parsing_exec(gnl.line, data);
@@ -39,7 +37,7 @@ void	handle_script(char **argv, t_minishell *data)
 	gc_free(gnl.line, data);
 	close(data->script_fd);
 	if (gnl.error)
-		malloc_error(data);
+		raise_error(data);
 }
 
 static void	script_init(char **argv, t_minishell *data)
@@ -52,8 +50,7 @@ static void	script_init(char **argv, t_minishell *data)
 		data->script_fd = open(argv[1], O_RDONLY);
 	if (data->script_fd == -1)
 	{
-		ft_putstr_fd("minishell: ", 2);
-		perror(argv[1]);
+		print_basic_error(argv[1]);
 		data->exit_code = EXIT_FAILURE;
 		exit_minishell(data);
 		return ;

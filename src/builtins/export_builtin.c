@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   export_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:40:07 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/18 23:45:05 by val              ###   ########.fr       */
+/*   Updated: 2025/05/19 20:20:21 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "builtin.h"
 
 static bool	make_var_separator(char *str, long separator, t_minishell *data);
 static int	print_export_error(char *str);
@@ -62,15 +63,9 @@ static int	print_export_error(char *str)
 		temp = ft_substr(str, 0, separator);
 	if (!temp)
 		return (-1);
-	if (!write_str_secure(BUILTIN_ERROR_EXPORT, 2)
-		|| !write_str_secure(temp, 2))
-	{
-		free(temp);
-		return (0);
-	}
+	ft_printf_fd(2, "%s: %s: Not a valid identifier: %s\n",
+		MINISHELL_NAME, BUILTIN_NAME_EXPORT, temp);
 	free(temp);
-	if (write(2, "\n", 1) == -1)
-		return (0);
 	return (1);
 }
 

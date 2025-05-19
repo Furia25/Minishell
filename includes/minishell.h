@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/19 19:04:40 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/19 20:15:45 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,21 +36,11 @@ typedef enum e_strjoin			t_strjoin;
 # include <readline/history.h>
 
 # define MINISHELL_NAME	"minishell"
-
 # ifndef ECHOCTL
-# define ECHOCTL 0001000
+#  define ECHOCTL 0001000
 # endif
 
 # define PROMPT "\001\033[35m\002$> \001\033[0m\002"
-# define BUILTIN_FATAL_ERROR	177
-# define BUILTIN_FLAG_ECHO_NONL	'n'
-# define BUILTIN_FLAG_SEPARATOR	'-'
-# define BUILTIN_ERROR_EXIT	"exit: too many arguments"
-# define BUILTIN_ERROR_EXPORT	"export : Not a valid identifier : "
-# define BUILTIN_ERROR_CD	"cd "
-# define BUILTIN_ERROR_CD_ARGS	"cd : too many arguments"
-# define BUILTIN_ERROR_CD_COLON "cd : "
-# define BUILTIN_ERROR_CD_NOTSET " not set\n"
 
 struct s_minishell
 {
@@ -76,55 +66,30 @@ typedef enum e_strjoin
 	FREE_PARAM2 = 1<<2,
 }	t_strjoin;
 
-typedef enum e_builtin_type
-{
-	BUILTIN_TYPE_CD,
-	BUILTIN_TYPE_EXPORT,
-	BUILTIN_TYPE_ENV,
-	BUILTIN_TYPE_UNSET,
-	BUILTIN_TYPE_PWD,
-	BUILTIN_TYPE_ECHO,
-	BUILTIN_TYPE_EXIT,
-	BUILTIN_TYPE_NOTBUILTIN
-}	t_builtin_type;
-
 void			parsing_exec(char *input, t_minishell *data);
 
-void				wildcards_in_cmd(t_leaf *cmd, t_minishell *data);
+void			wildcards_in_cmd(t_leaf *cmd, t_minishell *data);
 
-void				parse_cmd(t_leaf *cmd, t_minishell *data);
+void			parse_cmd(t_leaf *cmd, t_minishell *data);
 t_leaf			*evaluate_ast(t_AST_node *node, t_minishell *data);
 int				execute_cmd(t_leaf *cmd, t_minishell *data);
 
-void			open_error(t_minishell *data);
-void			pipe_error(t_minishell *data);
-void			fork_error(t_minishell *data);
-void			malloc_error(t_minishell *data);
+void			raise_error_category(char *error_category, t_minishell *data);
+void			raise_error(t_minishell *data);
 void			exit_minishell(t_minishell *data);
 
 void			*check_malloc(void *content, t_minishell *data);
 
 bool			exec_builtins(char **argv, bool exit, t_minishell *data);
 
-int				exit_builtin(int argc, char **argv, t_minishell *data);
-int				env_builtin(t_minishell *data);
-int				pwd_builtin();
-int				export_builtin(int argc, char **argv, t_minishell *data);
-int				unset_builtin(int argc, char **argv, t_minishell *data);
-int				echo_builtin(int argc, char **argv);
-int				cd_builtin(int argc, char **argv, t_minishell *data);
-
 // UTILS
-bool			write_str_secure(char *str, int fd);
 t_envvar		*get_pwd(char *pwd_type, char *default_value, t_minishell *data);
 char			*ft_strjoin_alt(char *s1, char *s2, t_strjoin free_what);
 char			*ft_strjoin_alt_gc(char *s1, char *s2, t_strjoin free_what, t_minishell *data);
 unsigned long	hash_ptr(void *ptr);
 
 char			*find_command(char *cmd, t_minishell *data);
-void			try_builtin(t_builtin_type type, 
-					int argc, char **v, t_minishell *data);
-t_builtin_type	get_builtin(char *cmd);
+
 void			command_notfound(char *cmd, t_minishell *data);
 
 int				check_flags_c(int argc, char **argv);
@@ -139,5 +104,5 @@ void			close_input_output(t_leaf *cmd);
 void			wait_childs(t_minishell *data);
 
 void			disable_echoctl(void);
-
+void			print_basic_error(char *error_name);
 #endif

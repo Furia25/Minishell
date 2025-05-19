@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: val <val@student.42.fr>                    +#+  +:+       +#+         #
+#    By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/13 23:20:17 by val               #+#    #+#              #
-#    Updated: 2025/05/19 02:08:44 by val              ###   ########.fr        #
+#    Updated: 2025/05/19 20:19:16 by vdurand          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -126,7 +126,6 @@ SRC_FILES = \
 	parsing/tokens_to_str.c \
 	utils/memory_utils.c \
 	utils/strjoin_alt.c \
-	utils/write_utils.c \
 	utils/misc_utils.c \
 	wildcards/wildcards_search.c \
 	wildcards/wildcards.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   garbage_managing.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 15:20:37 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/17 19:11:17 by val              ###   ########.fr       */
+/*   Updated: 2025/05/19 19:57:36 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	gc_clean(t_minishell *data)
 	if (data->gc.table)
 	{
 		if (hashmap_resize(data->gc.size, &data->gc) == 0)
-			malloc_error(data);
+			raise_error(data);
 	}
 }
 
@@ -46,7 +46,7 @@ void	gc_add(void *ptr, t_minishell *data)
 	if (hashmap_insert(hashed, ptr, &data->gc) == 0)
 	{
 		free(ptr);
-		malloc_error(data);
+		raise_error(data);
 	}
 }
 
@@ -54,7 +54,7 @@ void	*check_malloc(void *content, t_minishell *data)
 {
 	if (content == NULL)
 	{
-		malloc_error(data);
+		raise_error(data);
 		return (NULL);
 	}
 	gc_add(content, data);

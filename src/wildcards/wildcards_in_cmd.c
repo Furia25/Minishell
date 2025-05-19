@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcards_in_cmd.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 19:54:39 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/19 00:01:47 by val              ###   ########.fr       */
+/*   Updated: 2025/05/19 19:57:36 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static t_lst	*create_add_wildcards_nodes(t_lst *prev, t_lst *current,
 		return (current);
 	wildcard_result = wildcard_lst_from_lexeme(current->lexeme);
 	if (wildcard_result.code == -1)
-		malloc_error(data);
+		raise_error(data);
 	add_wildcard_to_gc(wildcard_result, data);
 	if (wildcard_result.code == 1)
 	{

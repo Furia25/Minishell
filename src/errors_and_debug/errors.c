@@ -6,66 +6,48 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 23:17:25 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/16 17:48:36 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/19 20:12:36 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <errno.h>
 #include "minishell.h"
 #include "garbage_collector.h"
 
-void	malloc_error(t_minishell *data)
+void	raise_error(t_minishell *data)
 {
-	perror("minishell");
+	perror(MINISHELL_NAME);
 	data->exit_code = EXIT_FAILURE;
 	exit_minishell(data);
 }
 
-void	open_error(t_minishell *data)
+void	raise_error_category(char *error_category, t_minishell *data)
 {
-	ft_putstr_fd("minishell", 2);
-	ft_putstr_fd(": ", 2);
-	perror("open");
-	data->exit_code = EXIT_FAILURE;
-	exit_minishell(data);
-}
-
-void	pipe_error(t_minishell *data)
-{
-	ft_putstr_fd("minishell", 2);
-	ft_putstr_fd(": ", 2);
-	perror("pipe");
-	data->exit_code = EXIT_FAILURE;
-	exit_minishell(data);
-}
-
-void	fork_error(t_minishell *data)
-{
-	ft_putstr_fd("minishell", 2);
-	ft_putstr_fd(": ", 2);
-	perror("fork");
+	print_basic_error(error_category);
 	data->exit_code = EXIT_FAILURE;
 	exit_minishell(data);
 }
 
 void	command_notfound(char *cmd, t_minishell *data)
 {
+	char	*temp_file;
+	char	*temp_cmd;
+
+	if (cmd)
+		temp_cmd = cmd;
+	else
+		temp_cmd = "UNKNOW";
 	if (data->script_mode)
 	{
 		if (data->script_file)
-			ft_putstr_fd(data->script_file, 2);
+			temp_file = data->script_file;
 		else
-			ft_putstr_fd("minishell", 2);
-		ft_putstr_fd(": line ", 2);
-		ft_putnbr_fd(data->line, 2);
-		ft_putstr_fd(": ", 2);
+			temp_file = MINISHELL_NAME;
+		ft_printf_fd(2, "%s: line %d: %s: command not found\n",
+			temp_file, data->line, cmd);
 	}
 	else
-		ft_putstr_fd("minishell: ", 2);
-	if (cmd)
-		ft_putstr_fd(cmd, 2);
-	else
-		ft_putstr_fd("UNKNOW", 2);
-	ft_putstr_fd(" : command not found\n", 2);
+		ft_printf_fd(2, "%s: %s: command not found\n", MINISHELL_NAME, cmd);
 	data->exit_code = 127;
 	exit_minishell(data);
 }

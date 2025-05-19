@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   evaluate_pipe_op.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:32:36 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/18 23:54:58 by val              ###   ########.fr       */
+/*   Updated: 2025/05/19 20:13:16 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	exec_parenthesized_cmd_pipe(t_leaf *cmd, t_minishell *data)
 	pid_t	pid;
 
 	if (pipe(pipefd) == -1)
-		pipe_error(data);
+		raise_error_category("pipe", data);
 	redirections_in_par_cmd(cmd, data);
 	if (cmd->fd_input != -1 && cmd->fd_output != -1)
 	{
@@ -33,7 +33,7 @@ int	exec_parenthesized_cmd_pipe(t_leaf *cmd, t_minishell *data)
 			exit_minishell(data);
 		}
 		else if (pid == -1)
-			fork_error(data);
+			raise_error_category("fork", data);
 	}
 	close(pipefd[1]);
 	close_input_output(cmd);
@@ -47,7 +47,7 @@ int	exec_not_parenthesized_cmd_pipe(t_leaf *cmd, t_minishell *data)
 	pid_t			pid;
 
 	if (pipe(pipefd) == -1)
-		pipe_error(data);
+		raise_error_category("pipe", data);
 	parse_cmd(cmd, data);
 	if (cmd->fd_input != -1 && cmd->fd_output != -1)
 	{
@@ -61,7 +61,7 @@ int	exec_not_parenthesized_cmd_pipe(t_leaf *cmd, t_minishell *data)
 				exec_command(argv, data);
 			}
 			else if (pid == -1)
-				fork_error(data);
+				raise_error_category("fork", data);
 		}
 	}
 	close(pipefd[1]);
@@ -90,13 +90,13 @@ static void	secure_pipe_dup2(int pipefd[2], t_leaf *cmd, t_minishell *data)
 	if (dup2(pipefd[1], 1) == -1)
 	{
 		close(pipefd[1]);
-		open_error(data);
+		raise_error_category("dup2", data);
 	}
 	close(pipefd[1]);
 	if (dup2(cmd->fd_input, 0) == -1)
-		open_error(data);
+		raise_error_category("dup2", data);
 	if (dup2(cmd->fd_output, 1) == -1)
-		open_error(data);
+		raise_error_category("dup2", data);
 	if (cmd->fd_input != 0)
 		close(cmd->fd_input);
 	if (cmd->fd_output != 1)

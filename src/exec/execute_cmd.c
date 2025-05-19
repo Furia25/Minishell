@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:31:08 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/18 23:55:22 by val              ###   ########.fr       */
+/*   Updated: 2025/05/19 20:13:25 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	exec_parenthesized_cmd(t_leaf *cmd, t_minishell *data)
 		else if (pid != -1)
 			data->last_cmd_pid = pid;
 		else
-			fork_error(data);
+			raise_error_category("fork", data);
 	}
 	return (close_and_wait(cmd, data));
 }
@@ -62,7 +62,7 @@ static int	exec_not_parenthesized_cmd(t_leaf *cmd, t_minishell *data)
 			else if (pid != -1)
 				data->last_cmd_pid = pid;
 			else
-				fork_error(data);
+				raise_error_category("fork", data);
 		}
 	}
 	return (close_and_wait(cmd, data));
@@ -89,9 +89,9 @@ static unsigned char	close_and_wait(t_leaf *cmd, t_minishell *data)
 static void	secure_dup2(t_leaf *cmd, t_minishell *data)
 {
 	if (dup2(cmd->fd_input, 0) == -1)
-		open_error(data);
+		raise_error_category("dup2", data);
 	if (dup2(cmd->fd_output, 1) == -1)
-		open_error(data);
+		raise_error_category("dup2", data);
 	if (cmd->fd_input != 0)
 		close(cmd->fd_input);
 	if (cmd->fd_output != 1)

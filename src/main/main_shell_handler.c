@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 01:51:08 by val               #+#    #+#             */
-/*   Updated: 2025/05/19 18:08:37 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/19 19:57:36 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	handle_shell(t_minishell *data)
 		if (!input)
 		{
 			if (errno != 0)
-				malloc_error(data);
+				raise_error(data);
 			exit_minishell(data);
 			return ;
 		}

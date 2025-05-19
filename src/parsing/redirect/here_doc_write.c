@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 01:56:12 by val               #+#    #+#             */
-/*   Updated: 2025/05/19 19:07:46 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/19 20:07:04 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,9 @@ static void	readline_and_check_unclosed(char **input,
 
 static int	unexpected_eof(void)
 {
-	ft_putstr_fd("minishell: unexpected EOF ", 2);
-	ft_putendl_fd("while looking for matching `)'", 2);
+	ft_printf_fd(2, "%s: here-doc: \
+unexpected EOF while looking for matching \')'\n",
+		MINISHELL_NAME);
 	return (0);
 }
 
@@ -94,7 +95,7 @@ static int	check_null_readline(char *input, t_minishell *data)
 	{
 		gc_free(input, data);
 		if (errno != 0)
-			malloc_error(data);
+			raise_error(data);
 		if (g_signal_status == SIGINT)
 		{
 			data->exit_code = 128 + SIGINT;

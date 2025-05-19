@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:08:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/19 15:50:29 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/19 20:13:32 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	secure_subshell_dup2(int pipefd[2], t_minishell *data)
 	if (dup2(pipefd[1], 1) == -1)
 	{
 		close(pipefd[1]);
-		open_error(data);
+		raise_error_category("dup2", data);
 	}
 	close(pipefd[1]);
 }
@@ -34,16 +34,16 @@ static char	*stock_file_in_str(int fd, t_minishell *data)
 	str = ft_calloc(1, sizeof(char));
 	gnl_result = get_next_line(fd);
 	if (gnl_result.error == 1)
-		malloc_error(data);
+		raise_error(data);
 	buff = gnl_result.line;
 	while (buff)
 	{
 		str = ft_strjoin_alt(str, buff, FREE_PARAM1 | FREE_PARAM2);
 		if (str == NULL)
-			malloc_error(data);
+			raise_error(data);
 		gnl_result = get_next_line(fd);
 		if (gnl_result.error == 1)
-			malloc_error(data);
+			raise_error(data);
 		buff = gnl_result.line;
 	}
 	check_malloc(str, data);
@@ -60,7 +60,7 @@ static char	*subshell_str(char *str, size_t in_par_len, t_minishell *data)
 	if (str[0] == '\0')
 		return (str);
 	if (pipe(pipefd) == -1)
-		pipe_error(data);
+		raise_error_category("pipe", data);
 	pid = fork();
 	if (pid == 0)
 	{
@@ -69,7 +69,7 @@ static char	*subshell_str(char *str, size_t in_par_len, t_minishell *data)
 		exit_minishell(data);
 	}
 	else if (pid == -1)
-		fork_error(data);
+		raise_error_category("fork", data);
 	close(pipefd[1]);
 	waitpid(pid, NULL, 0);
 	str = stock_file_in_str(pipefd[0], data);

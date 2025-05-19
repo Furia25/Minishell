@@ -6,10 +6,11 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 17:42:39 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/19 16:29:47 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/19 19:33:57 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "builtin.h"
 #include "minishell.h"
 
 void	wait_childs(t_minishell *data)

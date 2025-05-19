@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 17:17:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/19 16:08:08 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/19 19:57:36 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ static int	init_minishell(t_minishell *data, char **envp)
 	if (!hashmap_init_basics(&(data->environment), envvar_free))
 		exit(EXIT_FAILURE);
 	if (!env_populate(envp, &(data->environment)))
-		malloc_error(data);
+		raise_error(data);
 	if (!gc_init(data))
-		malloc_error(data);
+		raise_error(data);
 	data->command_tab = NULL;
 	data->environment_tab = NULL;
 	data->in_child = false;

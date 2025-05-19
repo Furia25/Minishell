@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:37:34 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/19 16:47:21 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/19 19:57:36 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static void	exec(t_minishell *data)
 		free_chartab(data->environment_tab);
 	data->environment_tab = make_env(&data->environment);
 	if (!data->environment_tab)
-		malloc_error(data);
+		raise_error(data);
 	top_node_ast = create_ast(data->command_tab, data);
 	print_debug_ast(top_node_ast, 6,
 		"\ndisplay AST just after creating it\n");

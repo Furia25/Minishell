@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 13:38:31 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/18 23:50:51 by val              ###   ########.fr       */
+/*   Updated: 2025/05/19 19:57:36 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ static char	*find_command_path(char *cmd, t_hash_entry *path, t_minishell *data)
 
 	paths = ft_split(((t_envvar *) path->value)->value, ':');
 	if (!paths)
-		malloc_error(data);
+		raise_error(data);
 	index = 0;
 	while (paths[index])
 	{
@@ -100,5 +100,5 @@ static char	*find_command_path(char *cmd, t_hash_entry *path, t_minishell *data)
 static void	error_free_paths(char **paths, t_minishell *data)
 {
 	free_chartab(paths);
-	malloc_error(data);
+	raise_error(data);
 }

@@ -6,10 +6,11 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 15:58:02 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/19 15:38:04 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/19 19:54:02 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <errno.h>
 #include "minishell.h"
 #include <termios.h>
 
@@ -38,16 +39,10 @@ int	check_flags_c(int argc, char **argv)
 	return (index);
 }
 
-void	close_fds(int fd1, int fd2, int fd3, int fd4)
+void	print_basic_error(char *error_name)
 {
-	if (fd1 != -1)
-		close(fd1);
-	if (fd2 != -1)
-		close(fd2);
-	if (fd3 != -1)
-		close(fd3);
-	if (fd4 != -1)
-		close(fd4);
+	ft_printf_fd(2, "%s: %s: %s\n", 
+		MINISHELL_NAME, error_name, strerror(errno));
 }
 
 void	disable_echoctl(void)

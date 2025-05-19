@@ -6,10 +6,11 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 15:11:13 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/16 18:59:13 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/19 19:33:40 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "builtin.h"
 #include "minishell.h"
 
 void	try_builtin(t_builtin_type type, int argc, char **v, t_minishell *data)
@@ -41,19 +42,19 @@ t_builtin_type	get_builtin(char *cmd)
 
 	if (!cmd)
 		return (BUILTIN_TYPE_NOTBUILTIN);
-	if (ft_strcmp(cmd, "cd") == 0)
+	if (ft_strcmp(cmd, BUILTIN_NAME_CD) == 0)
 		result = BUILTIN_TYPE_CD;
-	else if (ft_strcmp(cmd, "echo") == 0)
+	else if (ft_strcmp(cmd, BUILTIN_NAME_ECHO) == 0)
 		result = BUILTIN_TYPE_ECHO;
-	else if (ft_strcmp(cmd, "env") == 0)
+	else if (ft_strcmp(cmd, BUILTIN_NAME_ENV) == 0)
 		result = BUILTIN_TYPE_ENV;
-	else if (ft_strcmp(cmd, "export") == 0)
+	else if (ft_strcmp(cmd, BUILTIN_NAME_EXPORT) == 0)
 		result = BUILTIN_TYPE_EXPORT;
-	else if (ft_strcmp(cmd, "pwd") == 0)
+	else if (ft_strcmp(cmd, BUILTIN_NAME_PWD) == 0)
 		result = BUILTIN_TYPE_PWD;
-	else if (ft_strcmp(cmd, "unset") == 0)
+	else if (ft_strcmp(cmd, BUILTIN_NAME_UNSET) == 0)
 		result = BUILTIN_TYPE_UNSET;
-	else if (ft_strcmp(cmd, "exit") == 0)
+	else if (ft_strcmp(cmd, BUILTIN_NAME_EXIT) == 0)
 		result = BUILTIN_TYPE_EXIT;
 	else
 		result = BUILTIN_TYPE_NOTBUILTIN;
