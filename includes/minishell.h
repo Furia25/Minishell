@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/19 20:29:16 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/19 20:55:55 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ typedef enum e_strjoin			t_strjoin;
 #  define ECHOCTL 0001000
 # endif
 
+# define MINISHELL_WELCOME_START	"\001\033[1;35m\002Welcome to "
+# define MINISHELL_WELCOME_END		"!\n\001\033[0m\002"
 # define PROMPT "\001\033[35m\002$> \001\033[0m\002"
 
 struct s_minishell

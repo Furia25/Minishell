@@ -6,7 +6,7 @@
 #    By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/01/13 23:20:17 by val               #+#    #+#              #
-#    Updated: 2025/05/19 20:19:16 by vdurand          ###   ########.fr        #
+#    Updated: 2025/05/19 20:39:09 by vdurand          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,13 +44,13 @@ RESET = \033[0m
 
 DEBUG_VALGRIND = valgrind --leak-check=full --show-leak-kinds=all --trace-children=yes --track-fds=all --track-origins=yes --suppressions=ignore_readline.supp -s
 
-NAME = minishell
-
 SRC_DIR = src
 MAIN_DIR = src_main
 OBJ_DIR = obj
 INC_DIR = includes
 LIBFT_DIR = libft
+
+NAME = minishell
 
 VERBOSE = 0
 
