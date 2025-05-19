@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 12:54:33 by val               #+#    #+#             */
-/*   Updated: 2025/05/19 14:52:53 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/19 18:57:45 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,10 @@ static void	signal_heredoc_handler(int sig)
 {
 	g_signal_status = sig;
 
-	rl_replace_line("",0);
-	rl_redisplay();
-	rl_done = 1;
+	if (sig == SIGINT)
+	{
+		rl_replace_line("",0);
+		rl_redisplay();
+		rl_done = 1;
+	}
 }

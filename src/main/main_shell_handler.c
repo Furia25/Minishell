@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 01:51:08 by val               #+#    #+#             */
-/*   Updated: 2025/05/19 16:17:33 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/19 18:08:37 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	handle_shell(t_minishell *data)
 	char	*input;
 	char	*prompt;
 
+	disable_echoctl();
 	while (1)
 	{
 		setup_signals(SIGCONTEXT_PROMPT);

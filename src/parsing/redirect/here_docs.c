@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_docs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:43:56 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/19 17:12:57 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/19 18:42:20 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ bool	handle_all_here_doc(t_leaf *command_tab, t_minishell *data)
 	if (here_docs_in_cmd(command_tab, data) == false)
 		return (false);
 	setup_signals(SIGCONTEXT_PARENT);
+	rl_event_hook = NULL;
 	return (true);
 }
 
