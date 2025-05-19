@@ -6,12 +6,14 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:47:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/17 16:31:40 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/20 01:05:34 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-char	*handle_ev_in_lexeme(char *str, t_lexeme_type next_type, t_minishell *data);
+
+char	*handle_ev_in_lexeme(char *str, t_lexeme_type next_type,
+			t_minishell *data);
 
 size_t	env_var_len(char *str)
 {
@@ -54,27 +56,29 @@ size_t	skip_subshell_and_special_chara(char *str)
 		while (str[i] != ')')
 			i++;
 	}
-	if (str[i] == '$' && ft_isalnum(str[i + 1]) == false
-		&& str[i + 1] != '?' && str[i + 1] != '_' && str[i + 1] != '\0')
+	if (str[i] == '$' && ft_isalnum(str[i + 1]) == false && str[i + 1] != '?'
+		&& str[i + 1] != '_' && str[i + 1] != '\0')
 		i++;
 	return (i);
 }
 
-static char	*ev_expand(char *str, char *ev_str, t_lexeme_type next_type, t_minishell *data)
+static char	*ev_expand(char *str, char *ev_str, t_lexeme_type next_type,
+		t_minishell *data)
 {
 	size_t	ev_len;
 	char	*buff;
 
 	ev_len = env_var_len(ev_str);
-	buff = ft_strjoin_alt_gc(str, ev_result(ev_str, ev_len, data),
-	FREE_PARAM2, data);
+	buff = ft_strjoin_alt_gc(str, ev_result(ev_str, ev_len, data), FREE_PARAM2,
+			data);
 	check_malloc(buff, data);
-	return (check_malloc(ft_strjoin_alt_gc(buff,
-		handle_ev_in_lexeme(ev_str + ev_len, next_type, data),
-		FREE_PARAM1 | FREE_PARAM2, data), data));
+	return (check_malloc(ft_strjoin_alt_gc(buff, handle_ev_in_lexeme(ev_str
+					+ ev_len, next_type, data), FREE_PARAM1 | FREE_PARAM2,
+				data), data));
 }
 
-char	*handle_ev_in_lexeme(char *str, t_lexeme_type next_type, t_minishell *data)
+char	*handle_ev_in_lexeme(char *str, t_lexeme_type next_type,
+		t_minishell *data)
 {
 	size_t	i;
 
@@ -84,8 +88,8 @@ char	*handle_ev_in_lexeme(char *str, t_lexeme_type next_type, t_minishell *data)
 		i += skip_subshell_and_special_chara(str + i);
 		if (str[i] == '$' && str[i + 1] != '\'')
 		{
-			if ((str[i + 1] != '\0'
-				|| (next_type == DOUBLE_Q || next_type == SINGLE_Q)))
+			if ((str[i + 1] != '\0' || (next_type == DOUBLE_Q
+						|| next_type == SINGLE_Q)))
 			{
 				str[i] = '\0';
 				i++;

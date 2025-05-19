@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   garbage_functions.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:58:23 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/18 23:55:48 by val              ###   ########.fr       */
+/*   Updated: 2025/05/20 00:32:21 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	gc_free_node(t_lst *node, t_minishell *data)
 	gc_free(node, data);
 }
 
-void	gc_free_ast(t_AST_node	*ast_node, t_minishell *data)
+void	gc_free_ast(t_ast_node	*ast_node, t_minishell *data)
 {
 	t_lst	*token;
 	t_lst	*buff;

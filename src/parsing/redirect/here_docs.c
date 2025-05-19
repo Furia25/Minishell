@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:43:56 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/19 19:19:48 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/20 01:14:01 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static char	*handle_here_doc(t_leaf *cmd, t_lst *token_eof, t_minishell *data)
 
 	if (cmd->fd_input == -1)
 		return (NULL);
-	here_doc_file = ft_strdup("/tmp/here_doc");
+	here_doc_file = ft_strdup(HERE_DOC_FILE);
 	check_malloc(here_doc_file, data);
 	cmd->fd_input = open_new_here_doc_file(&here_doc_file, data);
 	if (cmd->fd_input == -1)
@@ -87,8 +87,8 @@ void	rm_here_doc_files_in_cmd(t_lst *tokens)
 {
 	while (tokens)
 	{
-		if (tokens->type == RED_IN &&
-			ft_strncmp("/tmp/here_doc", tokens->next->lexeme, 13) == 0)
+		if (tokens->type == RED_IN
+			&& ft_strncmp("/tmp/here_doc", tokens->next->lexeme, 13) == 0)
 			unlink(tokens->next->lexeme);
 		tokens = tokens->next;
 	}
@@ -107,6 +107,3 @@ void	rm_all_here_doc_files(t_leaf *command_tab)
 	tokens = command_tab->tokens;
 	rm_here_doc_files_in_cmd(tokens);
 }
-
-
-

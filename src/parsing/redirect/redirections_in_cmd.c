@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   redirections_in_cmd.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:56:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/18 23:39:55 by val              ###   ########.fr       */
+/*   Updated: 2025/05/20 01:09:23 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 void	rm_here_doc_files_in_cmd(t_lst *tokens);
 
 static bool	is_redi(t_leaf *cmd, t_lst *token)
@@ -83,4 +84,3 @@ void	close_all_fds(t_leaf *command_tab)
 		close(command_tab->fd_output);
 	rm_here_doc_files_in_cmd(command_tab->tokens);
 }
-

@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   redirections_in_par_cmd.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 03:56:04 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/18 23:40:23 by val              ###   ########.fr       */
+/*   Updated: 2025/05/20 01:09:38 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 void	rm_here_doc_files_in_cmd(t_lst *tokens);
 void	del_reds_tokens(t_lst *token, t_minishell *data);
 
@@ -68,4 +69,3 @@ void	redirections_in_par_cmd(t_leaf *cmd, t_minishell *data)
 		}
 	}
 }
-

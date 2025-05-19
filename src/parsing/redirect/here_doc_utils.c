@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:37:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/19 19:58:45 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/20 01:16:17 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <errno.h>
+
 char	*handle_ev_in_here_doc(char *str, t_minishell *data);
 char	*handle_subshell_in_lexeme(char *str, t_minishell *data);
 
@@ -27,11 +28,12 @@ int	open_new_here_doc_file(char **here_doc_file, t_minishell *data)
 		while (errno == EEXIST)
 		{
 			gc_free(*here_doc_file, data);
-			*here_doc_file = ft_strjoin_alt("/tmp/here_doc", ft_itoa(i), FREE_PARAM2);
+			*here_doc_file = ft_strjoin_alt(HERE_DOC_FILE,
+					ft_itoa(i), FREE_PARAM2);
 			check_malloc(*here_doc_file, data);
 			fd = open(*here_doc_file, O_WRONLY | O_CREAT | O_EXCL, 0644);
 			if (fd != -1)
-				break;
+				break ;
 			i++;
 		}
 	}

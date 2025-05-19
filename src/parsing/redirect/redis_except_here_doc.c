@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redis_except_here_doc.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:49:43 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/19 19:56:26 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/20 01:19:21 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,3 @@ void	handle_red_input_output(t_leaf *cmd, char *file)
 	if (cmd->fd_input == -1)
 		print_basic_error(file);
 }
-

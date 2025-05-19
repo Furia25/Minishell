@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:37:34 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/19 23:41:43 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/20 00:32:21 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static bool	parsing(char *input, t_minishell *data)
 static void	exec(t_minishell *data)
 {
 	t_leaf		*final;
-	t_AST_node	*top_node_ast;
+	t_ast_node	*top_node_ast;
 
 	if (data->environment_tab)
 		free_chartab(data->environment_tab);

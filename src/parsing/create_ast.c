@@ -6,13 +6,15 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:17:52 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/14 11:00:43 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/20 00:49:21 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-t_AST_node	*create_leaf_node(t_leaf *cmd, t_minishell *data);
-t_AST_node	*create_parent_node(t_lexeme_type ope, t_AST_node *left, t_AST_node *right, t_minishell *data);
+
+t_ast_node	*create_leaf_node(t_leaf *cmd, t_minishell *data);
+t_ast_node	*create_parent_node(t_lexeme_type ope, t_ast_node *left,
+				t_ast_node *right, t_minishell *data);
 
 static void	latest_logical_op(t_leaf *command_tab, t_leaf **buff)
 {
@@ -40,7 +42,8 @@ static void	latest_pipe_op(t_leaf *command_tab, t_leaf **buff)
 	}
 }
 
-static t_AST_node	*create_if_found(t_leaf *command_tab, t_leaf *buff, t_minishell *data)
+static t_ast_node	*create_if_found(t_leaf *command_tab, t_leaf *buff,
+		t_minishell *data)
 {
 	t_lexeme_type	op;
 
@@ -50,7 +53,7 @@ static t_AST_node	*create_if_found(t_leaf *command_tab, t_leaf *buff, t_minishel
 			, create_ast(buff + 1, data), data));
 }
 
-t_AST_node	*create_ast(t_leaf *command_tab, t_minishell *data)
+t_ast_node	*create_ast(t_leaf *command_tab, t_minishell *data)
 {
 	t_leaf	*buff;
 

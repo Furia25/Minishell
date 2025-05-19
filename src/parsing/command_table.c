@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 10:43:50 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/16 05:06:58 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/20 00:47:20 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static size_t	cmds_number(t_lst *tokens)
 	return (i + 1);
 }
 
-static t_lst *node_after_parenthesis(t_lst **prev, t_lst *curr)
+static t_lst	*node_after_parenthesis(t_lst **prev, t_lst *curr)
 {
 	t_lst	*parenth_buff;
 
@@ -102,7 +102,7 @@ static void	fill_tab(t_leaf *command_tab, t_lst *tokens, t_minishell *data)
 
 t_leaf	*create_cmd_tab(t_lst *tokens, t_minishell *data)
 {
-	t_leaf *command_tab;
+	t_leaf	*command_tab;
 	size_t	i;
 	size_t	commands_number;
 

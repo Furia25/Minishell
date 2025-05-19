@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 19:01:44 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/19 23:46:28 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/20 00:32:21 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ void	print_debug_cmd(t_leaf *command,
 			t_lst_members cmd_tokens_members, int debug, char *str);
 void	print_debug_all_cmd(t_leaf *command_tab,
 			t_lst_members cmd_tokens_members, int debug, char *str);
-void	print_debug_ast(t_AST_node *top_node_ast, int debug, char *str);
+void	print_debug_ast(t_ast_node *top_node_ast, int debug, char *str);
 void	print_debug_argv(char **tab, int debug, char *str);
 void	not_interpret_chara(char chara, char *str, t_minishell	*data);
-bool		have_syntax_errors(t_lst *tokens, t_minishell *data);
+bool	have_syntax_errors(t_lst *tokens, t_minishell *data);
 
 #endif

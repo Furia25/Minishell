@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_to_str.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 16:18:39 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/16 18:22:26 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/20 00:50:59 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*append_lexeme_to_string(t_lexeme_type type, char **str, char *lexeme, t_minishell *data)
+static char	*append_lexeme_to_string(t_lexeme_type type, char **str,
+			char *lexeme, t_minishell *data)
 {
 	if (type == DOUBLE_Q)
 	{
@@ -61,7 +62,7 @@ char	*tokens_to_str(t_lst *tokens, t_minishell *data)
 		}
 		tokens = tokens->next;
 	}
-	print_debug_str(str, 12, 
+	print_debug_str(str, 12,
 		"\ndisplay parenthesis_string just after creating it\n");
 	return (str);
 }

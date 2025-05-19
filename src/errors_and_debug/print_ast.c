@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 19:47:07 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/14 21:32:42 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/20 00:32:21 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static void	print_enum(t_lexeme_type control_operator)
 		ft_printf_fd(2, "AND\n");
 }
 
-static void	print_ast(t_AST_node *node_ast, size_t depth)
+static void	print_ast(t_ast_node *node_ast, size_t depth)
 {
 	if (node_ast->type == NODE_COMMAND)
 	{
@@ -51,7 +51,7 @@ static void	print_ast(t_AST_node *node_ast, size_t depth)
 	}
 }
 
-void	print_debug_ast(t_AST_node *top_node_ast, int debug, char *str)
+void	print_debug_ast(t_ast_node *top_node_ast, int debug, char *str)
 {
 	if (DEBUG == debug || DEBUG == 1)
 	{

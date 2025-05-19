@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   subshell_in_lexeme.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:08:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/19 20:13:32 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/20 01:07:51 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 size_t	in_parenthesis_len(char *str);
-void		trim_nl_in_end(char *str);
+void	trim_nl_in_end(char *str);
 
 static void	secure_subshell_dup2(int pipefd[2], t_minishell *data)
 {
@@ -27,9 +28,9 @@ static void	secure_subshell_dup2(int pipefd[2], t_minishell *data)
 
 static char	*stock_file_in_str(int fd, t_minishell *data)
 {
-	char	*str;
-	t_gnl_result gnl_result;
-	char	*buff;
+	char			*str;
+	t_gnl_result	gnl_result;
+	char			*buff;
 
 	str = ft_calloc(1, sizeof(char));
 	gnl_result = get_next_line(fd);
@@ -52,7 +53,7 @@ static char	*stock_file_in_str(int fd, t_minishell *data)
 
 static char	*subshell_str(char *str, size_t in_par_len, t_minishell *data)
 {
-	int		pipefd[2];
+	int			pipefd[2];
 	pid_t		pid;
 
 	str = ft_substr(str, 0, in_par_len);
@@ -93,11 +94,11 @@ char	*handle_subshell_in_lexeme(char *str, t_minishell *data)
 			i += 2;
 			in_par_len = in_parenthesis_len(str + i);
 			buff = ft_strjoin_alt_gc(str, subshell_str(str + i,
-				in_par_len, data), FREE_PARAM2, data);
+						in_par_len, data), FREE_PARAM2, data);
 			check_malloc(buff, data);
 			return (check_malloc(ft_strjoin_alt_gc(buff,
-				handle_subshell_in_lexeme(str + i + in_par_len + 1, data),
-				FREE_PARAM1 | FREE_PARAM2, data), data));
+						handle_subshell_in_lexeme(str + i + in_par_len + 1,
+							data), FREE_PARAM1 | FREE_PARAM2, data), data));
 		}
 		i++;
 	}

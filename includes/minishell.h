@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/19 21:09:54 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/20 00:45:56 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ struct s_minishell
 	int					last_cmd_pid;
 	int					script_fd;
 	bool				script_mode;
-	t_leaf 				*command_tab;
+	t_leaf				*command_tab;
 	bool				in_child;
 	bool				in_pipe;
 	bool				is_subshell;
@@ -74,7 +74,7 @@ void			parsing_exec(char *input, t_minishell *data);
 void			wildcards_in_cmd(t_leaf *cmd, t_minishell *data);
 
 void			parse_cmd(t_leaf *cmd, t_minishell *data);
-t_leaf			*evaluate_ast(t_AST_node *node, t_minishell *data);
+t_leaf			*evaluate_ast(t_ast_node *node, t_minishell *data);
 int				execute_cmd(t_leaf *cmd, t_minishell *data);
 
 void			raise_error_category(char *error_category, t_minishell *data);
@@ -86,9 +86,11 @@ void			*check_malloc(void *content, t_minishell *data);
 bool			exec_builtins(char **argv, bool exit, t_minishell *data);
 
 // UTILS
-t_envvar		*get_pwd(char *pwd_type, char *default_value, t_minishell *data);
+t_envvar		*get_pwd(char *pwd_type, char *default_value,
+					t_minishell *data);
 char			*ft_strjoin_alt(char *s1, char *s2, t_strjoin free_what);
-char			*ft_strjoin_alt_gc(char *s1, char *s2, t_strjoin free_what, t_minishell *data);
+char			*ft_strjoin_alt_gc(char *s1, char *s2, t_strjoin free_what,
+					t_minishell *data);
 unsigned long	hash_ptr(void *ptr);
 
 char			*find_command(char *cmd, t_minishell *data);

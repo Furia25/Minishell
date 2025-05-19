@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 19:20:34 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/19 21:11:43 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/20 00:45:12 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,13 @@ typedef enum e_builtin_type
 # define BUILTIN_FATAL_ERROR	177
 # define BUILTIN_ERROR_TOOMANY	"too many arguments"
 
-void			try_builtin(t_builtin_type type, 
-	int argc, char **v, t_minishell *data);
+void			try_builtin(t_builtin_type type,
+					int argc, char **v, t_minishell *data);
 t_builtin_type	get_builtin(char *cmd);
 
 int				exit_builtin(int argc, char **argv, t_minishell *data);
 int				env_builtin(t_minishell *data);
-int				pwd_builtin();
+int				pwd_builtin(void);
 int				export_builtin(int argc, char **argv, t_minishell *data);
 int				unset_builtin(int argc, char **argv, t_minishell *data);
 int				echo_builtin(int argc, char **argv);

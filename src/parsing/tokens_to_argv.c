@@ -6,24 +6,23 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 16:18:39 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/16 03:06:40 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/20 00:50:39 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-
-size_t tab_size(char **tab)
+size_t	tab_size(char **tab)
 {
 	size_t	i;
-	
+
 	i = 0;
 	while (tab[i] != NULL)
 		i++;
 	return (i);
 }
 
-static size_t lst_size_alt(t_lst *lst)
+static size_t	lst_size_alt(t_lst *lst)
 {
 	size_t	i;
 
@@ -33,7 +32,7 @@ static size_t lst_size_alt(t_lst *lst)
 		if (lst->type == DOLLAR)
 		{
 			if (*(lst->lexeme) != '\0')
-				i++;			
+				i++;
 		}
 		else
 			i++;
@@ -51,7 +50,7 @@ char	**tokens_to_argv(t_lst *tokens, t_minishell *data)
 	tokens_size = lst_size_alt(tokens);
 	if (tokens_size == 0)
 		return (NULL);
-	argv = malloc((tokens_size + 1) * sizeof(char*));
+	argv = malloc((tokens_size + 1) * sizeof(char *));
 	check_malloc(argv, data);
 	argv[tokens_size] = NULL;
 	i = 0;
@@ -60,7 +59,7 @@ char	**tokens_to_argv(t_lst *tokens, t_minishell *data)
 		if (*(tokens->lexeme) != '\0' || tokens->type != DOLLAR)
 		{
 			argv[i] = tokens->lexeme;
-			i++;	
+			i++;
 		}
 		tokens = tokens->next;
 	}
@@ -68,4 +67,3 @@ char	**tokens_to_argv(t_lst *tokens, t_minishell *data)
 		"\ndisplay argv after creating it\n");
 	return (argv);
 }
-

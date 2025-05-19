@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 03:43:36 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/16 03:39:32 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/20 00:49:42 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	parse_cmd(t_leaf *cmd, t_minishell *data)
 	int	fd_here_doc;
 
 	fd_here_doc = cmd->fd_input;
-
 	if (fd_here_doc == -1)
 		return ;
 	ev_subshell_in_cmd(cmd, data);
