@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 17:17:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/18 22:52:05 by val              ###   ########.fr       */
+/*   Updated: 2025/05/19 16:08:08 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	main(int argc, char **argv, char **envp)
 	flags = check_flags_c(argc, argv);
 	if (flags < 2)
 	{
-		if (isatty(0) == 0 || flags == 1)
+		if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO) || flags == 1)
 			handle_script(argv, &data);
 		else
 			handle_shell(&data);

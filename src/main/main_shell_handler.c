@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_shell_handler.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 01:51:08 by val               #+#    #+#             */
-/*   Updated: 2025/05/18 22:47:33 by val              ###   ########.fr       */
+/*   Updated: 2025/05/19 16:07:42 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	handle_shell(t_minishell *data)
 	char	*input;
 	char	*prompt;
 
-	disable_echoctl();
+	ft_putstr_fd("LA BITE FDSJIF", 2);
 	while (1)
 	{
 		setup_signals(SIGCONTEXT_PROMPT);
@@ -30,6 +30,7 @@ void	handle_shell(t_minishell *data)
 		input = readline(prompt);
 		gc_add(input, data);
 		gc_free(prompt, data);
+		
 		if (!input)
 		{
 			ft_putstr_fd("End of program (EOF detected)\n", 2);

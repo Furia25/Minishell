@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   misc_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 15:58:02 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/18 23:58:00 by val              ###   ########.fr       */
+/*   Updated: 2025/05/19 15:38:04 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,9 @@ void	disable_echoctl(void)
 {
 	struct termios	term;
 
+	if (!isatty(STDOUT_FILENO) || !isatty(STDIN_FILENO))
+		return ;
+	
 	if (tcgetattr(STDIN_FILENO, &term) == -1)
 		return ;
 	term.c_lflag &= ~ECHOCTL;

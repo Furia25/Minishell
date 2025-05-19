@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 13:42:49 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/18 23:04:59 by val              ###   ########.fr       */
+/*   Updated: 2025/05/19 15:55:17 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ t_gnl_result	get_next_line(int fd)
 	free(line);
 	if (res)
 		bufcpy(buffer, buffer + iuntilchar(buffer, '\n'));
-	return (gnl_return(res, res != NULL, 0, false));
+	return (gnl_return(res, res == NULL, 0, false));
 }
 
 /*  int	main(void)

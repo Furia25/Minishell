@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals_setups.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 12:54:33 by val               #+#    #+#             */
-/*   Updated: 2025/05/19 03:25:33 by val              ###   ########.fr       */
+/*   Updated: 2025/05/19 14:52:53 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	setup_signals(t_signal_context context)
 	struct sigaction	s_sigaction;
 	void				(*handler)(int);
 
+	handler = NULL;
 	if (context == SIGCONTEXT_PROMPT)
 		handler = signal_prompt_handler;
 	else if (context == SIGCONTEXT_FORK)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_script_handlers.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 16:04:21 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/18 23:57:07 by val              ###   ########.fr       */
+/*   Updated: 2025/05/19 15:48:55 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	handle_script(char **argv, t_minishell *data)
 
 	script_init(argv, data);
 	gnl = get_next_line(data->script_fd);
-	while (gnl.line)
+	while (gnl.line && !gnl.error)
 	{
 		gc_add(gnl.line, data);
 		if (!is_valid_script_line(gnl.line, gnl.ended))
@@ -38,7 +38,7 @@ void	handle_script(char **argv, t_minishell *data)
 	}
 	gc_free(gnl.line, data);
 	close(data->script_fd);
-	if (gnl.error && gnl.line == NULL)
+	if (gnl.error)
 		malloc_error(data);
 }
 

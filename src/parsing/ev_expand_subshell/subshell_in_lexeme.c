@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   subshell_in_lexeme.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:08:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/18 20:25:16 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/19 15:50:29 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static char	*stock_file_in_str(int fd, t_minishell *data)
 
 	str = ft_calloc(1, sizeof(char));
 	gnl_result = get_next_line(fd);
-	if (gnl_result.error == 1 && gnl_result.line == NULL)
+	if (gnl_result.error == 1)
 		malloc_error(data);
 	buff = gnl_result.line;
 	while (buff)
@@ -42,7 +42,7 @@ static char	*stock_file_in_str(int fd, t_minishell *data)
 		if (str == NULL)
 			malloc_error(data);
 		gnl_result = get_next_line(fd);
-		if (gnl_result.error == 1 && gnl_result.line == NULL)
+		if (gnl_result.error == 1)
 			malloc_error(data);
 		buff = gnl_result.line;
 	}
