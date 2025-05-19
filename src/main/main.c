@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 17:17:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/19 19:57:36 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/19 21:10:12 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ static int	init_minishell(t_minishell *data, char **envp)
 		raise_error(data);
 	if (!gc_init(data))
 		raise_error(data);
+	data->welcome_start = false;
 	data->command_tab = NULL;
 	data->environment_tab = NULL;
 	data->in_child = false;
