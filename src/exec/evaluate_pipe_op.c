@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:32:36 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/20 00:32:21 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/20 01:24:59 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,8 @@ t_leaf	*evaluate_pipe_op(t_ast_node *node, t_minishell *data)
 	t_leaf	*right;
 
 	data->in_pipe = true;
-	left = evaluate_ast(node->t_ope_node.left_node, data);
-	right = evaluate_ast(node->t_ope_node.right_node, data);
+	left = evaluate_ast(node->s_ope_node.left_node, data);
+	right = evaluate_ast(node->s_ope_node.right_node, data);
 	if (left->parenthesis == true)
 		right->fd_input = exec_parenthesized_cmd_pipe(left, data);
 	else

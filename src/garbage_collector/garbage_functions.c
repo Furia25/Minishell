@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 15:58:23 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/20 00:32:21 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/20 01:24:59 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,10 @@ void	gc_free_ast(t_ast_node	*ast_node, t_minishell *data)
 	}
 	if (ast_node->type != NODE_COMMAND)
 	{
-		gc_free_ast(ast_node->t_ope_node.left_node, data);
-		gc_free_ast(ast_node->t_ope_node.right_node, data);
-		gc_free(ast_node->t_ope_node.left_node, data);
-		gc_free(ast_node->t_ope_node.right_node, data);
+		gc_free_ast(ast_node->s_ope_node.left_node, data);
+		gc_free_ast(ast_node->s_ope_node.right_node, data);
+		gc_free(ast_node->s_ope_node.left_node, data);
+		gc_free(ast_node->s_ope_node.right_node, data);
 	}
 	gc_free(ast_node, data);
 }

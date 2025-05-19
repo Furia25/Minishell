@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:15:51 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/20 00:32:21 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/20 01:24:59 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ t_ast_node	*create_parent_node(t_lexeme_type ope, t_ast_node *left,
 	node = malloc(sizeof(t_ast_node));
 	check_malloc(node, data);
 	node->type = NODE_OPERATOR_CONTROL;
-	node->t_ope_node.control_operator = ope;
-	node->t_ope_node.left_node = left;
-	node->t_ope_node.right_node = right;
+	node->s_ope_node.control_operator = ope;
+	node->s_ope_node.left_node = left;
+	node->s_ope_node.right_node = right;
 	return (node);
 }

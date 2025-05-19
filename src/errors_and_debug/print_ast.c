@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 19:47:07 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/20 00:32:21 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/20 01:24:59 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,13 +41,13 @@ static void	print_ast(t_ast_node *node_ast, size_t depth)
 	else
 	{
 		print_spaces(depth);
-		print_enum(node_ast->t_ope_node.control_operator);
+		print_enum(node_ast->s_ope_node.control_operator);
 		print_spaces(depth);
 		ft_printf_fd(2, "left_node\n");
-		print_ast(node_ast->t_ope_node.left_node, depth + 2);
+		print_ast(node_ast->s_ope_node.left_node, depth + 2);
 		print_spaces(depth);
 		ft_printf_fd(2, "right_node\n");
-		print_ast(node_ast->t_ope_node.right_node, depth + 2);
+		print_ast(node_ast->s_ope_node.right_node, depth + 2);
 	}
 }
 
