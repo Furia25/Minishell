@@ -3,21 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   here_docs.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:43:56 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/18 20:15:17 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/19 02:36:06 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "minishell_signal.h"
 #include "minishell.h"
+
 int		open_new_here_doc_file(t_leaf *cmd, char **here_doc_file, t_minishell *data);
 void	write_in_here_doc_file(t_leaf *cmd, t_lst *token_eof, int fd, t_minishell *data);
 
 static char	*handle_here_doc(t_leaf *cmd, t_lst *token_eof, t_minishell *data)
 {
 	char	*here_doc_file;
-	int	fd;
+	int		fd;
 
 	if (cmd->fd_input == -1)
 		return (NULL);
@@ -54,12 +56,15 @@ static void	here_docs_in_cmd(t_leaf *cmd, t_minishell *data)
 
 void	handle_all_here_doc(t_leaf *command_tab, t_minishell *data)
 {
+	setup_signals(SIGCONTEXT_HEREDOC);
+	g_signal_status = 0;
 	while (command_tab->ope_after != LINE_CHANGE)
 	{
 		here_docs_in_cmd(command_tab, data);
 		command_tab++;
 	}
 	here_docs_in_cmd(command_tab, data);
+	setup_signals(SIGCONTEXT_PARENT);
 }
 
 void	rm_here_doc_files_in_cmd(t_lst *tokens)

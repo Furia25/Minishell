@@ -6,15 +6,17 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/18 23:48:42 by val              ###   ########.fr       */
+/*   Updated: 2025/05/19 02:19:51 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-typedef enum e_exit_type	t_exit;
-typedef struct s_minishell	t_minishell;
-typedef enum e_strjoin		t_strjoin;
+
+typedef enum e_exit_type		t_exit;
+typedef struct s_minishell		t_minishell;
+typedef enum e_strjoin			t_strjoin;
+
 # include "libft.h"
 # include <stdbool.h>
 # include <unistd.h>

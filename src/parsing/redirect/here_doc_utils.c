@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:37:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/19 01:24:33 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/19 01:56:38 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,35 +91,3 @@ char	*handle_dollars_in_here_doc(bool unclosed_par, char **input,
 		ft_printf_fd(2, "input: %s\n", *input);
 	return (*input);
 }
-
-void	write_in_here_doc_file(t_leaf *cmd, t_lst *token_eof, int fd, t_minishell *data)
-{
-	char	*input;
-	bool	unclosed_par;
-
-	unclosed_par = false;
-	while (1)
-	{
-		input = readline("> ");
-		check_malloc(input, data);
-		if (unclosed_par == false)
-			unclosed_par = unclosed_par_here_doc(input);
-		if (ft_strcmp(input, token_eof->lexeme) == 0)
-		{
-			if (unclosed_par == true)
-			{
-				ft_putstr_fd("minishell: unexpected EOF ", 2);
-				ft_putendl_fd("while looking for matching `)'", 2);
-				cmd->fd_input = -1;
-			}
-			gc_free(input, data);
-			break ;
-		}
-		handle_dollars_in_here_doc(unclosed_par, &input, token_eof, data);
-		ft_putendl_fd(input, fd);
-		gc_free(input, data);
-	}
-}
-
-
-
