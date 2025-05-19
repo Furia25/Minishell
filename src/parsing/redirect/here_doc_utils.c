@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:37:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/19 01:56:38 by val              ###   ########.fr       */
+/*   Updated: 2025/05/19 02:58:50 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char	*handle_ev_in_here_doc(char *str, t_minishell *data);
 char	*handle_subshell_in_lexeme(char *str, t_minishell *data);
 
-int	open_new_here_doc_file(t_leaf *cmd, char **here_doc_file, t_minishell *data)
+int	open_new_here_doc_file(char **here_doc_file, t_minishell *data)
 {
 	int		fd;
 	int		i;
@@ -37,7 +37,6 @@ int	open_new_here_doc_file(t_leaf *cmd, char **here_doc_file, t_minishell *data)
 	}
 	if (fd == -1 && errno != EEXIST)
 	{
-		cmd->fd_input = -1;
 		perror("minishell: here doc");
 		return (-1);
 	}

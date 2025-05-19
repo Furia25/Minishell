@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 12:54:33 by val               #+#    #+#             */
-/*   Updated: 2025/05/19 02:42:51 by val              ###   ########.fr       */
+/*   Updated: 2025/05/19 03:25:33 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static void	signal_heredoc_handler(int sig)
 {
 	g_signal_status = sig;
 
-	rl_replace_line("word",0);
+	rl_replace_line("",0);
 	rl_redisplay();
 	rl_done = 1;
 }

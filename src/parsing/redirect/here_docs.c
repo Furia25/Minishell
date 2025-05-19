@@ -6,30 +6,36 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:43:56 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/19 02:36:06 by val              ###   ########.fr       */
+/*   Updated: 2025/05/19 03:38:10 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_signal.h"
 #include "minishell.h"
 
-int		open_new_here_doc_file(t_leaf *cmd, char **here_doc_file, t_minishell *data);
-void	write_in_here_doc_file(t_leaf *cmd, t_lst *token_eof, int fd, t_minishell *data);
+int		open_new_here_doc_file(char **here_doc_file, t_minishell *data);
+int		write_in_here_doc_file(int fd, t_lst *token_eof, t_minishell *data);
 
 static char	*handle_here_doc(t_leaf *cmd, t_lst *token_eof, t_minishell *data)
 {
 	char	*here_doc_file;
-	int		fd;
+	int		here_doc_error;
 
 	if (cmd->fd_input == -1)
 		return (NULL);
 	here_doc_file = ft_strdup("/tmp/here_doc");
 	check_malloc(here_doc_file, data);
-	fd = open_new_here_doc_file(cmd, &here_doc_file, data);
-	if (fd == -1)
+	cmd->fd_input = open_new_here_doc_file(&here_doc_file, data);
+	if (cmd->fd_input == -1)
+		return (here_doc_file);
+	here_doc_error = write_in_here_doc_file(cmd->fd_input, token_eof, data);
+	close(cmd->fd_input);
+	if (here_doc_error != 0)
+		cmd->fd_input = -1;
+	if (here_doc_error == 0)
+		cmd->fd_input = 0;
+	if (here_doc_error == 2)
 		return (NULL);
-	write_in_here_doc_file(cmd ,token_eof, fd, data);
-	close(fd);
 	return (here_doc_file);
 }
 
@@ -57,12 +63,13 @@ static void	here_docs_in_cmd(t_leaf *cmd, t_minishell *data)
 void	handle_all_here_doc(t_leaf *command_tab, t_minishell *data)
 {
 	setup_signals(SIGCONTEXT_HEREDOC);
-	g_signal_status = 0;
 	while (command_tab->ope_after != LINE_CHANGE)
 	{
+		g_signal_status = 0;
 		here_docs_in_cmd(command_tab, data);
 		command_tab++;
 	}
+	g_signal_status = 0;
 	here_docs_in_cmd(command_tab, data);
 	setup_signals(SIGCONTEXT_PARENT);
 }
