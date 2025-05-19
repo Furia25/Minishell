@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:43:56 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/19 03:38:10 by val              ###   ########.fr       */
+/*   Updated: 2025/05/19 03:44:36 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ static char	*handle_here_doc(t_leaf *cmd, t_lst *token_eof, t_minishell *data)
 		cmd->fd_input = -1;
 	if (here_doc_error == 0)
 		cmd->fd_input = 0;
-	if (here_doc_error == 2)
-		return (NULL);
 	return (here_doc_file);
 }
 

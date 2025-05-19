@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 01:56:12 by val               #+#    #+#             */
-/*   Updated: 2025/05/19 03:36:58 by val              ###   ########.fr       */
+/*   Updated: 2025/05/19 03:44:24 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,10 @@ int		write_in_here_doc_file(int fd, t_lst *token_eof, t_minishell *data)
 			if (errno != 0)
 				malloc_error(data);
 			if (g_signal_status == SIGINT)
+			{
+				data->exit_code = 128 + SIGINT;
 				return (2);
+			}
 			return (1);
 		}
 		if (unclosed_par == false)
