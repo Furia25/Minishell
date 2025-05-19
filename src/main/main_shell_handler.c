@@ -6,10 +6,11 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 01:51:08 by val               #+#    #+#             */
-/*   Updated: 2025/05/19 16:07:42 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/19 16:17:33 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "errno.h"
 #include "minishell_signal.h"
 #include "minishell.h"
 
@@ -21,19 +22,17 @@ void	handle_shell(t_minishell *data)
 	char	*input;
 	char	*prompt;
 
-	ft_putstr_fd("LA BITE FDSJIF", 2);
 	while (1)
 	{
 		setup_signals(SIGCONTEXT_PROMPT);
 		prompt = get_prompt(data);
-		check_malloc(prompt, data);
 		input = readline(prompt);
 		gc_add(input, data);
 		gc_free(prompt, data);
-		
 		if (!input)
 		{
-			ft_putstr_fd("End of program (EOF detected)\n", 2);
+			if (errno != 0)
+				malloc_error(data);
 			exit_minishell(data);
 			return ;
 		}
@@ -57,6 +56,7 @@ static char	*get_prompt(t_minishell *data)
 		return (ft_strdup(PROMPT));
 	var = (t_envvar *) temp_entry->value;
 	prompt = ft_strjoin(var->value, PROMPT);
+	check_malloc(prompt, data);
 	return (prompt);
 }
 
