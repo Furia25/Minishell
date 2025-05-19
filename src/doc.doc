@@ -455,3 +455,4 @@ cd : No such file or directory
 /home/vdurand/Documents/PROJECTS/Minishell$>
 enlever tout les champs de la struct minishell quon utilise plus
 securiser write here doc
+remplcer toute les chaine litteral derreur par des macro
