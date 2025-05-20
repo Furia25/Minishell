@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 13:38:31 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/20 15:59:26 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/20 16:20:56 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	exec_command(char **argv, t_minishell *data)
 
 	if (data->in_pipe)
 		exec_builtins(argv, true, data);
+	data->exit_code = 127;
 	command_path = search_command(argv[0], data);
 	if (!command_path)
 		command_notfound(argv[0], data);
@@ -41,7 +42,6 @@ static char	*search_command(char *cmd, t_minishell *data)
 
 	if (!cmd)
 		return (NULL);
-	data->exit_code = 127;
 	if (ft_strchr(cmd, '/') != NULL)
 	{
 		if (!is_directory(cmd))
