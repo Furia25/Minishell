@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 13:38:31 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/20 16:20:56 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/20 18:19:08 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	exec_command(char **argv, t_minishell *data)
 		command_notfound(argv[0], data);
 	setup_signals(SIGCONTEXT_FORK);
 	execve(command_path, argv, data->environment_tab);
+	close(1);
+	close(0);
 	free(command_path);
 	exit_minishell(data);
 }

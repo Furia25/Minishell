@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 23:17:25 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/20 15:55:38 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/20 18:18:25 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void	command_notfound(char *cmd, t_minishell *data)
 	char	*temp_file;
 	char	*temp_cmd;
 
+	close(1);
+	close(0);
 	if (is_directory(cmd))
 	{
 		data->exit_code = 126;
@@ -49,9 +51,9 @@ void	command_notfound(char *cmd, t_minishell *data)
 		else
 			temp_file = MINISHELL_NAME;
 		ft_printf_fd(2, "%s: line %d: \"%s\" command not found\n",
-			temp_file, data->line, cmd);
+			temp_file, data->line, temp_cmd);
 	}
 	else
-		ft_printf_fd(2, "%s: \"%s\" command not found\n", MINISHELL_NAME, cmd);
+		ft_printf_fd(2, "%s: \"%s\" command not found\n", MINISHELL_NAME, temp_cmd);
 	exit_minishell(data);
 }
