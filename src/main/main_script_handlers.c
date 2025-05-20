@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 16:04:21 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/20 14:42:57 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/20 17:37:18 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static bool	is_valid_script_line(char *line, bool ended)
 void	handle_cflag(char **argv, t_minishell *data)
 {
 	data->script_mode = 1;
-	data->script_file = "minishell";
+	data->script_file = MINISHELL_NAME;
 	data->script_fd = -1;
 	while (*argv)
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcards.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 18:49:08 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/18 23:58:52 by val              ###   ########.fr       */
+/*   Updated: 2025/05/20 17:48:31 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,13 @@ t_wsearch	wildcard_lst_from_lexeme(char *lexeme)
 	}
 	wildcard.result = NULL;
 	wildcard.lexeme = lexeme;
-	search_result = wildcard_explore(".", &wildcard, 0);
+	if (*lexeme == '/')
+	{
+		lexeme++;
+		search_result = wildcard_explore("/", &wildcard, 0);
+	}
+	else
+		search_result = wildcard_explore(".", &wildcard, 0);
 	free_chartab(wildcard.rules);
 	return (search_result);
 }
@@ -88,6 +94,8 @@ char	*get_dirfile_name(char *dir_name, char *file_name)
 	size_t	length_file;
 	char	*result;
 
+	if (ft_strcmp(dir_name, "/") == 0)
+		dir_name = "";
 	if (ft_strcmp(dir_name, ".") == 0)
 		return (ft_strdup(file_name));
 	length_dir = ft_strlen(dir_name);

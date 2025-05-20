@@ -6,12 +6,13 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:42:00 by val               #+#    #+#             */
-/*   Updated: 2025/05/20 16:21:17 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/20 17:34:52 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "builtin.h"
+#include <errno.h>
 
 static int	handle_env(char *env, t_minishell *data);
 static bool	update_pwds(t_minishell *data);
@@ -38,7 +39,8 @@ int	cd_builtin(int argc, char **argv, t_minishell *data)
 			return (BUILTIN_FATAL_ERROR);
 		return (EXIT_SUCCESS);
 	}
-	print_basic_error(BUILTIN_NAME_CD);
+	ft_printf_fd(2, "%s: %s: %s: %s\n", MINISHELL_NAME,
+		BUILTIN_NAME_CD, argv[1], strerror(errno));
 	return (EXIT_FAILURE);
 }
 

@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 22:19:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/20 14:43:56 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/20 17:36:54 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static void	syntax_errors(char *str, t_minishell *data)
 {
-	ft_printf_fd(2, "minishell: syntax error \
-near unexpected token `%s\'\n", str);
+	ft_printf_fd(2, "%s: syntax error \
+near unexpected token `%s\'\n", MINISHELL_NAME, str);
 	data->exit_code = 2;
 }
 
