@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 04:06:07 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/20 01:13:45 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/20 20:14:22 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 # define HERE_DOC_FILE "/tmp/here_doc"
 
-void	handle_red_input(t_leaf *cmd, char *file);
+void	handle_red_input(t_leaf *cmd, t_lexeme_type token_type, char *file);
 void	handle_red_output(t_leaf *cmd, char *file);
 void	handle_red_output_append(t_leaf *cmd, char *file);
 void	handle_red_input_output(t_leaf *cmd, char *file);

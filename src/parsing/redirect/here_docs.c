@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:43:56 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/20 01:14:01 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/20 23:12:22 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,9 @@ static char	*handle_here_doc(t_leaf *cmd, t_lst *token_eof, t_minishell *data)
 		return (here_doc_file);
 	here_doc_error = write_in_here_doc_file(cmd->fd_input, token_eof, data);
 	close(cmd->fd_input);
+	cmd->fd_input = 0;
 	if (here_doc_error != 1)
 		cmd->fd_input = -1;
-	if (here_doc_error == 1)
-		cmd->fd_input = 0;
 	if (here_doc_error == 2)
 		return (NULL);
 	return (here_doc_file);
@@ -55,7 +54,6 @@ static bool	here_docs_in_cmd(t_leaf *cmd, t_minishell *data)
 			if (here_doc_file == NULL)
 				return (false);
 			gc_free(temp->next->lexeme, data);
-			temp->type = RED_IN;
 			temp->next->lexeme = here_doc_file;
 			temp = temp->next->next;
 		}
@@ -87,8 +85,8 @@ void	rm_here_doc_files_in_cmd(t_lst *tokens)
 {
 	while (tokens)
 	{
-		if (tokens->type == RED_IN
-			&& ft_strncmp("/tmp/here_doc", tokens->next->lexeme, 13) == 0)
+		if (tokens->type == HERE_DOC
+			&& ft_strncmp(HERE_DOC_FILE, tokens->next->lexeme, 13) == 0)
 			unlink(tokens->next->lexeme);
 		tokens = tokens->next;
 	}

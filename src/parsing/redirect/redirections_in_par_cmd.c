@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 03:56:04 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/20 01:09:38 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/20 20:29:15 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,12 @@ static bool	is_redi(t_leaf *cmd, t_lst *token)
 		in_parenthesis = false;
 	if (in_parenthesis == true)
 		return (false);
-	if (token->type == RED_IN || token->type == RED_OUT
-		|| token->type == RED_OUT_A || token->type == RED_IN_OUT)
+	if (token->type == RED_IN || token->type == HERE_DOC
+		|| token->type == RED_OUT || token->type == RED_OUT_A
+		|| token->type == RED_IN_OUT)
 	{
-		if (token->type == RED_IN)
-			handle_red_input(cmd, token->next->lexeme);
+		if (token->type == RED_IN || token->type == HERE_DOC)
+			handle_red_input(cmd, token->type, token->next->lexeme);
 		if (token->type == RED_OUT)
 			handle_red_output(cmd, token->next->lexeme);
 		if (token->type == RED_OUT_A)

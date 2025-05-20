@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:56:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/20 01:09:23 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/20 23:24:17 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,12 @@ void	rm_here_doc_files_in_cmd(t_lst *tokens);
 
 static bool	is_redi(t_leaf *cmd, t_lst *token)
 {
-	if (token->type == RED_IN || token->type == RED_OUT
-		|| token->type == RED_OUT_A || token->type == RED_IN_OUT)
+	if (token->type == RED_IN || token->type == HERE_DOC
+		|| token->type == RED_OUT || token->type == RED_OUT_A
+		|| token->type == RED_IN_OUT)
 	{
-		if (token->type == RED_IN)
-			handle_red_input(cmd, token->next->lexeme);
+		if (token->type == RED_IN || token->type == HERE_DOC)
+			handle_red_input(cmd, token->type, token->next->lexeme);
 		if (token->type == RED_OUT)
 			handle_red_output(cmd, token->next->lexeme);
 		if (token->type == RED_OUT_A)
