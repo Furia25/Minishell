@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 23:17:25 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/19 21:11:48 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/20 15:28:31 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,15 @@ void	command_notfound(char *cmd, t_minishell *data)
 	char	*temp_file;
 	char	*temp_cmd;
 
+	if (is_directory(cmd))
+	{
+		data->exit_code = 127;
+		exit_minishell(data);
+	}
 	if (cmd)
 		temp_cmd = cmd;
 	else
-		temp_cmd = "UNKNOW";
+		temp_cmd = "UNKNOWN";
 	if (data->script_mode)
 	{
 		if (data->script_file)

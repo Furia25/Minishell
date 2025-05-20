@@ -6,13 +6,14 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 15:58:02 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/20 14:44:47 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/20 15:22:42 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <errno.h>
 #include "minishell.h"
 #include <termios.h>
+#include <sys/stat.h>
 
 int	check_flags_c(int argc, char **argv)
 {
@@ -55,4 +56,13 @@ void	disable_echoctl(void)
 		return ;
 	term.c_lflag &= ~ECHOCTL;
 	tcsetattr(STDIN_FILENO, TCSANOW, &term);
+}
+
+bool	is_directory(char *path)
+{
+	struct stat		file_data;
+
+	ft_memset(&file_data, 0, sizeof(struct stat));
+	lstat(path, &file_data);
+	return (S_ISDIR(file_data.st_mode));
 }

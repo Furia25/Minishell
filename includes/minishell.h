@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/20 15:01:37 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/20 15:24:44 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,8 +73,6 @@ char			*ft_strjoin_alt_gc(char *s1, char *s2, t_strjoin free_what,
 					t_minishell *data);
 unsigned long	hash_ptr(void *ptr);
 
-char			*find_command(char *cmd, t_minishell *data);
-
 void			command_notfound(char *cmd, t_minishell *data);
 
 int				check_flags_c(int argc, char **argv);
@@ -90,4 +88,5 @@ void			wait_childs(t_minishell *data);
 
 void			disable_echoctl(void);
 void			print_basic_error(char *error_name);
+bool			is_directory(char *path);
 #endif

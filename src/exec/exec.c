@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 13:38:31 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/19 19:57:36 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/20 15:31:36 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,29 +26,13 @@ void	exec_command(char **argv, t_minishell *data)
 
 	if (data->in_pipe)
 		exec_builtins(argv, true, data);
-	command_path = find_command(argv[0], data);
+	command_path = search_command(argv[0], data);
 	if (!command_path)
 		command_notfound(argv[0], data);
 	setup_signals(SIGCONTEXT_FORK);
 	execve(command_path, argv, data->environment_tab);
 	free(command_path);
 	exit_minishell(data);
-}
-
-char	*find_command(char *cmd, t_minishell *data)
-{
-	char			*command_finded;
-	struct stat		file_data;
-
-	ft_memset(&file_data, 0, sizeof(struct stat));
-	command_finded = search_command(cmd, data);
-	if (!command_finded)
-		return (NULL);
-	lstat(command_finded, &file_data);
-	if (!S_ISDIR(file_data.st_mode))
-		return (command_finded);
-	else
-		return (NULL);
 }
 
 static char	*search_command(char *cmd, t_minishell *data)
@@ -59,9 +43,17 @@ static char	*search_command(char *cmd, t_minishell *data)
 		return (NULL);
 	if (ft_strchr(cmd, '/') != NULL)
 	{
-		if (access(cmd, F_OK | X_OK) == 0)
-			return (cmd);
-		return (NULL);
+		if (!is_directory(cmd))
+		{
+			if (access(cmd, F_OK | X_OK) == 0)
+				return (cmd);
+			return (NULL);
+		}
+		else
+		{
+			ft_printf_fd(2, "%s: %s is a directory\n", MINISHELL_NAME, cmd);
+			return (NULL);
+		}
 	}
 	path = hashmap_search(hash(ENV_PATH), &data->environment);
 	if (path != NULL)
