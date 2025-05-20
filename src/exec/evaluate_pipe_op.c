@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:32:36 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/20 01:24:59 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/21 00:44:56 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int	exec_parenthesized_cmd_pipe(t_leaf *cmd, t_minishell *data)
 			secure_pipe_dup2(pipefd, cmd, data);
 			data->is_subshell = true;
 			parsing_exec(tokens_to_str(cmd->tokens->next, data), data);
+			close(STDIN_FILENO);
+			close(STDOUT_FILENO);
 			exit_minishell(data);
 		}
 		else if (pid == -1)
@@ -87,18 +89,18 @@ t_leaf	*evaluate_pipe_op(t_ast_node *node, t_minishell *data)
 static void	secure_pipe_dup2(int pipefd[2], t_leaf *cmd, t_minishell *data)
 {
 	close(pipefd[0]);
-	if (dup2(pipefd[1], 1) == -1)
+	if (dup2(pipefd[1], STDOUT_FILENO) == -1)
 	{
 		close(pipefd[1]);
 		raise_error_category("dup2", data);
 	}
 	close(pipefd[1]);
-	if (dup2(cmd->fd_input, 0) == -1)
+	if (dup2(cmd->fd_input, STDIN_FILENO) == -1)
 		raise_error_category("dup2", data);
-	if (dup2(cmd->fd_output, 1) == -1)
+	if (dup2(cmd->fd_output, STDOUT_FILENO) == -1)
 		raise_error_category("dup2", data);
-	if (cmd->fd_input != 0)
+	if (cmd->fd_input != STDIN_FILENO)
 		close(cmd->fd_input);
-	if (cmd->fd_output != 1)
+	if (cmd->fd_output != STDOUT_FILENO)
 		close(cmd->fd_output);
 }

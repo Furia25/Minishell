@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 23:17:25 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/20 18:18:25 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/21 00:41:01 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ void	command_notfound(char *cmd, t_minishell *data)
 	char	*temp_file;
 	char	*temp_cmd;
 
-	close(1);
-	close(0);
+	close(STDIN_FILENO);
+	close(STDOUT_FILENO);
 	if (is_directory(cmd))
 	{
 		data->exit_code = 126;

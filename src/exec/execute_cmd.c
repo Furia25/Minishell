@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:31:08 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/19 23:43:54 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/21 00:44:37 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ static int	exec_parenthesized_cmd(t_leaf *cmd, t_minishell *data)
 			secure_dup2(cmd, data);
 			data->is_subshell = true;
 			parsing_exec(tokens_to_str(cmd->tokens->next, data), data);
+			close(STDIN_FILENO);
+			close(STDOUT_FILENO);
 			exit_minishell(data);
 		}
 		else if (pid != -1)
@@ -88,12 +90,12 @@ static unsigned char	close_and_wait(t_leaf *cmd, t_minishell *data)
 
 static void	secure_dup2(t_leaf *cmd, t_minishell *data)
 {
-	if (dup2(cmd->fd_input, 0) == -1)
+	if (dup2(cmd->fd_input, STDIN_FILENO) == -1)
 		raise_error_category("dup2", data);
-	if (dup2(cmd->fd_output, 1) == -1)
+	if (dup2(cmd->fd_output, STDOUT_FILENO) == -1)
 		raise_error_category("dup2", data);
-	if (cmd->fd_input != 0)
+	if (cmd->fd_input != STDIN_FILENO)
 		close(cmd->fd_input);
-	if (cmd->fd_output != 1)
+	if (cmd->fd_output != STDOUT_FILENO)
 		close(cmd->fd_output);
 }
