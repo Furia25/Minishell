@@ -3,23 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:22:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/19 23:39:21 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/20 14:53:12 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-size_t single_quote_token(t_lst **tokens, char *str, t_minishell *data);
-size_t double_quote_token(t_lst **tokens, char *str, t_minishell *data);
-size_t word_token(t_lst **tokens, char *str, t_minishell *data);
 
-static size_t op_control_token(t_lst **tokens, char *str, char op, t_minishell *data)
+size_t		single_quote_token(t_lst **tokens, char *str, t_minishell *data);
+size_t		double_quote_token(t_lst **tokens, char *str, t_minishell *data);
+size_t		word_token(t_lst **tokens, char *str, t_minishell *data);
+static bool	create_tokens_return(char *input, t_minishell *data);
+
+static size_t	op_control_token(t_lst **tokens,
+	char *str, char op, t_minishell *data)
 {
-	size_t	i;
-	char *node_lexeme;
+	char	*node_lexeme;
 	t_lst	*new_node;
+	size_t	i;
 
 	i = 0;
 	while (str[i] == op && i != 2)
@@ -38,11 +41,12 @@ static size_t op_control_token(t_lst **tokens, char *str, char op, t_minishell *
 	return (i);
 }
 
-static size_t op_redirection_token(t_lst **tokens, char *str, char op, t_minishell *data)
+static size_t	op_redirection_token(t_lst **tokens,
+	char *str, char op, t_minishell *data)
 {
-	size_t	i;
-	char *node_lexeme;
+	char	*node_lexeme;
 	t_lst	*new_node;
+	size_t	i;
 
 	i = 0;
 	while (str[i] == op && i != 2)
@@ -67,9 +71,10 @@ static size_t op_redirection_token(t_lst **tokens, char *str, char op, t_minishe
 	return (i);
 }
 
-static size_t op_parenthesis(t_lst **tokens, char *str, char op, t_minishell *data)
+static size_t	op_parenthesis(t_lst **tokens,
+	char *str, char op, t_minishell *data)
 {
-	char *node_lexeme;
+	char	*node_lexeme;
 	t_lst	*new_node;
 
 	node_lexeme = ft_substr(str, 0, 1);
@@ -92,11 +97,9 @@ bool	create_tokens(t_lst **tokens, char *input, t_minishell *data)
 		input++;
 	if (*input == '\0')
 		return (true);
-	if ((*input == '&' && *(input + 1) != '&') || *input == ';' || *input == '\\')
-	{
-		not_interpret_chara(*input, "\'", data);
-		return (false);
-	}
+	if ((*input == '&' && *(input + 1) != '&')
+		|| *input == ';' || *input == '\\')
+		return (create_tokens_return(input, data));
 	if (ft_strchr("|&;()<> \t\'\"", *input) == NULL)
 		lexeme_len = word_token(tokens, input, data);
 	if (*input == '\'')
@@ -112,4 +115,10 @@ bool	create_tokens(t_lst **tokens, char *input, t_minishell *data)
 	if (lexeme_len == 0)
 		return (false);
 	return (create_tokens(tokens, input + lexeme_len, data));
+}
+
+static bool	create_tokens_return(char *input, t_minishell *data)
+{
+	not_interpret_chara(*input, "\'", data);
+	return (false);
 }

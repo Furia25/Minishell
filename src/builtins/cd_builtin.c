@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:42:00 by val               #+#    #+#             */
-/*   Updated: 2025/05/19 19:55:32 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/20 15:09:31 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	cd_builtin(int argc, char **argv, t_minishell *data)
 {
 	if (argc > 2)
 	{
-		ft_printf_fd(2, "%s: %s: %s\n", 
+		ft_printf_fd(2, "%s: %s: %s\n",
 			MINISHELL_NAME, BUILTIN_NAME_CD, BUILTIN_ERROR_TOOMANY);
 		return (EXIT_FAILURE);
 	}
@@ -49,7 +49,7 @@ static int	handle_env(char *env, t_minishell *data)
 	entry = hashmap_search(hash(env), &data->environment);
 	if (!entry)
 	{
-		ft_printf_fd(2, "%s: %s: %s not set\n", 
+		ft_printf_fd(2, "%s: %s: %s not set\n",
 			MINISHELL_NAME, BUILTIN_NAME_CD, env);
 		return (EXIT_FAILURE);
 	}
@@ -57,6 +57,7 @@ static int	handle_env(char *env, t_minishell *data)
 	{
 		if (chdir(((t_envvar *) entry->value)->value) == -1)
 		{
+			ft_putstr_fd("ZIZI", 2);
 			print_basic_error(BUILTIN_NAME_CD);
 			return (EXIT_FAILURE);
 		}

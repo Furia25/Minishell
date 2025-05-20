@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   print_ast.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 19:47:07 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/20 01:24:59 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/20 14:44:04 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "debug.h"
 
-static void print_spaces(size_t depth)
+static void	print_spaces(size_t depth)
 {
 	while (depth != 0)
 	{

@@ -3,19 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   quotes_token.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 23:49:57 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/19 18:54:08 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/20 14:55:57 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
 size_t	index_last_closed_par(char *str, t_minishell *data);
 
-static t_lst	*create_set_quote_node(char *str, t_lexeme_type type ,size_t len, t_minishell *data)
+static t_lst	*create_set_quote_node(char *str, t_lexeme_type type,
+	size_t len, t_minishell *data)
 {
-	char *node_lexeme;
+	char	*node_lexeme;
 	t_lst	*new_node;
 
 	node_lexeme = ft_substr(str, 1, len - 1);
@@ -36,7 +38,7 @@ static t_lst	*create_set_quote_node(char *str, t_lexeme_type type ,size_t len, t
 	return (new_node);
 }
 
-size_t single_quote_token(t_lst **tokens, char *str, t_minishell *data)
+size_t	single_quote_token(t_lst **tokens, char *str, t_minishell *data)
 {
 	size_t	i;
 
@@ -52,7 +54,7 @@ size_t single_quote_token(t_lst **tokens, char *str, t_minishell *data)
 	return (i + 1);
 }
 
-size_t double_quote_token(t_lst **tokens, char *str, t_minishell *data)
+size_t	double_quote_token(t_lst **tokens, char *str, t_minishell *data)
 {
 	size_t	i;
 	size_t	i_last_closed_par;
@@ -81,20 +83,20 @@ size_t double_quote_token(t_lst **tokens, char *str, t_minishell *data)
 
 void	fusion_quote_token_eof(t_lst *tokens, t_minishell *data)
 {
-	t_lst *buff;
+	t_lst	*buff;
 
 	while (tokens && tokens->metacharacter_after == false)
 	{
 		if (tokens->next == NULL)
 			return ;
 		if ((tokens->type == WORD || tokens->type == DOLLAR
-			|| tokens->type == SINGLE_Q || tokens->type == DOUBLE_Q)
+				|| tokens->type == SINGLE_Q || tokens->type == DOUBLE_Q)
 			&& tokens->metacharacter_after == false)
 		{
 			if (tokens->next->type != DOLLAR)
 			{
-				tokens->lexeme = ft_strjoin_alt_gc(tokens->lexeme, tokens->next->lexeme,
-					FREE_PARAM1, data);
+				tokens->lexeme = ft_strjoin_alt_gc(tokens->lexeme,
+						tokens->next->lexeme, FREE_PARAM1, data);
 				tokens->type = tokens->next->type;
 				tokens->metacharacter_after = tokens->next->metacharacter_after;
 				check_malloc(tokens->lexeme, data);
@@ -110,20 +112,20 @@ void	fusion_quote_token_eof(t_lst *tokens, t_minishell *data)
 
 void	fusion_quote_token(t_lst *tokens, t_minishell *data)
 {
-	t_lst *buff;
+	t_lst	*buff;
 
 	while (tokens)
 	{
 		if (tokens->next == NULL)
 			return ;
 		if ((tokens->type == WORD || tokens->type == DOLLAR
-			|| tokens->type == SINGLE_Q || tokens->type == DOUBLE_Q)
+				|| tokens->type == SINGLE_Q || tokens->type == DOUBLE_Q)
 			&& tokens->metacharacter_after == false)
 		{
 			if (tokens->next->type != DOLLAR)
 			{
-				tokens->lexeme = ft_strjoin_alt_gc(tokens->lexeme, tokens->next->lexeme,
-					FREE_PARAM1, data);
+				tokens->lexeme = ft_strjoin_alt_gc(tokens->lexeme,
+						tokens->next->lexeme, FREE_PARAM1, data);
 				tokens->type = tokens->next->type;
 				tokens->metacharacter_after = tokens->next->metacharacter_after;
 				check_malloc(tokens->lexeme, data);

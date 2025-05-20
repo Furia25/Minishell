@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_error.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 22:19:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/19 23:48:02 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/20 14:43:56 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 static void	syntax_errors(char *str, t_minishell *data)
 {
-	ft_printf_fd(2, "minishell: syntax error near unexpected token `%s\'\n", str);
+	ft_printf_fd(2, "minishell: syntax error \
+near unexpected token `%s\'\n", str);
 	data->exit_code = 2;
 }
 
@@ -52,7 +53,7 @@ static bool	have_syntax_errors_redis(t_lst *tokens, t_minishell *data)
 		}
 		if (tokens->next->type != SINGLE_Q
 			&& tokens->next->type != DOUBLE_Q
-			&&  tokens->next->type != WORD)
+			&& tokens->next->type != WORD)
 		{
 			syntax_errors(tokens->next->lexeme, data);
 			return (true);
@@ -88,6 +89,7 @@ static bool	have_syntax_errors_parenthesis(t_lst **tokens, t_minishell *data)
 	}
 	return (false);
 }
+
 bool	have_syntax_errors(t_lst *tokens, t_minishell *data)
 {
 	if (tokens->type == AND || tokens->type == PIPE

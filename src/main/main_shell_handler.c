@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 01:51:08 by val               #+#    #+#             */
-/*   Updated: 2025/05/19 21:10:38 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/20 14:42:46 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ static char	*get_prompt(t_minishell *data)
 		data->welcome_start = true;
 		temp_welcome = ft_strjoin(MINISHELL_WELCOME_START, MINISHELL_NAME);
 		check_malloc(temp_welcome, data);
-		temp_welcome = ft_strjoin_alt_gc(temp_welcome, 
-			MINISHELL_WELCOME_END, FREE_PARAM1, data);
+		temp_welcome = ft_strjoin_alt_gc(temp_welcome,
+				MINISHELL_WELCOME_END, FREE_PARAM1, data);
 		check_malloc(temp_welcome, data);
 		prompt = ft_strjoin(temp_welcome, prompt);
 		check_malloc(prompt, data);

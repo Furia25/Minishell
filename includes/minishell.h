@@ -3,19 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/20 00:45:56 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/20 15:01:37 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-
-typedef enum e_exit_type		t_exit;
-typedef struct s_minishell		t_minishell;
-typedef enum e_strjoin			t_strjoin;
 
 # include "libft.h"
 # include <stdbool.h>
@@ -24,6 +20,10 @@ typedef enum e_strjoin			t_strjoin;
 # include <fcntl.h>
 # include <sys/wait.h>
 # include <stdlib.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+
+# include "minishell_structs.h"
 # include "parsing.h"
 # include "redirections.h"
 # include "debug.h"
@@ -32,8 +32,6 @@ typedef enum e_strjoin			t_strjoin;
 # include "environment.h"
 # include "garbage_collector.h"
 # include "ft_printf.h"
-# include <readline/readline.h>
-# include <readline/history.h>
 
 # define MINISHELL_NAME	"minishell"
 # ifndef ECHOCTL
@@ -43,24 +41,6 @@ typedef enum e_strjoin			t_strjoin;
 # define MINISHELL_WELCOME_START	"\001\033[1;35m\002Welcome to "
 # define MINISHELL_WELCOME_END		"!\n\001\033[0m\002"
 # define PROMPT "\001\033[35m\002$> \001\033[0m\002"
-
-struct s_minishell
-{
-	t_hashmap			gc;
-	t_hashmap			environment;
-	bool				welcome_start;
-	char				**environment_tab;
-	char				*script_file;
-	size_t				line;
-	int					last_cmd_pid;
-	int					script_fd;
-	bool				script_mode;
-	t_leaf				*command_tab;
-	bool				in_child;
-	bool				in_pipe;
-	bool				is_subshell;
-	unsigned char		exit_code;
-};
 
 typedef enum e_strjoin
 {

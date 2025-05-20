@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 19:20:41 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/19 19:57:11 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/20 15:09:12 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	pwd_builtin(void)
 	if (!temp)
 	{
 		print_basic_error(BUILTIN_NAME_PWD);
-		return (BUILTIN_FATAL_ERROR);
+		return (EXIT_FAILURE);
 	}
 	ft_printf("%s\n", temp);
 	free(temp);

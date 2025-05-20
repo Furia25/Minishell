@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:22:24 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/19 20:02:04 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/20 14:45:57 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	exit_builtin(int argc, char **argv, t_minishell *data)
 
 	if (argc > 2)
 	{
-		ft_printf_fd(2, "%s: %s: too many arguments\n", MINISHELL_NAME, 
+		ft_printf_fd(2, "%s: %s: too many arguments\n", MINISHELL_NAME,
 			BUILTIN_NAME_EXIT);
 		data->exit_code = 2;
 		exit_minishell(data);

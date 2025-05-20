@@ -3,71 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 03:23:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/20 00:42:52 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/20 15:03:46 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H
 
-typedef enum e_lexeme_type	t_lexeme_type;
-typedef struct s_lst		t_lst;
-typedef struct s_leaf		t_leaf;
-typedef enum e_node_type	t_node_type;
-typedef struct s_ast_node	t_ast_node;
-
 # include "libft.h"
-# include "minishell.h"
+# include "minishell_structs.h"
 
-enum e_lexeme_type
-{
-	VOID,
-	WORD,
-	SINGLE_Q,
-	DOUBLE_Q,
-	RED_IN,
-	RED_OUT,
-	RED_IN_OUT,
-	RED_OUT_A,
-	HERE_DOC,
-	PAR_OPEN,
-	PAR_CLOSE,
-	AND,
-	OR,
-	PIPE,
-	DOLLAR,
-	WILDCARD,
-	LINE_CHANGE
-};
-
-struct s_lst
-{
-	char			*lexeme;
-	t_lexeme_type	type;
-	bool			metacharacter_after;
-	struct s_lst	*next;
-};
-
-struct s_leaf
-{
-	t_lst			*tokens;
-	int				fd_input;
-	int				fd_output;
-	int				returned_value;
-	bool			parenthesis;
-	t_lexeme_type	ope_after;
-};
-
-enum e_node_type
+typedef enum e_node_type
 {
 	NODE_COMMAND,
 	NODE_OPERATOR_CONTROL
-};
+}	t_node_type;
 
-struct s_ast_node
+typedef struct s_ast_node
 {
 	t_node_type	type;
 	union
@@ -80,7 +35,7 @@ struct s_ast_node
 			struct s_ast_node	*right_node;
 		} s_ope_node;
 	};
-};
+}	t_ast_node;
 
 t_lst			*lstnew(char *lexeme);
 t_lst			*lstlast(t_lst *lst);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   word_token.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 23:34:55 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/11 21:19:03 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/20 14:45:44 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ size_t	index_last_closed_par(char *str, t_minishell *data)
 
 static t_lst	*create_set_word_node(char *str, size_t len, t_minishell *data)
 {
-	char *node_lexeme;
+	char	*node_lexeme;
 	t_lst	*new_node;
 
 	node_lexeme = ft_substr(str, 0, len);
@@ -50,7 +50,7 @@ static t_lst	*create_set_word_node(char *str, size_t len, t_minishell *data)
 	return (new_node);
 }
 
-size_t word_token(t_lst **tokens, char *str, t_minishell *data)
+size_t	word_token(t_lst **tokens, char *str, t_minishell *data)
 {
 	size_t	i;
 	size_t	i_last_closed_par;
@@ -71,4 +71,3 @@ size_t word_token(t_lst **tokens, char *str, t_minishell *data)
 	lstadd_back(tokens, create_set_word_node(str, i, data));
 	return (i);
 }
-

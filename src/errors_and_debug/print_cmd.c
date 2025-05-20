@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   print_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 20:02:42 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/14 21:32:06 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/20 14:44:28 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "debug.h"
+
 void	print_lst(t_lst	*lst, t_lst_members members);
 
 static void	print_cmd(t_leaf *command, t_lst_members cmd_tokens_members)
@@ -45,7 +46,7 @@ void	print_debug_cmd(t_leaf *command,
 }
 
 void	print_debug_all_cmd(t_leaf *command_tab,
-	 t_lst_members cmd_tokens_members, int debug, char *str)
+	t_lst_members cmd_tokens_members, int debug, char *str)
 {
 	if (DEBUG == debug || DEBUG == 1)
 	{

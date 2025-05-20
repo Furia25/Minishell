@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 16:04:21 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/19 20:00:32 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/20 14:42:57 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	handle_script(char **argv, t_minishell *data)
 		gc_add(gnl.line, data);
 		if (!is_valid_script_line(gnl.line, gnl.ended))
 		{
-			ft_printf_fd(2, "%s: line %d: invalid line exiting.\n", 
+			ft_printf_fd(2, "%s: line %d: invalid line exiting.\n",
 				data->script_file, data->line);
 			break ;
 		}

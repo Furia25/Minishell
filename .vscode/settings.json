@@ -69,6 +69,8 @@
     "unistd.h": "c",
     "sigaction.h": "c",
     "minishell_signal.h": "c",
-    "errno.h": "c"
+    "errno.h": "c",
+    "readline.h": "c",
+    "libft.h": "c"
   }
 }
