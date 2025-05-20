@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 01:42:00 by val               #+#    #+#             */
-/*   Updated: 2025/05/20 15:09:31 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/20 15:50:43 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ static int	handle_env(char *env, t_minishell *data)
 	{
 		if (chdir(((t_envvar *) entry->value)->value) == -1)
 		{
-			ft_putstr_fd("ZIZI", 2);
 			print_basic_error(BUILTIN_NAME_CD);
 			return (EXIT_FAILURE);
 		}
@@ -69,6 +68,8 @@ static int	handle_env(char *env, t_minishell *data)
 	}
 	return (EXIT_SUCCESS);
 }
+
+static bool	update_pwds_secure_last(t_envvar *old_pwd, char *last);
 
 static bool	update_pwds(t_minishell *data)
 {
@@ -92,8 +93,20 @@ static bool	update_pwds(t_minishell *data)
 	pwd->value = new_path;
 	old_pwd = get_pwd(ENV_OLDPWD, last, data);
 	if (!old_pwd)
+	{
+		free(last);
 		return (false);
-	if (old_pwd->value != last)
-		old_pwd->value = last;
-	return (true);
+	}
+	return (update_pwds_secure_last(old_pwd, last));
+}
+
+static bool	update_pwds_secure_last(t_envvar *old_pwd, char *last)
+{
+	if (ft_strcmp(old_pwd->value, last) != 0)
+	{
+		free(old_pwd->value);
+		old_pwd->value = ft_strdup(last);
+	}
+	free(last);
+	return (old_pwd->value != NULL);
 }

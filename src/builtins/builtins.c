@@ -6,29 +6,30 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 15:11:13 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/19 19:33:40 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/20 15:36:21 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "builtin.h"
 #include "minishell.h"
 
-void	try_builtin(t_builtin_type type, int argc, char **v, t_minishell *data)
+void	try_builtin(t_builtin_type type, int argc,
+	char **argv, t_minishell *data)
 {
 	if (type == BUILTIN_TYPE_CD)
-		data->exit_code = cd_builtin(argc, v, data);
+		data->exit_code = cd_builtin(argc, argv, data);
 	else if (type == BUILTIN_TYPE_ECHO)
-		data->exit_code = echo_builtin(argc, v);
+		data->exit_code = echo_builtin(argc, argv);
 	else if (type == BUILTIN_TYPE_ENV)
 		data->exit_code = env_builtin(data);
 	else if (type == BUILTIN_TYPE_EXPORT)
-		data->exit_code = export_builtin(argc, v, data);
+		data->exit_code = export_builtin(argc, argv, data);
 	else if (type == BUILTIN_TYPE_PWD)
 		data->exit_code = pwd_builtin();
 	else if (type == BUILTIN_TYPE_UNSET)
-		data->exit_code = unset_builtin(argc, v, data);
+		data->exit_code = unset_builtin(argc, argv, data);
 	else if (type == BUILTIN_TYPE_EXIT)
-		data->exit_code = exit_builtin(argc, v, data);
+		data->exit_code = exit_builtin(argc, argv, data);
 	if (data->exit_code == BUILTIN_FATAL_ERROR)
 	{
 		data->exit_code = EXIT_FAILURE;

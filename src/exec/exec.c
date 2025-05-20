@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/20 13:38:31 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/20 15:31:36 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/20 15:59:26 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,16 @@ static char	*search_command(char *cmd, t_minishell *data)
 
 	if (!cmd)
 		return (NULL);
+	data->exit_code = 127;
 	if (ft_strchr(cmd, '/') != NULL)
 	{
 		if (!is_directory(cmd))
 		{
-			if (access(cmd, F_OK | X_OK) == 0)
+			if (access(cmd, F_OK) != 0)
+				return (NULL);
+			if (access(cmd, X_OK) == 0)
 				return (cmd);
+			data->exit_code = 126;
 			return (NULL);
 		}
 		else
