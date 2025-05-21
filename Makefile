@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: val <val@student.42.fr>                    +#+  +:+       +#+         #
+#    By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: Invalid date        by                   #+#    #+#              #
-#    Updated: 2025/05/21 03:12:44 by val              ###   ########.fr        #
+#    Updated: 2025/05/21 20:48:00 by alpayet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -108,11 +108,11 @@ SRC_FILES = \
 	lexing/quotes_token.c \
 	lexing/tokenization.c \
 	lexing/word_token.c \
-	parsing/ev_expand_subshell/ev_expand_in_lexeme.c \
-	parsing/ev_expand_subshell/ev_expand_in_here_doc.c \
-	parsing/ev_expand_subshell/ev_subshell_in_cmd.c \
-	parsing/ev_expand_subshell/subshell_in_lexeme.c \
-	parsing/ev_expand_subshell/ev_subshell_utils.c \
+	parsing/ev_expand_cmd_substitution/ev_expand_in_lexeme.c \
+	parsing/ev_expand_cmd_substitution/ev_expand_in_here_doc.c \
+	parsing/ev_expand_cmd_substitution/ev_cmd_sub_in_cmd.c \
+	parsing/ev_expand_cmd_substitution/cmd_sub_in_lexeme.c \
+	parsing/ev_expand_cmd_substitution/ev_cmd_sub_utils.c \
 	parsing/redirect/redirections_in_cmd.c \
 	parsing/redirect/redirections_in_par_cmd.c \
 	parsing/redirect/here_doc_write.c \

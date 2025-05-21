@@ -6,13 +6,13 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:33:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/20 01:05:10 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/21 20:46:15 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-size_t		skip_subshell_and_special_chara(char *str);
+size_t		skip_cmd_sub_and_special_chara(char *str);
 size_t		env_var_len(char *str);
 char		*ev_result(char *str, size_t ev_len, t_minishell *data);
 char		*handle_ev_in_here_doc(char *str, t_minishell *data);
@@ -37,7 +37,7 @@ char	*handle_ev_in_here_doc(char *str, t_minishell *data)
 	i = 0;
 	while (str[i])
 	{
-		i += skip_subshell_and_special_chara(str + i);
+		i += skip_cmd_sub_and_special_chara(str + i);
 		if (str[i] == '$' && str[i + 1] != '\0'
 			&& str[i + 1] != '\'' && str[i + 1] != '\"')
 		{

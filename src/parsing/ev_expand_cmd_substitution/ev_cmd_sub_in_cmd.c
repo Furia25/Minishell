@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ev_subshell_in_cmd.c                               :+:      :+:    :+:   */
+/*   ev_cmd_sub_in_cmd.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:06:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/20 00:58:46 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/21 20:46:12 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*handle_ev_in_lexeme(char *str, t_lexeme_type next_type,
 			t_minishell *data);
-char	*handle_subshell_in_lexeme(char *str, t_minishell *data);
+char	*handle_cmd_sub_in_lexeme(char *str, t_minishell *data);
 t_lst	*ignore_void_lexeme(t_lst *prev, t_lst *current, t_leaf *cmd,
 			t_minishell *data);
 void	check_blank_in_extremity(t_lst *token, t_minishell *data);
@@ -29,7 +29,7 @@ static void	add_dollars_changes_in_lexeme(t_lst *token, t_minishell *data)
 		old_lexeme = handle_ev_in_lexeme(token->lexeme, token->next->type,
 				data);
 	gc_free(token->lexeme, data);
-	token->lexeme = handle_subshell_in_lexeme(old_lexeme, data);
+	token->lexeme = handle_cmd_sub_in_lexeme(old_lexeme, data);
 	gc_free(old_lexeme, data);
 }
 
@@ -98,7 +98,7 @@ static t_lst	*create_and_add_dollars_nodes(t_lst *prev, t_lst *current,
 	return (current);
 }
 
-void	ev_subshell_in_cmd(t_leaf *cmd, t_minishell *data)
+void	ev_cmd_sub_in_cmd(t_leaf *cmd, t_minishell *data)
 {
 	t_lst	*temp;
 

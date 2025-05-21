@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:47:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/21 04:28:51 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/21 20:46:19 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ char	*ev_result(char *str, size_t ev_len, t_minishell *data)
 	return (dup);
 }
 
-size_t	skip_subshell_and_special_chara(char *str)
+size_t	skip_cmd_sub_and_special_chara(char *str)
 {
 	size_t	i;
 
@@ -89,7 +89,7 @@ char	*handle_ev_in_lexeme(char *str, t_lexeme_type next_type,
 	i = 0;
 	while (str[i])
 	{
-		i += skip_subshell_and_special_chara(str + i);
+		i += skip_cmd_sub_and_special_chara(str + i);
 		if (str[i] == '$' && str[i + 1] != '\'')
 		{
 			if ((str[i + 1] != '\0' || (next_type == DOUBLE_Q

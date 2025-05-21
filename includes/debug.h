@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 19:01:44 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/21 20:22:18 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/21 20:45:25 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 1: display all debug message
 2: display tokens just after creating it
 3: display command_tab just after creating it
-4: display input in here doc after handle ev_expension and subshell in it
+4: display input in here doc after handle ev_expension and cmd_substitution in it
 5: display command_tab after handle here doc
 6: display AST just after creating it
-7: display command->tokens after handle ev_expension and subshell
+7: display command->tokens after handle ev_expension and cmd_substitution
 8: display command->tokens after handle fusion quotes
 9: display command->tokens after handle wildcards
 	(add wilcards' type nodes in command->tokens)
@@ -35,7 +35,7 @@
 # include "ft_printf.h"
 
 # ifndef DEBUG
-#  define DEBUG 6
+#  define DEBUG 0
 # endif
 
 typedef enum e_lst_members
