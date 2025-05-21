@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 19:20:34 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/21 02:36:29 by val              ###   ########.fr       */
+/*   Updated: 2025/05/21 03:18:47 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef enum e_builtin_type
 # define BUILTIN_NAME_ENV	"env"
 # define BUILTIN_NAME_UNSET	"unset"
 # define BUILTIN_NAME_PWD	"pwd"
-# define BUILTIN_NAME_ECHO	"zizi"
+# define BUILTIN_NAME_ECHO	"echo"
 # define BUILTIN_NAME_EXIT	"exit"
 
 # define BUILTIN_FLAG_ECHO_NONL	'n'
