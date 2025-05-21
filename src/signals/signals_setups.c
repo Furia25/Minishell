@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals_setups.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 12:54:33 by val               #+#    #+#             */
-/*   Updated: 2025/05/20 16:10:57 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/21 20:25:18 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void	signal_prompt_handler(int sig)
 		rl_replace_line("", 0);
 		rl_redisplay();
 		if (DEBUG == 13)
-			ft_printf_fd(2, "%s: SIGQUIT RECEIVED\n", MINISHELL_NAME);
+			ft_printf_fd(STDERR_FILENO, "%s: SIGQUIT RECEIVED\n", MINISHELL_NAME);
 	}
 }
 
@@ -63,7 +63,7 @@ static void	signal_parent_handler(int sig)
 {
 	g_signal_status = sig;
 	if (sig == SIGQUIT)
-		ft_printf_fd(2, "%s\n", SIGNAL_CORE_DUMP);
+		ft_printf_fd(STDERR_FILENO, "%s\n", SIGNAL_CORE_DUMP);
 }
 
 static void	signal_heredoc_handler(int sig)

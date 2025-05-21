@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   misc_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 15:58:02 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/21 03:22:20 by val              ###   ########.fr       */
+/*   Updated: 2025/05/21 20:25:26 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	check_flags_c(int argc, char **argv)
 
 void	print_basic_error(char *error_name)
 {
-	ft_printf_fd(2, "%s: %s: %s\n",
+	ft_printf_fd(STDERR_FILENO, "%s: %s: %s\n",
 		MINISHELL_NAME, error_name, strerror(errno));
 }
 

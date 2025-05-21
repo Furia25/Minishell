@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/05/21 05:12:41 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/21 20:24:51 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static char	*search_command(char *cmd, t_minishell *data)
 		}
 		else
 		{
-			ft_printf_fd(2, "%s: %s is a directory\n", MINISHELL_NAME, cmd);
+			ft_printf_fd(STDERR_FILENO, "%s: %s is a directory\n", MINISHELL_NAME, cmd);
 			return (NULL);
 		}
 	}

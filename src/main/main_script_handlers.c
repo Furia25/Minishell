@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_script_handlers.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 16:04:21 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/20 17:37:18 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/21 20:24:57 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	handle_script(char **argv, t_minishell *data)
 		gc_add(gnl.line, data);
 		if (!is_valid_script_line(gnl.line, gnl.ended))
 		{
-			ft_printf_fd(2, "%s: line %d: invalid line exiting.\n",
+			ft_printf_fd(STDERR_FILENO, "%s: line %d: invalid line exiting.\n",
 				data->script_file, data->line);
 			break ;
 		}

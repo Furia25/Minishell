@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:40:07 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/21 01:00:20 by val              ###   ########.fr       */
+/*   Updated: 2025/05/21 20:19:01 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static int	print_export_error(char *str)
 		temp = ft_substr(str, 0, separator);
 	if (!temp)
 		return (-1);
-	ft_printf_fd(2, "%s: %s: Not a valid identifier: %s\n",
+	ft_printf_fd(STDERR_FILENO, "%s: %s: Not a valid identifier: %s\n",
 		MINISHELL_NAME, BUILTIN_NAME_EXPORT, temp);
 	free(temp);
 	return (1);

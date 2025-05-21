@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 02:36:12 by val               #+#    #+#             */
-/*   Updated: 2025/05/21 02:50:46 by val              ###   ########.fr       */
+/*   Updated: 2025/05/21 20:17:00 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	cd_builtin(int argc, char **argv, t_minishell *data)
 {
 	if (argc > 2)
 	{
-		ft_printf_fd(2, "%s: %s: %s\n",
+		ft_printf_fd(STDERR_FILENO, "%s: %s: %s\n",
 			MINISHELL_NAME, BUILTIN_NAME_CD, BUILTIN_ERROR_TOOMANY);
 		return (EXIT_FAILURE);
 	}
@@ -37,7 +37,7 @@ int	cd_builtin(int argc, char **argv, t_minishell *data)
 			return (BUILTIN_FATAL_ERROR);
 		return (EXIT_SUCCESS);
 	}
-	ft_printf_fd(2, "%s: %s: %s: %s\n",
+	ft_printf_fd(STDERR_FILENO, "%s: %s: %s: %s\n",
 		MINISHELL_NAME, BUILTIN_NAME_CD, argv[1], strerror(errno));
 	return (EXIT_FAILURE);
 }
@@ -49,7 +49,7 @@ static int	handle_env(char *env, t_minishell *data)
 	entry = hashmap_search(hash(env), &data->environment);
 	if (!entry)
 	{
-		ft_printf_fd(2, "%s: %s: %s not set\n",
+		ft_printf_fd(STDERR_FILENO, "%s: %s: %s not set\n",
 			MINISHELL_NAME, BUILTIN_NAME_CD, env);
 		return (EXIT_FAILURE);
 	}

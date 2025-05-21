@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:22:24 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/21 01:16:13 by val              ###   ########.fr       */
+/*   Updated: 2025/05/21 20:18:50 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ int	exit_builtin(int argc, char **argv, t_minishell *data)
 
 	if (argc > 2)
 	{
-		ft_printf_fd(2, "%s: %s: too many arguments\n", MINISHELL_NAME,
-			BUILTIN_NAME_EXIT);
+		ft_printf_fd(STDERR_FILENO, "%s: %s: too many arguments\n",
+			MINISHELL_NAME, BUILTIN_NAME_EXIT);
 		data->exit_code = 2;
 		exit_minishell(data);
 	}
@@ -55,8 +55,8 @@ static void	exit_parse_value(char *value, bool sign, t_minishell *data)
 	{
 		if (!ft_isdigit(value[index]) || digits <= 0)
 		{
-			ft_printf_fd(2, "%s: %s: %s: numeric argument required\n",
-				MINISHELL_NAME, BUILTIN_NAME_EXIT, value);
+			ft_printf_fd(STDERR_FILENO, "%s: %s: %s: numeric argument \
+required\n", MINISHELL_NAME, BUILTIN_NAME_EXIT, value);
 			data->exit_code = 2;
 			exit_minishell(data);
 		}

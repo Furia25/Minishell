@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 19:01:44 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/21 03:18:54 by val              ###   ########.fr       */
+/*   Updated: 2025/05/21 20:22:18 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,12 @@
 
 #ifndef DEBUG_H
 # define DEBUG_H
+# include <unistd.h>
 # include "parsing.h"
 # include "ft_printf.h"
 
 # ifndef DEBUG
-#  define DEBUG 0
+#  define DEBUG 6
 # endif
 
 typedef enum e_lst_members

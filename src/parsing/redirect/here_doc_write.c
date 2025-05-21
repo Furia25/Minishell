@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 01:56:12 by val               #+#    #+#             */
-/*   Updated: 2025/05/21 05:36:37 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/21 20:27:04 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	readline_and_check_unclosed(char **input,
 static int	dummy_event(void)
 {
 	if (DEBUG == 42)
-		ft_putstr_fd("DEBUG : THIS MESSAGE SHOULD NOT BE PRINTED\n", 2);
+		ft_putstr_fd("DEBUG : THIS MESSAGE SHOULD NOT BE PRINTED\n", STDERR_FILENO);
 	return (0);
 }
 
@@ -84,7 +84,7 @@ static void	readline_and_check_unclosed(char **input,
 
 static int	unexpected_eof(void)
 {
-	ft_printf_fd(2, "%s: here-doc: \
+	ft_printf_fd(STDERR_FILENO, "%s: here-doc: \
 unexpected EOF while looking for matching \')'\n",
 		MINISHELL_NAME);
 	return (0);
@@ -102,7 +102,7 @@ static int	check_null_readline(char *input, char *lexeme_eof, t_minishell *data)
 			data->exit_code = 128 + SIGINT;
 			return (2);
 		}
-		ft_printf_fd(2, "%s: warning: here-document at line %d delimited by \
+		ft_printf_fd(STDERR_FILENO, "%s: warning: here-document at line %d delimited by \
 end-of-file (wanted `%s')\n", MINISHELL_NAME, data->line, lexeme_eof);
 		return (1);
 	}

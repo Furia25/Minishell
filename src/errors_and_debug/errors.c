@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/05/21 03:15:15 by val              ###   ########.fr       */
+/*   Updated: 2025/05/21 20:19:29 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,11 @@ void	command_notfound(char *cmd, t_minishell *data)
 			temp_file = data->script_file;
 		else
 			temp_file = MINISHELL_NAME;
-		ft_printf_fd(2, "%s: line %d: \"%s\" command not found\n",
+		ft_printf_fd(STDERR_FILENO, "%s: line %d: \"%s\" command not found\n",
 			temp_file, data->line, temp_cmd);
 	}
 	else
-		ft_printf_fd(2, "%s: \"%s\" command not found\n",
+		ft_printf_fd(STDERR_FILENO, "%s: \"%s\" command not found\n",
 			MINISHELL_NAME, temp_cmd);
 	exit_minishell(data);
 }
