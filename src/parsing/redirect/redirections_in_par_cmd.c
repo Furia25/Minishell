@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 03:56:04 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/20 20:29:15 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/21 01:54:57 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static bool	is_redi(t_leaf *cmd, t_lst *token)
 
 	if (token->type == PAR_OPEN)
 		in_parenthesis = true;
-	if (token->type == PAR_CLOSE)
+	if (token->type == LAST_PAR_CLOSE)
 		in_parenthesis = false;
 	if (in_parenthesis == true)
 		return (false);

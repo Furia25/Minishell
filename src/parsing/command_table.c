@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 10:43:50 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/20 00:47:20 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/21 01:54:14 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ static t_lst	*node_after_parenthesis(t_lst **prev, t_lst *curr)
 		curr = curr->next;
 	}
 	*prev = parenth_buff;
+	(*prev)->type = LAST_PAR_CLOSE;
 	curr = parenth_buff->next;
 	return (curr);
 }

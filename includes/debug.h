@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 19:01:44 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/20 23:38:05 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/21 02:06:38 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 # include "ft_printf.h"
 
 # ifndef DEBUG
-#  define DEBUG 0
+#  define DEBUG 12
 # endif
 
 typedef enum e_lst_members

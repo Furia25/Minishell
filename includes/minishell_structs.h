@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_structs.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:56:49 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/20 15:00:30 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/21 01:52:57 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef enum e_lexeme_type
 	HERE_DOC,
 	PAR_OPEN,
 	PAR_CLOSE,
+	LAST_PAR_CLOSE,
 	AND,
 	OR,
 	PIPE,
