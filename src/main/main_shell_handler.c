@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_shell_handler.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 01:51:08 by val               #+#    #+#             */
-/*   Updated: 2025/05/20 14:42:46 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/21 03:22:43 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	handle_shell(t_minishell *data)
 	char	*input;
 	char	*prompt;
 
-	disable_echoctl();
 	while (1)
 	{
 		setup_signals(SIGCONTEXT_PROMPT);

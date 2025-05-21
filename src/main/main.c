@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 17:17:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/21 01:20:46 by val              ###   ########.fr       */
+/*   Updated: 2025/05/21 03:23:06 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,11 @@ int	main(int argc, char **argv, char **envp)
 		if (!isatty(STDIN_FILENO) || !isatty(STDOUT_FILENO) || flags == 1)
 			handle_script(argv, &data);
 		else
+		{
+			if (!MINISHELL_SHOW_SIGNALS)
+				disable_echoctl();
 			handle_shell(&data);
+		}
 	}
 	else
 	{
