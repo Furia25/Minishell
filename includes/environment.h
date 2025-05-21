@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   environment.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 19:06:05 by vdurand           #+#    #+#             */
-/*   Updated: 2025/04/28 16:37:46 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/21 02:27:37 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,9 @@ typedef struct s_envvar
 t_envvar	*new_envvar(char *key, char *value);
 bool		env_update_lastcmd(const char *cmd, t_hashmap *environment);
 bool		env_populate(char **envp, t_hashmap *environment);
-void		env_print(t_hashmap *environment, bool print_local);
+t_envvar	*env_instantiate(char *key, char *heap_default,
+				t_minishell *data);
+void		env_print(int output, t_hashmap *environment, bool print_local);
 void		envvar_free(void *el);
 char		*envvar_str(t_envvar *var);
 char		**make_env(t_hashmap *env);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   evaluate_pipe_op.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:32:36 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/21 00:44:56 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/21 03:14:59 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	exec_parenthesized_cmd_pipe(t_leaf *cmd, t_minishell *data)
 	redirections_in_par_cmd(cmd, data);
 	if (cmd->fd_input != -1 && cmd->fd_output != -1)
 	{
-		pid = fork();
+		pid = s_fork(data);
 		if (pid == 0)
 		{
 			secure_pipe_dup2(pipefd, cmd, data);
@@ -56,11 +56,11 @@ int	exec_not_parenthesized_cmd_pipe(t_leaf *cmd, t_minishell *data)
 		argv = tokens_to_argv(cmd->tokens, data);
 		if (argv != NULL)
 		{
-			pid = fork();
+			pid = s_fork(data);
 			if (pid == 0)
 			{
 				secure_pipe_dup2(pipefd, cmd, data);
-				exec_command(argv, data);
+				exec_command(cmd, argv, data);
 			}
 			else if (pid == -1)
 				raise_error_category("fork", data);

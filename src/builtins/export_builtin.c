@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:40:07 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/19 20:20:21 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/21 01:00:20 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static bool	make_var_separator(char *str, long separator, t_minishell *data);
 static int	print_export_error(char *str);
 static bool	is_arg_valid(char *str);
 
-int	export_builtin(int argc, char **argv, t_minishell *data)
+int	export_builtin(int output, int argc, char **argv, t_minishell *data)
 {
 	int			code;
 	long		separator;
@@ -25,7 +25,7 @@ int	export_builtin(int argc, char **argv, t_minishell *data)
 
 	if (argc <= 1)
 	{
-		env_print(&data->environment, true);
+		env_print(output, &data->environment, true);
 		return (EXIT_SUCCESS);
 	}
 	index = 0;

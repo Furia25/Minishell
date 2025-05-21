@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   misc_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 15:58:02 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/20 15:22:42 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/21 02:36:35 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,14 @@ bool	is_directory(char *path)
 	ft_memset(&file_data, 0, sizeof(struct stat));
 	lstat(path, &file_data);
 	return (S_ISDIR(file_data.st_mode));
+}
+
+pid_t	s_fork(t_minishell *data)
+{
+	pid_t	pid;
+
+	pid = fork();
+	if (pid == 0)
+		data->in_child = true;
+	return (pid);
 }

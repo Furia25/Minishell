@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/02/20 13:38:31 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/21 00:33:46 by alpayet          ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/05/21 03:14:34 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "minishell_signal.h"
 #include "minishell.h"
@@ -20,20 +21,18 @@ static char	*find_command_path(char *cmd, t_hash_entry *path,
 				t_minishell *data);
 static void	error_free_paths(char **paths, t_minishell *data);
 
-void	exec_command(char **argv, t_minishell *data)
+void	exec_command(t_leaf *cmd, char **argv, t_minishell *data)
 {
 	char	*command_path;
 
 	if (data->in_pipe)
-		exec_builtins(argv, true, data);
+		exec_builtins(cmd, argv, true, data);
 	data->exit_code = 127;
 	command_path = search_command(argv[0], data);
 	if (!command_path)
 		command_notfound(argv[0], data);
 	setup_signals(SIGCONTEXT_FORK);
 	execve(command_path, argv, data->environment_tab);
-	close(STDIN_FILENO);
-	close(STDOUT_FILENO);
 	free(command_path);
 	exit_minishell(data);
 }

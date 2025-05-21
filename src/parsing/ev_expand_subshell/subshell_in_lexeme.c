@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   subshell_in_lexeme.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:08:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/20 01:07:51 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/21 01:19:46 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ static char	*subshell_str(char *str, size_t in_par_len, t_minishell *data)
 		return (str);
 	if (pipe(pipefd) == -1)
 		raise_error_category("pipe", data);
-	pid = fork();
+	pid = s_fork(data);
 	if (pid == 0)
 	{
 		secure_subshell_dup2(pipefd, data);

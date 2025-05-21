@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:37:34 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/20 00:32:21 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/21 01:03:39 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ static void	exec(t_minishell *data)
 	t_leaf		*final;
 	t_ast_node	*top_node_ast;
 
+	data->in_pipe = false;
 	if (data->environment_tab)
 		free_chartab(data->environment_tab);
 	data->environment_tab = make_env(&data->environment);
@@ -63,7 +64,6 @@ static void	exec(t_minishell *data)
 		"\ndisplay AST just after creating it\n");
 	final = evaluate_ast(top_node_ast, data);
 	execute_cmd(final, data);
-	data->in_pipe = false;
 	rm_all_here_doc_files(data->command_tab);
 	gc_free_ast(top_node_ast, data);
 	gc_free(data->command_tab, data);

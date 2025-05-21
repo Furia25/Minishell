@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/20 15:24:44 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/21 02:13:41 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,9 @@ void			exit_minishell(t_minishell *data);
 
 void			*check_malloc(void *content, t_minishell *data);
 
-bool			exec_builtins(char **argv, bool exit, t_minishell *data);
-
+bool			exec_builtins(t_leaf *cmd,
+					char **argv, bool exit, t_minishell *data);
 // UTILS
-t_envvar		*get_pwd(char *pwd_type, char *default_value,
-					t_minishell *data);
 char			*ft_strjoin_alt(char *s1, char *s2, t_strjoin free_what);
 char			*ft_strjoin_alt_gc(char *s1, char *s2, t_strjoin free_what,
 					t_minishell *data);
@@ -79,7 +77,7 @@ int				check_flags_c(int argc, char **argv);
 void			handle_shell(t_minishell *data);
 void			handle_script(char **argv, t_minishell *data);
 void			handle_cflag(char **argv, t_minishell *data);
-void			exec_command(char **argv, t_minishell *data);
+void			exec_command(t_leaf *cmd, char **argv, t_minishell *data);
 
 void			close_fds(int fd1, int fd2, int fd3, int fd4);
 void			close_input_output(t_leaf *cmd);
@@ -89,4 +87,5 @@ void			wait_childs(t_minishell *data);
 void			disable_echoctl(void);
 void			print_basic_error(char *error_name);
 bool			is_directory(char *path);
+pid_t			s_fork(t_minishell *data);
 #endif

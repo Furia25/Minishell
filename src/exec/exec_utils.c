@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/16 17:42:39 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/21 00:30:43 by alpayet          ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/05/21 03:14:47 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "builtin.h"
 #include "minishell.h"
@@ -40,19 +41,19 @@ void	close_input_output(t_leaf *cmd)
 		close(cmd->fd_output);
 }
 
-bool	exec_builtins(char **argv, bool exit, t_minishell *data)
+bool	exec_builtins(t_leaf *cmd, char **argv, bool exit, t_minishell *data)
 {
-	t_builtin_type	type;
+	bool			result;
 	size_t			argc;
 
 	argc = tab_size(argv);
-	type = get_builtin(argv[0]);
-	if (type != BUILTIN_TYPE_NOTBUILTIN)
+	result = try_builtin(cmd, argc, argv, data);
+	if (data->exit_code == BUILTIN_FATAL_ERROR)
 	{
-		try_builtin(type, argc, argv, data);
-		if (exit)
-			exit_minishell(data);
-		return (true);
+		data->exit_code = EXIT_FAILURE;
+		exit_minishell(data);
 	}
-	return (false);
+	if (exit && result)
+		exit_minishell(data);
+	return (result);
 }

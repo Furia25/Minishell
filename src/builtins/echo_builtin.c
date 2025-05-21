@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 20:15:50 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/19 20:17:03 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/21 00:57:32 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 static bool	is_valid_flags(char *str);
 
-int	echo_builtin(int argc, char **argv)
+int	echo_builtin(int output, int argc, char **argv)
 {
 	bool	do_nl;
 	int		index;
@@ -28,14 +28,14 @@ int	echo_builtin(int argc, char **argv)
 			do_nl = false;
 		else
 		{
-			ft_putstr_fd(argv[index], 1);
+			ft_putstr_fd(argv[index], output);
 			if (index < argc - 1)
-				write(1, " ", 1);
+				write(output, " ", 1);
 		}
 		index++;
 	}
 	if (do_nl)
-		if (write(1, "\n", 1) == -1)
+		if (write(output, "\n", 1) == -1)
 			return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }

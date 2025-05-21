@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:31:08 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/21 00:44:37 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/21 03:14:25 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	exec_parenthesized_cmd(t_leaf *cmd, t_minishell *data)
 		"\ndisplay command after handle redi\n");
 	if (cmd->fd_input != -1 && cmd->fd_output != -1)
 	{
-		pid = fork();
+		pid = s_fork(data);
 		if (pid == 0)
 		{
 			secure_dup2(cmd, data);
@@ -53,13 +53,13 @@ static int	exec_not_parenthesized_cmd(t_leaf *cmd, t_minishell *data)
 		argv = tokens_to_argv(cmd->tokens, data);
 		if (argv != NULL)
 		{
-			if (!data->in_pipe && exec_builtins(argv, false, data))
+			if (!data->in_pipe && exec_builtins(cmd, argv, false, data))
 				return (close_and_wait(cmd, data));
-			pid = fork();
+			pid = s_fork(data);
 			if (pid == 0)
 			{
 				secure_dup2(cmd, data);
-				exec_command(argv, data);
+				exec_command(cmd, argv, data);
 			}
 			else if (pid != -1)
 				data->last_cmd_pid = pid;

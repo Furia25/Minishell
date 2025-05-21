@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   env_methods.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:20:04 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/20 18:06:48 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/21 02:38:56 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	env_print_el(unsigned long key, void *entry, bool print_local)
+static void	env_print_el(int output, unsigned long key,
+	void *entry, bool print_local)
 {
 	t_envvar	*var;
 
@@ -21,18 +22,19 @@ static void	env_print_el(unsigned long key, void *entry, bool print_local)
 	if (!print_local)
 	{
 		if (var->exported)
-			ft_printf("%s=%s\n", var->name, var->value);
+			ft_printf_fd(output, "%s=%s\n", var->name, var->value);
 	}
 	else
 	{
 		if (var->exported)
-			ft_printf("declare -x %s=\"%s\"\n", var->name, var->value);
+			ft_printf_fd(output, "declare -x %s=\"%s\"\n",
+				var->name, var->value);
 		else
-			ft_printf("declare -x %s\n", var->name);
+			ft_printf_fd(output, "declare -x %s\n", var->name);
 	}
 }
 
-void	env_print(t_hashmap *environment, bool print_local)
+void	env_print(int output, t_hashmap *environment, bool print_local)
 {
 	size_t			index;
 	int				actual_count;
@@ -45,7 +47,7 @@ void	env_print(t_hashmap *environment, bool print_local)
 		entry = environment->table[index];
 		if (entry.status == OCCUPIED)
 		{
-			env_print_el(entry.key, entry.value, print_local);
+			env_print_el(output, entry.key, entry.value, print_local);
 			actual_count++;
 		}
 		index++;

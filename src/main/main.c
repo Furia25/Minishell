@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 17:17:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/19 21:10:12 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/21 01:20:46 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,11 @@ int	main(int argc, char **argv, char **envp)
 
 void	exit_minishell(t_minishell *data)
 {
+	if (data->in_child)
+	{
+		close(0);
+		close(1);
+	}
 	rl_clear_history();
 	hashmap_free_content(&data->environment);
 	free_chartab(data->environment_tab);

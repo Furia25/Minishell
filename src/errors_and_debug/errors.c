@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/24 23:17:25 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/21 00:41:01 by alpayet          ###   ########.fr       */
+/*   Created: Invalid date        by                   #+#    #+#             */
+/*   Updated: 2025/05/21 03:15:15 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include <errno.h>
 #include "minishell.h"
@@ -33,8 +34,6 @@ void	command_notfound(char *cmd, t_minishell *data)
 	char	*temp_file;
 	char	*temp_cmd;
 
-	close(STDIN_FILENO);
-	close(STDOUT_FILENO);
 	if (is_directory(cmd))
 	{
 		data->exit_code = 126;
@@ -54,6 +53,7 @@ void	command_notfound(char *cmd, t_minishell *data)
 			temp_file, data->line, temp_cmd);
 	}
 	else
-		ft_printf_fd(2, "%s: \"%s\" command not found\n", MINISHELL_NAME, temp_cmd);
+		ft_printf_fd(2, "%s: \"%s\" command not found\n",
+			MINISHELL_NAME, temp_cmd);
 	exit_minishell(data);
 }
