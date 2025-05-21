@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/05/21 03:14:34 by val              ###   ########.fr       */
+/*   Updated: 2025/05/21 05:12:41 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static char	*search_command(char *cmd, t_minishell *data)
 {
 	t_hash_entry	*path;
 
-	if (!cmd)
+	if (!cmd || !(*cmd))
 		return (NULL);
 	if (ft_strchr(cmd, '/') != NULL)
 	{
