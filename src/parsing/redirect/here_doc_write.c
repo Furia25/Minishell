@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 01:56:12 by val               #+#    #+#             */
-/*   Updated: 2025/05/20 01:19:09 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/21 05:36:37 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 char		*handle_dollars_in_here_doc(bool unclosed_par, char **input,
 				t_lst *token_eof, t_minishell *data);
-static int	check_null_readline(char *input, t_minishell *data);
+static int	check_null_readline(char *input, char *lexeme_eof, t_minishell *data);
 bool		unclosed_par_here_doc(char *str);
 static int	unexpected_eof(void);
 static void	readline_and_check_unclosed(char **input,
@@ -56,7 +56,7 @@ int	write_in_here_doc_file(int fd, t_lst *token_eof, t_minishell *data)
 	while (1)
 	{
 		readline_and_check_unclosed(&input, &unclosed_par, data);
-		readline_check = check_null_readline(input, data);
+		readline_check = check_null_readline(input, token_eof->lexeme, data);
 		if (readline_check != 0)
 			return (readline_check);
 		if (ft_strcmp(input, token_eof->lexeme) == 0)
@@ -90,7 +90,7 @@ unexpected EOF while looking for matching \')'\n",
 	return (0);
 }
 
-static int	check_null_readline(char *input, t_minishell *data)
+static int	check_null_readline(char *input, char *lexeme_eof, t_minishell *data)
 {
 	if (!input || g_signal_status == SIGINT)
 	{
@@ -103,7 +103,7 @@ static int	check_null_readline(char *input, t_minishell *data)
 			return (2);
 		}
 		ft_printf_fd(2, "%s: warning: here-document at line %d delimited by \
-end-of-file (wanted 'EOF')\n", MINISHELL_NAME, data->line);
+end-of-file (wanted `%s')\n", MINISHELL_NAME, data->line, lexeme_eof);
 		return (1);
 	}
 	return (0);
