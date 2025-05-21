@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:47:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/20 01:05:34 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/21 04:28:51 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ size_t	env_var_len(char *str)
 
 char	*ev_result(char *str, size_t ev_len, t_minishell *data)
 {
+	char			*str_key;
 	char			*dup;
 	t_hash_entry	*entry;
 	t_envvar		*var;
@@ -37,9 +38,12 @@ char	*ev_result(char *str, size_t ev_len, t_minishell *data)
 		return (check_malloc(ft_calloc(1, sizeof(char)), data));
 	if (str[0] == '?')
 		return (check_malloc(ft_itoa(data->exit_code), data));
-	entry = hashmap_search(hash(str), &data->environment);
+	str_key = ft_substr(str, 0, ev_len);
+	check_malloc(str_key, data);
+	entry = hashmap_search(hash(str_key), &data->environment);
 	if (entry == NULL)
 		return (check_malloc(ft_calloc(1, sizeof(char)), data));
+	gc_free(str_key, data);
 	var = (t_envvar *)entry->value;
 	dup = ft_strdup(var->value);
 	check_malloc(dup, data);
