@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 22:19:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/21 20:24:10 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/21 21:02:39 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,8 @@ static bool	have_syntax_errors_parenthesis(t_lst **tokens, t_minishell *data)
 	t_lst	*parenth_buff;
 
 	parenth_buff = NULL;
-	if ((*tokens)->type == PAR_CLOSE)
+	if ((*tokens)->type == PAR_CLOSE || ((*tokens)->next
+		&& (*tokens)->type == PAR_OPEN && (*tokens)->next->type == PAR_CLOSE))
 	{
 		not_interpret_chara(')', "\' (unclosed parenthesis)", data);
 		return (true);
