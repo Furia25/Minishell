@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_script_handlers.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 16:04:21 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/21 20:24:57 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/22 17:39:28 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ void	handle_script(char **argv, t_minishell *data)
 				data->script_file, data->line);
 			break ;
 		}
-		parsing_exec(gnl.line, data);
+		if (gnl.line[0] != '\n')
+			parsing_exec(gnl.line, data);
 		gc_free(gnl.line, data);
 		gnl = get_next_line(data->script_fd);
 	}
