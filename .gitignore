@@ -1,5 +1,6 @@
 minishell
 .gdb*
+.bonus
 
 # Prerequisites
 *.d

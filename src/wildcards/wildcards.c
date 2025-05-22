@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcards.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 18:49:08 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/20 17:48:31 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/22 23:55:49 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ static bool	pattern(char **n, char **p, char **bt_n, char **bt_p)
 char	*get_dirfile_name(char *dir_name, char *file_name)
 {
 	size_t	length_dir;
-	size_t	length_file;
+	size_t	length_total;
 	char	*result;
 
 	if (ft_strcmp(dir_name, "/") == 0)
@@ -99,8 +99,8 @@ char	*get_dirfile_name(char *dir_name, char *file_name)
 	if (ft_strcmp(dir_name, ".") == 0)
 		return (ft_strdup(file_name));
 	length_dir = ft_strlen(dir_name);
-	length_file = ft_strlen(file_name);
-	result = ft_calloc(length_dir + length_file + 2, sizeof(char));
+	length_total = length_dir + ft_strlen(file_name) + 3;
+	result = ft_calloc(length_total, sizeof(char));
 	if (!result)
 		return (NULL);
 	ft_strcpy(result, dir_name);
