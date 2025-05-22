@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 01:51:08 by val               #+#    #+#             */
-/*   Updated: 2025/05/22 02:54:24 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/22 15:10:00 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include "minishell_signal.h"
 #include "minishell.h"
 
-static bool	is_void_or_full_blank(char *input, t_minishell *data);
 static char	*get_prompt(t_minishell *data);
 
 void	handle_shell(t_minishell *data)
@@ -37,7 +36,7 @@ void	handle_shell(t_minishell *data)
 			exit_minishell(data);
 			return ;
 		}
-		if (is_void_or_full_blank(input, data) == false)
+		if (*input)
 		{
 			parsing_exec(input, data);
 			add_history(input);
@@ -74,16 +73,3 @@ static char	*get_prompt(t_minishell *data)
 	return (prompt);
 }
 
-static bool	is_void_or_full_blank(char *input, t_minishell *data)
-{
-	size_t	i;
-
-	i = 0;
-	if (input[i] == '\0')
-		return (true);
-	while (input[i] == ' ' || input[i] == '\t')
-		i++;
-	if (input[i] == '\0')
-		data->exit_code = 0;
-	return (input[i] == '\0');
-}

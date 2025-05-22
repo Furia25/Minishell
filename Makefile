@@ -6,7 +6,7 @@
 #    By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: Invalid date        by                   #+#    #+#              #
-#    Updated: 2025/05/21 20:48:00 by alpayet          ###   ########.fr        #
+#    Updated: 2025/05/22 14:43:18 by alpayet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -110,9 +110,9 @@ SRC_FILES = \
 	lexing/word_token.c \
 	parsing/ev_expand_cmd_substitution/ev_expand_in_lexeme.c \
 	parsing/ev_expand_cmd_substitution/ev_expand_in_here_doc.c \
-	parsing/ev_expand_cmd_substitution/ev_cmd_sub_in_cmd.c \
-	parsing/ev_expand_cmd_substitution/cmd_sub_in_lexeme.c \
-	parsing/ev_expand_cmd_substitution/ev_cmd_sub_utils.c \
+	parsing/ev_expand_cmd_substitution/ev_cmd_substitution_in_cmd.c \
+	parsing/ev_expand_cmd_substitution/cmd_substitution_in_lexeme.c \
+	parsing/ev_expand_cmd_substitution/ev_cmd_substitution_utils.c \
 	parsing/redirect/redirections_in_cmd.c \
 	parsing/redirect/redirections_in_par_cmd.c \
 	parsing/redirect/here_doc_write.c \

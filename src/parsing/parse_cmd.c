@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 03:43:36 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/21 20:45:56 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/22 14:40:34 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	parse_cmd(t_leaf *cmd, t_minishell *data)
 	fd_here_doc = cmd->fd_input;
 	if (fd_here_doc == -1)
 		return ;
-	ev_cmd_sub_in_cmd(cmd, data);
+	ev_cmd_substitution_in_cmd(cmd, data);
 	print_debug_lst(cmd->tokens, LEXEME | TYPE, 7,
 		"\ndisplay command->tokens after handle ev_expension and cmd_sub\n");
 	fusion_quote_token(cmd->tokens, data);

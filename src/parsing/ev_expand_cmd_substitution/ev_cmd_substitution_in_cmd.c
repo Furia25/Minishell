@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ev_cmd_sub_in_cmd.c                                :+:      :+:    :+:   */
+/*   ev_cmd_substitution_in_cmd.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -98,7 +98,7 @@ static t_lst	*create_and_add_dollars_nodes(t_lst *prev, t_lst *current,
 	return (current);
 }
 
-void	ev_cmd_sub_in_cmd(t_leaf *cmd, t_minishell *data)
+void	ev_cmd_substitution_in_cmd(t_leaf *cmd, t_minishell *data)
 {
 	t_lst	*temp;
 
