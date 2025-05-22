@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 01:51:08 by val               #+#    #+#             */
-/*   Updated: 2025/05/22 18:08:16 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/22 19:06:11 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,17 @@ void	handle_shell(t_minishell *data)
 
 static char	*get_prompt(t_minishell *data)
 {
-	t_envvar		*var;
 	t_hash_entry	*temp_entry;
 	char			*prompt;
 	char			*temp_welcome;
 
 	temp_entry = hashmap_search(hash(ENV_PWD), &data->environment);
 	if (!temp_entry)
-		return (ft_strdup(PROMPT));
-	var = (t_envvar *) temp_entry->value;
-	prompt = ft_strjoin(var->value, PROMPT);
+	{
+		prompt = ft_strdup(PROMPT);
+		return (check_malloc(prompt, data));
+	}
+	prompt = ft_strjoin(((t_envvar *) temp_entry->value)->value, PROMPT);
 	check_malloc(prompt, data);
 	if (!data->welcome_start)
 	{
