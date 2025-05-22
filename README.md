@@ -7,7 +7,7 @@ A lightweight, POSIX-compliant command-line shell written in C, featuring advanc
 ---
 
 <p align="center">
-  <img src="./assets/logo.png" alt="MiniShell Logo" width="200" />
+  <img src="https://github.com/user-attachments/assets/e2170b17-095c-49af-b00c-b29d4a7a4b2f" alt="MiniShell Logo" />
 </p>
 
 ## Table of Contents
