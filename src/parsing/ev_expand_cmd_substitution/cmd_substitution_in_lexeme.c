@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:08:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/22 21:48:02 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/22 22:06:17 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ static char	*cmd_substitution(char *str, char *cmd_sub_str, t_minishell *data)
 	check_malloc(until_cmd_sub, data);
 	after_cmd_sub = handle_cmd_sub_in_lexeme(cmd_sub_str + in_par_len + 1,
 			data);
-	final_result = ft_strjoin_alt_gc(until_cmd_sub, until_cmd_sub,
+	final_result = ft_strjoin_alt_gc(until_cmd_sub, after_cmd_sub,
 			FREE_PARAM1 | FREE_PARAM2, data);
 	check_malloc(final_result, data);
 	return (final_result);
