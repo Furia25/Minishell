@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 23:33:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/21 20:46:15 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/22 21:46:06 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,24 +15,30 @@
 size_t		skip_cmd_sub_and_special_chara(char *str);
 size_t		env_var_len(char *str);
 char		*ev_result(char *str, size_t ev_len, t_minishell *data);
-char		*handle_ev_in_here_doc(char *str, t_minishell *data);
+char		*handle_ev_expand_in_here_doc(char *str, t_minishell *data);
 
 static char	*ev_expand_in_here_doc(char *str, char *ev_str, t_minishell *data)
 {
 	size_t	ev_len;
-	char	*buff;
+	char	*until_ev;
+	char	*after_ev;
+	char	*final_result;
 
 	ev_len = env_var_len(ev_str);
-	buff = ft_strjoin_alt_gc(str, ev_result(ev_str, ev_len, data), FREE_PARAM2,
-			data);
-	check_malloc(buff, data);
-	return (check_malloc(ft_strjoin_alt_gc(buff, handle_ev_in_here_doc(ev_str
-					+ ev_len, data), FREE_PARAM1 | FREE_PARAM2, data), data));
+	until_ev = ft_strjoin_alt_gc(str, ev_result(ev_str, ev_len, data),
+			FREE_PARAM2, data);
+	check_malloc(until_ev, data);
+	after_ev = handle_ev_expand_in_here_doc(ev_str + ev_len, data);
+	final_result = ft_strjoin_alt_gc(until_ev, after_ev,
+			FREE_PARAM1 | FREE_PARAM2, data);
+	check_malloc(final_result, data);
+	return (final_result);
 }
 
-char	*handle_ev_in_here_doc(char *str, t_minishell *data)
+char	*handle_ev_expand_in_here_doc(char *str, t_minishell *data)
 {
 	size_t	i;
+	char	*str_dup;
 
 	i = 0;
 	while (str[i])
@@ -47,5 +53,7 @@ char	*handle_ev_in_here_doc(char *str, t_minishell *data)
 		}
 		i++;
 	}
-	return (check_malloc(ft_strdup(str), data));
+	str_dup = ft_strdup(str);
+	check_malloc(str_dup, data);
+	return (str_dup);
 }

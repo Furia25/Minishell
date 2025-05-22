@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/20 19:01:44 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/22 03:26:29 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/22 21:34:06 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 1: display all debug message
 2: display tokens just after creating it
 3: display command_tab just after creating it
-4: display input in here doc after handle ev_expension and cmd_substitution in it
+4: display input in here doc after handle ev_expand and cmd_substitution in it
 5: display command_tab after handle here doc
 6: display AST just after creating it
 7: display command->tokens after handle ev_expension and cmd_substitution

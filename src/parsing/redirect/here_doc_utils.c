@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:37:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/22 18:31:20 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/22 21:00:32 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <errno.h>
 
-char	*handle_ev_in_here_doc(char *str, t_minishell *data);
+char	*handle_ev_expand_in_here_doc(char *str, t_minishell *data);
 char	*handle_cmd_sub_in_lexeme(char *str, t_minishell *data);
 
 int	open_new_here_doc_file(char **here_doc_file, t_minishell *data)
@@ -82,7 +82,7 @@ char	*handle_dollars_in_here_doc(bool unclosed_par, char **input,
 	{
 		if (unclosed_par == false)
 		{
-			buff = handle_ev_in_here_doc(*input, data);
+			buff = handle_ev_expand_in_here_doc(*input, data);
 			gc_free(*input, data);
 			*input = handle_cmd_sub_in_lexeme(buff, data);
 			gc_free(buff, data);
