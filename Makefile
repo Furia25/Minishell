@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+         #
+#    By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: Invalid date        by                   #+#    #+#              #
-#    Updated: 2025/05/22 14:43:18 by alpayet          ###   ########.fr        #
+#    Updated: 2025/05/22 18:20:46 by vdurand          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -127,6 +127,7 @@ SRC_FILES = \
 	utils/memory_utils.c \
 	utils/strjoin_alt.c \
 	utils/misc_utils.c \
+	utils/errors_utils.c \
 	wildcards/wildcards_search.c \
 	wildcards/wildcards.c \
 	wildcards/wildcards_in_cmd.c \

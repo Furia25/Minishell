@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_to_str.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 16:18:39 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/21 02:06:33 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/22 18:32:23 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void append_lexeme_to_string(t_lexeme_type type, char **str,
-			char *lexeme, t_minishell *data)
+static void	append_lexeme_to_string(t_lexeme_type type, char **str,
+	char *lexeme, t_minishell *data)
 {
 	if (type == DOUBLE_Q)
 	{
@@ -40,11 +40,11 @@ static void append_lexeme_to_string(t_lexeme_type type, char **str,
 	}
 }
 
-static void append_space_to_string(t_lst *tokens, char **str, t_minishell *data)
+static void	append_space_to_string(t_lst *tokens, char **str, t_minishell *data)
 {
 	if ((tokens->type == WORD
 			|| tokens->type == SINGLE_Q || tokens->type == DOUBLE_Q)
-			&& tokens->metacharacter_after == true)
+		&& tokens->metacharacter_after == true)
 	{
 		*str = ft_strjoin_alt_gc(*str, " ", FREE_PARAM1, data);
 		check_malloc(*str, data);

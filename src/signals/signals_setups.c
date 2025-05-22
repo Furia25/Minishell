@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals_setups.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 12:54:33 by val               #+#    #+#             */
-/*   Updated: 2025/05/21 20:25:18 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/22 18:08:06 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,14 @@ void	setup_signals(t_signal_context context)
 
 static void	signal_prompt_handler(int sig)
 {
+	if (rl_readline_state & RL_STATE_COMPLETING)
+	{
+		write(1, "\n", 1);
+		rl_readline_state &= ~RL_STATE_COMPLETING;
+		rl_on_new_line();
+		rl_redisplay();
+		return ;
+	}
 	g_signal_status = sig;
 	if (sig == SIGINT)
 	{
@@ -55,12 +63,15 @@ static void	signal_prompt_handler(int sig)
 		rl_replace_line("", 0);
 		rl_redisplay();
 		if (DEBUG == 13)
-			ft_printf_fd(STDERR_FILENO, "%s: SIGQUIT RECEIVED\n", MINISHELL_NAME);
+			ft_printf_fd(STDERR_FILENO,
+				"%s: SIGQUIT RECEIVED\n", MINISHELL_NAME);
 	}
 }
 
 static void	signal_parent_handler(int sig)
 {
+	if (rl_readline_state & RL_STATE_COMPLETING)
+		return ;
 	g_signal_status = sig;
 	if (sig == SIGQUIT)
 		ft_printf_fd(STDERR_FILENO, "%s\n", SIGNAL_CORE_DUMP);

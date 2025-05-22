@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 23:34:55 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/20 14:45:44 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/22 18:24:33 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ size_t	index_last_closed_par(char *str, t_minishell *data)
 	}
 	if (index_last_closed_par == 0)
 	{
-		not_interpret_chara('(', "\' (unclosed parenthesis)", data);
+		not_interpret_chara('(', "\' (invalid parenthesis)", data);
 		return (0);
 	}
 	return (index_last_closed_par);

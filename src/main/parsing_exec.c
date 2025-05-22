@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:37:34 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/22 15:09:41 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/22 17:47:10 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,20 @@
 static bool	parsing(char *input, t_minishell *data);
 static void	exec(t_minishell *data);
 
-static bool	is_full_blank(char *input)
+static bool	is_invalid_input(char *input)
 {
 	size_t	i;
 
 	i = 0;
-	while (input[i] == ' ' || input[i] == '\t')
+	while (input[i] == ' ' || input[i] == '\t' || input[i] == '\n')
 		i++;
 	return (input[i] == '\0');
 }
 
 void	parsing_exec(char *input, t_minishell *data)
 {
+	if (input == NULL)
+		return ;
 	if (parsing(input, data) == false)
 		return ;
 	exec(data);
@@ -40,7 +42,7 @@ static bool	parsing(char *input, t_minishell *data)
 
 	if (!data->script_mode)
 		setup_signals(SIGCONTEXT_PARENT);
-	if (is_full_blank(input) == true)
+	if (is_invalid_input(input) == true)
 		return (false);
 	data->last_cmd_pid = -1;
 	tokens = NULL;

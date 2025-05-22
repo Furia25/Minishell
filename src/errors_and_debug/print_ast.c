@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   print_ast.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 19:47:07 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/21 20:22:56 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/22 18:22:04 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "debug.h"
+
 void	print_lst_one_line(t_lst *lst);
 
 static void	print_spaces(size_t depth)
