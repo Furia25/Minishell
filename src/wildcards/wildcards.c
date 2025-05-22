@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 18:49:08 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/22 23:55:49 by val              ###   ########.fr       */
+/*   Updated: 2025/05/23 00:00:11 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ t_wsearch	wildcard_lst_from_lexeme(char *lexeme)
 	wildcard.lexeme = lexeme;
 	if (*lexeme == '/')
 	{
-		lexeme++;
+		while (*wildcard.lexeme == '/')
+			wildcard.lexeme++;
 		search_result = wildcard_explore("/", &wildcard, 0);
 	}
 	else

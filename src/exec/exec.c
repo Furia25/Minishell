@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 18:11:09 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/22 18:20:15 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/23 00:17:13 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "minishell.h"
 #include <sys/stat.h>
 #include <unistd.h>
+#include <errno.h>
 
 static char	*search_command(char *cmd, t_minishell *data);
 static char	*find_command_path(char *cmd, t_hash_entry *path,
@@ -30,9 +31,11 @@ void	exec_command(t_leaf *cmd, char **argv, t_minishell *data)
 	command_path = search_command(argv[0], data);
 	if (!command_path)
 		command_notfound(argv[0], data);
+	gc_add(command_path, data);
 	setup_signals(SIGCONTEXT_FORK);
 	execve(command_path, argv, data->environment_tab);
-	free(command_path);
+	data->exit_code = 126;
+	print_extended_error(NULL, command_path, strerror(errno));
 	exit_minishell(data);
 }
 
@@ -48,10 +51,7 @@ static char	*search_command(char *cmd, t_minishell *data)
 		{
 			if (access(cmd, F_OK) != 0)
 				return (NULL);
-			if (access(cmd, X_OK) == 0)
-				return (cmd);
-			data->exit_code = 126;
-			return (NULL);
+			return (cmd);
 		}
 		else
 		{
