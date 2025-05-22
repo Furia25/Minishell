@@ -1,7 +1,3 @@
-<p align="center">
-  <img src="./assets/logo.png" alt="MiniShell Logo" width="200" />
-</p>
-
 # MiniShell
 
 A lightweight, POSIX-compliant command-line shell written in C, featuring advanced parsing, redirections, wildcard expansion, and more.
@@ -10,14 +6,17 @@ A lightweight, POSIX-compliant command-line shell written in C, featuring advanc
 
 ---
 
+<p align="center">
+  <img src="./assets/logo.png" alt="MiniShell Logo" width="200" />
+</p>
+
 ## Table of Contents
 
 * [Introduction](#introduction)
 * [Advanced Features](#advanced-features)
 * [Installation](#installation)
-* [Usage](#usage)
 * [Configuration](#configuration)
-* [Contributing](#contributing)
+* [Usage](#usage)
 * [License](#license)
 
 ---
@@ -31,11 +30,11 @@ MiniShell is a custom command-line interpreter designed to mimic the behavior of
 ### 1. Comprehensive Parsing Engine
 
 * **Tokenization & AST Construction**: Supports quotes (`'`, `"`), command substitution `` `cmd` ``, and logical operators (`&&`, `||`, `|`).
-* **Wildcard Expansion**: Implements `*` expansion within arguments, searching directories recursively.
+* **Wildcard Expansion**: Implements `*` and `?` expansion within arguments, searching directories recursively.
 
 ### 2. Redirections & Here-Documents
 
-* **Input/Output Redirections**: `<`, `>`, `>>`, and combined descriptors (`&>`).
+* **Input/Output Redirections**: `<`, `>`, `>>`, `<>`.
 * **Here-Document (`<<`)**: Inline multi-line input with proper variable expansion support.
 
 ### 3. Built-in Commands
@@ -44,7 +43,7 @@ MiniShell is a custom command-line interpreter designed to mimic the behavior of
 
 ### 4. Environment Management
 
-* **Dynamic Hashmap**: Efficient name-value storage for environment variables, automatically resizing.
+* **Dynamic Hashmap**: Efficient and fast name-value storage for environment variables, automatically resizing.
 * **Persistent State**: Updates `SHLVL`, `PWD`, and `OLDPWD` seamlessly.
 
 ### 5. Signal Handling & Job Control
@@ -68,6 +67,24 @@ cd minishell
 make
 ```
 
+## Configuration
+
+* **Debugging**: Set `DEBUG` in `debug.h` to desired level (0–13).
+
+* **Shell Name**: Customize the shell’s displayed name by editing the `MINISHELL_NAME` macro in `header.h`.
+
+* **Prompt**: Define a custom prompt format using the `PROMPT` macro in `minishell.h`.
+
+* **Welcome Prompt**: Customize the welcome message displayed at shell startup by modifying the `MINISHELL_WELCOME_START` and `MINISHELL_WELCOME_END` macros in `minishell.h`.
+
+* **Builtin Command Names**: Rename built-in commands by modifying the `BUILTIN_<CMD>_NAME` macros in `builtins.h`.
+
+* **Signal Display**: Enable or disable signal reporting by setting `MINISHELL_SHOW_SIGNALS` in `minishell.h` (0 disables, 1 enables).
+
+* **Core Dump on Signal**: Control core dump message via the `SIGNAL_CORE_DUMP_MESSAGE` macro in `minishell_signal.h`.
+
+> **Note:** After adjusting any configuration macros in headers run `make clean && make` to recompile and apply your changes or directly run `make CONFIGURATION=-D<DEFINE>=<VALUE>`.
+
 ## Usage
 
 Launch the shell interactively:
@@ -87,53 +104,6 @@ Execute single command:
 ```bash
 ./minishell -c "echo Hello World"
 ```
-
-## Configuration
-
-* **Debugging**: Set `DEBUG` in `debug.h` to desired level (0–13).
-
-  ```bash
-  make CFLAGS="-DDEBUG=<level>"
-  ```
-
-* **Buffer Size**: Adjust `GNL_BUFFER_SIZE` in `get_next_line.h` as needed.
-
-  ```bash
-  make CFLAGS="-DGNL_BUFFER_SIZE=<size>"
-  ```
-
-* **Shell Name**: Customize the shell’s displayed name by editing the `MINISHELL_NAME` macro in `header.h`.
-  Or override at compile time:
-
-  ```bash
-  make CFLAGS="-DMINISHELL_NAME=\"YourShell\""
-  ```
-
-* **Builtin Command Names**: Rename built-in commands by modifying the `BUILTIN_<CMD>_NAME` macros in `builtins.h`.
-
-  ```bash
-  make CFLAGS="-DBUILTIN_CD_NAME=\"chdir\" -DBUILTIN_EXIT_NAME=\"quit\""
-  ```
-
-* **Prompt Behavior**: Define a custom prompt format using the `PROMPT_FORMAT` macro in `header.h`.
-
-  ```bash
-  make CFLAGS="-DPROMPT_FORMAT=\"[MiniShell] $ \""
-  ```
-
-* **Signal Display**: Enable or disable signal reporting by setting `MINISHELL_SHOW_SIGNALS` in `header.h` (0 disables, 1 enables).
-
-  ```bash
-  make CFLAGS="-DMINISHELL_SHOW_SIGNALS=1"
-  ```
-
-* **Core Dump on Signal**: Control core dump behavior via the `SIGNAL_CORE_DUMP` macro in `header.h` (0 disables, 1 enables).
-
-  ```bash
-  make CFLAGS="-DSIGNAL_CORE_DUMP=1"
-  ```
-
-> **Note:** After adjusting any configuration macros via `CFLAGS`, run `make clean && make` to recompile and apply your changes.
 
 ## License
 
