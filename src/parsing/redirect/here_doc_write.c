@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 01:56:12 by val               #+#    #+#             */
-/*   Updated: 2025/05/21 20:27:04 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/22 03:33:53 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 #include "minishell.h"
 #include <errno.h>
 
+ssize_t		secure_putendl_fd(char *s, int fd, t_minishell *data);
 char		*handle_dollars_in_here_doc(bool unclosed_par, char **input,
-				t_lst *token_eof, t_minishell *data);
+				t_lexeme_type type_eof, t_minishell *data);
 static int	check_null_readline(char *input, char *lexeme_eof, t_minishell *data);
 bool		unclosed_par_here_doc(char *str);
 static int	unexpected_eof(void);
@@ -39,11 +40,12 @@ static int	dummy_event(void)
  *
  * @return
 
- * @retval 0 Erreur : le heredoc n'a pas été traité et ou écrit correctement.
+ * @retval 0 Erreur de syntaxe : une erreur de syntaxe est présente dans la ligne saisie.
  * @retval 1 Succès : le heredoc a été traité et écrit correctement ou EOF
  * par control D.
  * @retval 2 Interruption par signal (par exemple, SIGINT via Ctrl+C).
- */
+ * @retval 3 la ligne saisie n'a pas pu être écrite sur le fichier temporaire.
+ **/
 int	write_in_here_doc_file(int fd, t_lst *token_eof, t_minishell *data)
 {
 	char	*input;
@@ -66,9 +68,9 @@ int	write_in_here_doc_file(int fd, t_lst *token_eof, t_minishell *data)
 				return (unexpected_eof());
 			break ;
 		}
-		handle_dollars_in_here_doc(unclosed_par, &input, token_eof, data);
-		ft_putendl_fd(input, fd);
-		gc_free(input, data);
+		handle_dollars_in_here_doc(unclosed_par, &input, token_eof->type, data);
+		if (secure_putendl_fd(input, fd, data) == -1)
+			return (3);
 	}
 	return (1);
 }
@@ -76,6 +78,7 @@ int	write_in_here_doc_file(int fd, t_lst *token_eof, t_minishell *data)
 static void	readline_and_check_unclosed(char **input,
 				bool *unclosed_par, t_minishell *data)
 {
+	errno = 0;
 	*input = readline("> ");
 	gc_add(*input, data);
 	if (*unclosed_par == false)
@@ -84,7 +87,7 @@ static void	readline_and_check_unclosed(char **input,
 
 static int	unexpected_eof(void)
 {
-	ft_printf_fd(STDERR_FILENO, "%s: here-doc: \
+	ft_printf_fd(STDERR_FILENO, "%s: here-doc: command substitution: \
 unexpected EOF while looking for matching \')'\n",
 		MINISHELL_NAME);
 	return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_shell_handler.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 01:51:08 by val               #+#    #+#             */
-/*   Updated: 2025/05/21 03:22:43 by val              ###   ########.fr       */
+/*   Updated: 2025/05/22 02:54:24 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	handle_shell(t_minishell *data)
 	{
 		setup_signals(SIGCONTEXT_PROMPT);
 		prompt = get_prompt(data);
+		errno = 0;
 		input = readline(prompt);
 		gc_add(input, data);
 		gc_free(prompt, data);

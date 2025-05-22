@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   evaluate_pipe_op.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:32:36 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/21 03:14:59 by val              ###   ########.fr       */
+/*   Updated: 2025/05/22 02:54:35 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,15 @@ int	exec_parenthesized_cmd_pipe(t_leaf *cmd, t_minishell *data)
 			secure_pipe_dup2(pipefd, cmd, data);
 			data->is_subshell = true;
 			parsing_exec(tokens_to_str(cmd->tokens->next, data), data);
-			close(STDIN_FILENO);
-			close(STDOUT_FILENO);
+			secure_close(STDIN_FILENO);
+			secure_close(STDOUT_FILENO);
 			exit_minishell(data);
 		}
 		else if (pid == -1)
 			raise_error_category("fork", data);
 	}
-	close(pipefd[1]);
-	close_input_output(cmd);
+	secure_close(pipefd[1]);
+	secure_close_input_output(cmd);
 	return (pipefd[0]);
 }
 
@@ -66,8 +66,8 @@ int	exec_not_parenthesized_cmd_pipe(t_leaf *cmd, t_minishell *data)
 				raise_error_category("fork", data);
 		}
 	}
-	close(pipefd[1]);
-	close_input_output(cmd);
+	secure_close(pipefd[1]);
+	secure_close_input_output(cmd);
 	return (pipefd[0]);
 }
 
@@ -88,19 +88,25 @@ t_leaf	*evaluate_pipe_op(t_ast_node *node, t_minishell *data)
 
 static void	secure_pipe_dup2(int pipefd[2], t_leaf *cmd, t_minishell *data)
 {
-	close(pipefd[0]);
+	secure_close(pipefd[0]);
 	if (dup2(pipefd[1], STDOUT_FILENO) == -1)
 	{
-		close(pipefd[1]);
+		secure_close(pipefd[1]);
 		raise_error_category("dup2", data);
 	}
-	close(pipefd[1]);
+	secure_close(pipefd[1]);
 	if (dup2(cmd->fd_input, STDIN_FILENO) == -1)
 		raise_error_category("dup2", data);
 	if (dup2(cmd->fd_output, STDOUT_FILENO) == -1)
 		raise_error_category("dup2", data);
 	if (cmd->fd_input != STDIN_FILENO)
-		close(cmd->fd_input);
+	{
+		secure_close(cmd->fd_input);
+		cmd->fd_input = STDIN_FILENO;
+	}
 	if (cmd->fd_output != STDOUT_FILENO)
-		close(cmd->fd_output);
+	{
+		secure_close(cmd->fd_output);
+		cmd->fd_output = STDOUT_FILENO;
+	}
 }

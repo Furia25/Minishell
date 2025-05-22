@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:31:08 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/21 03:14:25 by val              ###   ########.fr       */
+/*   Updated: 2025/05/22 02:54:24 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static unsigned char	close_and_wait(t_leaf *cmd, t_minishell *data);
+static unsigned char	secure_close_and_wait(t_leaf *cmd, t_minishell *data);
 static void				secure_dup2(t_leaf *cmd, t_minishell *data);
 
 static int	exec_parenthesized_cmd(t_leaf *cmd, t_minishell *data)
@@ -39,7 +39,7 @@ static int	exec_parenthesized_cmd(t_leaf *cmd, t_minishell *data)
 		else
 			raise_error_category("fork", data);
 	}
-	return (close_and_wait(cmd, data));
+	return (secure_close_and_wait(cmd, data));
 }
 
 static int	exec_not_parenthesized_cmd(t_leaf *cmd, t_minishell *data)
@@ -54,7 +54,7 @@ static int	exec_not_parenthesized_cmd(t_leaf *cmd, t_minishell *data)
 		if (argv != NULL)
 		{
 			if (!data->in_pipe && exec_builtins(cmd, argv, false, data))
-				return (close_and_wait(cmd, data));
+				return (secure_close_and_wait(cmd, data));
 			pid = s_fork(data);
 			if (pid == 0)
 			{
@@ -67,7 +67,7 @@ static int	exec_not_parenthesized_cmd(t_leaf *cmd, t_minishell *data)
 				raise_error_category("fork", data);
 		}
 	}
-	return (close_and_wait(cmd, data));
+	return (secure_close_and_wait(cmd, data));
 }
 
 int	execute_cmd(t_leaf *cmd, t_minishell *data)
@@ -79,9 +79,9 @@ int	execute_cmd(t_leaf *cmd, t_minishell *data)
 	return (exec_not_parenthesized_cmd(cmd, data));
 }
 
-static unsigned char	close_and_wait(t_leaf *cmd, t_minishell *data)
+static unsigned char	secure_close_and_wait(t_leaf *cmd, t_minishell *data)
 {
-	close_input_output(cmd);
+	secure_close_input_output(cmd);
 	wait_childs(data);
 	if (cmd->fd_input == -1 || cmd->fd_output == -1)
 		data->exit_code = EXIT_FAILURE;
@@ -95,7 +95,13 @@ static void	secure_dup2(t_leaf *cmd, t_minishell *data)
 	if (dup2(cmd->fd_output, STDOUT_FILENO) == -1)
 		raise_error_category("dup2", data);
 	if (cmd->fd_input != STDIN_FILENO)
-		close(cmd->fd_input);
+	{
+		secure_close(cmd->fd_input);
+		cmd->fd_input = STDIN_FILENO;
+	}
 	if (cmd->fd_output != STDOUT_FILENO)
-		close(cmd->fd_output);
+	{
+		secure_close(cmd->fd_output);
+		cmd->fd_output = STDOUT_FILENO;
+	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/21 03:23:58 by val              ###   ########.fr       */
+/*   Updated: 2025/05/22 02:55:23 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,9 @@ void			handle_script(char **argv, t_minishell *data);
 void			handle_cflag(char **argv, t_minishell *data);
 void			exec_command(t_leaf *cmd, char **argv, t_minishell *data);
 
+void 			secure_close(int fd);
 void			close_fds(int fd1, int fd2, int fd3, int fd4);
-void			close_input_output(t_leaf *cmd);
+void			secure_close_input_output(t_leaf *cmd);
 
 void			wait_childs(t_minishell *data);
 

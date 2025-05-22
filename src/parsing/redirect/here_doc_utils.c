@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:37:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/21 20:37:31 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/22 03:30:09 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,11 @@ bool	unclosed_par_here_doc(char *str)
 }
 
 char	*handle_dollars_in_here_doc(bool unclosed_par, char **input,
-	t_lst *token_eof, t_minishell *data)
+	t_lexeme_type type_eof, t_minishell *data)
 {
 	char	*buff;
 
-	if (token_eof->type != SINGLE_Q)
+	if (type_eof != SINGLE_Q)
 	{
 		if (unclosed_par == false)
 		{
@@ -91,4 +91,20 @@ char	*handle_dollars_in_here_doc(bool unclosed_par, char **input,
 	if (DEBUG == 4 || DEBUG == 1)
 		ft_printf_fd(STDERR_FILENO, "input: %s\n", *input);
 	return (*input);
+}
+
+ssize_t	secure_putendl_fd(char *s, int fd, t_minishell *data)
+{
+	ssize_t s_write;
+	ssize_t nl_write;
+
+	s_write = write(fd, s, ft_strlen(s));
+	nl_write = write(fd, "\n", 1);
+	gc_free(s, data);
+	if (s_write == -1 || nl_write == -1)
+	{
+		perror("minishell: here-doc");
+		return (-1);
+	}
+	return(s_write + nl_write);
 }

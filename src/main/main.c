@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 17:17:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/21 03:23:06 by val              ###   ########.fr       */
+/*   Updated: 2025/05/22 02:54:24 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ void	exit_minishell(t_minishell *data)
 {
 	if (data->in_child)
 	{
-		close(0);
-		close(1);
+		close(STDIN_FILENO);
+		close(STDOUT_FILENO);
 	}
 	rl_clear_history();
 	hashmap_free_content(&data->environment);

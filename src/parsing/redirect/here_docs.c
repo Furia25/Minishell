@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:43:56 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/21 20:01:53 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/22 03:16:34 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static char	*handle_here_doc(t_leaf *cmd, t_lst *token_eof, t_minishell *data)
 		cmd->fd_input = STDIN_FILENO;
 	else
 		cmd->fd_input = -1;
-	if (here_doc_error == 2)
+	if (here_doc_error == 2 || here_doc_error == 3)
 		return (NULL);
 	return (here_doc_file);
 }

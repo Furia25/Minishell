@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/05/21 03:14:47 by val              ###   ########.fr       */
+/*   Updated: 2025/05/22 02:54:24 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,24 @@ void	wait_childs(t_minishell *data)
 		temp_wait = wait(NULL);
 }
 
-void	close_input_output(t_leaf *cmd)
+void	secure_close_input_output(t_leaf *cmd)
 {
 	if (cmd->fd_input > STDIN_FILENO)
-		close(cmd->fd_input);
+	{
+		secure_close(cmd->fd_input);
+		cmd->fd_input = STDIN_FILENO;
+	}
 	if (cmd->fd_output > STDOUT_FILENO)
-		close(cmd->fd_output);
+	{
+		secure_close(cmd->fd_output);
+		cmd->fd_output = STDOUT_FILENO;
+	}
+}
+
+void 	secure_close(int fd)
+{
+	if (close(fd) == -1)
+		perror("minishell : close");
 }
 
 bool	exec_builtins(t_leaf *cmd, char **argv, bool exit, t_minishell *data)
