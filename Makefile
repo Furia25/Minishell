@@ -6,7 +6,7 @@
 #    By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: Invalid date        by                   #+#    #+#              #
-#    Updated: 2025/05/22 18:20:46 by vdurand          ###   ########.fr        #
+#    Updated: 2025/05/22 19:14:54 by vdurand          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,8 @@ HIDDEN = \033[8m
 RESET = \033[0m
 ##################
 
-DEBUG_VALGRIND = valgrind --leak-check=full --show-leak-kinds=all --trace-children=yes --track-fds=all --track-origins=yes --suppressions=ignore_readline.supp -s
+READLINE_SUPP_DIR = ignore_readline.supp
+DEBUG_VALGRIND = valgrind --leak-check=full --show-leak-kinds=all --trace-children=yes --track-fds=all --track-origins=yes --suppressions=$(READLINE_SUPP_DIR) -s
 
 SRC_DIR = src
 MAIN_DIR = src_main

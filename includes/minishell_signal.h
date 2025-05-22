@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 13:34:15 by val               #+#    #+#             */
-/*   Updated: 2025/05/19 20:04:04 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/22 19:42:35 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <signal.h>
 # include <sys/types.h>
 
-# define SIGNAL_CORE_DUMP "Quit (core dumped)"
+# define SIGNAL_CORE_DUMP_MESSAGE "Quit (core dumped)"
 
 extern volatile sig_atomic_t	g_signal_status;
 

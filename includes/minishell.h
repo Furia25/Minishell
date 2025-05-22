@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/22 18:33:10 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/22 19:36:55 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,11 @@
 # include "garbage_collector.h"
 # include "ft_printf.h"
 
-# define MINISHELL_NAME	"minishell"
 # ifndef ECHOCTL
 #  define ECHOCTL 0001000
 # endif
+
+# define MINISHELL_NAME	"minishell"
 
 # define MINISHELL_WELCOME_START	"\001\033[1;35m\002Welcome to "
 # define MINISHELL_WELCOME_END		"!\n\001\033[0m\002"

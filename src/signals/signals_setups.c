@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 12:54:33 by val               #+#    #+#             */
-/*   Updated: 2025/05/22 18:08:06 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/22 19:42:26 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static void	signal_parent_handler(int sig)
 		return ;
 	g_signal_status = sig;
 	if (sig == SIGQUIT)
-		ft_printf_fd(STDERR_FILENO, "%s\n", SIGNAL_CORE_DUMP);
+		ft_printf_fd(STDERR_FILENO, "%s\n", SIGNAL_CORE_DUMP_MESSAGE);
 }
 
 static void	signal_heredoc_handler(int sig)
