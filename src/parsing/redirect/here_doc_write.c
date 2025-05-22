@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 01:56:12 by val               #+#    #+#             */
-/*   Updated: 2025/05/22 03:33:53 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/22 18:40:09 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@
 ssize_t		secure_putendl_fd(char *s, int fd, t_minishell *data);
 char		*handle_dollars_in_here_doc(bool unclosed_par, char **input,
 				t_lexeme_type type_eof, t_minishell *data);
-static int	check_null_readline(char *input, char *lexeme_eof, t_minishell *data);
+static int	check_null_rl(char *input, bool unclosed_par,
+				char *lexeme_eof, t_minishell *data);
 bool		unclosed_par_here_doc(char *str);
 static int	unexpected_eof(void);
 static void	readline_and_check_unclosed(char **input,
@@ -26,7 +27,8 @@ static void	readline_and_check_unclosed(char **input,
 static int	dummy_event(void)
 {
 	if (DEBUG == 42)
-		ft_putstr_fd("DEBUG : THIS MESSAGE SHOULD NOT BE PRINTED\n", STDERR_FILENO);
+		ft_putstr_fd("DEBUG : THIS MESSAGE SHOULD NOT BE PRINTED\n",
+			STDERR_FILENO);
 	return (0);
 }
 
@@ -40,7 +42,8 @@ static int	dummy_event(void)
  *
  * @return
 
- * @retval 0 Erreur de syntaxe : une erreur de syntaxe est présente dans la ligne saisie.
+ * @retval 0 Erreur de syntaxe : une erreur de syntaxe est présente
+ * dans la ligne saisie.
  * @retval 1 Succès : le heredoc a été traité et écrit correctement ou EOF
  * par control D.
  * @retval 2 Interruption par signal (par exemple, SIGINT via Ctrl+C).
@@ -49,7 +52,7 @@ static int	dummy_event(void)
 int	write_in_here_doc_file(int fd, t_lst *token_eof, t_minishell *data)
 {
 	char	*input;
-	int		readline_check;
+	int		rl_check;
 	bool	unclosed_par;
 
 	input = NULL;
@@ -58,9 +61,9 @@ int	write_in_here_doc_file(int fd, t_lst *token_eof, t_minishell *data)
 	while (1)
 	{
 		readline_and_check_unclosed(&input, &unclosed_par, data);
-		readline_check = check_null_readline(input, token_eof->lexeme, data);
-		if (readline_check != 0)
-			return (readline_check);
+		rl_check = check_null_rl(input, unclosed_par, token_eof->lexeme, data);
+		if (rl_check != 0)
+			return (rl_check);
 		if (ft_strcmp(input, token_eof->lexeme) == 0)
 		{
 			gc_free(input, data);
@@ -87,13 +90,13 @@ static void	readline_and_check_unclosed(char **input,
 
 static int	unexpected_eof(void)
 {
-	ft_printf_fd(STDERR_FILENO, "%s: here-doc: command substitution: \
-unexpected EOF while looking for matching \')'\n",
-		MINISHELL_NAME);
+	print_extended_error("here-doc", "command substitution:",
+		"unexpected EOF while looking for matching ')'");
 	return (0);
 }
 
-static int	check_null_readline(char *input, char *lexeme_eof, t_minishell *data)
+static int	check_null_rl(char *input, bool unclosed_par,
+	char *lexeme_eof, t_minishell *data)
 {
 	if (!input || g_signal_status == SIGINT)
 	{
@@ -105,8 +108,11 @@ static int	check_null_readline(char *input, char *lexeme_eof, t_minishell *data)
 			data->exit_code = 128 + SIGINT;
 			return (2);
 		}
-		ft_printf_fd(STDERR_FILENO, "%s: warning: here-document at line %d delimited by \
-end-of-file (wanted `%s')\n", MINISHELL_NAME, data->line, lexeme_eof);
+		if (unclosed_par == true)
+			unexpected_eof();
+		ft_printf_fd(STDERR_FILENO, "%s: warning: \
+here-document at line %d delimited by end-of-file \
+wanted `%s')\n", MINISHELL_NAME, data->line, lexeme_eof);
 		return (1);
 	}
 	return (0);
