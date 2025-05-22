@@ -3,14 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   misc_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 15:58:02 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/21 20:25:26 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/22 18:17:01 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <errno.h>
 #include "minishell.h"
 #include <termios.h>
 #include <sys/stat.h>
@@ -38,12 +37,6 @@ int	check_flags_c(int argc, char **argv)
 		index++;
 	}
 	return (index);
-}
-
-void	print_basic_error(char *error_name)
-{
-	ft_printf_fd(STDERR_FILENO, "%s: %s: %s\n",
-		MINISHELL_NAME, error_name, strerror(errno));
 }
 
 void	disable_echoctl(void)

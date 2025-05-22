@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/05/21 20:19:29 by alpayet          ###   ########.fr       */
+/*   Created: 2025/05/22 18:25:36 by vdurand           #+#    #+#             */
+/*   Updated: 2025/05/22 18:25:38 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include <errno.h>
 #include "minishell.h"

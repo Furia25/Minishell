@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 12:54:33 by val               #+#    #+#             */
-/*   Updated: 2025/05/22 16:48:16 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/22 18:08:06 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static void	signal_prompt_handler(int sig)
 		write(1, "\n", 1);
 		rl_readline_state &= ~RL_STATE_COMPLETING;
 		rl_on_new_line();
-   		rl_redisplay();
+		rl_redisplay();
 		return ;
 	}
 	g_signal_status = sig;
@@ -56,14 +56,15 @@ static void	signal_prompt_handler(int sig)
 		write(1, "\n", 1);
 		rl_replace_line("", 0);
 		rl_on_new_line();
-		rl_redisplay();write(1, "\n", 1);
+		rl_redisplay();
 	}
 	else if (sig == SIGQUIT)
 	{
 		rl_replace_line("", 0);
 		rl_redisplay();
 		if (DEBUG == 13)
-			ft_printf_fd(STDERR_FILENO, "%s: SIGQUIT RECEIVED\n", MINISHELL_NAME);
+			ft_printf_fd(STDERR_FILENO,
+				"%s: SIGQUIT RECEIVED\n", MINISHELL_NAME);
 	}
 }
 

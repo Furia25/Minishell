@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 01:51:08 by val               #+#    #+#             */
-/*   Updated: 2025/05/22 16:35:11 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/22 18:08:16 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,3 @@ static char	*get_prompt(t_minishell *data)
 	}
 	return (prompt);
 }
-

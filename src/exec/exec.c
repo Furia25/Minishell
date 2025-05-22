@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/05/21 20:24:51 by alpayet          ###   ########.fr       */
+/*   Created: 2025/05/22 18:11:09 by vdurand           #+#    #+#             */
+/*   Updated: 2025/05/22 18:20:15 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "minishell_signal.h"
 #include "minishell.h"
@@ -56,7 +55,7 @@ static char	*search_command(char *cmd, t_minishell *data)
 		}
 		else
 		{
-			ft_printf_fd(STDERR_FILENO, "%s: %s is a directory\n", MINISHELL_NAME, cmd);
+			print_extended_error(NULL, cmd, "is a directory");
 			return (NULL);
 		}
 	}

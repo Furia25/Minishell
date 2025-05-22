@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:37:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/22 03:30:09 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/22 18:31:20 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,16 +95,16 @@ char	*handle_dollars_in_here_doc(bool unclosed_par, char **input,
 
 ssize_t	secure_putendl_fd(char *s, int fd, t_minishell *data)
 {
-	ssize_t s_write;
-	ssize_t nl_write;
+	ssize_t	s_write;
+	ssize_t	nl_write;
 
 	s_write = write(fd, s, ft_strlen(s));
 	nl_write = write(fd, "\n", 1);
 	gc_free(s, data);
 	if (s_write == -1 || nl_write == -1)
 	{
-		perror("minishell: here-doc");
+		print_basic_error("here-doc");
 		return (-1);
 	}
-	return(s_write + nl_write);
+	return (s_write + nl_write);
 }

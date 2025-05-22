@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: Invalid date        by                   #+#    #+#             */
-/*   Updated: 2025/05/22 02:54:24 by alpayet          ###   ########.fr       */
+/*   Created: 2025/05/22 18:09:52 by vdurand           #+#    #+#             */
+/*   Updated: 2025/05/22 18:10:13 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "builtin.h"
 #include "minishell.h"
@@ -47,10 +46,10 @@ void	secure_close_input_output(t_leaf *cmd)
 	}
 }
 
-void 	secure_close(int fd)
+void	secure_close(int fd)
 {
 	if (close(fd) == -1)
-		perror("minishell : close");
+		print_basic_error("close");
 }
 
 bool	exec_builtins(t_leaf *cmd, char **argv, bool exit, t_minishell *data)

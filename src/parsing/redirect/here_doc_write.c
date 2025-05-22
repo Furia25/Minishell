@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_write.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 01:56:12 by val               #+#    #+#             */
-/*   Updated: 2025/05/22 03:33:53 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/22 18:29:53 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,8 @@ static void	readline_and_check_unclosed(char **input,
 
 static int	unexpected_eof(void)
 {
-	ft_printf_fd(STDERR_FILENO, "%s: here-doc: command substitution: \
-unexpected EOF while looking for matching \')'\n",
-		MINISHELL_NAME);
+	print_extended_error("here-doc", "command substitution:", 
+		"unexpected EOF while looking for matching \')'");
 	return (0);
 }
 
