@@ -6,12 +6,13 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 01:56:12 by val               #+#    #+#             */
-/*   Updated: 2025/05/22 21:07:12 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/23 15:21:55 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_signal.h"
 #include "minishell.h"
+#include "debug.h"
 #include <errno.h>
 
 ssize_t		secure_putendl_fd(char *s, int fd, t_minishell *data);

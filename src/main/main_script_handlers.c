@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main_script_handlers.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 16:04:21 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/23 03:55:23 by val              ###   ########.fr       */
+/*   Updated: 2025/05/23 15:20:30 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "garbage_collector.h"
 
 static void	script_init(char **argv, t_minishell *data);
 static bool	is_valid_script_line(char *line, bool ended);

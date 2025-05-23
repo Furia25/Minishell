@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_structs.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:56:49 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/23 01:44:06 by val              ###   ########.fr       */
+/*   Updated: 2025/05/23 15:27:23 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_STRUCTS_H
 # define MINISHELL_STRUCTS_H
-
 # include "hashmap.h"
 
 typedef enum e_lexeme_type

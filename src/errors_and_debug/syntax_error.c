@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_error.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 22:19:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/22 18:24:20 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/23 15:21:24 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "debug.h"
 
 static void	syntax_errors(char *str, t_minishell *data)
 {

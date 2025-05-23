@@ -6,10 +6,11 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:43:56 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/22 03:16:34 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/23 15:24:21 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "redirections.h"
 #include "minishell_signal.h"
 #include "minishell.h"
 

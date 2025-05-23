@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   env_methods.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:20:04 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/21 02:38:56 by val              ###   ########.fr       */
+/*   Updated: 2025/05/23 15:19:28 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "environment.h"
 
 static void	env_print_el(int output, unsigned long key,
 	void *entry, bool print_local)

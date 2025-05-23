@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   redis_except_here_doc.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:49:43 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/22 19:12:25 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/23 15:24:26 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "redirections.h"
 #include "minishell.h"
 
 void	handle_red_input(t_leaf *cmd, t_lexeme_type token_type, char *file)

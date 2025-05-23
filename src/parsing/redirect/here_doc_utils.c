@@ -6,12 +6,14 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:37:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/22 21:00:32 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/23 15:24:02 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <errno.h>
+#include "redirections.h"
+#include "debug.h"
 
 char	*handle_ev_expand_in_here_doc(char *str, t_minishell *data);
 char	*handle_cmd_sub_in_lexeme(char *str, t_minishell *data);

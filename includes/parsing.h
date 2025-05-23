@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 03:23:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/23 01:53:39 by val              ###   ########.fr       */
+/*   Updated: 2025/05/23 15:06:41 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,20 +37,23 @@ typedef struct s_ast_node
 	};
 }	t_ast_node;
 
+//TOKENS
 t_lst			*lstnew(char *lexeme);
 t_lst			*lstlast(t_lst *lst);
 void			lstadd_back(t_lst **lst, t_lst *new);
 void			lstdelone(t_lst *lst, void (*del)(void*));
 void			lstclear(t_lst **lst, void (*del)(void*));
 
+// AST BUILDING
 bool			create_tokens(t_lst **tokens, char *input, t_minishell *data);
 t_leaf			*create_cmd_tab(t_lst *tokens, t_minishell *data);
 t_ast_node		*create_ast(t_leaf *command_tab, t_minishell *data);
+t_leaf			*evaluate_ast(t_ast_node *node, t_minishell *data);
 
+void			parse_cmd(t_leaf *cmd, t_minishell *data);
 void			ev_expand_cmd_substitution_in_cmd(t_leaf *cmd,
 					t_minishell *data);
 void			fusion_quote_token(t_lst *tokens, t_minishell *data);
-void			redirections_in_cmd(t_leaf *cmd, t_minishell *data);
 
 char			*tokens_to_str(t_lst *tokens, t_minishell *data);
 char			**tokens_to_argv(t_lst *tokens, t_minishell *data);

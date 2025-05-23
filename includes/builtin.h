@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 19:20:34 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/21 03:18:47 by val              ###   ########.fr       */
+/*   Updated: 2025/05/23 15:08:46 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef BUILTIN_H
 # define BUILTIN_H
-# include "minishell.h"
+# include <stdbool.h>
+# include "minishell_structs.h"
 
 typedef enum e_builtin_type
 {
@@ -39,10 +40,12 @@ typedef enum e_builtin_type
 # define BUILTIN_FATAL_ERROR	177
 # define BUILTIN_ERROR_TOOMANY	"too many arguments"
 
+// BUILTINS EXECUTION
 bool			try_builtin(t_leaf *cmd,
 					int argc, char **argv, t_minishell *data);
 t_builtin_type	get_builtin(char *cmd);
 
+// BUILTINS FUNCTIONS
 int				exit_builtin(int argc, char **argv, t_minishell *data);
 int				env_builtin(int output, t_minishell *data);
 int				pwd_builtin(void);

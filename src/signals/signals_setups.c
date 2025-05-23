@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   signals_setups.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 12:54:33 by val               #+#    #+#             */
-/*   Updated: 2025/05/22 19:42:26 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/23 15:22:24 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_signal.h"
 #include "minishell.h"
+#include "debug.h"
 
 volatile sig_atomic_t	g_signal_status = 0;
 

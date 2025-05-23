@@ -3,19 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 17:17:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/23 01:44:35 by val              ###   ########.fr       */
+/*   Updated: 2025/05/23 15:25:43 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
+#include <signal.h>
 #include "minishell.h"
 #include "ft_printf.h"
 #include "environment.h"
 #include "garbage_collector.h"
-#include <stdio.h>
-#include <signal.h>
+#include "redirections.h"
+#include "hashmap.h"
 
 static int	init_minishell(t_minishell *data, char **envp);
 

@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_to_str.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 16:18:39 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/23 03:07:59 by val              ###   ########.fr       */
+/*   Updated: 2025/05/23 15:22:18 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "debug.h"
 
 static void	append_lexeme_to_string(t_lexeme_type type, char **str,
 	char *lexeme, t_minishell *data)
@@ -58,7 +59,7 @@ char	*tokens_to_str(t_lst *tokens, t_minishell *data)
 	if (!tokens)
 		raise_error(data);
 	str = NULL;
-	while (tokens->type != LAST_PAR_CLOSE && tokens->next != NULL)
+	while (tokens != NULL && tokens->type != LAST_PAR_CLOSE)
 	{
 		if (str == NULL)
 		{

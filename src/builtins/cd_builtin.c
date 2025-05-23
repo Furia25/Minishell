@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   cd_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 02:36:12 by val               #+#    #+#             */
-/*   Updated: 2025/05/23 03:40:46 by val              ###   ########.fr       */
+/*   Updated: 2025/05/23 15:19:04 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "builtin.h"
 #include <errno.h>
+#include "environment.h"
 
 static int	handle_env(char *env, t_minishell *data);
 static bool	update_pwds(t_minishell *data);

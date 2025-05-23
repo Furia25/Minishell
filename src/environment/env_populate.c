@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   env_populate.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 18:02:46 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/20 15:40:44 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/23 15:19:37 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "environment.h"
 
 static bool	add_envvar(char *key, char *value, t_hashmap *env);
 static bool	add_envvar_stack(char *key, char *value, t_hashmap *env);

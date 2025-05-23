@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   main_shell_handler.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 01:51:08 by val               #+#    #+#             */
-/*   Updated: 2025/05/22 19:06:11 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/23 15:18:45 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "errno.h"
 #include "minishell_signal.h"
 #include "minishell.h"
+#include "environment.h"
 
 static char	*get_prompt(t_minishell *data);
 

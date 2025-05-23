@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/23 02:19:50 by val              ###   ########.fr       */
+/*   Updated: 2025/05/23 15:26:40 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,9 @@
 # include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-
-# include "minishell_structs.h"
 # include "parsing.h"
-# include "redirections.h"
-# include "debug.h"
-# include "hashmap.h"
-# include "wildcards.h"
-# include "environment.h"
+# include "minishell_structs.h"
+
 # include "garbage_collector.h"
 # include "ft_printf.h"
 
@@ -55,46 +50,45 @@ typedef enum e_strjoin
 	FREE_PARAM2 = 1<<2,
 }	t_strjoin;
 
+void			*check_malloc(void *content, t_minishell *data);
+
 void			parsing_exec(char *input, t_minishell *data);
 
-void			wildcards_in_cmd(t_leaf *cmd, t_minishell *data);
+// PRINT ERRORS
+void			print_basic_error(char *error_name);
+void			print_extended_error(char *error_name,
+					char *cause, char *error);
 
-void			parse_cmd(t_leaf *cmd, t_minishell *data);
-t_leaf			*evaluate_ast(t_ast_node *node, t_minishell *data);
-int				execute_cmd(t_leaf *cmd, t_minishell *data);
-
+// ERRORS
+void			command_notfound(char *cmd, t_minishell *data);
 void			raise_error_category(char *error_category, t_minishell *data);
 void			raise_error(t_minishell *data);
 void			exit_minishell(t_minishell *data);
 
-void			*check_malloc(void *content, t_minishell *data);
-
-bool			exec_builtins(t_leaf *cmd,
-					char **argv, bool exit, t_minishell *data);
 // UTILS
 char			*ft_strjoin_alt(char *s1, char *s2, t_strjoin free_what);
 char			*ft_strjoin_alt_gc(char *s1, char *s2, t_strjoin free_what,
 					t_minishell *data);
 unsigned long	hash_ptr(void *ptr);
 void			disable_echoctl(void);
-void			print_basic_error(char *error_name);
-void			print_extended_error(char *error_name,
-					char *cause, char *error);
 bool			is_directory(char *path);
 pid_t			s_fork(t_minishell *data);
 
-void			command_notfound(char *cmd, t_minishell *data);
-
+// MAIN MANAGING
 int				check_flags_c(int argc, char **argv);
 void			handle_shell(t_minishell *data);
 void			handle_script(char **argv, t_minishell *data);
 void			handle_cflag(char **argv, t_minishell *data);
+
+// EXEC OF ONE SIMPLE CMD
+int				execute_cmd(t_leaf *cmd, t_minishell *data);
+
+// EXEC
 void			exec_command(t_leaf *cmd, char **argv, t_minishell *data);
-
 void			secure_close(int fd);
-void			close_fds(int fd1, int fd2, int fd3, int fd4);
 void			secure_close_input_output(t_leaf *cmd);
-
 void			wait_childs(t_minishell *data);
+bool			exec_builtins(t_leaf *cmd,
+					char **argv, bool exit, t_minishell *data);
 
 #endif

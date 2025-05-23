@@ -6,11 +6,12 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 16:18:39 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/20 00:50:39 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/23 15:22:12 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "debug.h"
 
 size_t	tab_size(char **tab)
 {

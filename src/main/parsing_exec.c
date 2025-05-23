@@ -3,15 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:37:34 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/22 17:47:10 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/23 15:23:25 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell_signal.h"
 #include "minishell.h"
+#include "environment.h"
+#include "debug.h"
+#include "redirections.h"
 
 static bool	parsing(char *input, t_minishell *data);
 static void	exec(t_minishell *data);

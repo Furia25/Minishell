@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   word_token.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 23:34:55 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/22 18:24:33 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/23 15:21:50 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "debug.h"
 
 size_t	index_last_closed_par(char *str, t_minishell *data)
 {

@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:31:08 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/23 01:00:37 by val              ###   ########.fr       */
+/*   Updated: 2025/05/23 15:23:37 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "redirections.h"
+#include "debug.h"
 
 static unsigned char	secure_close_and_wait(t_leaf *cmd, t_minishell *data);
 static void				secure_dup2(t_leaf *cmd, t_minishell *data);

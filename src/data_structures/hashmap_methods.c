@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   hashmap_methods.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/22 17:18:50 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/18 23:49:52 by val              ###   ########.fr       */
+/*   Updated: 2025/05/23 14:29:03 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <stdint.h>
 
 static void	swap(t_hash_entry *a, t_hash_entry *b)
 {
@@ -40,6 +41,8 @@ int	hashmap_resize(size_t new_size, t_hashmap *map)
 	size_t			old_size;
 	size_t			index;
 
+	if (new_size == 0 || new_size > SIZE_MAX / 2)
+		return (0);
 	new_table = ft_calloc(new_size, sizeof(t_hash_entry));
 	if (!new_table)
 		return (0);

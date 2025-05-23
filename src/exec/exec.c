@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 18:11:09 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/23 01:56:32 by val              ###   ########.fr       */
+/*   Updated: 2025/05/23 15:19:44 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <errno.h>
+#include "environment.h"
 
 static char	*search_command(char *cmd, t_minishell *data);
 static char	*find_command_path(char *cmd, char *path, t_minishell *data);

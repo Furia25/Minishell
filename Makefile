@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: val <val@student.42.fr>                    +#+  +:+       +#+         #
+#    By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: Invalid date        by                   #+#    #+#              #
-#    Updated: 2025/05/23 03:32:04 by val              ###   ########.fr        #
+#    Updated: 2025/05/23 15:16:22 by alpayet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,7 @@ HIDDEN = \033[8m
 RESET = \033[0m
 ##################
 
-READLINE_SUPP_DIR = /home/val/Minishell/ignore_readline.supp
+READLINE_SUPP_DIR = /home/alpayet/projects/Minishell/ignore_readline.supp
 DEBUG_VALGRIND = valgrind --leak-check=full --show-leak-kinds=all --trace-children=yes --track-fds=all --track-origins=yes --suppressions=$(READLINE_SUPP_DIR) -s
 
 SRC_DIR = src
@@ -139,7 +139,7 @@ OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 DEP = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.d, $(SRC))
 
 BASH_DEFAULT_PATH := $(shell \
-    env -i bash --noprofile --norc -c 'printf "%s" "$$PATH"' \
+    env -i bash --posix --noprofile --norc -c 'printf "%s" "$$PATH"' \
 )
 
 CC = cc -g3
@@ -150,8 +150,8 @@ CFLAGS += $(if $(strip $(BASH_DEFAULT_PATH)),\
             )
 READLINE_INC = -I/usr/local/include
 INCLUDES = -I$(INC_DIR) -I$(LIBFT_DIR) $(READLINE_INC)
-LDFLAGS = -L$(LIBFT_DIR) -lft -L/usr/local/lib -lreadline
-FLAGS = $(CFLAGS) -MMD -MP
+LDFLAGS = -L$(LIBFT_DIR) -lft -lreadline
+FLAGS = $(CFLAGS)
 
 all: makelibft $(NAME)
 
@@ -165,10 +165,10 @@ makelibft:
 	$(SILENT)$(MAKE) bonus -C $(LIBFT_DIR) $(DUMP_OUT)
 	@echo "$(GREEN)>>> Compilation achieved!$(RESET)"
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c Makefile $(INC_DIR)/*.h $(LIBFT_DIR)/libft.a | $(OBJ_DIR)
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c Makefile $(LIBFT_DIR)/libft.a | $(OBJ_DIR)
 	$(SILENT) mkdir -p $(dir $@)
 	@echo "$(BLUE)>>> Compiling $<...$(RESET)"
-	$(SILENT)$(CC) $(FLAGS) $(INCLUDES) -c $< -o $@
+	$(SILENT)$(CC) $(FLAGS) -MMD -MP $(INCLUDES) -c $< -o $@
 
 $(OBJ_DIR):
 	@echo "$(YELLOW)>>> Directory '$(OBJ_DIR)' created!$(RESET)"

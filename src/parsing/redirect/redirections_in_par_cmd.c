@@ -6,11 +6,12 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 03:56:04 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/21 01:54:57 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/23 15:23:47 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "redirections.h"
 
 void	rm_here_doc_files_in_cmd(t_lst *tokens);
 void	del_reds_tokens(t_lst *token, t_minishell *data);

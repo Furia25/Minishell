@@ -6,11 +6,12 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 20:47:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/22 21:45:44 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/23 15:19:52 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "environment.h"
 
 char	*handle_ev_expand_in_lexeme(char *str, t_lexeme_type next_type,
 			t_minishell *data);

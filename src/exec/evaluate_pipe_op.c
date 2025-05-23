@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   evaluate_pipe_op.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:32:36 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/23 01:00:31 by val              ###   ########.fr       */
+/*   Updated: 2025/05/23 15:23:31 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "redirections.h"
 
 static void	secure_pipe_dup2(int pipefd[2], t_leaf *cmd, t_minishell *data);
 

@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   tokenization.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:22:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/20 14:53:12 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/23 15:21:45 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "debug.h"
 
 size_t		single_quote_token(t_lst **tokens, char *str, t_minishell *data);
 size_t		double_quote_token(t_lst **tokens, char *str, t_minishell *data);

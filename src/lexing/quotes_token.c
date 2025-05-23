@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   quotes_token.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 23:49:57 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/20 14:55:57 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/23 15:21:38 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "debug.h"
 
 size_t	index_last_closed_par(char *str, t_minishell *data);
 

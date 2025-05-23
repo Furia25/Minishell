@@ -6,12 +6,13 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:40:07 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/21 20:19:01 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/23 15:19:16 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "builtin.h"
+#include "environment.h"
 
 static bool	make_var_separator(char *str, long separator, t_minishell *data);
 static int	print_export_error(char *str);

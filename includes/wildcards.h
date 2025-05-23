@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcards.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/02 16:48:45 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/23 02:08:22 by val              ###   ########.fr       */
+/*   Updated: 2025/05/23 15:02:58 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct s_wsearch
 	t_lst	*result;
 }	t_wsearch;
 
+void		wildcards_in_cmd(t_leaf *cmd, t_minishell *data);
 t_wsearch	wildcard_explore(char *dir_name, t_wildcard *wd, size_t depth);
 t_wsearch	wildcard_lst_from_lexeme(char *lexeme);
 bool		wildcard_matches(char *name_ptr, char *pattern_ptr);

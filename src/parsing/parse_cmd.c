@@ -6,11 +6,14 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 03:43:36 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/22 21:33:52 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/23 15:24:32 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "redirections.h"
 #include "minishell.h"
+#include "wildcards.h"
+#include "debug.h"
 
 void	parse_cmd(t_leaf *cmd, t_minishell *data)
 {

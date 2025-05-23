@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   wildcards_in_cmd.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 19:54:39 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/19 19:57:36 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/23 15:21:00 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "wildcards.h"
 
 static void	add_wildcard_to_gc(t_wsearch wildcard_result, t_minishell *data);
 static void	clean_current_token(char *token);
