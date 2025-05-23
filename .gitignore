@@ -1,6 +1,7 @@
 minishell
 .gdb*
 .bonus
+.vscode
 
 # Prerequisites
 *.d
