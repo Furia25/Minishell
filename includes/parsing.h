@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 03:23:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/22 21:33:26 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/23 01:53:39 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ bool			create_tokens(t_lst **tokens, char *input, t_minishell *data);
 t_leaf			*create_cmd_tab(t_lst *tokens, t_minishell *data);
 t_ast_node		*create_ast(t_leaf *command_tab, t_minishell *data);
 
-void			ev_expand_cmd_substitution_in_cmd(t_leaf *cmd, t_minishell *data);
+void			ev_expand_cmd_substitution_in_cmd(t_leaf *cmd,
+					t_minishell *data);
 void			fusion_quote_token(t_lst *tokens, t_minishell *data);
 void			redirections_in_cmd(t_leaf *cmd, t_minishell *data);
 

@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/08 18:49:08 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/23 00:00:11 by val              ###   ########.fr       */
+/*   Updated: 2025/05/23 02:21:02 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,26 +23,17 @@ t_wsearch	wildcard_lst_from_lexeme(char *lexeme)
 {
 	t_wildcard	wildcard;
 	t_wsearch	search_result;
-	size_t		index;
 
 	wildcard.rules = ft_split(lexeme, PATH_SYMBOL);
 	if (!wildcard.rules)
 		return ((t_wsearch){-1, NULL});
-	index = 0;
 	wildcard.count = 0;
-	while (wildcard.rules[index] != NULL)
-	{
+	while (wildcard.rules[wildcard.count] != NULL)
 		wildcard.count += 1;
-		index++;
-	}
 	wildcard.result = NULL;
 	wildcard.lexeme = lexeme;
 	if (*lexeme == '/')
-	{
-		while (*wildcard.lexeme == '/')
-			wildcard.lexeme++;
 		search_result = wildcard_explore("/", &wildcard, 0);
-	}
 	else
 		search_result = wildcard_explore(".", &wildcard, 0);
 	free_chartab(wildcard.rules);
@@ -95,8 +86,6 @@ char	*get_dirfile_name(char *dir_name, char *file_name)
 	size_t	length_total;
 	char	*result;
 
-	if (ft_strcmp(dir_name, "/") == 0)
-		dir_name = "";
 	if (ft_strcmp(dir_name, ".") == 0)
 		return (ft_strdup(file_name));
 	length_dir = ft_strlen(dir_name);
@@ -105,7 +94,8 @@ char	*get_dirfile_name(char *dir_name, char *file_name)
 	if (!result)
 		return (NULL);
 	ft_strcpy(result, dir_name);
-	ft_strcat(result, "/");
+	if (dir_name[length_dir - 1] != '/')
+		ft_strcat(result, "/");
 	ft_strcat(result, file_name);
 	return (result);
 }

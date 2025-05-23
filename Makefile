@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+         #
+#    By: val <val@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: Invalid date        by                   #+#    #+#              #
-#    Updated: 2025/05/22 21:37:12 by alpayet          ###   ########.fr        #
+#    Updated: 2025/05/23 02:19:35 by val              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -138,8 +138,16 @@ SRC = $(patsubst %.c, $(SRC_DIR)/%.c, $(SRC_FILES))
 OBJ = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRC))
 DEP = $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.d, $(SRC))
 
+BASH_DEFAULT_PATH := $(shell \
+    env -i bash --noprofile --norc -c 'printf "%s" "$$PATH"' \
+)
+
 CC = cc -g3
 CFLAGS = -Werror -Wextra -Wall
+# CHANGE MINISHELL_HARD_PATH TO BASH DEFAULT HARD PATH IF NOT EMPTY
+CFLAGS += $(if $(strip $(BASH_DEFAULT_PATH)),\
+            -DMINISHELL_HARD_PATH=\"$(BASH_DEFAULT_PATH)\",\
+            )
 READLINE_INC = -I/usr/local/include
 INCLUDES = -I$(INC_DIR) -I$(LIBFT_DIR) $(READLINE_INC)
 LDFLAGS = -L$(LIBFT_DIR) -lft -L/usr/local/lib -lreadline

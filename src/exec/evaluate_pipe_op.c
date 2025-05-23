@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   evaluate_pipe_op.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:32:36 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/22 02:54:35 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/23 01:00:31 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int	exec_parenthesized_cmd_pipe(t_leaf *cmd, t_minishell *data)
 		if (pid == 0)
 		{
 			secure_pipe_dup2(pipefd, cmd, data);
-			data->is_subshell = true;
 			parsing_exec(tokens_to_str(cmd->tokens->next, data), data);
 			secure_close(STDIN_FILENO);
 			secure_close(STDOUT_FILENO);

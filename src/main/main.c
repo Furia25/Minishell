@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 17:17:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/22 02:54:24 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/23 01:44:35 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,6 @@ static int	init_minishell(t_minishell *data, char **envp)
 	data->line = 1;
 	data->script_mode = false;
 	data->script_fd = -1;
-	data->is_subshell = false;
+	data->use_hard_path = true;
 	return (1);
 }

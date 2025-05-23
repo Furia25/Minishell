@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 18:25:36 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/22 18:25:38 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/23 00:32:15 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,8 @@ void	command_notfound(char *cmd, t_minishell *data)
 	char	*temp_file;
 	char	*temp_cmd;
 
-	if (is_directory(cmd))
-	{
-		data->exit_code = 126;
+	if (data->exit_code == 126)
 		exit_minishell(data);
-	}
 	if (cmd)
 		temp_cmd = cmd;
 	else
@@ -48,11 +45,11 @@ void	command_notfound(char *cmd, t_minishell *data)
 			temp_file = data->script_file;
 		else
 			temp_file = MINISHELL_NAME;
-		ft_printf_fd(STDERR_FILENO, "%s: line %d: \"%s\" command not found\n",
+		ft_printf_fd(STDERR_FILENO, "%s: line %d: %s: command not found\n",
 			temp_file, data->line, temp_cmd);
 	}
 	else
-		ft_printf_fd(STDERR_FILENO, "%s: \"%s\" command not found\n",
+		ft_printf_fd(STDERR_FILENO, "%s: %s: command not found\n",
 			MINISHELL_NAME, temp_cmd);
 	exit_minishell(data);
 }

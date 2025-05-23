@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:31:08 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/22 02:54:24 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/23 01:00:37 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ static int	exec_parenthesized_cmd(t_leaf *cmd, t_minishell *data)
 		if (pid == 0)
 		{
 			secure_dup2(cmd, data);
-			data->is_subshell = true;
 			parsing_exec(tokens_to_str(cmd->tokens->next, data), data);
 			close(STDIN_FILENO);
 			close(STDOUT_FILENO);
