@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_script_handlers.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 16:04:21 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/22 17:39:28 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/23 02:57:42 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,12 @@ void	handle_cflag(char **argv, t_minishell *data)
 	data->script_mode = 1;
 	data->script_file = MINISHELL_NAME;
 	data->script_fd = -1;
+	if (!(*argv))
+	{
+		data->exit_code = 2;
+		print_extended_error(NULL, "-c", "option requires at least one argument");
+		exit_minishell(data);
+	}
 	while (*argv)
 	{
 		parsing_exec(*argv, data);

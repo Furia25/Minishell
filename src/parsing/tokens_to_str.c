@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokens_to_str.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 16:18:39 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/22 18:32:23 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/23 03:07:59 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,10 @@ char	*tokens_to_str(t_lst *tokens, t_minishell *data)
 {
 	char	*str;
 
+	if (!tokens)
+		raise_error(data);
 	str = NULL;
-	while (tokens->type != LAST_PAR_CLOSE || tokens->next != NULL)
+	while (tokens->type != LAST_PAR_CLOSE && tokens->next != NULL)
 	{
 		if (str == NULL)
 		{
