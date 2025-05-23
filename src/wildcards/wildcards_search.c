@@ -6,11 +6,12 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/09 00:18:29 by val               #+#    #+#             */
-/*   Updated: 2025/05/23 02:08:47 by val              ###   ########.fr       */
+/*   Updated: 2025/05/23 02:44:33 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
+#include "minishell.h"
 #include "wildcards.h"
 #include "libft.h"
 #include "stdlib.h"
@@ -54,11 +55,21 @@ static bool	switch_depth_handler(char *new_path, t_wildcard *wd,
 	t_lst	*new;
 
 	if (depth + 1 < wd->count)
-	{
 		return (handle_recursive_case(new_path, wd, depth, results));
-	}
 	else
 	{
+		if (wd->lexeme[ft_strlen(wd->lexeme) - 1] == PATH_SYMBOL)
+		{
+			if (!is_directory(new_path))
+			{
+				free(new_path);
+				return (true);
+			}
+			else
+				new_path = ft_strjoin_alt(new_path, "/", FREE_PARAM1);
+		}
+		if (!new_path)
+			return (false);
 		new = lstnew(new_path);
 		if (!new)
 			return (false);
