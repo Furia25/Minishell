@@ -6,7 +6,7 @@
 #    By: val <val@student.42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: Invalid date        by                   #+#    #+#              #
-#    Updated: 2025/05/23 02:19:35 by val              ###   ########.fr        #
+#    Updated: 2025/05/23 03:32:04 by val              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,7 @@ HIDDEN = \033[8m
 RESET = \033[0m
 ##################
 
-READLINE_SUPP_DIR = ignore_readline.supp
+READLINE_SUPP_DIR = /home/val/Minishell/ignore_readline.supp
 DEBUG_VALGRIND = valgrind --leak-check=full --show-leak-kinds=all --trace-children=yes --track-fds=all --track-origins=yes --suppressions=$(READLINE_SUPP_DIR) -s
 
 SRC_DIR = src

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 02:36:12 by val               #+#    #+#             */
-/*   Updated: 2025/05/21 20:17:00 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/23 03:40:46 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,11 @@ static bool	update_pwds(t_minishell *data)
 
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
-		return (false);
+	{
+		ft_printf_fd(2, "%s: %s: error retrieving current directory: %s\n",
+			MINISHELL_NAME, BUILTIN_NAME_CD, strerror(errno));
+		return (true);
+	}
 	pwd_entry = hashmap_search(hash(ENV_PWD), &data->environment);
 	if (pwd_entry)
 		prev_pwd = ((t_envvar *)pwd_entry->value)->value;
