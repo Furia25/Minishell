@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 19:06:05 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/21 02:27:37 by val              ###   ########.fr       */
+/*   Updated: 2025/05/23 03:53:59 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@
 # define ENV_PWD		"PWD"
 # define ENV_OLDPWD		"OLDPWD"
 # define ENV_HOME		"HOME"
-# define ENV_LASTCMD	"_"
 
 typedef struct s_envvar
 {
@@ -28,7 +27,6 @@ typedef struct s_envvar
 }	t_envvar;
 
 t_envvar	*new_envvar(char *key, char *value);
-bool		env_update_lastcmd(const char *cmd, t_hashmap *environment);
 bool		env_populate(char **envp, t_hashmap *environment);
 t_envvar	*env_instantiate(char *key, char *heap_default,
 				t_minishell *data);

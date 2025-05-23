@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 16:04:21 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/23 02:57:42 by val              ###   ########.fr       */
+/*   Updated: 2025/05/23 03:55:23 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,8 @@ void	handle_cflag(char **argv, t_minishell *data)
 	if (!(*argv))
 	{
 		data->exit_code = 2;
-		print_extended_error(NULL, "-c", "option requires at least one argument");
+		print_extended_error(NULL, "-c",
+			"option requires at least one argument");
 		exit_minishell(data);
 	}
 	while (*argv)
