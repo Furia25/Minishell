@@ -6,7 +6,7 @@
 #    By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: Invalid date        by                   #+#    #+#              #
-#    Updated: 2025/05/23 15:16:22 by alpayet          ###   ########.fr        #
+#    Updated: 2025/05/23 16:01:09 by alpayet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,7 +43,7 @@ HIDDEN = \033[8m
 RESET = \033[0m
 ##################
 
-READLINE_SUPP_DIR = /home/alpayet/projects/Minishell/ignore_readline.supp
+READLINE_SUPP_DIR = ignore_readline.supp
 DEBUG_VALGRIND = valgrind --leak-check=full --show-leak-kinds=all --trace-children=yes --track-fds=all --track-origins=yes --suppressions=$(READLINE_SUPP_DIR) -s
 
 SRC_DIR = src
