@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 19:20:34 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/23 15:08:46 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/26 18:05:28 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ typedef enum e_builtin_type
 # define BUILTIN_NAME_PWD	"pwd"
 # define BUILTIN_NAME_ECHO	"echo"
 # define BUILTIN_NAME_EXIT	"exit"
+
+# define BUILTIN_EXIT_MESSAGE	"exit\n"
 
 # define BUILTIN_FLAG_ECHO_NONL	'n'
 # define BUILTIN_FLAG_SEPARATOR	'-'
