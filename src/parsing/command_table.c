@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 10:43:50 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/21 01:54:14 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/26 23:05:21 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,7 @@ static size_t	cmds_number(t_lst *tokens)
 	while (tokens)
 	{
 		if (tokens->type == PAR_OPEN)
-		{
-			while (tokens)
-			{
-				if (tokens->type == PAR_CLOSE)
-					parenth_buff = tokens;
-				tokens = tokens->next;
-			}
-			tokens = parenth_buff;
-		}
+			tokens = matching_parenthesis(tokens);
 		if (tokens->type == PIPE
 			|| tokens->type == OR || tokens->type == AND)
 			i++;
@@ -41,19 +33,9 @@ static size_t	cmds_number(t_lst *tokens)
 
 static t_lst	*node_after_parenthesis(t_lst **prev, t_lst *curr)
 {
-	t_lst	*parenth_buff;
-
-	parenth_buff = NULL;
-	while (curr != NULL)
-	{
-		if (curr->type == PAR_CLOSE)
-			parenth_buff = curr;
-		curr = curr->next;
-	}
-	*prev = parenth_buff;
+	*prev = matching_parenthesis(curr);
 	(*prev)->type = LAST_PAR_CLOSE;
-	curr = parenth_buff->next;
-	return (curr);
+	return ((*prev)->next);
 }
 
 static bool	is_op_node(t_leaf *cmd, t_lst **prev, t_lst **curr)

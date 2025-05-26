@@ -6,14 +6,14 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 23:49:57 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/23 15:21:38 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/26 19:09:12 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "debug.h"
 
-size_t	index_last_closed_par(char *str, t_minishell *data);
+ssize_t	in_parentheses_len(char *str, t_minishell *data);
 
 static t_lst	*create_set_quote_node(char *str, t_lexeme_type type,
 	size_t len, t_minishell *data)
@@ -58,7 +58,7 @@ size_t	single_quote_token(t_lst **tokens, char *str, t_minishell *data)
 size_t	double_quote_token(t_lst **tokens, char *str, t_minishell *data)
 {
 	size_t	i;
-	size_t	i_last_closed_par;
+	ssize_t	in_par_len;
 
 	i = 1;
 	while (str[i] != '\0' && str[i] != '\"')
@@ -66,10 +66,10 @@ size_t	double_quote_token(t_lst **tokens, char *str, t_minishell *data)
 		if (str[i] == '$' && str[i + 1] == '(')
 		{
 			i++;
-			i_last_closed_par = index_last_closed_par(str + i, data);
-			if (i_last_closed_par == 0)
+			in_par_len = in_parentheses_len(str + i, data);
+			if (in_par_len == -1)
 				return (0);
-			i = i + i_last_closed_par;
+			i = i + in_par_len;
 		}
 		i++;
 	}

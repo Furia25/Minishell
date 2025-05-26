@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 22:19:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/23 15:21:24 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/26 23:11:44 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,6 @@ static bool	have_syntax_errors_redis(t_lst *tokens, t_minishell *data)
 
 static bool	have_syntax_errors_parenthesis(t_lst **tokens, t_minishell *data)
 {
-	t_lst	*parenth_buff;
-
-	parenth_buff = NULL;
 	if ((*tokens)->type == PAR_CLOSE || ((*tokens)->next \
 	&& (*tokens)->type == PAR_OPEN && (*tokens)->next->type == PAR_CLOSE))
 	{
@@ -76,18 +73,12 @@ static bool	have_syntax_errors_parenthesis(t_lst **tokens, t_minishell *data)
 	}
 	if ((*tokens)->type == PAR_OPEN)
 	{
-		while (*tokens)
-		{
-			if ((*tokens)->type == PAR_CLOSE)
-				parenth_buff = *tokens;
-			*tokens = (*tokens)->next;
-		}
-		if (parenth_buff == NULL)
+		*tokens = matching_parenthesis(*tokens);
+		if (*tokens == NULL)
 		{
 			not_interpret_chara('(', "\' (invalid parenthesis)", data);
 			return (true);
 		}
-		*tokens = parenth_buff;
 	}
 	return (false);
 }
