@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 15:58:02 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/26 23:02:42 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/27 17:33:55 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,24 +37,6 @@ int	check_flags_c(int argc, char **argv)
 		index++;
 	}
 	return (index);
-}
-
-t_lst	*matching_parenthesis(t_lst *tokens)
-{
-	ssize_t	par_number;
-
-	par_number = 0;
-	while (tokens != NULL)
-	{
-		if (tokens->type == PAR_CLOSE)
-			par_number--;
-		if (tokens->type == PAR_OPEN)
-			par_number++;
-		if (par_number == 0)
-			break ;
-		tokens = tokens->next;
-	}
-	return (tokens);
 }
 
 void	disable_echoctl(void)

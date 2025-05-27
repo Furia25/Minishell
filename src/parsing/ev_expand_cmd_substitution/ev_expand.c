@@ -1,19 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ev_expand_in_lexeme.c                              :+:      :+:    :+:   */
+/*   ev_expand.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/18 20:47:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/23 15:19:52 by alpayet          ###   ########.fr       */
+/*   Created: 2025/05/27 17:21:50 by alpayet           #+#    #+#             */
+/*   Updated: 2025/05/27 18:37:19 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "environment.h"
 
-char	*handle_ev_expand_in_lexeme(char *str, t_lexeme_type next_type,
+char	*handle_all_ev_expand(char *str, t_lexeme_type next_type,
 			t_minishell *data);
 
 size_t	env_var_len(char *str)
@@ -57,17 +57,14 @@ size_t	skip_cmd_sub_and_special_chara(char *str)
 
 	i = 0;
 	if (str[i] == '$' && str[i + 1] == '(')
-	{
-		while (str[i] != ')')
-			i++;
-	}
+		i = i + 1 + in_parentheses_len(str + i + 1) + 1;
 	if (str[i] == '$' && ft_isalnum(str[i + 1]) == false && str[i + 1] != '?'
 		&& str[i + 1] != '_' && str[i + 1] != '\0')
 		i++;
 	return (i);
 }
 
-static char	*ev_expand(char *str, char *ev_str, t_lexeme_type next_type,
+char	*ev_expand(char *str, char *ev_str, t_lexeme_type next_type,
 		t_minishell *data)
 {
 	size_t	ev_len;
@@ -79,14 +76,14 @@ static char	*ev_expand(char *str, char *ev_str, t_lexeme_type next_type,
 	until_ev = ft_strjoin_alt_gc(str, ev_result(ev_str, ev_len, data),
 			FREE_PARAM2, data);
 	check_malloc(until_ev, data);
-	after_ev = handle_ev_expand_in_lexeme(ev_str + ev_len, next_type, data);
+	after_ev = handle_all_ev_expand(ev_str + ev_len, next_type, data);
 	final_result = ft_strjoin_alt_gc(until_ev, after_ev,
 			FREE_PARAM1 | FREE_PARAM2, data);
 	check_malloc(final_result, data);
 	return (final_result);
 }
 
-char	*handle_ev_expand_in_lexeme(char *str, t_lexeme_type next_type,
+char	*handle_all_ev_expand(char *str, t_lexeme_type next_type,
 		t_minishell *data)
 {
 	size_t	i;

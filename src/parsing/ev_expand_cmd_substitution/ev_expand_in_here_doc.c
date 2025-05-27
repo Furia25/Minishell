@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/28 23:33:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/22 21:46:06 by alpayet          ###   ########.fr       */
+/*   Created: 2025/05/27 17:54:11 by alpayet           #+#    #+#             */
+/*   Updated: 2025/05/27 17:54:25 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 size_t		skip_cmd_sub_and_special_chara(char *str);
 size_t		env_var_len(char *str);
 char		*ev_result(char *str, size_t ev_len, t_minishell *data);
-char		*handle_ev_expand_in_here_doc(char *str, t_minishell *data);
+char		*handle_all_ev_expand_in_here_doc(char *str, t_minishell *data);
 
 static char	*ev_expand_in_here_doc(char *str, char *ev_str, t_minishell *data)
 {
@@ -28,14 +28,14 @@ static char	*ev_expand_in_here_doc(char *str, char *ev_str, t_minishell *data)
 	until_ev = ft_strjoin_alt_gc(str, ev_result(ev_str, ev_len, data),
 			FREE_PARAM2, data);
 	check_malloc(until_ev, data);
-	after_ev = handle_ev_expand_in_here_doc(ev_str + ev_len, data);
+	after_ev = handle_all_ev_expand_in_here_doc(ev_str + ev_len, data);
 	final_result = ft_strjoin_alt_gc(until_ev, after_ev,
 			FREE_PARAM1 | FREE_PARAM2, data);
 	check_malloc(final_result, data);
 	return (final_result);
 }
 
-char	*handle_ev_expand_in_here_doc(char *str, t_minishell *data)
+char	*handle_all_ev_expand_in_here_doc(char *str, t_minishell *data)
 {
 	size_t	i;
 	char	*str_dup;

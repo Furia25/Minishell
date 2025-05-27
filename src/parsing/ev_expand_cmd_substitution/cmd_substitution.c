@@ -1,19 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   cmd_substitution_in_lexeme.c                       :+:      :+:    :+:   */
+/*   cmd_substitution.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:08:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/22 22:06:17 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/27 18:43:53 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*handle_cmd_sub_in_lexeme(char *str, t_minishell *data);
-size_t	in_parenthesis_len(char *str);
+char	*handle_all_cmd_substitution(char *str, t_minishell *data);
 void	trim_nl_in_end(char *str);
 
 static void	secure_cmd_sub_dup2(int pipefd[2], t_minishell *data)
@@ -57,7 +56,7 @@ static char	*cmd_sub_result(char *str, size_t in_par_len, t_minishell *data)
 	int			pipefd[2];
 	pid_t		pid;
 
-	str = ft_substr(str, 0, in_par_len);
+	str = ft_substr(str, 1, in_par_len);
 	check_malloc(str, data);
 	if (str[0] == '\0')
 		return (str);
@@ -87,19 +86,19 @@ static char	*cmd_substitution(char *str, char *cmd_sub_str, t_minishell *data)
 	char	*after_cmd_sub;
 	char	*final_result;
 
-	in_par_len = in_parenthesis_len(cmd_sub_str);
+	in_par_len = in_parentheses_len(cmd_sub_str);
 	until_cmd_sub = ft_strjoin_alt_gc(str, cmd_sub_result(cmd_sub_str,
 				in_par_len, data), FREE_PARAM2, data);
 	check_malloc(until_cmd_sub, data);
-	after_cmd_sub = handle_cmd_sub_in_lexeme(cmd_sub_str + in_par_len + 1,
-			data);
+	after_cmd_sub = handle_all_cmd_substitution(
+			cmd_sub_str + 1 + in_par_len + 1, data);
 	final_result = ft_strjoin_alt_gc(until_cmd_sub, after_cmd_sub,
 			FREE_PARAM1 | FREE_PARAM2, data);
 	check_malloc(final_result, data);
 	return (final_result);
 }
 
-char	*handle_cmd_sub_in_lexeme(char *str, t_minishell *data)
+char	*handle_all_cmd_substitution(char *str, t_minishell *data)
 {
 	size_t	i;
 	char	*str_dup;
@@ -110,7 +109,7 @@ char	*handle_cmd_sub_in_lexeme(char *str, t_minishell *data)
 		if (str[i] == '$' && str[i + 1] == '(')
 		{
 			str[i] = '\0';
-			i += 2;
+			i += 1;
 			return (cmd_substitution(str, str + i, data));
 		}
 		i++;

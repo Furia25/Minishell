@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ev_expand_cmd_substitution_in_cmd.c                :+:      :+:    :+:   */
+/*   ev_expand_cmd_substitution.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/22 21:48:28 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/22 21:50:58 by alpayet          ###   ########.fr       */
+/*   Created: 2025/05/27 17:11:25 by alpayet           #+#    #+#             */
+/*   Updated: 2025/05/27 17:26:09 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*handle_ev_expand_in_lexeme(char *str, t_lexeme_type next_type,
+char	*handle_all_ev_expand(char *str, t_lexeme_type next_type,
 			t_minishell *data);
-char	*handle_cmd_sub_in_lexeme(char *str, t_minishell *data);
+char	*handle_all_cmd_substitution(char *str, t_minishell *data);
 t_lst	*ignore_void_lexeme(t_lst *prev, t_lst *current, t_leaf *cmd,
 			t_minishell *data);
 void	check_blank_in_extremity(t_lst *token, t_minishell *data);
@@ -24,13 +24,13 @@ static void	add_dollars_changes_in_lexeme(t_lst *token, t_minishell *data)
 	char	*old_lexeme;
 
 	if (token->type == DOUBLE_Q || token->next == NULL)
-		old_lexeme = handle_ev_expand_in_lexeme(token->lexeme,
+		old_lexeme = handle_all_ev_expand(token->lexeme,
 				LINE_CHANGE, data);
 	else
-		old_lexeme = handle_ev_expand_in_lexeme(token->lexeme,
+		old_lexeme = handle_all_ev_expand(token->lexeme,
 				token->next->type, data);
 	gc_free(token->lexeme, data);
-	token->lexeme = handle_cmd_sub_in_lexeme(old_lexeme, data);
+	token->lexeme = handle_all_cmd_substitution(old_lexeme, data);
 	gc_free(old_lexeme, data);
 }
 

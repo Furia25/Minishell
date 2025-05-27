@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+         #
+#    By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: Invalid date        by                   #+#    #+#              #
-#    Updated: 2025/05/26 18:00:36 by vdurand          ###   ########.fr        #
+#    Updated: 2025/05/27 18:21:41 by alpayet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -109,10 +109,10 @@ SRC_FILES = \
 	lexing/quotes_token.c \
 	lexing/tokenization.c \
 	lexing/word_token.c \
-	parsing/ev_expand_cmd_substitution/ev_expand_in_lexeme.c \
+	parsing/ev_expand_cmd_substitution/ev_expand.c \
 	parsing/ev_expand_cmd_substitution/ev_expand_in_here_doc.c \
-	parsing/ev_expand_cmd_substitution/ev_expand_cmd_substitution_in_cmd.c \
-	parsing/ev_expand_cmd_substitution/cmd_substitution_in_lexeme.c \
+	parsing/ev_expand_cmd_substitution/ev_expand_cmd_substitution.c \
+	parsing/ev_expand_cmd_substitution/cmd_substitution.c \
 	parsing/ev_expand_cmd_substitution/ev_expand_cmd_substitution_utils.c \
 	parsing/redirect/redirections_in_cmd.c \
 	parsing/redirect/redirections_in_par_cmd.c \
@@ -128,6 +128,7 @@ SRC_FILES = \
 	utils/memory_utils.c \
 	utils/strjoin_alt.c \
 	utils/misc_utils.c \
+	utils/parenthesis_utils.c \
 	utils/errors_utils.c \
 	wildcards/wildcards_search.c \
 	wildcards/wildcards.c \
@@ -142,7 +143,7 @@ BASH_DEFAULT_PATH := $(shell \
     env -i bash --posix --noprofile --norc -c 'printf "%s" "$$PATH"' \
 )
 
-CC = cc
+CC = cc -g3
 CFLAGS = -Werror -Wextra -Wall
 # CHANGE MINISHELL_HARD_PATH TO BASH DEFAULT HARD PATH IF NOT EMPTY
 CFLAGS += $(if $(strip $(BASH_DEFAULT_PATH)),\

@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 03:43:36 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/23 15:24:32 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/27 17:27:10 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	parse_cmd(t_leaf *cmd, t_minishell *data)
 	ev_expand_cmd_substitution_in_cmd(cmd, data);
 	print_debug_lst(cmd->tokens, LEXEME | TYPE, 7,
 		"\ndisplay command->tokens after handle ev_expand and cmd_sub\n");
-	fusion_quote_token(cmd->tokens, data);
+	fusion_quote_token_in_cmd(cmd->tokens, data);
 	print_debug_lst(cmd->tokens, LEXEME, 8,
 		"\ndisplay command->tokens after handle fusion quotes\n");
 	wildcards_in_cmd(cmd, data);

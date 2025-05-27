@@ -6,12 +6,13 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 22:19:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/26 23:11:44 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/27 17:02:34 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "debug.h"
+bool	have_one_pair_of_parenthesis(t_lst *tokens);
 
 static void	syntax_errors(char *str, t_minishell *data)
 {
@@ -77,6 +78,11 @@ static bool	have_syntax_errors_parenthesis(t_lst **tokens, t_minishell *data)
 		if (*tokens == NULL)
 		{
 			not_interpret_chara('(', "\' (invalid parenthesis)", data);
+			return (true);
+		}
+		if (have_one_pair_of_parenthesis((*tokens)->next) == false)
+		{
+			syntax_errors("(", data);
 			return (true);
 		}
 	}

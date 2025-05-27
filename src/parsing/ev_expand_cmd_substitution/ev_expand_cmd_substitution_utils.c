@@ -1,26 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ev_cmd_sub_utils.c                                 :+:      :+:    :+:   */
+/*   ev_expand_cmd_substitution_utils.c                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 22:36:15 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/21 20:46:13 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/27 18:45:41 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-size_t	in_parenthesis_len(char *str)
-{
-	size_t	i;
-
-	i = 0;
-	while (str[i] != ')')
-		i++;
-	return (i);
-}
 
 void	trim_nl_in_end(char *str)
 {

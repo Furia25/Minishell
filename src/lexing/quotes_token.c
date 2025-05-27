@@ -6,14 +6,12 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 23:49:57 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/26 19:09:12 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/27 18:34:37 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "debug.h"
-
-ssize_t	in_parentheses_len(char *str, t_minishell *data);
 
 static t_lst	*create_set_quote_node(char *str, t_lexeme_type type,
 	size_t len, t_minishell *data)
@@ -39,9 +37,9 @@ static t_lst	*create_set_quote_node(char *str, t_lexeme_type type,
 	return (new_node);
 }
 
-size_t	single_quote_token(t_lst **tokens, char *str, t_minishell *data)
+ssize_t	single_quote_token(t_lst **tokens, char *str, t_minishell *data)
 {
-	size_t	i;
+	ssize_t	i;
 
 	i = 1;
 	while (str[i] != '\0' && str[i] != '\'')
@@ -49,15 +47,15 @@ size_t	single_quote_token(t_lst **tokens, char *str, t_minishell *data)
 	if (str[i] == '\0')
 	{
 		not_interpret_chara('\'', "\' (unclosed quote)", data);
-		return (0);
+		return (-1);
 	}
 	lstadd_back(tokens, create_set_quote_node(str, SINGLE_Q, i, data));
 	return (i + 1);
 }
 
-size_t	double_quote_token(t_lst **tokens, char *str, t_minishell *data)
+ssize_t	double_quote_token(t_lst **tokens, char *str, t_minishell *data)
 {
-	size_t	i;
+	ssize_t	i;
 	ssize_t	in_par_len;
 
 	i = 1;
@@ -65,18 +63,20 @@ size_t	double_quote_token(t_lst **tokens, char *str, t_minishell *data)
 	{
 		if (str[i] == '$' && str[i + 1] == '(')
 		{
-			i++;
-			in_par_len = in_parentheses_len(str + i, data);
+			in_par_len = in_parentheses_len(str + i + 1);
 			if (in_par_len == -1)
-				return (0);
-			i = i + in_par_len;
+			{
+				not_interpret_chara('(', "\' (invalid parenthesis)", data);
+				return (-1);
+			}
+			i = i + 1 + in_par_len + 1;
 		}
 		i++;
 	}
 	if (str[i] == '\0')
 	{
 		not_interpret_chara('\"', "\' (unclosed quote)", data);
-		return (0);
+		return (-1);
 	}
 	lstadd_back(tokens, create_set_quote_node(str, DOUBLE_Q, i, data));
 	return (i + 1);
@@ -111,7 +111,7 @@ void	fusion_quote_token_eof(t_lst *tokens, t_minishell *data)
 	}
 }
 
-void	fusion_quote_token(t_lst *tokens, t_minishell *data)
+void	fusion_quote_token_in_cmd(t_lst *tokens, t_minishell *data)
 {
 	t_lst	*buff;
 

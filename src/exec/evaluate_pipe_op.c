@@ -6,12 +6,13 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:32:36 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/23 15:23:31 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/27 16:03:22 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "redirections.h"
+#include "debug.h"
 
 static void	secure_pipe_dup2(int pipefd[2], t_leaf *cmd, t_minishell *data);
 
@@ -23,6 +24,8 @@ int	exec_parenthesized_cmd_pipe(t_leaf *cmd, t_minishell *data)
 	if (pipe(pipefd) == -1)
 		raise_error_category("pipe", data);
 	redirections_in_par_cmd(cmd, data);
+	print_debug_cmd(cmd, LEXEME, 10,
+		"\ndisplay command after handle redi\n");
 	if (cmd->fd_input != -1 && cmd->fd_output != -1)
 	{
 		pid = s_fork(data);

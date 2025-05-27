@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:37:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/23 15:24:02 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/27 17:50:50 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 #include "redirections.h"
 #include "debug.h"
 
-char	*handle_ev_expand_in_here_doc(char *str, t_minishell *data);
-char	*handle_cmd_sub_in_lexeme(char *str, t_minishell *data);
+char	*handle_all_ev_expand_in_here_doc(char *str, t_minishell *data);
+char	*handle_all_cmd_substitution(char *str, t_minishell *data);
 
 int	open_new_here_doc_file(char **here_doc_file, t_minishell *data)
 {
@@ -84,9 +84,9 @@ char	*handle_dollars_in_here_doc(bool unclosed_par, char **input,
 	{
 		if (unclosed_par == false)
 		{
-			buff = handle_ev_expand_in_here_doc(*input, data);
+			buff = handle_all_ev_expand_in_here_doc(*input, data);
 			gc_free(*input, data);
-			*input = handle_cmd_sub_in_lexeme(buff, data);
+			*input = handle_all_cmd_substitution(buff, data);
 			gc_free(buff, data);
 		}
 	}

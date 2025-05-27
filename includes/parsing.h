@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 03:23:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/23 15:06:41 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/27 17:27:10 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ t_leaf			*evaluate_ast(t_ast_node *node, t_minishell *data);
 void			parse_cmd(t_leaf *cmd, t_minishell *data);
 void			ev_expand_cmd_substitution_in_cmd(t_leaf *cmd,
 					t_minishell *data);
-void			fusion_quote_token(t_lst *tokens, t_minishell *data);
+void			fusion_quote_token_in_cmd(t_lst *tokens, t_minishell *data);
 
 char			*tokens_to_str(t_lst *tokens, t_minishell *data);
 char			**tokens_to_argv(t_lst *tokens, t_minishell *data);
