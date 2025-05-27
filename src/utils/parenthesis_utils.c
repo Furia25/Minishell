@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 17:33:16 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/27 18:33:31 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/28 01:24:04 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,14 @@ t_lst	*matching_parenthesis(t_lst *tokens)
 		tokens = tokens->next;
 	}
 	return (tokens);
+}
+
+bool	are_parentheses_empty(t_lst *tokens)
+{
+	if (tokens->next != NULL
+		&& tokens->type == PAR_OPEN && tokens->next->type == PAR_CLOSE)
+		return (true);
+	return (false);
 }
 
 bool	have_one_pair_of_parenthesis(t_lst *tokens)

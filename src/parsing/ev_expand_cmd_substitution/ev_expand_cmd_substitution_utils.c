@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 22:36:15 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/27 18:45:41 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/28 00:37:24 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,11 +50,11 @@ void	check_blank_in_extremity(t_lst *token, t_minishell *data)
 	char	*old_lexeme;
 
 	old_lexeme = token->lexeme;
-	if (ft_strchr("\n\t ", old_lexeme[0]) != NULL)
+	if (ft_strchr(BASIC_WHITESPACE, old_lexeme[0]) != NULL)
 		token->type = DOLLAR;
-	if (ft_strchr("\t ", old_lexeme[ft_strlen(old_lexeme) - 1]) != NULL)
+	if (ft_strchr(BLANK, old_lexeme[ft_strlen(old_lexeme) - 1]) != NULL)
 		token->metacharacter_after = true;
-	token->lexeme = ft_strtrim(old_lexeme, "\n\t ");
+	token->lexeme = ft_strtrim(old_lexeme, BASIC_WHITESPACE);
 	check_malloc(token->lexeme, data);
 	gc_free(old_lexeme, data);
 }

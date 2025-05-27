@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 23:49:57 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/27 18:34:37 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/28 00:14:51 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static t_lst	*create_set_quote_node(char *str, t_lexeme_type type,
 		node_lexeme++;
 	}
 	new_node->type = type;
-	if (ft_strchr("|&;()<> \t", str[len + 1]) == NULL)
+	if (ft_strchr(METACHARACTER, str[len + 1]) == NULL)
 		new_node->metacharacter_after = false;
 	else
 		new_node->metacharacter_after = true;

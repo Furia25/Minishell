@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:31:08 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/23 15:23:37 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/28 01:09:22 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ static int	exec_parenthesized_cmd(t_leaf *cmd, t_minishell *data)
 		{
 			secure_dup2(cmd, data);
 			parsing_exec(tokens_to_str(cmd->tokens->next, data), data);
-			close(STDIN_FILENO);
-			close(STDOUT_FILENO);
+			secure_close(STDIN_FILENO);
+			secure_close(STDOUT_FILENO);
 			exit_minishell(data);
 		}
 		else if (pid != -1)

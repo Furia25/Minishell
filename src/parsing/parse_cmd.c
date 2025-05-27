@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 03:43:36 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/27 17:27:10 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/28 01:05:08 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,5 @@ void	parse_cmd(t_leaf *cmd, t_minishell *data)
 		"\ndisplay command->tokens after handle wildcards\n");
 	redirections_in_cmd(cmd, data);
 	print_debug_cmd(cmd, LEXEME, 10,
-		"\ndisplay command after handle redi\n");
+		"\ndisplay command after handle redis\n");
 }

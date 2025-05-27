@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:37:34 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/23 15:23:25 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/28 00:48:14 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static bool	is_invalid_input(char *input)
 	size_t	i;
 
 	i = 0;
-	while (input[i] == ' ' || input[i] == '\t' || input[i] == '\n')
+	while (input[i] != '\0' && ft_strchr(BASIC_WHITESPACE, input[i]) != NULL)
 		i++;
 	return (input[i] == '\0');
 }

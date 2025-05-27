@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 17:11:25 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/27 17:26:09 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/28 00:35:19 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,10 @@ static t_lst	*create_dollars_lst(t_lst *token, t_minishell *data)
 	i = 0;
 	while ((token->lexeme)[i] != '\0')
 	{
-		while (ft_strchr("\n\t ", (token->lexeme)[i]) != NULL)
+		while (ft_strchr(BASIC_WHITESPACE, (token->lexeme)[i]) != NULL)
 			i++;
 		j = 0;
-		while (ft_strchr("\n\t ", (token->lexeme)[i + j]) == NULL)
+		while (ft_strchr(BASIC_WHITESPACE, (token->lexeme)[i + j]) == NULL)
 			j++;
 		if (j == ft_strlen(token->lexeme))
 			return (NULL);

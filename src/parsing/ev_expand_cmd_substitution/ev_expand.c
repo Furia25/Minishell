@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 17:21:50 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/27 18:37:19 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/28 01:03:43 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ size_t	skip_cmd_sub_and_special_chara(char *str)
 	i = 0;
 	if (str[i] == '$' && str[i + 1] == '(')
 		i = i + 1 + in_parentheses_len(str + i + 1) + 1;
-	if (str[i] == '$' && ft_isalnum(str[i + 1]) == false && str[i + 1] != '?'
-		&& str[i + 1] != '_' && str[i + 1] != '\0')
+	if (str[i] == '$' && ft_isalnum(str[i + 1]) == false
+	&& ft_strchr(HANDLE_EV_EXPAND_CASES, str[i + 1]) == NULL)
 		i++;
 	return (i);
 }

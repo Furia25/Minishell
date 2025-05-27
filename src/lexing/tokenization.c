@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/17 14:22:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/27 16:46:45 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/28 00:44:42 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,14 +94,15 @@ bool	create_tokens(t_lst **tokens, char *input, t_minishell *data)
 {
 	ssize_t	lexeme_len;
 
-	while (*input == ' ' || *input == '\t')
+	while (*input != '\0' && ft_strchr(BLANK, *input) != NULL)
 		input++;
 	if (*input == '\0')
 		return (true);
 	if ((*input == '&' && *(input + 1) != '&')
 		|| *input == ';' || *input == '\\')
 		return (invalid_return(input, data));
-	if (ft_strchr("|&;()<> \t\'\"", *input) == NULL)
+	if (ft_strchr(METACHARACTER, *input) == NULL
+		&& *input != '\'' && *input != '\"')
 		lexeme_len = word_token(tokens, input, data);
 	if (*input == '\'')
 		lexeme_len = single_quote_token(tokens, input, data);

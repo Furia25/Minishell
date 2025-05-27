@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/24 23:34:55 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/27 18:34:17 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/28 00:17:21 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static t_lst	*create_set_word_node(char *str, size_t len, t_minishell *data)
 	new_node = lstnew(node_lexeme);
 	check_malloc(new_node, data);
 	new_node->type = WORD;
-	if (str[len] == '\'' || str[len] == '\"')
+	if (ft_strchr(METACHARACTER, str[len]) == NULL)
 		new_node->metacharacter_after = false;
 	else
 		new_node->metacharacter_after = true;
@@ -36,7 +36,8 @@ ssize_t	word_token(t_lst **tokens, char *str, t_minishell *data)
 	ssize_t	in_par_len;
 
 	i = 0;
-	while (ft_strchr("|&;<>() \t\'\"", str[i]) == NULL)
+	while (ft_strchr(METACHARACTER, str[i]) == NULL
+		&& str[i] != '\'' && str[i] != '\"')
 	{
 		if (str[i] == '$' && str[i + 1] == '(')
 		{

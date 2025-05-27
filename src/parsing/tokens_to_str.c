@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 16:18:39 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/27 16:07:53 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/28 01:07:57 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,6 @@ char	*tokens_to_str(t_lst *tokens, t_minishell *data)
 {
 	char	*str;
 
-	if (!tokens)
-		raise_error(data);
 	str = NULL;
 	while (tokens != NULL && tokens->type != LAST_PAR_CLOSE)
 	{

@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/27 18:33:31 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/28 00:58:35 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,11 @@
 # define MINISHELL_WELCOME_END		"!\n\001\033[0m\002"
 # define PROMPT "\001\033[35m\002$> \001\033[0m\002"
 # define MINISHELL_SHOW_SIGNALS	true
+
+# define METACHARACTER	"|&;()<> \t"
+# define BLANK	" \t"
+# define BASIC_WHITESPACE	" \t\n"
+# define HANDLE_EV_EXPAND_CASES	"_?"
 
 typedef enum e_strjoin
 {
