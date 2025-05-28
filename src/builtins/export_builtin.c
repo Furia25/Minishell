@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:40:07 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/23 15:19:16 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/28 23:48:33 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 static bool	make_var_separator(char *str, long separator, t_minishell *data);
 static int	print_export_error(char *str);
-static bool	is_arg_valid(char *str);
+static bool	is_arg_invalid(char *str);
 
 int	export_builtin(int output, int argc, char **argv, t_minishell *data)
 {
@@ -34,7 +34,7 @@ int	export_builtin(int output, int argc, char **argv, t_minishell *data)
 	while (argv[++index])
 	{
 		separator = ft_strchri(argv[index], '=');
-		if (is_arg_valid(argv[index]))
+		if (is_arg_invalid(argv[index]))
 		{
 			if (print_export_error(argv[index]) == -1 && code != EXIT_FAILURE)
 				return (BUILTIN_FATAL_ERROR);
@@ -47,7 +47,7 @@ int	export_builtin(int output, int argc, char **argv, t_minishell *data)
 	return (code);
 }
 
-static bool	is_arg_valid(char *str)
+static bool	is_arg_invalid(char *str)
 {
 	return (str[0] == '=' || (!ft_isalpha(str[0]) && str[0] != '_'));
 }
@@ -70,6 +70,8 @@ static int	print_export_error(char *str)
 	return (1);
 }
 
+static bool export_add_to_env(t_envvar *var, t_minishell *data);
+
 static bool	make_var_separator(char *str, long separator, t_minishell *data)
 {
 	char		*key;
@@ -91,10 +93,25 @@ static bool	make_var_separator(char *str, long separator, t_minishell *data)
 	var = new_envvar(key, value);
 	if (separator == (long) size)
 		var->exported = false;
-	if (!hashmap_insert(hash(key), var, &data->environment))
+	if (!export_add_to_env(var, data))
 	{
 		envvar_free(var);
 		return (false);
 	}
 	return (true);
+}
+
+static bool export_add_to_env(t_envvar *var, t_minishell *data)
+{
+	t_hash_entry	*search;
+	unsigned long	hashed_key;
+
+	hashed_key = hash(var->name);
+	search = hashmap_search(hashed_key, &data->environment);
+	if (search && ft_strlen(var->value) == 0)
+	{
+		free(var);
+		return (true);
+	}
+	return (hashmap_insert(hashed_key, var, &data->environment));
 }
