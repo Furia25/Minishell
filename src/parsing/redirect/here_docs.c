@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:43:56 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/23 15:24:21 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/28 17:28:29 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "minishell_signal.h"
 #include "minishell.h"
 
-void	fusion_quote_token_eof(t_lst *tokens, t_minishell *data);
+void	merge_joined_tokens_eof(t_lst *tokens, t_minishell *data);
 int		open_new_here_doc_file(char **here_doc_file, t_minishell *data);
 int		write_in_here_doc_file(int fd, t_lst *token_eof, t_minishell *data);
 
@@ -51,7 +51,7 @@ static bool	here_docs_in_cmd(t_leaf *cmd, t_minishell *data)
 	{
 		if (temp->type == HERE_DOC)
 		{
-			fusion_quote_token_eof(temp->next, data);
+			merge_joined_tokens_eof(temp->next, data);
 			here_doc_file = handle_here_doc(cmd, temp->next, data);
 			if (here_doc_file == NULL)
 				return (false);

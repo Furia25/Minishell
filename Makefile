@@ -6,7 +6,7 @@
 #    By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: Invalid date        by                   #+#    #+#              #
-#    Updated: 2025/05/27 18:21:41 by alpayet          ###   ########.fr        #
+#    Updated: 2025/05/28 18:38:40 by alpayet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -120,6 +120,7 @@ SRC_FILES = \
 	parsing/redirect/here_doc_utils.c \
 	parsing/redirect/here_docs.c \
 	parsing/redirect/redis_except_here_doc.c \
+	parsing/merge_joined_tokens.c \
 	parsing/command_table.c \
 	parsing/parse_cmd.c \
 	parsing/create_ast.c \

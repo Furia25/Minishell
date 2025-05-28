@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/06 23:49:57 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/28 00:14:51 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/28 17:29:24 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,62 +80,4 @@ ssize_t	double_quote_token(t_lst **tokens, char *str, t_minishell *data)
 	}
 	lstadd_back(tokens, create_set_quote_node(str, DOUBLE_Q, i, data));
 	return (i + 1);
-}
-
-void	fusion_quote_token_eof(t_lst *tokens, t_minishell *data)
-{
-	t_lst	*buff;
-
-	while (tokens && tokens->metacharacter_after == false)
-	{
-		if (tokens->next == NULL)
-			return ;
-		if ((tokens->type == WORD || tokens->type == DOLLAR
-				|| tokens->type == SINGLE_Q || tokens->type == DOUBLE_Q)
-			&& tokens->metacharacter_after == false)
-		{
-			if (tokens->next->type != DOLLAR)
-			{
-				tokens->lexeme = ft_strjoin_alt_gc(tokens->lexeme,
-						tokens->next->lexeme, FREE_PARAM1, data);
-				tokens->type = tokens->next->type;
-				tokens->metacharacter_after = tokens->next->metacharacter_after;
-				check_malloc(tokens->lexeme, data);
-				buff = tokens->next->next;
-				gc_free_node(tokens->next, data);
-				tokens->next = buff;
-				continue ;
-			}
-		}
-		tokens = tokens->next;
-	}
-}
-
-void	fusion_quote_token_in_cmd(t_lst *tokens, t_minishell *data)
-{
-	t_lst	*buff;
-
-	while (tokens)
-	{
-		if (tokens->next == NULL)
-			return ;
-		if ((tokens->type == WORD || tokens->type == DOLLAR
-				|| tokens->type == SINGLE_Q || tokens->type == DOUBLE_Q)
-			&& tokens->metacharacter_after == false)
-		{
-			if (tokens->next->type != DOLLAR)
-			{
-				tokens->lexeme = ft_strjoin_alt_gc(tokens->lexeme,
-						tokens->next->lexeme, FREE_PARAM1, data);
-				tokens->type = tokens->next->type;
-				tokens->metacharacter_after = tokens->next->metacharacter_after;
-				check_malloc(tokens->lexeme, data);
-				buff = tokens->next->next;
-				gc_free_node(tokens->next, data);
-				tokens->next = buff;
-				continue ;
-			}
-		}
-		tokens = tokens->next;
-	}
 }
