@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:40:07 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/28 23:48:33 by val              ###   ########.fr       */
+/*   Updated: 2025/05/28 23:52:14 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ static bool export_add_to_env(t_envvar *var, t_minishell *data)
 	search = hashmap_search(hashed_key, &data->environment);
 	if (search && ft_strlen(var->value) == 0)
 	{
-		free(var);
+		envvar_free(var);
 		return (true);
 	}
 	return (hashmap_insert(hashed_key, var, &data->environment));
