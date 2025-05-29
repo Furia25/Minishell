@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 03:43:36 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/28 18:32:29 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/29 14:57:27 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "minishell.h"
 #include "wildcards.h"
 #include "debug.h"
+
 void	merge_joined_tokens_in_cmd(t_lst *tokens, t_minishell *data);
 
 void	parse_cmd(t_leaf *cmd, t_minishell *data)

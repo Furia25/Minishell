@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:40:07 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/28 23:52:14 by val              ###   ########.fr       */
+/*   Updated: 2025/05/29 14:57:51 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,15 @@ int	export_builtin(int output, int argc, char **argv, t_minishell *data)
 
 static bool	is_arg_invalid(char *str)
 {
+	size_t	index;
+
+	index = 0;
+	while (str[index])
+	{
+		if (index > 0 && (!ft_isalnum(str[index]) && str[index] != '='))
+			return (true);
+		index++;
+	}
 	return (str[0] == '=' || (!ft_isalpha(str[0]) && str[0] != '_'));
 }
 
@@ -70,7 +79,7 @@ static int	print_export_error(char *str)
 	return (1);
 }
 
-static bool export_add_to_env(t_envvar *var, t_minishell *data);
+static bool	export_add_to_env(t_envvar *var, char *str, t_minishell *data);
 
 static bool	make_var_separator(char *str, long separator, t_minishell *data)
 {
@@ -93,7 +102,7 @@ static bool	make_var_separator(char *str, long separator, t_minishell *data)
 	var = new_envvar(key, value);
 	if (separator == (long) size)
 		var->exported = false;
-	if (!export_add_to_env(var, data))
+	if (!export_add_to_env(var, str, data))
 	{
 		envvar_free(var);
 		return (false);
@@ -101,14 +110,14 @@ static bool	make_var_separator(char *str, long separator, t_minishell *data)
 	return (true);
 }
 
-static bool export_add_to_env(t_envvar *var, t_minishell *data)
+static bool	export_add_to_env(t_envvar *var, char *str, t_minishell *data)
 {
 	t_hash_entry	*search;
 	unsigned long	hashed_key;
 
 	hashed_key = hash(var->name);
 	search = hashmap_search(hashed_key, &data->environment);
-	if (search && ft_strlen(var->value) == 0)
+	if (search && ft_strlen(var->value) == 0 && ft_strchri(str, '=') == -1)
 	{
 		envvar_free(var);
 		return (true);

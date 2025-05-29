@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parenthesis_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 17:33:16 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/28 01:24:04 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/29 14:57:06 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ ssize_t	in_parentheses_len(char *str)
 		{
 			par_number--;
 			if (par_number == 0)
-			return (i - 1);
+				return (i - 1);
 		}
 		if (str[i] == '(')
 			par_number++;

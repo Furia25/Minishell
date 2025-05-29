@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   merge_joined_tokens.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 17:28:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/28 18:39:46 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/29 14:57:22 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	merge_tokens(t_lst *curr_token, t_lst *next_token, t_minishell *data)
 {
 	curr_token->lexeme = ft_strjoin_alt_gc(curr_token->lexeme,
-		next_token->lexeme, FREE_PARAM1, data);
+			next_token->lexeme, FREE_PARAM1, data);
 	check_malloc(curr_token->lexeme, data);
 	curr_token->type = next_token->type;
 	curr_token->metacharacter_after = next_token->metacharacter_after;
