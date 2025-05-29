@@ -6,7 +6,7 @@
 #    By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: Invalid date        by                   #+#    #+#              #
-#    Updated: 2025/05/29 15:27:31 by vdurand          ###   ########.fr        #
+#    Updated: 2025/05/29 16:17:40 by vdurand          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -145,7 +145,7 @@ BASH_DEFAULT_PATH := $(shell \
 )
 
 CC = cc
-CFLAGS = -Werror -Wextra -Wall
+CFLAGS = -Werror -Wextra -Wall -g3
 # CHANGE MINISHELL_HARD_PATH TO BASH DEFAULT HARD PATH IF NOT EMPTY
 CFLAGS += $(if $(strip $(BASH_DEFAULT_PATH)),\
             -DMINISHELL_HARD_PATH=\"$(BASH_DEFAULT_PATH)\",\

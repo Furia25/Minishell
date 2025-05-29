@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_write.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 01:56:12 by val               #+#    #+#             */
-/*   Updated: 2025/05/23 15:21:55 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/29 16:10:39 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ static int	check_null_rl(char *input, bool unclosed_par,
 			raise_error(data);
 		if (g_signal_status == SIGINT)
 		{
-			data->exit_code = 128 + SIGINT;
+			data->exit_code = 128 + g_signal_status;
 			return (2);
 		}
 		if (unclosed_par == true)

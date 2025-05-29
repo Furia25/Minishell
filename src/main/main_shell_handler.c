@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_shell_handler.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/17 01:51:08 by val               #+#    #+#             */
-/*   Updated: 2025/05/23 15:18:45 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/29 16:31:54 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ void	handle_shell(t_minishell *data)
 		}
 		if (*input)
 		{
-			parsing_exec(input, data);
 			add_history(input);
+			parsing_exec(input, data);
 		}
 		gc_free(input, data);
 	}

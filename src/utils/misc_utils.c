@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   misc_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 15:58:02 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/27 17:33:55 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/29 16:22:44 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,6 @@ pid_t	s_fork(t_minishell *data)
 	pid = fork();
 	if (pid == 0)
 		data->in_child = true;
+		
 	return (pid);
 }
