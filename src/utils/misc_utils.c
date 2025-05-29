@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 15:58:02 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/29 16:22:44 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/29 17:14:55 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,5 @@ pid_t	s_fork(t_minishell *data)
 	pid = fork();
 	if (pid == 0)
 		data->in_child = true;
-		
 	return (pid);
 }

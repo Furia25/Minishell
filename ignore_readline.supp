@@ -1,15 +1,12 @@
-# https://github.com/JonathanDUFOUR/minishell/blob/master/ignoreliberror
 {
-    leak readline
-    Memcheck:Leak
-    ...
-    fun:readline
-    ...
+   ReadlineSuppressions
+   Memcheck:Leak
+   ...
+   obj:*/libreadline.so*
 }
 {
-    leak add_history
+    ReadlineHistorySuppressions
     Memcheck:Leak
     ...
     fun:add_history
-    ...
 }

@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 14:40:07 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/29 15:54:14 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/29 17:17:06 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ static bool	is_arg_invalid(char *str)
 	while (str[index])
 	{
 		if (str[index] == '=')
-			break;
-		if (index > 0 && !ft_isalnum(str[index]))
+			break ;
+		if (index > 0 && (!ft_isalnum(str[index]) && str[index] != '_'))
 			return (true);
 		index++;
 	}
