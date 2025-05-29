@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 10:43:50 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/26 23:05:21 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/29 03:03:45 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,8 @@
 static size_t	cmds_number(t_lst *tokens)
 {
 	size_t	i;
-	t_lst	*parenth_buff;
 
 	i = 0;
-	parenth_buff = NULL;
 	while (tokens)
 	{
 		if (tokens->type == PAR_OPEN)
