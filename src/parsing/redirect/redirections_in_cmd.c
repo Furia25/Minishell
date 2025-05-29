@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:56:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/23 15:23:42 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/29 21:09:18 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,13 @@ static bool	is_redi(t_leaf *cmd, t_lst *token)
 		|| token->type == RED_OUT || token->type == RED_OUT_A
 		|| token->type == RED_IN_OUT)
 	{
+		if (token->next == NULL)
+		{
+			cmd->fd_input = -1;
+			cmd->fd_output = -1;
+			ft_printf_fd(STDERR_FILENO,"%s: ambiguous redirect\n", MINISHELL_NAME);
+			return (false);
+		}
 		if (token->type == RED_IN || token->type == HERE_DOC)
 			handle_red_input(cmd, token->type, token->next->lexeme);
 		if (token->type == RED_OUT)
