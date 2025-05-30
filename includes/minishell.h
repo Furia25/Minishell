@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/29 23:52:19 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/30 19:04:03 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@
 # define MINISHELL_WELCOME_START	"\001\033[1;35m\002Welcome to "
 # define MINISHELL_WELCOME_END		"!\n\001\033[0m\002"
 # define PROMPT "\001\033[35m\002$> \001\033[0m\002"
-# define MINISHELL_SHOW_SIGNALS	true
+# define MINISHELL_SHOW_AUTOSIGNALS	false
 
 # define METACHARACTER	"|&;()<> \t"
 # define BLANK	" \t"
@@ -75,7 +75,8 @@ char			*ft_strjoin_alt(char *s1, char *s2, t_strjoin free_what);
 char			*ft_strjoin_alt_gc(char *s1, char *s2, t_strjoin free_what,
 					t_minishell *data);
 unsigned long	hash_ptr(void *ptr);
-void			disable_echoctl(void);
+void			set_echoctl(bool state);
+int				get_echoctl(void);
 bool			is_directory(char *path);
 pid_t			s_fork(t_minishell *data);
 

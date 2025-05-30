@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 17:17:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/29 16:31:58 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/30 19:04:51 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,7 @@ int	main(int argc, char **argv, char **envp)
 			handle_script(argv, &data);
 		else
 		{
-			if (!MINISHELL_SHOW_SIGNALS)
-				disable_echoctl();
+			set_echoctl(MINISHELL_SHOW_AUTOSIGNALS);
 			handle_shell(&data);
 		}
 	}
@@ -49,6 +48,8 @@ int	main(int argc, char **argv, char **envp)
 
 void	exit_minishell(t_minishell *data)
 {
+	if (data->echoctl_base_value != -1)
+		set_echoctl(data->echoctl_base_value);
 	if (data->in_child)
 	{
 		close(STDIN_FILENO);
@@ -83,5 +84,6 @@ static int	init_minishell(t_minishell *data, char **envp)
 	data->script_mode = false;
 	data->script_fd = -1;
 	data->use_hard_path = true;
+	data->echoctl_base_value = get_echoctl();
 	return (1);
 }

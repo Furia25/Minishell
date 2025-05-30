@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell_structs.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 14:56:49 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/23 15:27:23 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/30 19:03:46 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ typedef struct s_minishell
 	bool				in_pipe;
 	unsigned char		exit_code;
 	bool				use_hard_path;
+	int					echoctl_base_value;
 }	t_minishell;
 
 #endif

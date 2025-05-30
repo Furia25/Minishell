@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals_setups.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 12:54:33 by val               #+#    #+#             */
-/*   Updated: 2025/05/29 15:46:58 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/30 18:58:02 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static void	signal_prompt_handler(int sig)
 {
 	if (rl_readline_state & RL_STATE_COMPLETING)
 	{
-		write(1, "\n", 1);
+		write(STDOUT_FILENO, "\n", 1);
 		rl_readline_state &= ~RL_STATE_COMPLETING;
 		rl_on_new_line();
 		rl_redisplay();
@@ -54,9 +54,10 @@ static void	signal_prompt_handler(int sig)
 	g_signal_status = sig;
 	if (sig == SIGINT)
 	{
-		write(1, "\n", 1);
-		rl_replace_line("", 0);
+		rl_redisplay();
+		write(STDOUT_FILENO, "^C\n", 3);
 		rl_on_new_line();
+		rl_replace_line("", 0);
 		rl_redisplay();
 	}
 	else if (sig == SIGQUIT)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   misc_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 15:58:02 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/29 17:14:55 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/30 19:03:32 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	check_flags_c(int argc, char **argv)
 	return (index);
 }
 
-void	disable_echoctl(void)
+void	set_echoctl(bool state)
 {
 	struct termios	term;
 
@@ -47,8 +47,22 @@ void	disable_echoctl(void)
 		return ;
 	if (tcgetattr(STDIN_FILENO, &term) == -1)
 		return ;
-	term.c_lflag &= ~ECHOCTL;
+	if (state)
+		term.c_lflag |= ECHOCTL;
+	else
+		term.c_lflag &= ~ECHOCTL;
 	tcsetattr(STDIN_FILENO, TCSANOW, &term);
+}
+
+int	get_echoctl(void)
+{
+	struct termios	term;
+
+	if (!isatty(STDOUT_FILENO) || !isatty(STDIN_FILENO))
+		return (-1);
+	if (tcgetattr(STDIN_FILENO, &term) == -1)
+		return (-1);
+	return (term.c_lflag & ECHOCTL);
 }
 
 bool	is_directory(char *path)
