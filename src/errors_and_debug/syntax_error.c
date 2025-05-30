@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_error.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/13 22:19:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/29 14:57:39 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/29 23:54:27 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "debug.h"
 
 bool	are_parentheses_empty(t_lst *tokens);
-bool	have_one_pair_of_parenthesis(t_lst *tokens);
+bool	have_one_pair_of_parentheses(t_lst *tokens);
 
 static void	syntax_errors(char *str, t_minishell *data)
 {
@@ -86,7 +86,7 @@ static bool	have_syntax_errors_parenthesis(t_lst **tokens, t_minishell *data)
 			not_interpret_chara('(', "\' (invalid parenthesis)", data);
 			return (true);
 		}
-		if (have_one_pair_of_parenthesis((*tokens)->next) == false)
+		if (have_one_pair_of_parentheses((*tokens)->next) == false)
 		{
 			syntax_errors("(", data);
 			return (true);

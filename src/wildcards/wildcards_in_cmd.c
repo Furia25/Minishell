@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 19:54:39 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/23 15:21:00 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/30 02:02:11 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static bool	have_wildcard(char *str)
 	return (false);
 }
 
-static t_lst	*create_add_wildcards_nodes(t_lst *prev, t_lst *current,
+t_lst	*create_add_wildcards_nodes(t_lst *prev, t_lst *current,
 	t_leaf *cmd, t_minishell *data)
 {
 	t_wsearch	wildcard_result;

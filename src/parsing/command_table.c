@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 10:43:50 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/29 03:03:45 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/30 03:05:10 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static void	fill_tab(t_leaf *command_tab, t_lst *tokens, t_minishell *data)
 		if (curr->type == PAR_OPEN)
 		{
 			command_tab->parenthesis = true;
-			curr = node_after_parenthesis(&prev, tokens);
+			curr = node_after_parenthesis(&prev, curr);
 			if (curr == NULL)
 				continue ;
 		}

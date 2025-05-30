@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ev_expand_cmd_substitution.c                       :+:      :+:    :+:   */
+/*   ev_expand_cmd_substitution_in_cmd.c                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 17:11:25 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/28 00:35:19 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/30 02:15:44 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_lst	*ignore_void_lexeme(t_lst *prev, t_lst *current, t_leaf *cmd,
 			t_minishell *data);
 void	check_blank_in_extremity(t_lst *token, t_minishell *data);
 
-static void	add_dollars_changes_in_lexeme(t_lst *token, t_minishell *data)
+void	add_dollars_changes_in_lexeme(t_lst *token, t_minishell *data)
 {
 	char	*old_lexeme;
 
@@ -75,7 +75,7 @@ static t_lst	*create_dollars_lst(t_lst *token, t_minishell *data)
 	return (dollars_lst);
 }
 
-static t_lst	*create_and_add_dollars_nodes(t_lst *prev, t_lst *current,
+t_lst	*create_and_add_dollars_nodes(t_lst *prev, t_lst *current,
 		t_leaf *cmd, t_minishell *data)
 {
 	t_lst	*dollars_lst;
@@ -104,17 +104,14 @@ void	ev_expand_cmd_substitution_in_cmd(t_leaf *cmd, t_minishell *data)
 	t_lst	*temp;
 
 	temp = cmd->tokens;
-	while (temp)
-	{
-		if (temp->type == WORD || temp->type == DOUBLE_Q)
-			add_dollars_changes_in_lexeme(temp, data);
-		temp = temp->next;
-	}
-	temp = cmd->tokens;
+	if (temp->type == WORD || temp->type == DOUBLE_Q)
+		add_dollars_changes_in_lexeme(temp, data);
 	if (temp->type == WORD)
-		temp = create_and_add_dollars_nodes(NULL, cmd->tokens, cmd, data);
+		temp = create_and_add_dollars_nodes(NULL, temp, cmd, data);
 	while (temp != NULL && temp->next)
 	{
+		if (temp->next->type == WORD || temp->next->type == DOUBLE_Q)
+			add_dollars_changes_in_lexeme(temp->next, data);
 		if (temp->next->type == WORD)
 			temp = create_and_add_dollars_nodes(temp, temp->next, cmd, data);
 		else

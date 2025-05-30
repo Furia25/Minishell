@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:32:36 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/27 16:03:22 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/30 03:22:38 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,14 @@ int	exec_parenthesized_cmd_pipe(t_leaf *cmd, t_minishell *data)
 
 	if (pipe(pipefd) == -1)
 		raise_error_category("pipe", data);
-	redirections_in_par_cmd(cmd, data);
-	print_debug_cmd(cmd, LEXEME, 10,
-		"\ndisplay command after handle redi\n");
+	parse_par_cmd(cmd, data);
 	if (cmd->fd_input != -1 && cmd->fd_output != -1)
 	{
 		pid = s_fork(data);
 		if (pid == 0)
 		{
 			secure_pipe_dup2(pipefd, cmd, data);
-			parsing_exec(tokens_to_str(cmd->tokens->next, data), data);
+			parsing_exec(tokens_to_str(cmd->tokens, data), data);
 			secure_close(STDIN_FILENO);
 			secure_close(STDOUT_FILENO);
 			exit_minishell(data);

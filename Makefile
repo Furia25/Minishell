@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+         #
+#    By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: Invalid date        by                   #+#    #+#              #
-#    Updated: 2025/05/29 17:19:44 by vdurand          ###   ########.fr        #
+#    Updated: 2025/05/30 02:52:15 by alpayet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -111,7 +111,8 @@ SRC_FILES = \
 	lexing/word_token.c \
 	parsing/ev_expand_cmd_substitution/ev_expand.c \
 	parsing/ev_expand_cmd_substitution/ev_expand_in_here_doc.c \
-	parsing/ev_expand_cmd_substitution/ev_expand_cmd_substitution.c \
+	parsing/ev_expand_cmd_substitution/ev_expand_cmd_substitution_in_cmd.c \
+	parsing/ev_expand_cmd_substitution/ev_expand_cmd_substitution_in_par_cmd.c \
 	parsing/ev_expand_cmd_substitution/cmd_substitution.c \
 	parsing/ev_expand_cmd_substitution/ev_expand_cmd_substitution_utils.c \
 	parsing/redirect/redirections_in_cmd.c \
@@ -120,7 +121,8 @@ SRC_FILES = \
 	parsing/redirect/here_doc_utils.c \
 	parsing/redirect/here_docs.c \
 	parsing/redirect/redis_except_here_doc.c \
-	parsing/merge_joined_tokens.c \
+	parsing/merge_joined_tokens_in_cmd.c \
+	parsing/merge_joined_tokens_in_par_cmd.c \
 	parsing/command_table.c \
 	parsing/parse_cmd.c \
 	parsing/create_ast.c \
@@ -129,11 +131,12 @@ SRC_FILES = \
 	utils/memory_utils.c \
 	utils/strjoin_alt.c \
 	utils/misc_utils.c \
-	utils/parenthesis_utils.c \
+	utils/parentheses_utils.c \
 	utils/errors_utils.c \
 	wildcards/wildcards_search.c \
 	wildcards/wildcards.c \
 	wildcards/wildcards_in_cmd.c \
+	wildcards/wildcards_in_par_cmd.c \
 	signals/signals_setups.c
 
 SRC = $(patsubst %.c, $(SRC_DIR)/%.c, $(SRC_FILES))
@@ -144,7 +147,7 @@ BASH_DEFAULT_PATH := $(shell \
     env -i bash --posix --noprofile --norc -c 'printf "%s" "$$PATH"' \
 )
 
-CC = cc
+CC = cc -g3
 CFLAGS = -Werror -Wextra -Wall
 # CHANGE MINISHELL_HARD_PATH TO BASH DEFAULT HARD PATH IF NOT EMPTY
 CFLAGS += $(if $(strip $(BASH_DEFAULT_PATH)),\

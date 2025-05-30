@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:43:56 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/28 17:28:29 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/30 03:28:34 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ static bool	here_docs_in_cmd(t_leaf *cmd, t_minishell *data)
 	{
 		if (temp->type == HERE_DOC)
 		{
+			(temp->lexeme)[1] = '\0';
 			merge_joined_tokens_eof(temp->next, data);
 			here_doc_file = handle_here_doc(cmd, temp->next, data);
 			if (here_doc_file == NULL)

@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/28 00:58:35 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/29 23:52:19 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,6 @@ void			exit_minishell(t_minishell *data);
 char			*ft_strjoin_alt(char *s1, char *s2, t_strjoin free_what);
 char			*ft_strjoin_alt_gc(char *s1, char *s2, t_strjoin free_what,
 					t_minishell *data);
-ssize_t			in_parentheses_len(char *str);
-t_lst			*matching_parenthesis(t_lst *tokens);
 unsigned long	hash_ptr(void *ptr);
 void			disable_echoctl(void);
 bool			is_directory(char *path);

@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 03:23:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/28 17:28:22 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/30 02:30:21 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ t_ast_node		*create_ast(t_leaf *command_tab, t_minishell *data);
 t_leaf			*evaluate_ast(t_ast_node *node, t_minishell *data);
 
 void			parse_cmd(t_leaf *cmd, t_minishell *data);
+void			parse_par_cmd(t_leaf *cmd, t_minishell *data);
 void			ev_expand_cmd_substitution_in_cmd(t_leaf *cmd,
 					t_minishell *data);
 void			merge_joined_tokens_in_cmd(t_lst *tokens, t_minishell *data);
@@ -58,5 +59,9 @@ void			merge_joined_tokens_in_cmd(t_lst *tokens, t_minishell *data);
 char			*tokens_to_str(t_lst *tokens, t_minishell *data);
 char			**tokens_to_argv(t_lst *tokens, t_minishell *data);
 size_t			tab_size(char **tab);
+
+// PARENTHESIS
+ssize_t			in_parentheses_len(char *str);
+t_lst			*matching_parenthesis(t_lst *tokens);
 
 #endif

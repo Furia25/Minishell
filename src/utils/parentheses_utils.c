@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parenthesis_utils.c                                :+:      :+:    :+:   */
+/*   parentheses_utils.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 17:33:16 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/29 14:57:06 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/30 01:38:44 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ bool	are_parentheses_empty(t_lst *tokens)
 	return (false);
 }
 
-bool	have_one_pair_of_parenthesis(t_lst *tokens)
+bool	have_one_pair_of_parentheses(t_lst *tokens)
 {
 	while (tokens)
 	{

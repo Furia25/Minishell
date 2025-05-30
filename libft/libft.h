@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/07 15:39:28 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/18 23:44:41 by val              ###   ########.fr       */
+/*   Updated: 2025/05/30 02:01:51 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define LIBFT_H
 # include <stddef.h>
 # include <stdbool.h>
+# include <unistd.h>
 
 # ifndef GNL_BUFFER_SIZE
 #  define GNL_BUFFER_SIZE 10
