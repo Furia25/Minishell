@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/18 12:54:33 by val               #+#    #+#             */
-/*   Updated: 2025/05/30 18:58:02 by val              ###   ########.fr       */
+/*   Updated: 2025/05/30 19:12:11 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ static void	signal_prompt_handler(int sig)
 	}
 	else if (sig == SIGQUIT)
 	{
-		rl_replace_line("", 0);
 		rl_redisplay();
 		if (DEBUG == 13)
 			ft_printf_fd(STDERR_FILENO,

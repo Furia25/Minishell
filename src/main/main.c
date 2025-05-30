@@ -6,7 +6,7 @@
 /*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 17:17:35 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/30 19:04:51 by val              ###   ########.fr       */
+/*   Updated: 2025/05/30 19:13:07 by val              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	main(int argc, char **argv, char **envp)
 			handle_script(argv, &data);
 		else
 		{
-			set_echoctl(MINISHELL_SHOW_AUTOSIGNALS);
+			set_echoctl(false);
 			handle_shell(&data);
 		}
 	}
@@ -48,13 +48,13 @@ int	main(int argc, char **argv, char **envp)
 
 void	exit_minishell(t_minishell *data)
 {
-	if (data->echoctl_base_value != -1)
-		set_echoctl(data->echoctl_base_value);
 	if (data->in_child)
 	{
 		close(STDIN_FILENO);
 		close(STDOUT_FILENO);
 	}
+	else if (data->echoctl_base_value != -1)
+		set_echoctl(data->echoctl_base_value);
 	rl_clear_history();
 	hashmap_free_content(&data->environment);
 	free_chartab(data->environment_tab);
