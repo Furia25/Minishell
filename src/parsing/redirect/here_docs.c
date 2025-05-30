@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:43:56 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/30 03:28:34 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/30 18:23:54 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int		write_in_here_doc_file(int fd, t_lst *token_eof, t_minishell *data);
 static char	*handle_here_doc(t_leaf *cmd, t_lst *token_eof, t_minishell *data)
 {
 	char	*here_doc_file;
-	int		here_doc_error;
+	int		here_doc_status;
 
 	if (cmd->fd_input == -1)
 		return (NULL);
@@ -30,14 +30,17 @@ static char	*handle_here_doc(t_leaf *cmd, t_lst *token_eof, t_minishell *data)
 	cmd->fd_input = open_new_here_doc_file(&here_doc_file, data);
 	if (cmd->fd_input == -1)
 		return (here_doc_file);
-	here_doc_error = write_in_here_doc_file(cmd->fd_input, token_eof, data);
+	here_doc_status = write_in_here_doc_file(cmd->fd_input, token_eof, data);
 	close(cmd->fd_input);
-	if (here_doc_error == 1)
+	if (here_doc_status == 1)
 		cmd->fd_input = STDIN_FILENO;
 	else
 		cmd->fd_input = -1;
-	if (here_doc_error == 2 || here_doc_error == 3)
+	if (here_doc_status == 2 || here_doc_status == 3)
+	{
+		unlink(here_doc_file);
 		return (NULL);
+	}
 	return (here_doc_file);
 }
 
