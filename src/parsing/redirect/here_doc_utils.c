@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:37:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/27 17:50:50 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/30 17:34:51 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,28 +47,22 @@ int	open_new_here_doc_file(char **here_doc_file, t_minishell *data)
 	return (fd);
 }
 
-bool	unclosed_par_here_doc(char *str)
+bool	have_unclosed_par_here_doc(char *str)
 {
 	size_t	i;
-	size_t	index_last_closed_par;
+	ssize_t	in_par_len;
 
 	if (!str)
 		return (false);
 	i = 0;
 	while (str[i])
 	{
-		index_last_closed_par = 0;
 		if (str[i] == '$' && str[i + 1] == '(')
 		{
-			while (str[i] != '\0')
-			{
-				if (str[i] == ')')
-					index_last_closed_par = i;
-				i++;
-			}
-			i = index_last_closed_par;
-			if (index_last_closed_par == 0)
+			in_par_len = in_parentheses_len(str + i + 1);
+			if (in_par_len == -1)
 				return (true);
+			i = i + 1 + in_par_len + 1;
 		}
 		i++;
 	}

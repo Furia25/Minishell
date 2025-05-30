@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 19:54:39 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/30 02:02:11 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/30 17:07:18 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "wildcards.h"
 
 static void	add_wildcard_to_gc(t_wsearch wildcard_result, t_minishell *data);
-static void	clean_current_token(char *token);
+static void	clean_current_lexeme(char *token);
 
 static bool	have_wildcard(char *str)
 {
@@ -52,7 +52,7 @@ t_lst	*create_add_wildcards_nodes(t_lst *prev, t_lst *current,
 		gc_free_node(current, data);
 		return (last_wildcards_node);
 	}
-	clean_current_token(current->lexeme);
+	clean_current_lexeme(current->lexeme);
 	return (current);
 }
 
@@ -75,12 +75,12 @@ static void	add_wildcard_to_gc(t_wsearch wildcard_result, t_minishell *data)
 	}
 }
 
-static void	clean_current_token(char *token)
+static void	clean_current_lexeme(char *str)
 {
-	while (token && *token)
+	while (str && *str)
 	{
-		if (*token == - '*' || *token == - '?')
-			*token = -(*token);
-		token++;
+		if (*str == - '*' || *str == - '?')
+			*str = -(*str);
+		str++;
 	}
 }

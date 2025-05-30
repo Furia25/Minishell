@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   evaluate_pipe_op.c                                 :+:      :+:    :+:   */
+/*   evaluate_op_pipe.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/28 04:32:36 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/30 03:22:38 by alpayet          ###   ########.fr       */
+/*   Created: 2025/05/30 16:53:49 by alpayet           #+#    #+#             */
+/*   Updated: 2025/05/30 16:53:52 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ int	exec_not_parenthesized_cmd_pipe(t_leaf *cmd, t_minishell *data)
 	return (pipefd[0]);
 }
 
-t_leaf	*evaluate_pipe_op(t_ast_node *node, t_minishell *data)
+t_leaf	*evaluate_op_pipe(t_ast_node *node, t_minishell *data)
 {
 	t_leaf	*left;
 	t_leaf	*right;

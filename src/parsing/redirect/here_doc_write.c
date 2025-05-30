@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc_write.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 01:56:12 by val               #+#    #+#             */
-/*   Updated: 2025/05/29 16:10:39 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/05/30 17:35:25 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char		*handle_dollars_in_here_doc(bool unclosed_par, char **input,
 				t_lexeme_type type_eof, t_minishell *data);
 static int	check_null_rl(char *input, bool unclosed_par,
 				char *lexeme_eof, t_minishell *data);
-bool		unclosed_par_here_doc(char *str);
+bool		have_unclosed_par_here_doc(char *str);
 static int	unexpected_eof(void);
 static void	readline_and_check_unclosed(char **input,
 				bool *unclosed_par, t_minishell *data);
@@ -69,7 +69,7 @@ static void	readline_and_check_unclosed(char **input,
 	*input = readline("> ");
 	gc_add(*input, data);
 	if (*unclosed_par == false)
-		*unclosed_par = unclosed_par_here_doc(*input);
+		*unclosed_par = have_unclosed_par_here_doc(*input);
 }
 
 static int	unexpected_eof(void)
