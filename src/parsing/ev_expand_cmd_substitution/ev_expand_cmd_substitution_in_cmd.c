@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 17:11:25 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/31 15:44:09 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/31 20:59:57 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char	*handle_all_ev_expand(char *str, t_lexeme_type next_type,
 			t_minishell *data);
 char	*handle_all_cmd_substitution(char *str, t_minishell *data);
-t_lst	*ignore_void_lexeme(t_lst *prev, t_lst *current, t_leaf *cmd,
+t_lst	*del_node_empty_lexeme(t_lst *prev, t_lst *current, t_leaf *cmd,
 			t_minishell *data);
 void	check_blank_in_extremity(t_lst *token, t_minishell *data);
 
@@ -82,7 +82,7 @@ t_lst	*create_and_add_dollars_nodes(t_lst *prev, t_lst *current,
 	t_lst	*last_dollars_node;
 
 	if (*(current->lexeme) == '\0')
-		return (ignore_void_lexeme(prev, current, cmd, data));
+		return (del_node_empty_lexeme(prev, current, cmd, data));
 	check_blank_in_extremity(current, data);
 	dollars_lst = create_dollars_lst(current, data);
 	if (dollars_lst != NULL)

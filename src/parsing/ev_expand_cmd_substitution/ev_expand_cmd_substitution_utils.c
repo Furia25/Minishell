@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 22:36:15 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/28 00:37:24 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/31 20:59:57 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	trim_nl_in_end(char *str)
 	str[i + 1] = '\0';
 }
 
-t_lst	*ignore_void_lexeme(t_lst *prev, t_lst *current, t_leaf *cmd,
+t_lst	*del_node_empty_lexeme(t_lst *prev, t_lst *current, t_leaf *cmd,
 		t_minishell *data)
 {
 	if (prev == NULL)
