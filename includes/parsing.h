@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 03:23:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/30 02:30:21 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/31 19:56:33 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,11 @@
 
 # include "libft.h"
 # include "minishell_structs.h"
+
+# define METACHARACTER	"|&;()<> \t"
+# define BLANK	" \t"
+# define BASIC_WHITESPACE	" \t\n"
+# define HANDLE_EV_EXPAND_CASES	"_?"
 
 typedef enum e_node_type
 {

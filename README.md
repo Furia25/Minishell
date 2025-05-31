@@ -12,12 +12,12 @@ A lightweight, POSIX-compliant command-line shell written in C, featuring advanc
 
 ## Table of Contents
 
-* [Introduction](#introduction)
-* [Advanced Features](#advanced-features)
-* [Installation](#installation)
-* [Configuration](#configuration)
-* [Usage](#usage)
-* [License](#license)
+- [Introduction](#introduction)
+- [Advanced Features](#advanced-features)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Usage](#usage)
+- [License](#license)
 
 ---
 
@@ -29,35 +29,35 @@ MiniShell is a custom command-line interpreter designed to mimic the behavior of
 
 ### 1. Comprehensive Parsing Engine
 
-* **Tokenization & AST Construction**: Supports quotes (`'`, `"`), command substitution `` `cmd` ``, and logical operators (`&&`, `||`, `|`).
-* **Wildcard Expansion**: Implements `*` and `?` expansion within arguments, searching directories recursively.
+- **Tokenization & AST Construction**: Supports quotes (`'`, `"`), command substitution `$(cmd)`, and logical operators (`&&`, `||`, `|`).
+- **Wildcard Expansion**: Implements `*` and `?` expsansion within arguments, searching directories recursively.
 
 ### 2. Redirections & Here-Documents
 
-* **Input/Output Redirections**: `<`, `>`, `>>`, `<>`.
-* **Here-Document (`<<`)**: Inline multi-line input with proper variable expansion support.
+- **Input/Output Redirections**: `<`, `>`, `>>`, `<>`.
+- **Here-Document (`<<`)**: Inline multi-line input with proper variable expansion support.
 
 ### 3. Built-in Commands
 
-* `cd`, `export`, `unset`, `env`, `pwd`, `echo`, `exit` with POSIX-compatible flags and error handling.
+- `cd`, `export`, `unset`, `env`, `pwd`, `echo`, `exit` with POSIX-compatible flags and error handling.
 
 ### 4. Environment Management
 
-* **Dynamic Hashmap**: Efficient and fast name-value storage for environment variables, automatically resizing.
-* **Persistent State**: Updates `SHLVL`, `PWD`, and `OLDPWD` seamlessly.
+- **Dynamic Hashmap**: Efficient and fast name-value storage for environment variables, automatically resizing.
+- **Persistent State**: Updates `SHLVL`, `PWD`, and `OLDPWD` seamlessly.
 
 ### 5. Signal Handling & Job Control
 
-* Context-aware signal setup for prompt, heredoc, and child processes to ensure a smooth user experience.
+- Context-aware signal setup for prompt, heredoc, and child processes to ensure a smooth user experience.
 
 ### 6. Memory Safety & Garbage Collector
 
-* **Custom GC**: Tracks allocations and automatically frees unused memory at end-of-execution or on errors.
-* Prevents leaks and dangling pointers, even in complex pipelines.
+- **Custom GC**: Tracks allocations and automatically frees unused memory at end-of-execution or on errors.
+- Prevents leaks and dangling pointers, even in complex pipelines.
 
 ### 7. Debugging Utilities
 
-* Toggleable debug levels to inspect token lists, AST nodes, and command execution states for rapid development and troubleshooting.
+- Toggleable debug levels to inspect token lists, AST nodes, and command execution states for rapid development and troubleshooting.
 
 ## Installation
 
@@ -69,19 +69,19 @@ make
 
 ## Configuration
 
-* **Debugging**: Set `DEBUG` in `debug.h` to desired level (0–13).
+- **Debugging**: Set `DEBUG` in `debug.h` to desired level (0–13).
 
-* **Shell Name**: Customize the shell’s displayed name by editing the `MINISHELL_NAME` macro in `header.h`.
+- **Shell Name**: Customize the shell’s displayed name by editing the `MINISHELL_NAME` macro in `header.h`.
 
-* **Prompt**: Define a custom prompt format using the `PROMPT` macro in `minishell.h`.
+- **Prompt**: Define a custom prompt format using the `PROMPT` macro in `minishell.h`.
 
-* **Welcome Prompt**: Customize the welcome message displayed at shell startup by modifying the `MINISHELL_WELCOME_START` and `MINISHELL_WELCOME_END` macros in `minishell.h`.
+- **Welcome Prompt**: Customize the welcome message displayed at shell startup by modifying the `MINISHELL_WELCOME_START` and `MINISHELL_WELCOME_END` macros in `minishell.h`.
 
-* **Builtin Command Names**: Rename built-in commands by modifying the `BUILTIN_<CMD>_NAME` macros in `builtins.h`.
+- **Builtin Command Names**: Rename built-in commands by modifying the `BUILTIN_<CMD>_NAME` macros in `builtins.h`.
 
-* **Signal Display**: Enable or disable signal reporting by setting `MINISHELL_SHOW_SIGNALS` in `minishell.h` (0 disables, 1 enables).
+- **Signal Display**: Enable or disable signal reporting by setting `MINISHELL_SHOW_SIGNALS` in `minishell.h` (0 disables, 1 enables).
 
-* **Core Dump on Signal**: Control core dump message via the `SIGNAL_CORE_DUMP_MESSAGE` macro in `minishell_signal.h`.
+- **Core Dump on Signal**: Control core dump message via the `SIGNAL_CORE_DUMP_MESSAGE` macro in `minishell_signal.h`.
 
 > **Note:** After adjusting any configuration macros in headers run `make clean && make` to recompile and apply your changes or directly run `make CONFIGURATION=-D<DEFINE>=<VALUE>`.
 

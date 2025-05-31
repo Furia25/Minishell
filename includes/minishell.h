@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/30 19:09:37 by val              ###   ########.fr       */
+/*   Updated: 2025/05/31 19:56:39 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,6 @@
 # define MINISHELL_WELCOME_START	"\001\033[1;35m\002Welcome to "
 # define MINISHELL_WELCOME_END		"!\n\001\033[0m\002"
 # define PROMPT "\001\033[35m\002$> \001\033[0m\002"
-
-# define METACHARACTER	"|&;()<> \t"
-# define BLANK	" \t"
-# define BASIC_WHITESPACE	" \t\n"
-# define HANDLE_EV_EXPAND_CASES	"_?"
 
 typedef enum e_strjoin
 {
