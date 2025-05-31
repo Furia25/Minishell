@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 17:11:25 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/30 02:15:44 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/31 15:44:09 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,14 @@ void	add_dollars_changes_in_lexeme(t_lst *token, t_minishell *data)
 {
 	char	*old_lexeme;
 
+	old_lexeme = handle_all_cmd_substitution(token->lexeme, data);
+	gc_free(token->lexeme, data);
 	if (token->type == DOUBLE_Q || token->next == NULL)
-		old_lexeme = handle_all_ev_expand(token->lexeme,
+		token->lexeme = handle_all_ev_expand(old_lexeme,
 				LINE_CHANGE, data);
 	else
-		old_lexeme = handle_all_ev_expand(token->lexeme,
+		token->lexeme = handle_all_ev_expand(old_lexeme,
 				token->next->type, data);
-	gc_free(token->lexeme, data);
-	token->lexeme = handle_all_cmd_substitution(old_lexeme, data);
 	gc_free(old_lexeme, data);
 }
 

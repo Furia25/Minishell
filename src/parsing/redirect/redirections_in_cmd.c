@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections_in_cmd.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:56:14 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/31 03:03:11 by val              ###   ########.fr       */
+/*   Updated: 2025/05/31 15:28:32 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ static bool	is_redi(t_leaf *cmd, t_lst *token)
 		{
 			cmd->fd_input = -1;
 			cmd->fd_output = -1;
-			print_basic_error("ambiguous redirect");
+			ft_printf_fd(STDERR_FILENO, "%s: ambiguous redirect\n",
+				MINISHELL_NAME);
 			return (false);
 		}
 		if (token->type == RED_IN || token->type == HERE_DOC)
