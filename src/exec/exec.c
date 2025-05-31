@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 18:11:09 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/28 18:59:32 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/05/31 19:41:21 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static char	*search_command(char *cmd, t_minishell *data)
 		if (temp_cmd != NULL)
 			return (temp_cmd);
 	}
-	print_extended_error(NULL, cmd, ": No such file or directory");
+	print_extended_error(NULL, cmd, "No such file or directory");
 	exit_minishell(data);
 	return (NULL);
 }
@@ -114,7 +114,7 @@ static char	*find_absolute(char *cmd, t_minishell *data)
 	else
 	{
 		data->exit_code = 126;
-		print_extended_error(NULL, cmd, ": is a directory");
+		print_extended_error(NULL, cmd, "is a directory");
 		return (NULL);
 	}
 }

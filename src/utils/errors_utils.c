@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 18:16:05 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/23 02:54:13 by val              ###   ########.fr       */
+/*   Updated: 2025/05/31 19:40:16 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,14 @@ void	print_extended_error(char *error_name, char *cause, char *error)
 		ft_printf_fd(STDERR_FILENO, "%s: %s: %s %s\n",
 			MINISHELL_NAME, error_name, cause, error);
 	}
+	else if (cause)
+	{
+		ft_printf_fd(STDERR_FILENO, "%s: %s: %s\n",
+			MINISHELL_NAME, cause, error);
+	}
 	else
 	{
-		ft_printf_fd(STDERR_FILENO, "%s: %s %s\n",
-			MINISHELL_NAME, cause, error);
+		ft_printf_fd(STDERR_FILENO, "%s: %s\n",
+			MINISHELL_NAME, error);
 	}
 }
