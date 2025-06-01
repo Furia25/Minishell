@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:08:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/27 18:43:53 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/06/01 18:54:53 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char	*handle_all_cmd_substitution(char *str, t_minishell *data);
 void	trim_nl_in_end(char *str);
 
-static void	secure_cmd_sub_dup2(int pipefd[2], t_minishell *data)
+static void	secure_dup2_cmd_sub(int pipefd[2], t_minishell *data)
 {
 	close(pipefd[0]);
 	if (dup2(pipefd[1], 1) == -1)
@@ -65,7 +65,7 @@ static char	*cmd_sub_result(char *str, size_t in_par_len, t_minishell *data)
 	pid = s_fork(data);
 	if (pid == 0)
 	{
-		secure_cmd_sub_dup2(pipefd, data);
+		secure_dup2_cmd_sub(pipefd, data);
 		parsing_exec(str, data);
 		exit_minishell(data);
 	}

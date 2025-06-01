@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_cmd.c                                      :+:      :+:    :+:   */
+/*   evaluate_leaf.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:31:08 by alpayet           #+#    #+#             */
-/*   Updated: 2025/06/01 13:47:25 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/06/01 19:29:54 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ static int	exec_parenthesized_cmd(t_leaf *cmd, t_minishell *data)
 		{
 			secure_dup2(cmd, data);
 			parsing_exec(tokens_to_str(cmd->tokens, data), data);
-			secure_close(STDIN_FILENO);
-			secure_close(STDOUT_FILENO);
 			exit_minishell(data);
 		}
 		else if (pid != -1)
@@ -69,7 +67,7 @@ static int	exec_not_parenthesized_cmd(t_leaf *cmd, t_minishell *data)
 	return (secure_close_and_wait(cmd, data));
 }
 
-int	execute_cmd(t_leaf *cmd, t_minishell *data)
+int	evaluate_leaf(t_leaf *cmd, t_minishell *data)
 {
 	if (cmd == NULL)
 		return (1);

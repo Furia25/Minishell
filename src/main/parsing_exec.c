@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 23:37:34 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/28 00:48:14 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/06/01 19:27:37 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ static void	exec(t_minishell *data)
 	print_debug_ast(top_node_ast, 6,
 		"\ndisplay AST just after creating it\n");
 	final = evaluate_ast(top_node_ast, data);
-	execute_cmd(final, data);
+	evaluate_leaf(final, data);
 	rm_all_here_doc_files(data->command_tab);
 	gc_free_ast(top_node_ast, data);
 	gc_free(data->command_tab, data);

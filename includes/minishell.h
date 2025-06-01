@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/31 19:56:39 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/06/01 19:27:37 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void			handle_script(char **argv, t_minishell *data);
 void			handle_cflag(char **argv, t_minishell *data);
 
 // EXEC OF ONE SIMPLE CMD
-int				execute_cmd(t_leaf *cmd, t_minishell *data);
+int				evaluate_leaf(t_leaf *cmd, t_minishell *data);
 
 // EXEC
 void			exec_command(t_leaf *cmd, char **argv, t_minishell *data);
