@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 02:36:12 by val               #+#    #+#             */
-/*   Updated: 2025/05/23 15:19:04 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/06/02 12:13:38 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	cd_builtin(int argc, char **argv, t_minishell *data)
 			MINISHELL_NAME, BUILTIN_NAME_CD, BUILTIN_ERROR_TOOMANY);
 		return (EXIT_FAILURE);
 	}
-	if (argc == 1 || ft_strcmp(argv[1], "~") == 0)
+	if (argc == 1)
 		return (handle_env(ENV_HOME, data));
 	if (ft_strcmp(argv[1], "") == 0)
 		return (EXIT_SUCCESS);
@@ -46,6 +46,7 @@ int	cd_builtin(int argc, char **argv, t_minishell *data)
 static int	handle_env(char *env, t_minishell *data)
 {
 	t_hash_entry	*entry;
+	char			*temp;
 
 	entry = hashmap_search(hash(env), &data->environment);
 	if (!entry)
@@ -54,7 +55,10 @@ static int	handle_env(char *env, t_minishell *data)
 			MINISHELL_NAME, BUILTIN_NAME_CD, env);
 		return (EXIT_FAILURE);
 	}
-	if (chdir(((t_envvar *)entry->value)->value) == -1)
+	temp = ((t_envvar *)entry->value)->value;
+	if (ft_strlen(temp) == 0)
+		return (EXIT_SUCCESS);
+	if (chdir(temp) == -1)
 	{
 		print_basic_error(BUILTIN_NAME_CD);
 		return (EXIT_FAILURE);
