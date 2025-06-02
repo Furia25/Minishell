@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ev_expand_tilde.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 13:31:46 by alpayet           #+#    #+#             */
-/*   Updated: 2025/06/02 14:20:42 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/06/02 14:31:52 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	expand_tilde(t_leaf *cmd, t_minishell *data)
 				if (new_lexeme == NULL)
 				{
 					tokens = tokens->next;
-					continue;
+					continue ;
 				}
 			}
 		}
@@ -48,7 +48,8 @@ static char	*change_tilde_lexeme(t_lst *tokens, t_minishell *data)
 	search_temp = hashmap_search(hash(ENV_HOME), &data->environment);
 	if (search_temp == NULL)
 		return (NULL);
-	new_lexeme = ft_strjoin(((t_envvar *)search_temp->value)->value, tokens->lexeme + 1);
+	new_lexeme = ft_strjoin(((t_envvar *)search_temp->value)->value,
+			tokens->lexeme + 1);
 	check_malloc(new_lexeme, data);
 	gc_free(tokens->lexeme, data);
 	tokens->lexeme = new_lexeme;
