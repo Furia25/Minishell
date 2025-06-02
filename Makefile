@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+         #
+#    By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: Invalid date        by                   #+#    #+#              #
-#    Updated: 2025/06/02 14:29:39 by alpayet          ###   ########.fr        #
+#    Updated: 2025/06/02 14:45:56 by vdurand          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -148,7 +148,7 @@ BASH_DEFAULT_PATH := $(shell \
     env -i bash --posix --noprofile --norc -c 'printf "%s" "$$PATH"' \
 )
 
-CC = cc -g3
+CC = cc
 CFLAGS = -Werror -Wextra -Wall
 # CHANGE MINISHELL_HARD_PATH TO BASH DEFAULT HARD PATH IF NOT EMPTY
 CFLAGS += $(if $(strip $(BASH_DEFAULT_PATH)),\

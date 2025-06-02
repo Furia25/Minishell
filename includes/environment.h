@@ -6,7 +6,7 @@
 /*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/11 19:06:05 by vdurand           #+#    #+#             */
-/*   Updated: 2025/06/02 13:43:34 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/06/02 14:35:58 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # define ENV_PWD		"PWD"
 # define ENV_OLDPWD		"OLDPWD"
 # define ENV_HOME		"HOME"
+# define ENV_USER		"USER"
 
 typedef struct s_envvar
 {
