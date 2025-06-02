@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/07 19:14:45 by alpayet           #+#    #+#             */
-/*   Updated: 2025/06/01 19:27:37 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/06/02 12:28:09 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void			print_extended_error(char *error_name,
 
 // ERRORS
 void			command_notfound(char *cmd, t_minishell *data);
+void			raise_error_fork(t_minishell *data);
 void			raise_error_category(char *error_category, t_minishell *data);
 void			raise_error(t_minishell *data);
 void			exit_minishell(t_minishell *data);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_substitution.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:08:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/06/01 18:54:53 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/06/02 12:28:54 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static char	*cmd_sub_result(char *str, size_t in_par_len, t_minishell *data)
 		exit_minishell(data);
 	}
 	else if (pid == -1)
-		raise_error_category("fork", data);
+		raise_error_fork(data);
 	close(pipefd[1]);
 	waitpid(pid, NULL, 0);
 	str = stock_file_in_str(pipefd[0], data);

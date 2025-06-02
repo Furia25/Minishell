@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   errors.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 18:25:36 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/23 00:32:15 by val              ###   ########.fr       */
+/*   Updated: 2025/06/02 12:27:38 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,14 @@ void	raise_error(t_minishell *data)
 void	raise_error_category(char *error_category, t_minishell *data)
 {
 	print_basic_error(error_category);
+	data->exit_code = EXIT_FAILURE;
+	exit_minishell(data);
+}
+
+void	raise_error_fork(t_minishell *data)
+{
+	wait_childs(data);
+	print_basic_error("fork");
 	data->exit_code = EXIT_FAILURE;
 	exit_minishell(data);
 }

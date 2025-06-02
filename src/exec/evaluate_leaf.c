@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   evaluate_leaf.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:31:08 by alpayet           #+#    #+#             */
-/*   Updated: 2025/06/01 19:29:54 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/06/02 12:28:37 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static int	exec_parenthesized_cmd(t_leaf *cmd, t_minishell *data)
 		else if (pid != -1)
 			data->last_cmd_pid = pid;
 		else
-			raise_error_category("fork", data);
+			raise_error_fork(data);
 	}
 	return (secure_close_and_wait(cmd, data));
 }
@@ -61,7 +61,7 @@ static int	exec_not_parenthesized_cmd(t_leaf *cmd, t_minishell *data)
 			else if (pid != -1)
 				data->last_cmd_pid = pid;
 			else
-				raise_error_category("fork", data);
+				raise_error_fork(data);
 		}
 	}
 	return (secure_close_and_wait(cmd, data));

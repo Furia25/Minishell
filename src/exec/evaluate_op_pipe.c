@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   evaluate_op_pipe.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 16:53:49 by alpayet           #+#    #+#             */
-/*   Updated: 2025/06/01 18:58:10 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/06/02 12:30:54 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	exec_parenthesized_cmd_pipe(t_leaf *cmd, t_minishell *data)
 			exit_minishell(data);
 		}
 		else if (pid == -1)
-			raise_error_category("fork", data);
+			raise_error_fork(data);
 	}
 	secure_close(pipefd[1]);
 	secure_close_input_output(cmd);
@@ -62,7 +62,7 @@ int	exec_not_parenthesized_cmd_pipe(t_leaf *cmd, t_minishell *data)
 				exec_command(cmd, argv, data);
 			}
 			else if (pid == -1)
-				raise_error_category("fork", data);
+				raise_error_fork(data);
 		}
 	}
 	secure_close(pipefd[1]);
