@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+         #
+#    By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: Invalid date        by                   #+#    #+#              #
-#    Updated: 2025/05/30 16:54:47 by alpayet          ###   ########.fr        #
+#    Updated: 2025/06/02 10:41:36 by vdurand          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -101,7 +101,7 @@ SRC_FILES = \
 	exec/evaluate_ast.c \
 	exec/evaluate_op_logical.c \
 	exec/evaluate_op_pipe.c \
-	exec/execute_cmd.c \
+	exec/evaluate_leaf.c \
 	exec/exec.c \
 	exec/exec_utils.c \
 	garbage_collector/garbage_functions.c \

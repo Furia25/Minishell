@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcards_in_par_cmd.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 19:54:39 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/30 02:33:10 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/06/02 10:40:18 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include "wildcards.h"
 
 t_lst	*create_add_wildcards_nodes(t_lst *prev, t_lst *current,
-	t_leaf *cmd, t_minishell *data);
+			t_leaf *cmd, t_minishell *data);
 
 static bool	is_parenthesized(t_lst *token)
 {
@@ -41,7 +41,8 @@ void	wildcards_in_par_cmd(t_leaf *cmd, t_minishell *data)
 	while (tokens != NULL && tokens->next != NULL)
 	{
 		if (is_parenthesized(tokens->next) == false)
-			tokens = create_add_wildcards_nodes(tokens, tokens->next, cmd, data);
+			tokens = create_add_wildcards_nodes(tokens,
+					tokens->next, cmd, data);
 		else
 			tokens = tokens->next;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ev_expand_cmd_substitution_in_par_cmd.c            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 17:11:25 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/30 02:49:16 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/06/02 10:39:58 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	add_dollars_changes_in_lexeme(t_lst *token, t_minishell *data);
 t_lst	*create_and_add_dollars_nodes(t_lst *prev, t_lst *current,
-	t_leaf *cmd, t_minishell *data);
+			t_leaf *cmd, t_minishell *data);
 
 static bool	is_parenthesized(t_lst *token)
 {
@@ -50,7 +50,8 @@ void	ev_expand_cmd_substitution_in_par_cmd(t_leaf *cmd, t_minishell *data)
 			if (temp->next->type == WORD || temp->next->type == DOUBLE_Q)
 				add_dollars_changes_in_lexeme(temp->next, data);
 			if (temp->next->type == WORD)
-				temp = create_and_add_dollars_nodes(temp, temp->next, cmd, data);
+				temp = create_and_add_dollars_nodes(temp,
+						temp->next, cmd, data);
 			else
 				temp = temp->next;
 		}
