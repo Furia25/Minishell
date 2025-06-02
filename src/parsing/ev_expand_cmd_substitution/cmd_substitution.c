@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_substitution.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 04:08:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/06/02 12:28:54 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/06/02 14:28:55 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 char	*handle_all_cmd_substitution(char *str, t_minishell *data);
 void	trim_nl_in_end(char *str);
+void	clean_wildcards_symbol(char *str);
 
 static void	secure_dup2_cmd_sub(int pipefd[2], t_minishell *data)
 {
@@ -57,6 +58,7 @@ static char	*cmd_sub_result(char *str, size_t in_par_len, t_minishell *data)
 	pid_t		pid;
 
 	str = ft_substr(str, 1, in_par_len);
+	clean_wildcards_symbol(str);
 	check_malloc(str, data);
 	if (str[0] == '\0')
 		return (str);

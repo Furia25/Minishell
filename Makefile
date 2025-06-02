@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+         #
+#    By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: Invalid date        by                   #+#    #+#              #
-#    Updated: 2025/06/02 10:41:36 by vdurand          ###   ########.fr        #
+#    Updated: 2025/06/02 14:29:39 by alpayet          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -110,6 +110,7 @@ SRC_FILES = \
 	lexing/tokenization.c \
 	lexing/word_token.c \
 	parsing/ev_expand_cmd_substitution/ev_expand.c \
+	parsing/ev_expand_cmd_substitution/ev_expand_tilde.c \
 	parsing/ev_expand_cmd_substitution/ev_expand_in_here_doc.c \
 	parsing/ev_expand_cmd_substitution/ev_expand_cmd_substitution_in_cmd.c \
 	parsing/ev_expand_cmd_substitution/ev_expand_cmd_substitution_in_par_cmd.c \

@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 03:23:19 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/31 19:56:33 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/06/02 12:56:44 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # define METACHARACTER	"|&;()<> \t"
 # define BLANK	" \t"
 # define BASIC_WHITESPACE	" \t\n"
-# define HANDLE_EV_EXPAND_CASES	"_?"
+# define HANDLE_EV_EXPAND_CASES	"_?\xC1"
 
 typedef enum e_node_type
 {

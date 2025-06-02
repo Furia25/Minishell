@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ev_expand.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
+/*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 17:21:50 by alpayet           #+#    #+#             */
-/*   Updated: 2025/05/29 14:57:13 by vdurand          ###   ########.fr       */
+/*   Updated: 2025/06/02 14:15:59 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,14 @@
 
 char	*handle_all_ev_expand(char *str, t_lexeme_type next_type,
 			t_minishell *data);
+void	clean_wildcards_symbol(char *str);
 
 size_t	env_var_len(char *str)
 {
 	size_t	i;
 
 	i = 0;
-	if (str[i] == '?')
+	if (str[i] == '?' || str[i] == - '?')
 		return (1);
 	while (str[i] == '_' || ft_isalnum(str[i]) == true)
 		i++;
@@ -37,7 +38,7 @@ char	*ev_result(char *str, size_t ev_len, t_minishell *data)
 
 	if (ev_len == 0)
 		return (check_malloc(ft_calloc(1, sizeof(char)), data));
-	if (str[0] == '?')
+	if (str[0] == '?' || str[0] == - '?')
 		return (check_malloc(ft_itoa(data->exit_code), data));
 	str_key = ft_substr(str, 0, ev_len);
 	check_malloc(str_key, data);
