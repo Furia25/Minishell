@@ -3,53 +3,52 @@
 /*                                                        :::      ::::::::   */
 /*   echo_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: val <val@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: vdurand <vdurand@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 20:15:50 by vdurand           #+#    #+#             */
-/*   Updated: 2025/05/21 00:57:32 by val              ###   ########.fr       */
+/*   Updated: 2025/06/02 11:31:18 by vdurand          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "builtin.h"
 
-static bool	is_valid_flags(char *str);
+static bool	is_valid_flag(char *str);
 
 int	echo_builtin(int output, int argc, char **argv)
 {
-	bool	do_nl;
-	int		index;
+	bool	has_n_flag;
+	int		i;
 
-	do_nl = true;
-	index = 1;
-	while (index < argc)
+	has_n_flag = false;
+	i = 1;
+	while (i < argc && is_valid_flag(argv[i]))
 	{
-		if (is_valid_flags(argv[index]))
-			do_nl = false;
-		else
-		{
-			ft_putstr_fd(argv[index], output);
-			if (index < argc - 1)
-				write(output, " ", 1);
-		}
-		index++;
+		has_n_flag = true;
+		i++;
 	}
-	if (do_nl)
-		if (write(output, "\n", 1) == -1)
-			return (EXIT_FAILURE);
+	while (i < argc)
+	{
+		ft_putstr_fd(argv[i], output);
+		if (i < argc - 1)
+			write(output, " ", 1);
+		i++;
+	}
+	if (!has_n_flag)
+		write(output, "\n", 1);
 	return (EXIT_SUCCESS);
 }
 
-static bool	is_valid_flags(char *str)
+static bool	is_valid_flag(char *str)
 {
-	if (!str)
-		return (false);
-	if (*str != BUILTIN_FLAG_SEPARATOR)
+	if (!str || *str != '-')
 		return (false);
 	str++;
-	while (str && *str)
+	if (*str == '\0')
+		return (false);
+	while (*str)
 	{
-		if (*str != BUILTIN_FLAG_ECHO_NONL)
+		if (*str != 'n')
 			return (false);
 		str++;
 	}

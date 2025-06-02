@@ -2,6 +2,7 @@ minishell
 .gdb*
 .bonus
 .vscode
+42_minishell_tester
 
 # Prerequisites
 *.d
