@@ -6,7 +6,7 @@
 /*   By: alpayet <alpayet@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 03:43:36 by alpayet           #+#    #+#             */
-/*   Updated: 2025/06/02 14:19:03 by alpayet          ###   ########.fr       */
+/*   Updated: 2025/06/03 19:56:28 by alpayet          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ void	parse_par_cmd(t_leaf *cmd, t_minishell *data)
 	fd_here_doc = cmd->fd_input;
 	if (fd_here_doc == -1)
 		return ;
-	expand_tilde(cmd, data);
 	ev_expand_cmd_substitution_in_par_cmd(cmd, data);
 	print_debug_lst(cmd->tokens, LEXEME | TYPE, 7,
 		"\ndisplay command->tokens after handle ev_expand and cmd_sub\n");
